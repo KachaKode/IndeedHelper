@@ -1,0 +1,22 @@
+Job Title
+Tutor
+
+Company
+Ivy Kode
+
+City, State
+Atlanta, Ga
+
+You currently work here?
+Yes
+
+From 
+December 2019
+
+To
+{Answer Here, Same format as above. Leave blank if currently working at position}
+
+Description (describe your position and responsibilities)
+I did a lot of stuff.
+
+It felt pretty cool.

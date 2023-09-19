@@ -1,0 +1,20 @@
+Job Title
+{Answer Here}
+
+Company
+{Answer Here}
+
+City, State
+{Answer Here}
+
+You currently work here?
+{Answer Yes or No}
+
+From 
+{Answer Here, Example: December 2019}
+
+To
+{Answer Here, Same format as above. Leave blank if currently working at position}
+
+Description (describe your position and responsibilities)
+{Answer Here}
