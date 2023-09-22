@@ -695,13 +695,18 @@ class StateMachine:
         with open(filename, "r") as f:
             lines = f.readlines()
             env = None
+            pending_states = []  # List to store states that are waiting for transition info
             for line in lines:
                 line = line.strip()
                 if line[:2] == "//" or len(line) == 0:
-                    #skip empty lines and commented out lines
+                    # Skip empty lines and commented out lines
                     continue
                 if line in self.expected_environments:
                     env = line
+                    pending_states = []  # Reset pending states for a new environment
+                elif "--" not in line:
+                    # This line contains only a state without transition info
+                    pending_states.append(line)
                 else:
                     state, func, next_state = line.split("--")
                     state = state.strip()
@@ -709,7 +714,13 @@ class StateMachine:
                     next_state = next_state.strip("-> ")
                     if env not in transitions:
                         transitions[env] = {}
+                    # Apply the transition to the current state
                     transitions[env][state] = (func, next_state)
+                    # Apply the transition to all pending states
+                    for pending_state in pending_states:
+                        transitions[env][pending_state] = (func, next_state)
+                    # Clear the list of pending states
+                    pending_states = []
         return transitions
 
     def envIsValid(self, environment):
