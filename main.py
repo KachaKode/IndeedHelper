@@ -6,7 +6,6 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
@@ -18,7 +17,7 @@ import time as t
 
 class SeleniumWrap:
 
-    def __init__(self):
+    def __init__(self, home_url):
         self.chrome_profile = "user-data-dir=C:\\Users\\PJuJu\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 3"
         self.CONTAINS = "contains"
         self.MATCH = "matched"
@@ -33,11 +32,30 @@ class SeleniumWrap:
         self.ARIA_LABEL = '@aria-label'
         self.DELTA_WAIT = .2
         self.ALL = float('inf')
+        self.home_url = home_url
+
+
     def start_up(self):
         chrome_options = Options()
         chrome_options.add_argument(self.chrome_profile)
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.get(self.home_url)
+
+    def goToTab(self, tab_num):
+        # browser has already switched tabs but program still needs to switch
+        all_tabs = self.driver.window_handles
+        self.driver.switch_to.window(all_tabs[tab_num])
+
+    def goToNewTab(self):
+        # Get the current window handle
+        current_handle = self.driver.current_window_handle
+
+        # Get the list of all window handles
+        all_handles = self.driver.window_handles
+
+        # Find the index of the current window handle
+        current_index = all_handles.index(current_handle)
+        self.goToTab(current_index+1)
 
     def click_all(self, list_of_elements):
         for element in list_of_elements:
@@ -67,6 +85,11 @@ class SeleniumWrap:
 
 
         element = findFrom.find_elements('xpath', elementXpath)[indInList]
+
+        #the elemenet being disabled is the same as it not being there
+        if element.get_attribute("disabled") is not None:
+            return None
+
         # travel upwards if specified...
         for i in range(travelUp, 0, -1):
             element = self.get_parent(element)
@@ -81,6 +104,8 @@ class SeleniumWrap:
                     self.clickChecker(element, checked, cond)
                 elif checkNewTab:
                     cond = lambda: num_tabs_at_start != len(self.driver.window_handles)
+                    # go to ne tab
+                    self.goToNewTab()
                     self.clickChecker(element, checked, cond)
                 else:
                     self.delayedClick(element)
@@ -249,7 +274,7 @@ class SeleniumWrap:
 
 class IndeedHelper(SeleniumWrap):
     def __init__(self):
-        super().__init__()
+        super().__init__("https://www.indeed.com/jobs?q=&l=Remote&vjk=7917c10f99e95728")
         self.dataPath = "data"
         self.home_url = "https://www.indeed.com/jobs?q=&l=Remote&vjk=7917c10f99e95728"
         self.Bad = -1
@@ -258,43 +283,55 @@ class IndeedHelper(SeleniumWrap):
         self.firstName = 'cv'
         self.lastName = "ag"
 
+        self.start_up()
+        self.jobOpeningGenerator = self.process_job_openings()
+
+    def nextOpening(self):
+        next(self.jobOpeningGenerator)
+
     def process_job_openings(self):
-        #find the list of job openings
-        openings = self.driver.find_elements(By.CSS_SELECTOR, '.css-5lfssm.eu4oa1w0')
-        for opening in openings:
-            self.delayedClick(opening)
+        #  loop to go thru the different pages
+        while True:
+            #find the list of job openings
+            openings = self.driver.find_elements(By.CSS_SELECTOR, '.css-5lfssm.eu4oa1w0')
+            for opening in openings:
+                self.delayedClick(opening)
 
-            rs = self.findClosestRelatives(self.CONTAINS, self.TXT, "s estimated salaries", self.CONTAINS, self.CLASS, 'CloseButton', limit=1)
-            if len(rs) == 1:
-                self.click_all(rs)
+                rs = self.findClosestRelatives(self.CONTAINS, self.TXT, "s estimated salaries", self.CONTAINS, self.CLASS, 'CloseButton', limit=1)
+                if len(rs) == 1:
+                    self.click_all(rs)
 
 
-            #click on the Apply Now button if it is there
-            buttonElement = self.findAndClick(self.WHOLE, self.WHOLE,  '//*[@id="indeedApplyButton"]/div/span', timeLimit=5, checkNewTab=True)
-            if buttonElement is None:
-                # means this is not a job that you can apply from Indeed site
-                continue
+                #click on the Apply Now button if it is there
+                buttonElement = self.findAndClick(self.WHOLE, self.WHOLE,  '//*[@id="indeedApplyButton"]/div/span', timeLimit=5, checkNewTab=True)
+                if buttonElement is None:
+                    # means this is not a job that you can apply from Indeed site
+                    continue
 
-            #browser has already switched tabs but program still needs to switch
-            all_tabs = self.driver.window_handles
-            self.driver.switch_to.window(all_tabs[-1])
+                yield
+            self.findAndClick(self.MATCH, self.ARIA_LABEL,  'Next Page')
 
-            self.handleAddInfoPage()
 
-            if self.chooseToBuildIndeedResume():
-                continue
-
-            self.fillEducationInfo()
-
-            self.nextResumeSection()
-
-            self.deleteAllPrevJobs()
-
-            self.fillPrevJobsInfo()
-
-            self.nextResumeSection()
-
-            self.fillSkills()
+    '''  former end:
+    
+                self.handleAddInfoPage()
+    
+                if self.chooseToBuildIndeedResume():
+                    continue
+    
+                self.fillEducationInfo()
+    
+                self.nextResumeSection()
+    
+                self.deleteAllPrevJobs()
+    
+                self.fillPrevJobsInfo()
+    
+                self.nextResumeSection()
+    
+                self.fillSkills()
+                
+    '''
 
     def chooseToBuildIndeedResume(self):
         resButtonPath = '//*[@id="ia-container"]/div/div[1]/div/main/div[2]/div[2]/div/div/div[1]/div/div/div[2]/div[1]/div/div[2]/span[1]'
@@ -606,7 +643,7 @@ class IndeedHelper(SeleniumWrap):
     def do_cover_letter(self):
         #  Find Supporting documents section and click on the add button
         addButton = self.findClosestRelatives(self.CONTAINS, self.TXT, 'Supporting documents',
-                                              self.CONTAINS, self.TXT, 'Add')[0]
+                                              self.WHOLE, self.WHOLE, self.BUTTON)[0]
         self.delayedClick(addButton)
         selection = self.findAndClick(self.CONTAINS, self.ID, 'write-cover-letter-selection-card')
 
@@ -645,24 +682,24 @@ class StateMachine:
         self.current_state = self.states[0]
         self.helper = helper
 
-    @staticmethod
-    def load_states(filename):
+    def load_states(self, filename):
         with open(filename, "r") as f:
             return [line.strip() for line in f.readlines()  if line[:2] != "//" and len(line.strip()) > 0]
 
-    @staticmethod
-    def load_environments(filename):
+    def load_environments(self, filename):
         with open(filename, "r") as f:
             return [line.strip() for line in f.readlines() if line[:2] != "//" and len(line.strip()) > 0 ]
 
-    @staticmethod
-    def load_transitions(filename):
+    def load_transitions(self, filename):
         transitions = {}
         with open(filename, "r") as f:
             lines = f.readlines()
             env = None
             for line in lines:
                 line = line.strip()
+                if line[:2] == "//" or len(line) == 0:
+                    #skip empty lines and commented out lines
+                    continue
                 if line in self.expected_environments:
                     env = line
                 else:
@@ -675,21 +712,24 @@ class StateMachine:
                     transitions[env][state] = (func, next_state)
         return transitions
 
-    def envIsValid(self):
+    def envIsValid(self, environment):
         return any(re.match(pattern.lower(), environment.lower())
                    for pattern in self.expected_environments)
 
-    def envHasTrans(self):
-        return any(re.match(pattern.lower(), environment.lower())
-                   for pattern in self.transitions.keys())
+    def envNextTrans(self, environment):
+        #here next is taking in 2 args: 1) a generator and 2) a defualt value for gen if empty
+        return next( (pattern for pattern in self.transitions.keys()
+                    if re.match(pattern.lower(), environment.lower()) ) , None )
+
 
     def transition(self, environment):
-        if not self.envIsValid():
+        if not self.envIsValid(environment):
             print(f"Unexpected environment: {environment}")
             self.waitForever()
             return
 
-        if self.envHasTrans():
+        #checking that the transition file as made properly
+        if self.envNextTrans(environment) is not None:
             if self.current_state in self.transitions[environment]:
                 funcName, next_state = self.transitions[environment][self.current_state]
             else:
@@ -723,9 +763,13 @@ class StateMachine:
 
 
 if __name__ == "__main__":
+    #ih = IndeedHelper()
+    #ih.run()
     sm = StateMachine(IndeedHelper())
     sm.run()
 
 
 #ih = IndeedHelper()
 #ih.run()
+
+#https://www.indeed.com/jobs?q=&l=Remote&radius=35&start=10&pp=gQAPAAABiqZMUOEAAAACEQs_OgApAQAGAbWQDBy232HQyRWcqeGmhCw1EBtXt2H_3ngANxzAD_7ga50Vm1QAAA&vjk=5bb2ac5d6d7a7740
