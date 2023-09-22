@@ -10,6 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+import sys
 import os, re
 import inspect
 import time as t
@@ -676,11 +677,60 @@ class IndeedHelper(SeleniumWrap):
 
 class StateMachine:
     def __init__(self, helper : SeleniumWrap ):
+        self.validate_files("States.txt", "ExpectedEnvironments.txt", "StateTransitions.txt")
         self.states = self.load_states("States.txt")
         self.expected_environments = self.load_environments("ExpectedEnvironments.txt")
         self.transitions = self.load_transitions("StateTransitions.txt")
         self.current_state = self.states[0]
         self.helper = helper
+
+    def validate_files(self, states_file, expected_environments_file, state_transitions_file):
+        # Helper function to read and clean lines from a file
+        def read_clean_lines(filename, dirty=False):
+            with open(filename, 'r') as f:
+                lines = f.readlines()
+            if dirty:
+                return [line for line in lines if line.strip() and not line.strip().startswith("//")]
+            return [line.strip() for line in lines if line.strip() and not line.strip().startswith("//")]
+
+        # Read and clean lines from each file
+        states = set(read_clean_lines(states_file))
+        expected_environments = set(read_clean_lines(expected_environments_file))
+        state_transitions_lines = read_clean_lines(state_transitions_file, dirty=True)
+
+        # Extract states and environments from state_transitions_lines
+        state_transitions_states = set()
+        state_transitions_environments = set()
+        for line in state_transitions_lines:
+            if "--" in line:
+                state1, _, state2 = line.split("--")
+                state_transitions_states.add(state1.strip())
+                state_transitions_states.add(state2.strip())
+            elif line == line.lstrip():  # Lines without leading blanks are environments
+                state_transitions_environments.add(line.strip())
+            else:  # Indented lines without '--' are states
+                state_transitions_states.add(line.strip())
+
+        # Perform the checks
+        missing_states_in_transitions = states - state_transitions_states
+        extra_states_in_transitions = state_transitions_states - states
+        missing_environments_in_transitions = expected_environments - state_transitions_environments
+        extra_environments_in_transitions = state_transitions_environments - expected_environments
+
+        if missing_states_in_transitions:
+            print(f"States missing in {state_transitions_file}: {', '.join(missing_states_in_transitions)}")
+        if extra_states_in_transitions:
+            print(
+                f"Extra states in {state_transitions_file} not found in {states_file}: {', '.join(extra_states_in_transitions)}")
+        if missing_environments_in_transitions:
+            print(f"Environments missing in {state_transitions_file}: {', '.join(missing_environments_in_transitions)}")
+        if extra_environments_in_transitions:
+            print(
+                f"Extra environments in {state_transitions_file} not found in {expected_environments_file}: {', '.join(extra_environments_in_transitions)}")
+
+        if (extra_environments_in_transitions or missing_environments_in_transitions
+                or extra_states_in_transitions or missing_states_in_transitions):
+            sys.exit()
 
     def load_states(self, filename):
         with open(filename, "r") as f:
