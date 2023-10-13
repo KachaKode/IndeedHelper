@@ -12,12 +12,19 @@
 //'https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))resume'      should match BOTH:
 // 'https://profile.indeed.com/resume'    AND 
 // 'https://m5.apply.indeed.com/beta/indeedapply/form/resume'
-https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))resume((.*))|My Indeed Profile
-https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))resume/contact((.*))|My Indeed Profile
-https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))resume/summary((.*))|My Indeed Profile
-https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))resume/experience/add((.*))|My Indeed Profile
-https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))resume/education/add((.*))|My Indeed Profile
-https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))resume/skills/add((.*))|My Indeed Profile
+https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume((.*))|My Indeed Profile
+https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/contact((.*))|My Indeed Profile
+https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/summary((.*))|My Indeed Profile
+https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience/add((.*))|My Indeed Profile
+https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education/add((.*))|My Indeed Profile
+https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills/add((.*))|My Indeed Profile
+
+https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education((.*))|My Indeed Profile
+https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills((.*))|My Indeed Profile
+https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience((.*))|My Indeed Profile
+
+https://m5.apply.indeed.com/beta/indeedapply/form/relevant-skills|Want to add any relevant skills to your resume?
+
 ((.*))|answer screener questions from the employer
 ((.*))|qualification check
 ((.*))|Review these qualifications found in the job post
