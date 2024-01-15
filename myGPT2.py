@@ -3,16 +3,17 @@ import datetime
 import time as t
 import concurrent.futures
 
-
+#  https://chat.openai.com/c/28f417b1-35f8-44d3-8515-dd5b64cf7395
 
 
 class myGPT:
-    def __init__(self, setupInfo, *args, inputPath=".//input", promptsPath=".//prompts", chatTimeOut=300):
+    def __init__(self, setupInfo, *args, inputPath=".//input", promptsPath=".//prompts", chatTimeOut=300, version=2):
         self.nextMessages = []
         self.checks = {}
         self.checkNOTs = {}
         self.prompts_str = ""
         self.keep = False
+        self.need_redo = False
         self.checkerLinesToProcess = 0
         self.combineLinesMarker = "**KEEP**ALL**TOGETHER**"
         self.separateLinesMarker = "**END**ALL**TOGETHER**"
@@ -22,8 +23,8 @@ class myGPT:
         self.place_vals = []
         self.inputPath = inputPath
         self.promptsPath = promptsPath
-        self.messages = [{"role": "system", "content":
-            "You are a intelligent assistant."}]
+        self.context = [] #{"role": "system", "content":
+            #"You are a intelligent assistant."}]
         self.loadAPIKey()
         self.chatTimeOut = chatTimeOut
 
@@ -37,7 +38,10 @@ class myGPT:
         elif type(setupInfo) == list:
             self.nextMessages.extend(setupInfo)
         elif type(setupInfo) == str:
-            self.processMsgFile(setupInfo, *args)
+            if version == 2:
+                self.processMsgFile2(setupInfo, *args)
+            else:
+                self.processMsgFile(setupInfo, *args)
 
     def log(self, msg):
         self.logFile.write(msg)
@@ -49,8 +53,40 @@ class myGPT:
             string = string.replace(self.placeHoldMarker, placeVal, 1)
         return string.replace("&&nu_line&&", "\n")
 
+    def processMsgFile2(self, file, *args):
+        self.log("starting to process msg file")
+        f = open(f"{self.promptsPath}\\{file}", 'r')
+        self.prompts_str = ""
+        self.place_vals = list(args)
+        prompts = []
+        self.keep = False
+        self.checkerLinesToProcess = 0
+        lines = f.readlines()
+        for i, line in enumerate(lines):
+            line = line.strip()
+            lineContainer = [line]
+            if self.contPlusAction(i, lineContainer, lines):
+                continue
+            line = lineContainer[0]
+            self.prompts_str += line + {False:'*\n*', True:"\n"}[self.keep]
+
+        #remove the last new line
+        prompts_str = self.prompts_str[:-3]
+
+        prompts_list = prompts_str.split("*\n*")
+
+        newMessage = prompts_list.pop(-1)
+
+        self.context.extend([{"role": "system", "content": cont} for cont in prompts_list])
+
+        self.nextMessages.append(newMessage)
+        f.close()
+        self.log("finished processing msg file")
+
     def processMsgFile(self, file, *args):
         self.log("starting to process msg file")
+        self.context.append({"role": "system", "content":
+            "You are a intelligent assistant."})
         f = open(f"{self.promptsPath}\\{file}", 'r')
         self.prompts_str = ""
         self.place_vals = list(args)
@@ -96,7 +132,11 @@ class myGPT:
             reqStrs = lines[i + 1].strip().split("&&OR&&")
             chks = []
             for reqStr in reqStrs:
-                chks.append( tuple(reqStr.strip().split("&&AND&&")) )
+                and_grp_dict = {}
+                for and_member in reqStr.strip().split("&&AND&&"):
+                    and_grp_dict[and_member] = and_grp_dict.setdefault(and_member, 0) + 1
+                chks.append(tuple( and_grp_dict.items() ) )
+                #chks.append( tuple(reqStr.strip().split("&&AND&&")) )
             self.checkNOTs[tuple(chks)] = self.setAllPlaceVals(lines[i + 2])
             self.resetCheckerLinesVar()
             return True
@@ -104,10 +144,15 @@ class myGPT:
             badStrs = lines[i + 1].strip().split("&&OR&&")
             chks = []
             for badStr in badStrs:
-                chks.append(tuple(badStr.strip().split("&&AND&&")))
+                and_grp_dict = {}
+                for and_member in badStr.strip().split("&&AND&&"):
+                    and_grp_dict[and_member] = and_grp_dict.setdefault(and_member, 0) + 1
+                chks.append(tuple(and_grp_dict.items()))
+                #chks.append(tuple(badStr.strip().split("&&AND&&")))
             self.checks[tuple(chks)] = self.setAllPlaceVals(lines[i + 2])
             self.resetCheckerLinesVar()
             return True
+
         return False
 
     def resetCheckerLinesVar(self):
@@ -115,6 +160,7 @@ class myGPT:
         self.checkerLinesToProcess = 2
 
     def sendAll(self):
+        self.need_redo = False
         self.log("starting to send messages")
         for nuMsg in self.nextMessages:
             self.log("sending msg to chatGPT server")
@@ -134,11 +180,12 @@ class myGPT:
 
         return self.reply
 
+
     def checkOrGroup(self, OrTuple, superstring, checkForPresence=True):
         if checkForPresence:
-            return any(all(req in superstring for req in AndTuple) for AndTuple in OrTuple)
+            return any(all(superstring.count(req[0]) >= req[1] for req in AndTuple) for AndTuple in OrTuple)
         else:
-            return any(all(req not in superstring for req in AndTuple) for AndTuple in OrTuple)
+            return any(all(superstring.count(req[0]) < req[1] for req in AndTuple) for AndTuple in OrTuple)
 
     def doChecks(self):
         '''this function checks for the presense of sub strings in the reply
@@ -152,6 +199,8 @@ class myGPT:
                     counts[badOrGrp] = counts.setdefault(badOrGrp, 0) + 1
                     if counts[badOrGrp] > 5:
                         print("\tThere might be an issue, keep on repeating the same check")
+                        self.need_redo = True
+                        return
                     print(f"\tGPT made mistake having this: {badOrGrp}, had 2 send this: {responseToBadStr} @ {datetime.datetime.now().strftime('%H:%M:%S')}")
                     break
             else:
@@ -162,7 +211,6 @@ class myGPT:
         '''this function checks for the presense of sub strings in the reply
         that ARE suppsoed to be in the reply.  If it does not find one
         of these required substrings, it sends chatgpt a message about it '''
-
         while True:
             for reqOrGroup, responseToNoReqStr in self.checkNOTs.items():
                 if self.checkOrGroup(reqOrGroup, self.reply, checkForPresence=False):
@@ -212,7 +260,7 @@ class myGPT:
         #pause for 2 secs so don't get jammed up...?
         t.sleep(5)
 
-        self.messages.append(
+        self.context.append(
             {"role": "user", "content": nu_msg},
         )
         secs = 5
@@ -226,7 +274,7 @@ class myGPT:
                 secs *= 2
 
         self.reply = chat.choices[0].message.content
-        self.messages.append({"role": "assistant", "content": self.reply})
+        self.context.append({"role": "assistant", "content": self.reply})
 
     def executeWrapperWithTimeOut(self):
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -249,7 +297,7 @@ class myGPT:
         print("\tAttempting Completion")
         return openai.ChatCompletion.create(
             # model="gpt-3.5-turbo", messages=messages
-            model="gpt-3.5-turbo-16k-0613", messages=self.messages
+            model="gpt-3.5-turbo-16k-0613", messages=self.context
         )
 
     def sendFromFile(self, filename, *args):

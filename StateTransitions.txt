@@ -33,16 +33,10 @@
 
 // main resume page 
 https://(((m5.apply|profile))).indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume((.*))|My Indeed Profile
-	startedEditContactInfo
 	startedOnResume -- startContactInfo() --> startedEditContactInfo
-	startedEditSummary
 	finishedEditContactInfo -- startSummary() --> startedEditSummary
-	//finishedEditSummary -- startWorkExp() --> startedEditWorkExp
-	finishedEditWorkExp
 	finishedEditSummary -- startWorkExp() --> finishedEditWorkExp
-	startedEditEdu
-	finishedEditWorkExp -- startEdu() --> startedEditEdu
-	//finishedEditEdu -- startSkills() --> startedEditSkills
+	finishedEditWorkExp -- startEdu() --> finishedEditEdu
 	finishedEditEdu -- startSkills() --> finishedEditSkills
 	finishedEditSkills -- finishResume() --> finishedResume
 	default -- startAtTopOfReviewPage() --> startedOnResume
