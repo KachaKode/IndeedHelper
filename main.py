@@ -216,6 +216,8 @@ class SeleniumWrap:
             self.write("on line: " + str(inspect.currentframe().f_lineno))
             self.graduatedWait(cond)
             checked[0] = cond()
+            if not checked[0]:
+                raise Exception
             self.write("on line: " + str(inspect.currentframe().f_lineno))
         return checked[0]
 
@@ -944,7 +946,7 @@ class IndeedHelper(SeleniumWrap):
                 except Exception as e:
                     print("An error occurred:", e)
                     traceback.print_exc()
-                    still = fsd
+                    still = 456
 
                 link = self.findAndClick(self.WHOLE, self.WHOLE, self.LINK, txtCond="asdf", findFrom=opening,
                                          timeLimit=1)
@@ -1060,8 +1062,12 @@ class IndeedHelper(SeleniumWrap):
         self.smartClick(element=zip_input)
         self.fillMoveOn(zip_input, self.zip )  # need GPT
 
+        result = self.findAndClick( self.TXT, self.MATCH, 'Save', travelUp=1, checkNewPage=True, timeLimit=.5)
 
-        return self.findAndClick( self.TXT, self.MATCH, 'Save', travelUp=1, checkNewPage=True)
+        if result is None:
+            result = self.findAndClick(self.ARIA_LABEL, self.MATCH, 'Back', checkNewPage=True, timeLimit=5)
+
+        return result
 
     def do_summary(self):
         txtBoxPath = "//div[@role='textbox']"
@@ -1171,7 +1177,7 @@ class IndeedHelper(SeleniumWrap):
     def process_job_file(self, filename):
         jobFile = open(filename, "r")
         infoDict = {}
-        for subject in ['title', 'comp', 'cityState', 'current', 'fromDate', 'toDate']:
+        for subject in ['title', 'comp', 'compType', 'cityState', 'current', 'fromDate', 'toDate']:
             _, infoDict[subject] = self.nextNonBlankLine(jobFile), self.nextNonBlankLine(jobFile).strip()
 
 
@@ -1181,8 +1187,8 @@ class IndeedHelper(SeleniumWrap):
                       rawDesc, self.JobDescriptionText, infoDict['title'])
         infoDict['desc'] = mygpt.sendAll()'''
 
-        mygpt = myGPT2("job_desc_prompts2.txt", self.JobDescriptionText, infoDict['title'],
-                      infoDict['comp'], rawDesc, infoDict['title'])
+        mygpt = myGPT2("job_desc_prompts2.txt", self.jobTitle, self.JobDescriptionText, infoDict['title'],
+                      infoDict['compType'],  rawDesc, infoDict['title'], infoDict['compType'])
 
         doAgain = True
         while doAgain:
@@ -1371,7 +1377,7 @@ class IndeedHelper(SeleniumWrap):
         choices_n_scores = [(ans_choice, self.jaccard_similarity(ans_choice, ans)) for ans_choice in
                             answer_choices.keys()]
         choices_n_scores.sort(key=lambda x: x[1], reverse=True)
-        thresh = self.jaccard_similarity(ans + "~`", ans)
+        thresh = self.jaccard_similarity(ans + "~`*", ans)
         topChoice, topScore = choices_n_scores[0]
         return topChoice, topScore, thresh
     def ensureQualityOfMultChoiceAns(self, gptObj, answer_choices, answer):
@@ -1579,6 +1585,15 @@ class IndeedHelper(SeleniumWrap):
 
         return questionText, ans_dict, errorTxt, type
 
+    def redirectAndSkip(self, message):
+        self.driver.get("https://www.google.com")
+        try:
+            alert = self.driver.switch_to.alert
+            alert.accept()
+        except:
+            pass
+        return BadPost(message)
+
     def determine_question_type(self, questn):
         try:
             qChild = self.get_child(questn, 1, 1)
@@ -1590,20 +1605,16 @@ class IndeedHelper(SeleniumWrap):
         if len(listOfBad) > 0 or self.num_children(self.get_child_complex(questn, "1/2")) == 0:
             # then it's a question we don't want
             return self.Bad
-        elif self.findAndClick(self.ID, self.CONTAINS, "FileUpload", findFrom=questn, timeLimit=.1, txtCond="*()") is not None:
-            #redirect to google because that's the environment that tells us we need to skip this post
-            self.driver.get("https://www.google.com")
-            try:
-                alert = self.driver.switch_to.alert
-                alert.accept()
-            except:
-                pass
-            return BadPost("They wanted us to upload a file... fuck that.. not dealing with it")
         elif self.findAndClick(self.WHOLE, self.WHOLE, "//fieldset", findFrom=questn, timeLimit=.1, txtCond="*()") is not None:
             #  also contains input, find out what kind of input (radio or checkbox)
             inputEle = self.findAndClick(self.WHOLE, self.WHOLE, self.INPUT, txtCond="asdf", findFrom=questn, timeLimit=.1)
             typeOfInput = inputEle.get_attribute("type")
             return {"radio": self.MultChoice, "checkbox": self.SelectApplicable}[typeOfInput]
+        elif self.findAndClick(self.WHOLE, self.WHOLE, "//div[@role='group']", findFrom=questn, timeLimit=.1, txtCond="*()") is not None:
+            return self.redirectAndSkip("This was the group... analzye and see..")
+        elif self.findAndClick(self.ID, self.CONTAINS, "FileUpload", findFrom=questn, timeLimit=.1, txtCond="*()") is not None:
+            #redirect to google because that's the environment that tells us we need to skip this post
+            return self.redirectAndSkip("They wanted us to upload a file... fuck that.. not dealing with it")
         elif self.findAndClick(self.WHOLE, self.WHOLE, self.TXTAREA, findFrom=questn, timeLimit=.1, txtCond="^&*") is not None:
             return self.FreeResponseLong
 
@@ -1697,7 +1708,7 @@ class IndeedHelper(SeleniumWrap):
         avoidLines = avoidFile.read().strip()
         if len(avoidLines) > 0:
             mygpt = myGPT2("avoid_job_characteristics_prompts.txt", self.JobDescriptionText, avoidLines, version=1)
-            return 'yes' in mygpt.sendAll()
+            return 'yes' in mygpt.sendAll().lower()
         else:
             return False
 
