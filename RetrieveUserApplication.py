@@ -1,4 +1,5 @@
 import sqlite3
+from selenium import webdriver
 
 class Application:
     def __init__(self, applicantName_, datetime_,  platform_, companyName_, jobTitle_, jobDesc_, headline_, jobHist_, eduHist_, skills_, resumeSummary_, quest_ans_, cover_letter_):
@@ -99,6 +100,13 @@ class Application:
 #     print(app.toFile())
 #
 #     conn.close()
+
+
+"""
+import main 
+sw = main.SeleniumWrap("https://docs.google.com/document/u/0/", "https://docs.google.com/document/u/0/", "C:\\Users\\PJuJu\\AppData\\Local\\Google\\Chrome\\User Data\\Default")
+
+"""
 
 if __name__ == "__main__":
     desired_cols = """fullName, DateTime, Platform, companyName, jobTitle, 

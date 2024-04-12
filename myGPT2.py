@@ -264,6 +264,7 @@ class myGPT:
             {"role": "user", "content": nu_msg},
         )
         secs = 5
+
         while True:
             try:
                 chat = self.executeWrapperWithTimeOut()
@@ -275,6 +276,7 @@ class myGPT:
 
         self.reply = chat.choices[0].message.content
         self.context.append({"role": "assistant", "content": self.reply})
+        return self.reply
 
     def executeWrapperWithTimeOut(self):
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -297,7 +299,8 @@ class myGPT:
         print("\tAttempting Completion")
         return openai.ChatCompletion.create(
             # model="gpt-3.5-turbo", messages=messages
-            model="gpt-3.5-turbo-16k-0613", messages=self.context
+            #model="gpt-3.5-turbo-16k-0613", messages=self.context
+            model='gpt-3.5-turbo-0125', messages=self.context
         )
 
     def sendFromFile(self, filename, *args):
