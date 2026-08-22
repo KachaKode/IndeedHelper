@@ -1,0 +1,58 @@
+My Path Identity:
+//Tommy
+//Jacob
+//Collin
+//Marion Faith
+//Mar.Faith237
+//MooMoo237!
+//Sherman
+Agustin
+	// data analyst, tech lead, python , php ,  gcp
+
+
+// Format for everything else is:  {Identity Path}{TAB}{VALUE}
+
+Home Page:
+Tommy	https://www.indeed.com/jobs?q=&l=Remote&vjk=7917c10f99e95728
+//Jacob	https://www.indeed.com/jobs?q=it&l=remote&sc=0kf%3Aattr%28DSQF7%29explvl%28ENTRY_LEVEL%29%3B&rbl=Remote&jlid=aaa2b906602aa8f5&vjk=d869311de728ae49
+Jacob	https://www.indeed.com/jobs?q=it+asset+management&l=remote&rbl=Remote&jlid=aaa2b906602aa8f5&vjk=7367a30ad1f0aa90
+Collin	https://www.indeed.com/jobs?q=python&l=remote&sc=0kf%3Aexplvl%28ENTRY_LEVEL%29%3B&vjk=ea914144f34f47a0
+//Collin	//https://www.indeed.com/jobs?q=python&l=New+York%2C+NY&sc=0kf%3Aexplvl%28ENTRY_LEVEL%29%3B&radius=0&vjk=a5ddfb1a755b623e
+Marion Faith	https://www.indeed.com/jobs?q=date+entry&l=remote&sc=0kf%3Aattr%28DSQF7%29%3B&vjk=e2b43b3f8936a877&advn=4731660163408156
+Sherman	https://www.indeed.com/jobs?q=investment+analyst&l=remote&vjk=0b6e11b2af3cde87
+Agustin	https://www.indeed.com/jobs?q=software+lead&l=remote&sc=0kf%3Aattr%28DSQF7%29%3B&vjk=f9c1fbe1c19bae8e
+
+
+
+// click on differnt pages (2, 3, 4, etc.) and make sure the pattern stays the same.  
+Home Page Pattern:
+Tommy	https://www.indeed.com/jobs?((.*))
+Jacob	https://www.indeed.com/jobs?((.*))
+Collin	https://www.indeed.com/jobs?q=python((.*))
+Marion Faith	https://www.indeed.com/jobs?((.*))
+Sherman	https://www.indeed.com/jobs?((.*))
+Agustin	https://www.indeed.com/jobs?((.*))
+
+
+Profile Path:
+//Figure it out by pasting this in the  address bar:  chrome://version/
+// DONT FORGET TO ESCAPE THE SLASHES !!!!!
+Tommy	C:\\Users\\PJuJu\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 3
+//ObandeJay1994!
+Jacob	C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 5
+Collin	C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 6
+Marion Faith	C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 8
+Sherman	C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 9
+Agustin	C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 10
+
+
+// User		LoginEmail				LoginPass
+// Jacob	JInd1994@gmail.com		Abcd1234*
+
+//Sherman:
+//public equities 
+//mergers and acquisitions
+//investment analyst
+//
+//shermanjulmis7@gmail.com 
+//Abcd123*

@@ -1,0 +1,64 @@
+Pre Info
+0.  Have chatGPT questions already loaded up before the meeting starts 
+	-  Have breakpoints set at YIELD and SUBMIT 
+1.  Demonstrate how program works 
+2.  Explain how program works
+3.  Show file examples and explain
+4.  Hand off format files 
+
+
+Post Info:
+0.  Set up new user in DB
+1.  Review the filled out files 
+2.  Make any edits as necessary 
+3.  Setup Chrome profile 
+	-  In order to save sign in details, will have to sign in from selenium-controlled chrome instance 
+4.  Set up new GMAIL email 
+	-   -{@indeed}
+5.  Setup file system profile
+6.  Start selenium and setup new Indeed Profile 
+7.  Will have to "make" a fake resume on indeed so that program will have something to edit.  	
+8.  In the selenium browser, add the 2captcha chrome extension.
+	-  Install w/ this link:
+		- https://chromewebstore.google.com/detail/captcha-solver-auto-recog/ifibfemgeogfhoebkmokieepdoobkbpo?pli=1
+	-  SET UP WITH THIS KEY:
+		-  f50334b7b15779ca6aa1bcccbf51b8f7
+	-  set up with the blacklisted sites list. 
+		example.com
+		2captcha.com/auth
+		rucaptcha.com/auth
+		https://smartapply.indeed.com/beta/indeedapply/form/profile-location
+		https://smartapply.indeed.com/beta/indeedapply/form/resume
+		https://smartapply.indeed.com/beta/indeedapply/form/work-experience
+		https://smartapply.indeed.com/beta/indeedapply/form/certifications-licenses
+		https://smartapply.indeed.com/beta/indeedapply/form/questions/1
+		https://smartapply.indeed.com/beta/indeedapply/form/questions/2
+		https://smartapply.indeed.com/beta/indeedapply/form/questions/3
+		https://smartapply.indeed.com/beta/indeedapply/form/questions/4
+		https://smartapply.indeed.com/beta/indeedapply/form/relevant-skills
+		https://smartapply.indeed.com/beta/indeedapply/form/documents
+		https://smartapply.indeed.com/beta/indeedapply/form/qualification-intervention
+		https://smartapply.indeed.com/beta/indeedapply/form/qualification-questions
+9.  Demonstrate 
+10.  In email, filter out emails from:
+	-  make Direct Message label (and maybe follow up)
+11.  Inform them that when it comes to rejection emails, I'll be reaching out to them to see what could be improved on.  But emails where they are interested in movign forward, I'll leave those alone for them to handle.  
+
+
+
+https://smartapply.indeed.com/beta/indeedapply/form/profile-location
+https://smartapply.indeed.com/beta/indeedapply/form/resume
+https://smartapply.indeed.com/beta/indeedapply/form/work-experience
+
+https://smartapply.indeed.com/beta/indeedapply/form/certifications-licenses
+
+https://smartapply.indeed.com/beta/indeedapply/form/relevant-skills
+
+
+https://smartapply.indeed.com/beta/indeedapply/form/documents
+
+Need new profile:
+-  jacob 
+-  me 
+-  florent 
+-  Auggie 

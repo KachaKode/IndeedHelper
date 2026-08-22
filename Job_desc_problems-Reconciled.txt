@@ -1,0 +1,18 @@
+Problems:
+	-  Not written in past tense or in a way that someone would put on their resume.  It's written in a way someone would be listing requirements for a job position 
+	-  The descriptions listed do not make sense for the associated positions.  
+
+[{'title': 'Data Entry Clerk', 'comp': '21st Century Realty', 'cityState': 'Austell, Ga', 'current': 'No', 'fromDate': 'October 2021', 'toDate': 'January 2023', 'desc': '
+- Demonstrated expertise in resolving complex accounting issues and reconciling financial statements to prior year tax returns\n
+- Strong attention to detail and excellent problem-solving skills\n
+- Ability to easily learn new software and comfortable using technology in general, including video chat software, email, spreadsheets, Google apps, etc.'}, 
+
+{'title': 'Class Teacher', 'comp': 'Mackenzie Stone Child Development Center', 'cityState': 'Kennesaw, Ga', 'current': 'Yes', 'fromDate': 'February 2023', 'toDate': '{Answer Here, Same format as above. Leave blank if currently working at position}', 'desc': '
+- Successfully prepared and filed complex tax returns, including 1065, 1120 C, 1120S, 1040, 1041, and associated amended returns\n
+- Performed detailed review of tax returns prepared by tax accountants, ensuring accuracy and compliance with regulations\n
+- Compiled supporting financial statements and documents to provide comprehensive and clear information for tax filings'}, 
+
+{'title': 'Data Entry Clerk', 'comp': 'National Cocoa And Cofee Board', 'cityState': 'Douala, Cameroon', 'current': 'No', 'fromDate': 'January 2020', 'toDate': 'November 2020', 'desc': '
+- Successfully managed staff training programs and adapted to changes in market demands, showcasing the ability to navigate and excel in dynamic environments.\n
+- Demonstrated strong written and verbal communication skills, effectively communicating HR policies and updates to employees.\n
+- Developed organizational structures and strategies to meet business needs, showcasing a proactive and strategic approach to HR management.'}]

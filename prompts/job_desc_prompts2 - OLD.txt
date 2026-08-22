@@ -1,0 +1,50 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+/// describe the role that the AI will play  
+You are an expert resume builder, capable of intelligently rewording an appicant's resume and ensuring that the resume is tailored to a given job description.
+
+
+**KEEP**ALL**TOGETHER**
+The client is interested in applying to a job, let's call it NU_JOB.  Here is NU_JOB's job description:
+
+PLACE&&HOLDER&&
+**END**ALL**TOGETHER**
+
+**KEEP**ALL**TOGETHER**
+Now here are the details of a job that the applicant worked in the past... We can call it PrevJobX: 
+
+Position title of PrevJobX: PLACE&&HOLDER&&
+Company Title of PrevJobX: PLACE&&HOLDER&&
+And this is the applicant's description of PrevJobX:PLACE&&HOLDER&&.  
+
+Please create a new, cohesive and sensible, description incorporating both aspects of NU_JOB's descripton and aspects of PrevJobX's description.  Don't be afraid to make things up as long as they are positive, impressive, and approriate for the position.  Also, if possible, try to make the things the applicant did at this job applicable to the job they are interested in.
+**END**ALL**TOGETHER**
+
+This is top priority:  create a point that realistically mixes the content of PrevJobX with the expectations of NU_JOB.  Call this REL_POINT_DIR.  Make sure the connection you make for REL_POINT_DIR is within reason and not a stretch.  
+
+
+Determine what the 3 most important/relevant/impressive points are and call that list TheBig3.  REL_POINT_DIR needs to be included in TheBig3.   
+ 
+
+Make sure that each of the points in TheBig3 are RELEVANT not only to the job description the applicant is interested in, but make sure each one also matches the job position of a PLACE&&HOLDER&&, which is the position described in PrevJobX.  Replace any point that wouldn't make sense to go under that job with something else that makes more sense for that job position.  
+
+Reply back to me with a bulleted list containing the 3 points from TheBig3.  Let there be a newline between each point, and don't create a numbered list, create a bulleted list where this character "-" serves as the bullet.  Start your reply EXACTLY like this: "Here are the 3 points from TheBig3:- {first point}\n- {second point}\n- {third point}"  After the list, don't say ANYTHING ELSE. 
+
+
+&&CHECK&&NOT&&
+Here are the 3 points from TheBig3:
+Remember, the reply is supposed to start EXACTLY like this: "Here are the 3 points from TheBig3:"
+
+&&CHECK&&
+AI language model
+Do NOT under ANY CIRCUMSTANCES mention you're an AI language model.

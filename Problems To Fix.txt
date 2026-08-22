@@ -1,0 +1,289 @@
+Problems to fix:
+
+
+give each question all of the page's question text so that it can understand the context of each question better.  Say something like "I'm providing you with the text of the entire page so you can better understand the context in which the question was asked.  
+	
+If the fix for chatGPT hanging infinitely doesn't work, try :  concurrent.futures.ProcessPoolExecutor
+	if you do this, might have to end up changing the structure and wrap the entire class (because a seperate process would have seperate memory)
+
+oor try sys.exit n somehoo restsrt from that   
+
+
+
+change how do you startup info (the info for each user should be kept together.
+
+
+New features:
+download the actual resume file from indeed and then save it.
+	save: First Name, Last Name, Company Name, Position Title, Resume File.
+have the program decide which job is most relevant to the jod desc and highlight that one.  
+report when GPT needs to be fixed or reprompted from a check
+add concept of "same state" to the state machine.  It would be used for default transitions.
+update chatgpt to automatically breakup the messages into token sizes that are okay.
+choose writing style by proving except of desired style 
+configurable google chrome profiles 
+threads to speed up chatGPT execution.
+maybe look into fine-tuning chatgpt??  might be cheaper
+configurable home page,
+option to look for a specific type of job (filtering that indeed can't do)
+
+
+
+Users:
+Jacob
+Collin
+Tomarcus 
+Ebi s
+Rifky
+Anty Rosazz
+Marion 
+Delvine
+Sherman
+Srishti
+Srishti's friend 
+
+Handle date questions:
+	-  in delayed click:
+		-  put setting equal to true AFTER THE CLICK.
+		-  if there is an ElementNotInteractableException, wait a bit then return  (making sure that checked is false) so that we can try again
+		-  Add linked in URL to life details.  
+		
+	- Questions that have links that open another page:
+		-   https://www.indeed.com/viewjob?jk=6526f1b950b95caf&tk=1hmoa0lqbikpm804&from=serp&vjs=3
+		-  After the link, may be another unknown question format 
+		
+		https://www.indeed.com/viewjob?jk=0dc53d706c17b643&tk=1hnscatn4je0l80r&from=serp&vjs=3
+			
+			
+Problem:
+
+
+
+Do:
+	-  start on CareerAI page 
+		-  sign up 
+		-  view applications 
+		-  submit/update info 
+		-  view/send messages 
+	-  Create crash reports 
+	-  master needs to send me a message if it's gone more than 2 hrs without receiving update frm someone 
+	-  aws and residential proxy
+	-  keep track of home page index and whether to use it 
+	-  move the db submission to initial viewing of confirmation screem
+	-  do the master code that restarts 
+		-  only send time after saw confirmatin and saved to db 
+	-  give each user own output file 
+	-  Make the job descriptions better
+		-  use an example of marion's where they were including things that just don't even make sense for a school teacher 
+		-  use Job_desc_problems-Reconciled.txt
+	-  Make a linkedIn version 
+	-  Figure out how to interact with GoogleDocs using python
+	-  Add to Users DB the type of jobs they are interested in 
+	
+	-  Get passed the cloudfare bullshit:
+		-  https://stackoverflow.com/questions/74079343/checking-if-site-connection-is-secure-selenium
+		-  https://stackoverflow.com/questions/76078467/bypass-connection-is-secure-in-selenium-webdriver-chrome
+		-  https://www.reddit.com/r/webscraping/comments/vymwfi/is_selenium_still_a_good_choice/
+		-  https://stackoverflow.com/questions/74188360/selenium-cloudflare-colab-and-json
+		- https://github.com/puppeteer/puppeteer/issues/7006
+		- https://www.zenrows.com/blog/puppeteer-cloudflare-bypass#what-is-puppeteer
+		- https://stackoverflow.com/questions/71923946/cloudflare-bypass-with-puppeteer
+	-  create code that can handle the manual sites
+		-  Idea:  
+			-  LOok for all of the relevant elemetns (drop downs, inputs, buttons, etc).  
+			-  For each element, ask chatGPT if it has enough info to know what it needs to do, if so, do action/write info... if not, go up one element and then give it that element and then repeat.  
+			-  Once done with input elements on page, click button.  
+			-  might need to ask first if there are any fields that need to be filled... or maybe, look for all the buttons first, and then try and look for an apply or click button, and if it's not possible then see if there are any input elements to fill out 
+			-  need to have a time limit... if not succeeding, give up on that application and moveon to the next one.  
+	-  Migrate the info in StartUpInfo.txt to the Users table in the DB 
+	-  figure out how to manipulate a web browser without using detectable selenium...
+	-  figure out how to create google docs thru python (for both creating cover letters and retreiving applications)
+		-  worst case scenario, we just do it thru selenium. 
+
+	-  use job history (the job history that we tailored for the application in question) to write the cover letter. 
+	
+	-  add to the users database the list of types of jobs that the user is interested in.  Also recognize if this is empty and ask for it on startup 
+	
+	- Make sure everyone's lifesummary has country 
+		-  make sure you change in setDetails() as well as every where else relevant.  
+	-  Make sure python reads country 
+	-  Make sure everyone's job files has Company Type 
+	
+	-  when blank title is repeating, need to figure out how to maximize window 
+	-  Handle adding certifications 
+	-  Add country of residence to the life summary 
+	-  Reformat everything so that the prompts respond with "START:" {content} "END"  
+	-  Multithread the program and test w 2 people. \
+		-  eitehr mutli thread or multi process it.  And the thread/process manager (main thread/process) will need to monitor the threads/processes and if it hasn't heard feed back from one within 30 mins, then it will start another insteance of that thread/process, record the id of the stalled process so that developer can look later.  
+		-  All output of each process/thread should go to an output log file (file name should incorporate date and time so it doesn't overwrite the previous ones)
+	-  include timezone info in life details
+	-  include linkedIn 
+	
+	-  decide whether or not you'll allow ppl to put their own emails in life details. 
+
+	-  Clients will need to provide whatever licenses (and where the license is valid) or certifications they already have.  Avoid jobs that require licenses that they don't have.
+		
+	
+
+	-  Figure out how to automatically add a new user's homepage to the expected environments.
+	-  Make sure to  *clean* the capitalization of any content that was lifted from indeed post.
+		-  E.G.  The company title should not be in all caps, even if this was the case in the job posting 
+	-  NEED to take human interaction out of the process.  Have a 
+	web page that collects the information and saves it into a database.  Then make a program that can interpret that info and generate the necessary text file.
+	-  Specify that the applicant has no security clearance (unless directed otherwise)
+	-  Make sure the box next to this text is checked:  "
+	Check this box to receive calls or text messages at the number you provided from employers you've applied to, and Indeed."
+	-  Might want to make sure not to apply to the same employer twice (might be fishy if they see repeat apps but totally different wording and everything. 
+	-  Look into this for building this without using chromium driver...
+		-  https://chat.openai.com/c/46e943f9-e970-4066-96f7-9a032a7b31bd
+	-  Look into saving the page with pyautogui and opeing with selinium 
+	-  look into using a web scraping thing like beautiful soup and figure out how to enter all those details with that... 
+	-  switch to prioritizing the general version of the job app helper...  use web scraping (maybe regular if necesasry) to compile a list of urls for company application sites, then use the general version to attack that 
+	
+	
+	JSAIH -- Job Search A.I Helper 
+	Ask AI about the name.
+	Ask AI about the best way to go about making the testamonial videos
+	Targeting a September Launch . 
+	use protomail for emails .
+	Front end set up:
+		Pages:
+			
+			Sign up:
+				-  Needs to support facebook, google, etc. sign ups/ins
+				-  Needs to break the life details part into smaller, more pointed questions. 
+				-  Still have a section at the end for bragging on themselves etc 
+				-  integreate voice to text 
+				-  
+			Home Page:
+				-  Should have sections for viewing:
+					-  Messages 
+					-  My Profile 
+					-  Account info 
+						-  Payment details 
+						-  Subscription choice 
+					-  Fine tune your job search .
+						-  section to answer more questions (common questions that 
+						
+			Backend:
+				-  Need email notifications for messages 
+				-  If possible, try to messages that are interviews requests and have a section for specifically that. 
+				-  If possible, have a (view application) button in each message 
+					-  maybe just try and retrieve the company name and search for those applications 
+					-  have a message if the app can't be found.  
+					
+	
+	
+	System set up:
+		-  need to have site send backend server user's info, backend server needs to create necessary file system set up and database saved info.
+		-  sytem needs to not use start up info anymore, put all that shit in user's table in DB
+		-  when an order comes in, system needs to make/maintain a schedule and depending on taht schedule, i'll each day start for those users 
+		-  need a simple gui that will allow me to choose which users to run for today
+		
+		if captcha interaction is needed, then that will be managed using a lock 
+	-  Monitor set up:
+		-  when threads start, master thread will start monitor and inform it of the users being ran 
+		-  have default heart beat be 30 mins, then start calculating a running avergage of how much time is between each submission (have a window of 10 mins) 
+		-  heartbeats should be per user and calculated to be twice the average 
+		-  if a user has gone longer than the heartbeat, send an email to myself informing me of who is delayed.  
+		
+		
+		-  Going to need a bot that every night at midnight, it goes through every user, for every email received THAT DAY, and uses ChatGPT (pyautogui version) to determine if they have received a message about going to the next step.  Need to have categories:
+			-  Messages offering interviews 
+			-  Messages requesting more info 
+			-  confirmation of application receipt messages 
+			-  rejection messages 
+		-  Need to send notifications at 10 am for ppl that have received interview messages.  
+		
+		
+		-- START KEEPING TRACK OF THE ONES SKIPPED... IF SKIPPED TWICE, THEN IGNORE
+		
+		
+		-  For jobs:
+			-  try saying something like:  Here's what I actually did: x.  Modify that description so that it is more relevant to this job description:  y.  But make sure that your modified version of my description still is relevant to what a ?  would do at a ?? company.  Choose the top 3 points that are most marketable to this description and reply back with point1;;point2;;point3;;END_POINTS
+		
+		
+		
+		-  get rid of startup info, add interests to users table, add resumes to do to users table.  
+		
+		-  Need to use self.appsLeft var to stop sending apps.
+			-  Automatically shut off and set T to F when reach zero. 
+			
+		Captcha solving:
+			-  https://captchathecat.com/how-to/captcha-solver-extensions
+			
+			
+			
+		solution for Indeed blocking us:
+			-  Use pyautogui with image recognition  && preset locations to navigate pages. 
+
+			Use ctrl + shift + I to get real page source and then get CG's help to make a function that can parse out the info.  
+
+
+			For questions:
+				-  Parse the questions html 
+				-  For each quesiton, 
+					-  determine what type of question it is
+					-  determine the correct answer 
+					-  if something needs to be clicked, determine the id and hten look for that id in the developer tools console.  Make sure you start at the top (by clicking the scroll bar all the way to the top) and then search.  Might need to determine how many times need to click enter by looking for where the id=".." is at in reference to the other instances of that id (since we can't directly search for 'id="..." '
+					-  To click on something thru the developer's console. select the element in the element's tab, then click console tab, type in "allow pasting" (might not be necessary) then type $0.click(); and click enter.   
+		
+		
+	
+	have ahmed maek the site 
+	diagram it and send diagrams to other developes for a quote 
+	do the code yourself.  
+	
+Others:
+	-  Monster
+	-  Ziprecruiter 
+	-  LinkedIn
+	
+	
+for setting up gmail automatically:
+	are there any services that provide "temporary phone numbers" that can be used to sign up for a gmail address?
+
+	ChatGPT
+	Yes, there are services that provide temporary phone numbers which can be used for signing up for a Gmail account. Services like Receive SMS Online, SMS Hero, Textverified, Darksms, and MobileSMS.io offer a variety of options including free or paid services where you can obtain a temporary phone number for verification purposes.
+
+	Receive SMS Online offers a large collection of temporary phone numbers from over 18 countries without any need for registration, allowing you to receive SMS for verifications free of cost.
+	SMS Hero features a temporary phone number generator where you can select a country and instantly get a temporary number for your needs.
+	Textverified provides US-based non-VoIP phone numbers accessible worldwide, with pricing starting from $0.25 per verification or rental options for longer use.
+	Darksms allows you to verify your Gmail account with a temporary mobile number, with various packages to meet different needs and budgets.
+	MobileSMS.io provides temporary phone numbers that you can use specifically for Google verification during the Gmail account creation process.
+	
+	
+	
+	
+	Interview Tips:
+	-  Be prepared to answer questions about work history regarding:
+		-  Roles
+		-  Responsibilities 
+		-  Scenarios 
+		
+	-  Be knowledgeable about the company and look for opportunities to display this knowledge whenever possible during interview. 
+	
+	-  When asked questions like (how would you handle this, or would you be comfortable doing this) try to relate it to previous work experience as much as possible, IF possible.
+
+	-  Ask questions that display your knowledge of the company IF POSSIBLE. 
+	
+	-  make suer you implement that master starts instance over if haven't heard back in 30 mins 
+	
+	-  keep track of the index you're at in the thing. 
+	
+	
+	-  Add levels on the customization (so users canchoose how much embillishment they want on their resumes)
+	
+	-  if needed, can have a master disseminator give other nodes links to the pages they can open and complete resume for position.  THen pause and restart (each node on a different account, many for one client) as infrequently as necessary to fly under the radar.  
+	
+	
+TO make faster:
+	-  in resume page, click all page's delege buttons at once 
+	-  speed up the relatives func by pushing more logic to javascript 
+	-  combine all the commands for the cj onsole check 
+	
+	
+Investigating:
+	-  how during the opening of the dev tools, we pasted myX and then highlighted it and then pasted copy() without executing myX
+	-  quetions 
+	-  why it didn't add docs correctly at end of application 

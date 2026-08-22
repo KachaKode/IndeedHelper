@@ -1,0 +1,218 @@
+// Format is:
+// Environment
+//     BeginState -- TransitionFunction() --> AfterState 
+
+// Lines of this file that start with "//" will be ignored by program
+// Format:  URL|Main_text_to_match
+//  '.*' means zero or more characters 
+//  ENCLOSE ALL REGEX SPECIAL CHAR SEQUENCES IN "((special_char_sequence))" with NO SPACES IN SIDE
+//  EVERYTHING IS STRIPPED OF wHITESPACE BEFORE PROCESSING
+//  CASE INSENSITIVE
+
+
+// page to indicate that we want to just skip this particular opening
+https://(((www.)?))google.com/((.*))|((.*))
+	default -- backToStart() --> initNewApp
+
+// main page 
+((.*))|Displayed here are Job Ads that((.*))
+	default -- closeDialog() --> start
+	
+
+((.*))|Add or update your address((.*))
+	default -- continueFromPage() --> default
+	
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/form/certifications-licenses((.*))|Want to add((.*))
+	default -- continueFromPage() --> default
+
+// general 
+https://(((www.)?))(((ca.)?))indeed.com/jobs?q((.*))|((.*))
+	// this transition takes us from being in suspended state to selecting a neW job opening to apply to
+	initNewApp
+	hitApply -- newApp() --> start
+	default -- startApplication() --> hitApply
+
+// jacob's home page 
+((.*))|((.*))Find IT((.*))
+	// this transition takes us from being in suspended state to selecting a neW job opening to apply to
+	initNewApp
+	hitApply -- newApp() --> start
+	default -- startApplication() --> hitApply
+
+// home page 
+((.*))|((.*))Jobs, Employment((.*))
+	// this transition takes us from being in suspended state to selecting a neW job opening to apply to
+	initNewApp
+	hitApply -- newApp() --> start
+	default -- startApplication() --> hitApply
+	
+// job description page 
+https://(((www.)?))(((ca.)?))indeed.com/viewjob((.*))|((.*))Indeed.com
+	// this transition takes us from being in suspended state to selecting a neW job opening to apply to
+	initNewApp
+	hitApply
+	start 
+	default -- startApplication() --> hitApply
+	
+// alternative job description page
+https://(((www.)?))(((ca.)?))indeed.com/job/((.*))|((.*))Indeed.com
+	// this transition takes us from being in suspended state to selecting a neW job opening to apply to
+	start 
+	default -- startApplication() --> hitApply
+
+
+// Contact info page 
+((.*))|Add or update your contact information((.*))
+	hitApply
+	default -- updateContactInfo() --> didContactInfo
+
+// page to either upload, change, or continue using current resume 
+((.*))|Upload or build a resume for this application((.*))
+	hitApply
+	didContactInfo -- startResume() --> startedOnResume
+	//didContactInfo -- addResume() --> addedResume
+	finishedResume -- addResume() --> addedResume
+	default -- backToDidContactInfo() --> didContactInfo
+
+// main resume page 
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume((.*))|My Indeed Profile
+	startedOnResume -- startContactInfo() --> startedEditContactInfo
+	finishedEditContactInfo -- startSummary() --> startedEditSummary
+	finishedEditSummary -- startWorkExp() --> finishedEditWorkExp
+	finishedEditWorkExp -- startEdu() --> finishedEditEdu
+	finishedEditEdu -- startSkills() --> finishedEditSkills
+	finishedEditSkills -- finishResume() --> finishedResume
+	default -- startAtTopOfReviewPage() --> startedOnResume
+
+// contact portion of resume page	
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/contact((.*))|My Indeed Profile
+	startedEditContactInfo -- doContactInfo() --> finishedEditContactInfo
+	// either this or go back to start
+	//default -- goBackToStartCI() --> startedEditContactInfo
+	default -- doContactInfo() --> finishedEditContactInfo
+
+//  summary portion of resume page
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/summary((.*))|My Indeed Profile
+	startedEditSummary -- doSummary() --> finishedEditSummary
+	// either this or go back to start
+	//default -- goBackToStartSum() --> startedEditSummary
+	default -- doSummary() --> finishedEditSummary
+
+// experience portion of resume page
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience/add((.*))|My Indeed Profile
+	startedEditWorkExp -- doWorkExp() --> finishedEditWorkExp
+	// either this or go back to start
+	//default -- goBackToStartWork() --> startedEditWorkExp
+	default -- doWorkExp() --> finishedEditWorkExp
+
+//  edu portion of resume page
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education/add((.*))|My Indeed Profile
+	startedEditEdu -- doEdu() --> finishedEditEdu
+	// either this or go back to start
+	//default -- goBackToStartEdu() --> startedEditEdu
+	default -- doEdu() --> startedEditEdu
+	
+//  skills portion of resume page
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills/add((.*))|My Indeed Profile
+	startedEditSkills -- doSkills() --> finishedEditSkills
+	// either this or go back to start
+	//default -- goBackToStartSkills() --> startedEditSkills
+	default -- doSkills() --> finishedEditSkills
+
+// for the intermediate resume pages:
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education((.*))|My Indeed Profile
+	default -- nextResumeSection() --> finishedEditEdu
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills((.*))|My Indeed Profile
+	default -- nextResumeSection() --> finishedEditSkills
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience((.*))|My Indeed Profile
+	default -- nextResumeSection() --> finishedEditWorkExp
+
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/form/relevant-skills|Want to add any relevant skills to your resume?
+	default -- keepGoing() --> finishedResume
+
+
+//  questions page 
+((.*))|answer screener questions from the employer
+	addedResume -- doQuestions() --> passedQuestions
+	// either this or back to start 
+	default -- doQuestions() --> passedQuestions
+	
+((.*))|answer voluntary self identification questions from((.*))
+	addedResume -- doQuestions() --> passedQuestions
+	// either this or back to start 
+	default -- doQuestions() --> passedQuestions
+
+// qualifications page (don't care about this rn)
+((.*))|Review these qualifications found in the job post
+	default -- keepGoing() --> passedQualReview
+	
+((.*))|((.*))qualifications((.*))
+	default -- keepGoing() --> passedQualCheck
+
+// alt qualifications page (don't care about this rn)
+((.*))|This employer is looking fo r specific qualifications
+	default -- keepGoing() --> passedQualCheck
+
+// job highlight page (don't care about this rn)
+((.*))|add relevant work experience information
+	default -- keepGoing() --> passedWorkHighlight
+	
+// another alt qualifications page (don't care about this rn)
+((.*))|qualification check((.*))
+	default -- keepGoing() --> passedQualCheck
+	
+((.*))https://smartapply.indeed.com/beta/indeedapply/form/qualification-questions((.*))|((.*))Questions from Indeed to improve your job matches((.*))
+	default -- keepGoing() --> passedQualCheck
+
+//  resume review
+((.*))|review the contents of this job application((.*))
+	passedQualCheck
+	passedQualReview
+	passedWorkHighlight
+	passedQuestions
+	addedResume
+	finishedResume
+	finishedEditSkills -- clickAddDocs() -- clickedAddDocs
+	clickedAddDocs
+	submittedApplication
+	finishedAddingDocs -- submitApp() -- submittedApplication
+	hitApply -- hitEditFromReviewPage() -- didContactInfo
+	
+
+//  portion of review resume page that allows me to add CV.
+((.*))|Add documents to support this application
+	passedQuestions
+	clickedAddDocs -- addDocs() -- finishedAddingDocs
+	default -- backToStart() --> start
+	
+((.*))|you have already applied((.*))
+	default -- backToStart() --> start
+	
+((.*))|500 something went wrong((.*))
+	default -- backToStart() --> start
+
+// need to close tab
+((.*))|your application has been submitted
+	default -- doDbThenbackToStart() --> initNewApp
+	
+https://smartapply.(((ca.)?))indeed.com/beta/indeedapply/postresumeapply((.*))|Indeed((.*))
+	default -- backToStart() --> initNewApp
+	
+((.*))|Configuration error((.*))
+	default -- backToStart() --> initNewApp
+
+// probably an intermediate URL, just wait a second or 2
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/resumeapply?draftId((.*))|((.*))
+	default -- waitOneSecond() --> finishedResume
+	
+	
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/postresumeapply|500 Something went wrong((.*))
+	default -- quickWaitAndRefresh() --> default
+	
+
+// matches any URL that is not for indeed 
+((^(?!.*\bindeed\.com\b).*))|((.*))
+	hitApply -- backToStart() --> initNewApp
+	
+((.*))|Just a moment((.*))
+	default -- handleCaptcha() --> default 

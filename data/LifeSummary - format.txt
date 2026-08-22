@@ -1,0 +1,20 @@
+{Put first Name under here}
+Chrisval
+
+{Put last Name under here}
+Agbor
+
+{Put Phone number under here. Format:(###) ###-####}
+(470) 548-3255
+
+{Put email under here}
+chrisvalagborr@gmail.com
+
+{Put city & state under here.  Format: City, State}
+Powder Springs, Georgia
+
+{Put Zip Code under here}
+30127
+
+{Put life summary, year by year, under here}
+To be filled out by Twin...

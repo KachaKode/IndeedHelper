@@ -1,10 +1,4 @@
 # This is a sample Python script.
-import pygetwindow as gw
-#from pywinauto.application import Application
-import pyttsx3
-from pywinauto import Application
-import subprocess
-
 
 # GPT HELP:  https://chat.openai.com/c/aec09a74-238d-4f97-b49a-b6ca98e1d810
 
@@ -13,16 +7,14 @@ import subprocess
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchWindowException, StaleElementReferenceException, ElementClickInterceptedException, ElementNotInteractableException
+from selenium.common.exceptions import StaleElementReferenceException, ElementClickInterceptedException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from threading import Thread
 import datetime
 import traceback
 import sys
-import itertools
 import os, re
 import sqlite3
 import inspect
@@ -34,24 +26,10 @@ from myGPT2 import myGPT as myGPT2
 #import webdriver_manager
 #from webdriver_manager.chrome import ChromeDriverManager
 import inspect
-import pyautogui
-
 
 
 log = None
 
-
-class BadPost(Exception):
-    """Custom exception class for a specific error condition."""
-
-    def __init__(self, message="An error occurred in my application"):
-        self.message = message
-        super().__init__(self.message)
-
-class StartFromTop(Exception):
-    def __init__(self, message="An error occurred in my application"):
-        self.message = message
-        super().__init__(self.message)
 
 class SeleniumWrap:
 
@@ -80,10 +58,6 @@ class SeleniumWrap:
         self.ALL = float('inf')
         self.home_url = home_url
         self.home_url_pattern = home_url_pattern
-
-    def uploadFile(self, fullPath):
-        file_input = self.driver.find_element(By.CSS_SELECTOR, "input[type='file']")
-        file_input.send_keys(fullPath)
 
     def nextNonBlankLine(self, file_handler):
         # This function will yield non-blank lines from the file
@@ -134,12 +108,8 @@ class SeleniumWrap:
 
     def start_up(self):
         chrome_options = Options()
-        chrome_options.add_argument('ignore-certificate-errors')
-        chrome_options.add_argument('--ignore-ssl-errors=yes')
-
         chrome_options.add_argument(self.chrome_profile)
         self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.maximize_window()
         self.driver.get(self.home_url)
 
     def goToTab(self, tab_num):
@@ -148,21 +118,16 @@ class SeleniumWrap:
         self.driver.switch_to.window(all_tabs[tab_num])
 
 
+    def goToNewTab(self):
+        # Get the current window handle
+        current_handle = self.driver.current_window_handle
 
-    def goToNewTab(self, indexOfNewTab=None):
-        if indexOfNewTab is None:
-            # Get the current window handle
-            current_handle = self.driver.current_window_handle
+        # Get the list of all window handles
+        all_handles = self.driver.window_handles
 
-            # Get the list of all window handles
-            all_handles = self.driver.window_handles
-
-            # Find the index of the current window handle
-            current_index = all_handles.index(current_handle)
-            self.goToTab(current_index+1)
-        else:
-            self.goToTab(indexOfNewTab)
-
+        # Find the index of the current window handle
+        current_index = all_handles.index(current_handle)
+        self.goToTab(current_index+1)
 
     def select_tab_by_url_pattern(self, pattern):
         """
@@ -207,18 +172,15 @@ class SeleniumWrap:
     def closeDialogBox(self):
         dialogBox = self.findAndClick(self.WHOLE, self.WHOLE, '//*[@role="dialog" and @aria-modal="true"]',
                                       txtCond="#$%^&*", timeLimit=.4)
-        try:
-            if dialogBox is not None:
-                possCloseButs = dialogBox.find_elements(By.TAG_NAME, 'button')
-                for button in possCloseButs:
-                    infoLabel = button.get_attribute("aria-label").lower()
-                    if 'close' in infoLabel:
-                        self.smartClick(element=button)
-                        self.reportAction("Closed Dialog")
-                        return
+        if dialogBox is not None:
+            possCloseButs = dialogBox.find_elements(By.TAG_NAME, 'button')
+            for button in possCloseButs:
+                infoLabel = button.get_attribute("aria-label").lower()
+                if 'close' in infoLabel:
+                    self.smartClick(element=button)
+                    self.reportAction("Closed Dialog")
+                    return
             self.reportAction("Saw DIALOG but no close button (couldn't tell from label)")
-        except:
-            pass
         else:
             self.reportAction("No Dialog Found ")
 
@@ -247,19 +209,12 @@ class SeleniumWrap:
             self.write("on line: " + str(inspect.currentframe().f_lineno))
             self.graduatedWait(cond)
             checked[0] = cond()
-            if not checked[0]:
-                raise Exception
             self.write("on line: " + str(inspect.currentframe().f_lineno))
         return checked[0]
 
-    def handleUnwantedOpenedTab(self):
-        self.driver.switch_to.window(self.driver.window_handles[-1])
-        self.driver.close()
-        self.driver.switch_to.window(self.driver.window_handles[-1])
-
     def clickAttempt(self, elementXpath, indInList , travelUp , txtCond , checkClosed,  checkNewPage,
                      checkNewTab , waitBeforeClicking , findFrom , waitBeforeFinding, url_at_start,
-                     num_tabs_at_start, expectingPopUp, ctrl, nohang=False  ):
+                     num_tabs_at_start, expectingPopUp, ctrl  ):
 
         t.sleep(waitBeforeFinding)
 
@@ -271,16 +226,9 @@ class SeleniumWrap:
 
 
         elementList = findFrom.find_elements('xpath', elementXpath)
-        #if len(elementList) == 0:
-        #    return None
-        try:
-            element = elementList[indInList]
-        except Exception as e:
-            if nohang:
-                return None
-            traceback.print_exc()
-            h = 0
-
+        if len(elementList) == 0:
+            return None
+        element = elementList[indInList]
         numElementsOriginally = len(elementList)
 
         #the elemenet being disabled is the same as it not being there
@@ -322,7 +270,7 @@ class SeleniumWrap:
                     self.write("on line: " + str(inspect.currentframe().f_lineno))
                     if possibleExp and not isinstance(possibleExp, Exception) :
                         # go to ne tab
-                        self.goToNewTab(num_tabs_at_start)
+                        self.goToNewTab()
                 elif checkClosed:
                     def condFunc():
                         updatedElementList = findFrom.find_elements('xpath', elementXpath)
@@ -333,15 +281,6 @@ class SeleniumWrap:
 
                     possibleExp = self.clickChecker(element, checked, condFunc, ctrl)
                     self.write("on line: " + str(inspect.currentframe().f_lineno))
-                if not expectingPopUp:  # if we aren't expecting a pop up, check for one and close it if it's there
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                    self.closeDialogBox()
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-
-                #check if a new tab opened when we DIDN'T want it to open...
-                if not checkNewTab and num_tabs_at_start != len(self.driver.window_handles):
-                    self.handleUnwantedOpenedTab()
-
                 self.write("on line: " + str(inspect.currentframe().f_lineno))
 
 
@@ -418,10 +357,6 @@ class SeleniumWrap:
                 checked[0] = e
                 self.write("on line: " + str(inspect.currentframe().f_lineno))
                 return e
-            if isinstance(e, ElementNotInteractableException):
-                t.sleep(60)
-                checked[0] = False
-                return
             if isinstance(e, IndexError):
                 raise
             self.write("on line: " + str(inspect.currentframe().f_lineno))
@@ -429,42 +364,14 @@ class SeleniumWrap:
             self.write("on line: " + str(inspect.currentframe().f_lineno))
             traceback.print_exc()
             self.write("on line: " + str(inspect.currentframe().f_lineno))
-            still = False
+            still = True
             while still:
                 t.sleep(1)
-
-    def handleCaptcha(self):
-        cap = self.findAndClick(self.TXT, self.MATCH, "Solve with 2Captcha", timeLimit=.1, nohang=True)
-        if cap is None:
-            return True
-
-        #self.smartClick(element=cap)
-        try:
-            while cap.text != 'Captcha solved!':
-                if "error" in cap.text.lower() or "api_http" in cap.text.lower() or "seconds" in cap.text.lower():
-                    #self.driver.back()
-                    #return StartFromTop()
-                    ret = self.findAndClick(self.WHOLE, self.WHOLE, "//iframe[@title='reCAPTCHA']")
-                    if ret is not None:
-                        t.sleep(2)
-                        return True
-                    else:
-                        self.driver.back()
-                        return StartFromTop()
-                t.sleep(.25)
-        except:
-            return True
-
-        return True
 
     def delta_wait_4_click(self, elementXpath, spentWaiting, timeLimit):
         reportPause = spentWaiting[0] == 0
         t.sleep(self.DELTA_WAIT)
         spentWaiting[0] += self.DELTA_WAIT
-        #captcha here
-        handResult = self.handleCaptcha()
-        if isinstance(handResult, StartFromTop):
-            return handResult
         if spentWaiting[0] < timeLimit:
             if reportPause:
                 self.reportAction(f"Paused trying to click. xpath: {elementXpath} ")
@@ -474,10 +381,9 @@ class SeleniumWrap:
             return False
 
     def findAndClick(self, what, type, elementXpath, indInList=0, travelUp=0, timeLimit=10, txtCond = '', checkClosed=False,
-                     checkNewPage=False, checkNewTab=False, waitBeforeClicking=0, findFrom=None, waitBeforeFinding=0, expectingPopUp=False, elementType="*",
-                     nohang=False, newPageFollowsTimeLimit=False):
-        if isinstance(elementXpath, str):
-            elementXpath = [elementXpath]
+                     checkNewPage=False, checkNewTab=False, waitBeforeClicking=0, findFrom=None, waitBeforeFinding=0, expectingPopUp=False, elementType="*"  ):
+        if isinstance(what, str):
+            what = [what]
         root = ""
         if findFrom is None:
             findFrom = self.driver
@@ -486,31 +392,26 @@ class SeleniumWrap:
 
         elementType = elementType.replace("//", "")
 
-        _elementXpath = ""
         if type == self.CONTAINS:
-            _elementXpath = f"{root}//{elementType}[contains({what}, '{elementXpath[0]}')]"
-            for i in range(1, len(elementXpath)):
-                _elementXpath += f" | {root}//{elementType}[contains({what}, '{elementXpath[i]}')]"
+            elementXpath = f"{root}//{elementType}[contains({what[0]}, '{elementXpath}')]"
+            for i in range(1, len(what)):
+                elementXpath += f" | {root}//{elementType}[contains({what[0]}, '{elementXpath}')]"
         elif type == self.WHOLE:
-            _elementXpath = elementXpath[0].replace("//", f"{root}//")
+            elementXpath = elementXpath.replace("//", f"{root}//")
         elif type == self.MATCH:
-            _elementXpath = f"{root}//{elementType}[{what}='{elementXpath[0]}']"
-            for i in range(1, len(elementXpath)):
-                _elementXpath += f" | {root}//{elementType}[{what}='{elementXpath[i]}']"
+            elementXpath = f"{root}//{elementType}[{what[0]}='{elementXpath}']"
+            for i in range(1, len(what)):
+                elementXpath += f" | {root}//{elementType}[{what[0]}='{elementXpath}']"
 
-        return self.smartClick(_elementXpath, indInList, travelUp, timeLimit, txtCond, checkClosed,
-                     checkNewPage, checkNewTab, waitBeforeClicking, findFrom, waitBeforeFinding, expectingPopUp=False,
-                               nohang=nohang, newPageFollowsTimeLimit=newPageFollowsTimeLimit)
+        return self.smartClick(elementXpath, indInList, travelUp, timeLimit, txtCond, checkClosed,
+                     checkNewPage, checkNewTab, waitBeforeClicking, findFrom, waitBeforeFinding, expectingPopUp=False)
 
     def smartClick(self, elementXpath='', indInList=0, travelUp=0, timeLimit=10, txtCond = '', checkClosed=False,
                      checkNewPage=False, checkNewTab=False, waitBeforeClicking=0, findFrom=None, waitBeforeFinding=0,
-                   element=None , expectingPopUp=False, ctrl=False, nohang=False, newPageFollowsTimeLimit=False):
+                   element=None , expectingPopUp=False, ctrl=False):
 
         if findFrom is None:
             findFrom = self.driver
-
-        if ctrl:
-            checkNewTab = True
 
         num_tabs_at_start = len(self.driver.window_handles)
         url_at_start = self.driver.current_url
@@ -529,19 +430,14 @@ class SeleniumWrap:
                                             checkClosed,  checkNewPage,  checkNewTab,
                                             waitBeforeClicking, findFrom, waitBeforeFinding,
                                             url_at_start, num_tabs_at_start, expectingPopUp,
-                                            ctrl, nohang=nohang)
+                                            ctrl)
                 self.write("on line: " + str(inspect.currentframe().f_lineno))
                 break
             except Exception as e:
                 if isinstance(e, IndexError):
                     raise
                 self.write("on line: " + str(inspect.currentframe().f_lineno))
-                waitRes = self.delta_wait_4_click(elementXpath, spentWaiting, timeLimit)
-                if isinstance(waitRes, StartFromTop) or isinstance(e, NoSuchWindowException):
-                    return waitRes
-                if newPageFollowsTimeLimit and spentWaiting[0] >= timeLimit:
-                    return -1
-                if not waitRes:
+                if not self.delta_wait_4_click(elementXpath, spentWaiting, timeLimit):
                     self.write("on line: " + str(inspect.currentframe().f_lineno))
                     break
             self.write("on line: " + str(inspect.currentframe().f_lineno))
@@ -586,46 +482,25 @@ class SeleniumWrap:
         return element
 
 
-    def fillMoveOn(self, element, fillContent, step=20):
+    def fillMoveOn(self, element, fillContent):
         try:
-
             element.send_keys(Keys.CONTROL, "a")
-            i = 0
-            while i < len(fillContent):
-                end = i + step
-                xtra = 0
-                #make sure we are ending on a real char and not a space
-                while (end - 1) < len(fillContent) and fillContent[end - 1] == ' ':
-                    end += 1
-                element.send_keys(fillContent[i:end])  #send 20 chars at a time
+            for i in range(0, len(fillContent), 20):
+                element.send_keys(fillContent[i:i+20])  #send 20 chars at a time
                 element.send_keys(Keys.END) # make sure the cursor
-                i = end
             element.send_keys(Keys.TAB)
-
-
         except Exception as e:
             print("An error occurred:", e)
             traceback.print_exc()
-            still = False
+            still = True
             while still:
                 t.sleep(1)
 
 
     def fillDropDown(self, drpElement, content):
-        try:
-            #make sure that drop doesn't already have the correct contents
-            curVal = drpElement.get_attribute("value")
-            curText = self.findAndClick(self.WHOLE, self.WHOLE, f'.//option[@value="{curVal}"]', txtCond="asdhfl98394",
-                                       findFrom=drpElement).text
-            if content == curText:
-                return
-        except:
-            return
-
         self.smartClick(element=drpElement)
         drpElement.send_keys(content)
         drpElement.send_keys(Keys.ENTER)
-            
 
     def get_parent(self, element, level=1):
         for i in range(level):
@@ -671,12 +546,8 @@ class SeleniumWrap:
 
     def generate_full_xpath(self, element):
         # Base case: if the element is the root html element
-        try:
-            if element.tag_name == "html":
-                return "/html"
-        except Exception as e:
-            traceback.print_exc()
-            h = 4
+        if element.tag_name == "html":
+            return "/html"
 
         # Calculate the index of the current element among its siblings
         siblings = element.find_elements('xpath', "./preceding-sibling::" + element.tag_name)
@@ -696,21 +567,14 @@ class SeleniumWrap:
                 xpath += " | "
         return xpath
 
-    def reportAction(self, actionMsg, reportStack=True, useFile=True):
-        if useFile:
-            self.outputFile.write(f"\n{actionMsg}\n")
-        else:
-            print(f"\n{actionMsg}\n")
-
+    def reportAction(self, actionMsg, reportStack=True):
+        print(f"\n{actionMsg}\n")
         if reportStack:
             stack = inspect.stack()
             listFuncCalls = [frame.function for frame in stack]
             listFuncCalls.pop(0)
             funcStack = ' | '.join(listFuncCalls)
-            if useFile:
-                self.outputFile.write(f"\tFunction Stack: {funcStack}\n")
-            else:
-                print(f"\tFunction Stack: {funcStack}\n")
+            print(f"\tFunction Stack: {funcStack}\n")
 
     def getCurrentEnv(self):
         t.sleep(1)
@@ -728,13 +592,9 @@ class SeleniumWrap:
             currentEnv = f"{url}|{mainText}"
         # if not, get the first <title>\
         else:
-            secsSlept = 0
             while len(self.driver.title) <= 0:
                 print(f"title is {self.driver.title} so sleeping for a second")
                 t.sleep(1)
-                secsSlept += 1
-                if secsSlept > 10:
-                    self.handleCaptcha()
             cond = lambda : len(self.driver.title) > 0
             self.graduatedWait(cond, maxWait=5) #wait up to 2 secs for title to load
             titleText = self.driver.title
@@ -772,24 +632,20 @@ class SeleniumWrap:
 
 
 class IndeedHelper(SeleniumWrap):
-    area_specifier_text = {"United States": 'City, State',
-                      "Canada":"City, Province / Territory"}
-    def __init__(self, info, masterMilestoneList):
-        self.MML = masterMilestoneList
-        nowTime = datetime.datetime.now().strftime("%Y_%m_%d %H.%M.%S")
+    def __init__(self):
         self.MY_PATH = ''  # "Users\\name\\c
         self.home_url = ""
         self.home_url_pattern = ""
         self.chrome_profile = "user-data-dir="
-        self.applicationsLeft = -1
-        self.profiles = []
-        self.profile_generator = None
-        self.cur_profile = {}
-        self.user_id = -1
         self.dataPath = "data\\"
         self.configPath = "config\\"
         self.promptsPath = 'prompts\\'
-
+        self.load_startup_info()
+        #self.home_url = "https://www.indeed.com/q-Customer-Service-Representative-$45,000-l-Remote-jobs.html?vjk=b7c0f1e66a8c20b8"
+        #self.home_url_pattern = "https://www.indeed.com/q-Customer((.*))"
+        #self.home_url = "https://www.indeed.com/jobs?q=&l=Remote&vjk=7917c10f99e95728"
+        #self.home_url_pattern = "https://www.indeed.com/jobs?((.*))"
+        super().__init__(self.home_url, self.home_url_pattern, self.chrome_profile)
         self.details = {}
         self.JobDescriptionText = ''
         self.companyName = ''
@@ -799,7 +655,6 @@ class IndeedHelper(SeleniumWrap):
         self.coverLetter = ''
         self.resumeSummary = ''
         self.skills = []
-        self.tries = []
         self.jobs = []
         self.edus = []
         self.prev_questions = []
@@ -816,20 +671,13 @@ class IndeedHelper(SeleniumWrap):
         self.headline = ''
         self.phone_num = ''
         self.email = ''
-        self.areaSpec = ''
+        self.cityState = ''
         self.zip = ''
         self.country = 'United States'
-
-        self.eduRecords = info["edus"]
-        self.jobRecords = info["jobs"]
-        self.load_startup_info(info["mainInfo"])
-        self.outputFile = open(f"{self.MY_PATH}output {nowTime}.txt", "w")
+        self.user_id = -1
 
         self.load_life_summary()
-        super().__init__(self.cur_profile["home"], self.home_url_pattern, self.chrome_profile)
-
-
-        #self.load_edu()
+        self.load_edu()
         self.start_up()
         self.jobOpeningGenerator = self.process_job_openings()
 
@@ -856,17 +704,13 @@ class IndeedHelper(SeleniumWrap):
         t.sleep(1)
 
     def closeDialog(self):
-        self.findAndClick( self.ARIA_LABEL, self.CONTAINS, "close", checkClosed=True)
+        self.findAndClick( self.ARIA_LABEL, self.MATCH, "close icon", checkClosed=True)
     def newApp(self):
         #get next opening
         next(self.jobOpeningGenerator)
     def startApplication(self):
         # click on the Apply Now button if it is there
-        if self.findAndClick(self.TXT, self.MATCH, 'Applied', txtCond="asdfdasf") is not None:
-            return self.backToStart()
-
-        return  self.findAndClick(self.TXT, self.MATCH, 'Apply now', checkNewTab=True, timeLimit=3)
-
+        return self.findAndClick(self.TXT, self.MATCH, 'Apply now', checkNewTab=True, timeLimit=3)
 
     def updateContactInfo(self):
         return self.handleAddInfoPage()
@@ -877,14 +721,7 @@ class IndeedHelper(SeleniumWrap):
         editButton = self.findClosestRelatives(self.TXT, self.MATCH, "Resume", self.TXT, self.MATCH, "Edit")[0]
         return self.smartClick(element=editButton)
     def addResume(self):
-        p = self.findAndClick(self.TXT, self.MATCH, 'Continue', indInList=self.ALL)
-        for element in p:
-            try:
-                element.click()
-            except:
-                pass
-        return p[0]
-        #return self.findAndClick(self.TXT, self.MATCH, 'Continue', travelUp=1, waitBeforeFinding=2)
+        return self.findAndClick(self.TXT, self.MATCH, 'Continue', travelUp=1, waitBeforeFinding=2)
     def backToDidContactInfo(self):
         pass
     def startContactInfo(self):
@@ -933,12 +770,10 @@ class IndeedHelper(SeleniumWrap):
         return self.analyzeAndAnsQuestions()
     def keepGoing(self):
         path_4_button_containing_span = "//button[span[contains(text(),'Continue')]]"
-        #return self.findAndClick(self.WHOLE, self.WHOLE, path_4_button_containing_span, waitBeforeClicking=.7, checkNewPage=True)
-        return self.findAndClick(self.TXT, self.MATCH, ["Continue", "Review your application", "Continue applying", "Continue to application"], waitBeforeClicking=.7,
-                                 checkNewPage=True)
+        return self.findAndClick(self.WHOLE, self.WHOLE, path_4_button_containing_span, waitBeforeClicking=.7, checkNewPage=True)
 
     def continueFromPage(self):
-        return self.findAndClick(self.TXT, self.MATCH, ["Continue", "Review your application", "Submit your application"])
+        return self.findAndClick(self.TXT, self.MATCH, "Continue")
     def clickAddDocs(self):
         #  Find Supporting documents section and click on the add button
         try:
@@ -959,30 +794,23 @@ class IndeedHelper(SeleniumWrap):
         resume = f"{fullName}~+~{self.headline}~+~{self.jobs}~+~{self.edus}~+~{self.skills}~+~{self.resumeSummary}"
 
         # save the application in database
-        #self.saveAppInDB(companyInfo, resume, self.coverLetter)
-        self.saveAppInDB(self.companyName, self.jobTitle, self.JobDescriptionText, fullName,
-                         self.headline,  str(self.jobs), str(self.edus), str(self.skills),
-                         self.resumeSummary, str(self.prev_questions), self.coverLetter)
-
-        self.MML.append(datetime.datetime.now() )
+        self.saveAppInDB(companyInfo, resume, self.coverLetter)
 
     def saveUserInDB(self):
-        emailCol = "IndeedEmail"
-        passCol = "IndeedPass"
         checker_query = """SELECT * FROM users WHERE FirstName = ? AND LastName = ? AND PhoneNumber = ? AND 
                           email = ? AND address = ? AND cityState = ? AND country = ? AND zip = ?"""
-        insert_query = f"""INSERT INTO users (FirstName, LastName, PhoneNumber, 
-                                 email, address, cityState, country, zip, {emailCol}, {passCol})
-                                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
-        values = [self.firstName, self.lastName, self.phone_num, self.email,
-                  self.addr, self.areaSpec, self.country, self.zip]
+        insert_query = """INSERT INTO users (FirstName, LastName, PhoneNumber, 
+                                 email, address, cityState, country, zip)
+                                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
+        values = (self.firstName, self.lastName, self.phone_num, self.email,
+                        self.addr, self.cityState, self.country, self.zip)
         conn = sqlite3.connect('IndHelperDB.db')
         cursor = conn.cursor()
 
         # Create the table if it doesn't exist
-        #cursor.execute('''CREATE TABLE IF NOT EXISTS users
-        #                         (id INTEGER PRIMARY KEY, FirstName TEXT, LastName TEXT, PhoneNumber TEXT,
-        #                         email TEXT, address TEXT, cityState TEXT, country TEXT, zip TEXT)''')
+        cursor.execute('''CREATE TABLE IF NOT EXISTS users
+                                 (id INTEGER PRIMARY KEY, FirstName TEXT, LastName TEXT, PhoneNumber TEXT, 
+                                 email TEXT, address TEXT, cityState TEXT, country TEXT, zip TEXT)''')
 
         # Check if the record already exists
         cursor.execute(checker_query, values)
@@ -992,126 +820,45 @@ class IndeedHelper(SeleniumWrap):
 
         # If the record does not exist, insert it
         if not existing_record:
-            platformEmail = input(f"Enter {self.firstName}'s platform email")
-            platformPass = input(f"Enter {self.firstName}'s platoform password")
-            values.extend([platformEmail, platformPass])
-            cursor.execute(insert_query,tuple(values))
+            cursor.execute(insert_query,values)
 
             # Save (commit) the changes
             conn.commit()
             self.user_id = cursor.lastrowid
         else:
             self.user_id = existing_record[0]
-            platformEmail = existing_record[-2]
-            platformPass = existing_record[-1]
-            for fname, field in [(emailCol, platformEmail), (passCol, platformPass)]:
-                if not field:
-                    values_ = tuple( [input(f"What is {self.firstName}'s {fname}")] + values)
-                    update_query = f"""UPDATE users SET {fname} = ? WHERE FirstName = ? AND LastName = ? AND PhoneNumber = ? AND 
-                                  email = ? AND address = ? AND cityState = ? AND country = ? AND zip = ?"""
-                    cursor.execute(update_query, values_)
-            print(f"User '{self.firstName}' already exists.")
+            print("User already exists.")
 
         # Close the connection
-        conn.commit()
         conn.close()
 
-
-
-
-    #def saveAppInDB(self, companyInfo, resumeInfo, coverLetter):
-    def saveAppInDB(self, companyName, jobTitle, JobDescriptionText, fullName, headline, jobHist,
-                    eduHist, skills, resumeSummary, prevQsAs, coverLetter):
-        #https://chat.openai.com/c/17e56ec1-3cb5-4b4b-8b64-5632efe21023
-
-        current_date = datetime.datetime.now().isoformat(' ', 'seconds')
-
+    def saveAppInDB(self, companyInfo, resumeInfo, coverLetter):
         # Connect to the resume_records database
         conn = sqlite3.connect('IndHelperDB.db')
-        conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
 
         # Create the records table with a foreign key for the user ID
         cursor.execute('''CREATE TABLE IF NOT EXISTS applications
-                         (id INTEGER PRIMARY KEY, user_id INTEGER, DateTime TEXT, Platform TEXT,
-                          companyName TEXT, jobTitle TEXT, JobDescriptionText TEXT, 
-                          fullName TEXT, headline TEXT, jobHist TEXT, eduHist TEXT, 
-                          skills TEXT, resumeSummary TEXT, QsAndAs TEXT, cover_letter TEXT,
+                         (id INTEGER PRIMARY KEY, user_id INTEGER, 
+                          opening_info TEXT, resume TEXT, cover_letter TEXT,
                           FOREIGN KEY(user_id) REFERENCES users(id))''')
 
         # Insert a new application record with the user ID
-        cursor.execute("""INSERT INTO applications (user_id, DateTime, Platform, companyName, jobTitle, JobDescriptionText, 
-                          fullName, headline, jobHist, eduHist, skills, resumeSummary, QsAndAs, cover_letter)
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                       (self.user_id, current_date, "Indeed", companyName, jobTitle, JobDescriptionText, fullName,
-                        headline, jobHist, eduHist, skills, resumeSummary, prevQsAs, coverLetter))
-
-        # update the fact that we've sent another application
-        cursor.execute("""SELECT * FROM users WHERE id = ? """, (self.user_id,))
-        userRec = cursor.fetchone()
-        self.applicationsLeft = userRec["AppsLeft"]
-        self.applicationsLeft -= 1
-        cursor.execute("""UPDATE users SET AppsLeft = ? WHERE id = ? """, (self.applicationsLeft, self.user_id))
-
+        cursor.execute("""INSERT INTO applications (user_id, opening_info, resume, cover_letter)
+                                        VALUES (?, ?, ?, ?)""",
+                       (self.user_id, companyInfo, resumeInfo, coverLetter))
 
         # Save (commit) the changes
         conn.commit()
 
         # Close the connection
         conn.close()
-
-    def closeAndReopenTab(self):
-        #  use pygetwindow to find the proper window
-        newTitle = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-        self.driver.execute_script(f"document.title = '{newTitle}';")
-        windows = gw.getWindowsWithTitle("Chrome")
-        win_2_use = None
-        for window in windows:
-            if newTitle in window.title:
-                win_2_use = window
-                break
-
-        #-------------------
-        self.driver.close()
-        win_2_use.activate()
-        pyautogui.hotkey('ctrl', 'shift', 't')
-        t.sleep(5)
-        self.driver.switch_to.window(self.driver.window_handles[-1])
-
-
     def submitApp(self):
-
+        self.prepDBCommit()
         # click the checkbox so they contact the person directly thru number too (maybe turn this off if you need to verify the leads)
-        clickRes = self.findAndClick(self.WHOLE, self.WHOLE, "//input[@type='checkbox']", travelUp=1, timeLimit=1)
-        if isinstance(clickRes, StartFromTop):
-            return clickRes
+        self.findAndClick(self.WHOLE, self.WHOLE, "//input[@type='checkbox']", travelUp=1, timeLimit=1)
         path_4_button_containing_span = "//button[span[contains(text(),'Submit')]]"
-        sub = self.findAndClick(self.TXT, self.MATCH, "Submit your application", txtCond="asdfaf")
-        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", sub)
-        '''captchaWrap = self.findAndClick(self.ID, self.MATCH, "captcha-wrapper", txtCond="asdfads", timeLimit = 1)
-        if captchaWrap is not None:
-            pyautogui.moveTo(729, 582)
-            t.sleep(1)
-            pyautogui.click()
-            t.sleep(3)'''
-        #self.findAndClick(self.WHOLE, self.WHOLE, '//*[@id="cf-turnstile"]')
-        self.findAndClick(self.WHOLE, self.WHOLE, '//*[@id="captcha-wrapper"]')
-
-        clickRes = self.findAndClick(self.WHOLE, self.WHOLE, path_4_button_containing_span, waitBeforeClicking=.7,
-                                     checkNewPage=True, newPageFollowsTimeLimit=True)
-        if isinstance(clickRes, StartFromTop):
-            return clickRes
-        '''if True:
-        t.sleep(5)
-        print("do it now")
-        pyautogui.hotkey('ctrl', 'shift', 't')'''
-        if clickRes == -1:
-            self.closeAndReopenTab()
-
-
-        #self.prepDBCommit()
-
-        return clickRes
+        return self.findAndClick(self.WHOLE, self.WHOLE, path_4_button_containing_span, waitBeforeClicking=.7, checkNewPage=True)
     def addDocs(self):
         return self.do_cover_letter()
 
@@ -1119,10 +866,6 @@ class IndeedHelper(SeleniumWrap):
         t.sleep(10)
         self.driver.refresh()
         t.sleep(60)
-
-    def doDbThenbackToStart(self):
-        self.prepDBCommit()
-        self.backToStart()
 
     def backToStart(self):
         pattern = self.escape_regex_special_chars(self.home_url_pattern)
@@ -1144,27 +887,17 @@ class IndeedHelper(SeleniumWrap):
             #find the list of job openings
             openings = self.driver.find_elements(By.CSS_SELECTOR, '.css-5lfssm.eu4oa1w0')
             for opening in openings:
-                self.MML.append(datetime.datetime.now())
                 #  check if it's a non-interactable opening
-                try:
-                    if len(opening.text) == 0 or "Easily apply" not in opening.text or "card" not in self.get_child(
-                            opening).get_attribute("class"):
-                        continue
-                except Exception as e:
-                    print("An error occurred:", e)
-                    traceback.print_exc()
-                    still = 456
-
+                if len(opening.text) == 0 or "Easily apply" not in opening.text or "card" not in self.get_child(
+                        opening).get_attribute("class"):
+                    continue
                 link = self.findAndClick(self.WHOLE, self.WHOLE, self.LINK, txtCond="asdf", findFrom=opening,
                                          timeLimit=1)
 
                 try:
                     self.smartClick(element=link, ctrl=True)
                 except:
-                    try:
-                        self.smartClick(element=opening, ctrl=True)
-                    except:
-                        asdf = 1
+                    self.smartClick(element=opening, ctrl=True)
 
                 #  get job infos
 
@@ -1181,65 +914,43 @@ class IndeedHelper(SeleniumWrap):
                     self.backToStart()
                     continue
 
-                #clear out prev Qs and As
-                self.prev_questions.clear()
-
                 # extract job info
                 self.getPositionInfo()
 
-                jobId = f"{self.companyName} {self.jobTitle}\n"
-                f = open(self.MY_PATH + "skipped.txt", 'r')
-                skippedCont = f.read()
-                f.close()
-                if jobId in skippedCont:
-                    self.backToStart()
-                    continue
-
                 # check if this is one of the positions we want to avoid
                 if self.jobContainsForbiddenCharacteristics():
-                    self.reportAction(f"Not proceeding with [{jobId}]... it contains characteristics this user wants to avoid", False)
-                    f = open(self.MY_PATH + "skipped.txt", 'a')
-                    f.write(jobId)
-                    f.close()
+                    print("Not proceeding with this job... it contains characteristics this user wants to avoid")
                     self.backToStart()
                     continue
 
                 # load jobs and change job description based on the details of current job
-                self.load_jobs(), self.MML.append(datetime.datetime.now() )
-
-                # load education history
-                self.load_edu(), self.MML.append(datetime.datetime.now() )
+                self.load_jobs()
 
                 # generate CL
-                self.generateCL(), self.MML.append(datetime.datetime.now() )
+                self.generateCL()
 
                 #generate skills
-                self.generateSkills(), self.MML.append(datetime.datetime.now() )
+                self.generateSkills()
 
                 # generate headline
-                self.generateHeadline(), self.MML.append(datetime.datetime.now() )
+                self.generateHeadline()
 
                 #resume summary
-                self.generateSummary(), self.MML.append(datetime.datetime.now() )
+                self.generateSummary()
 
 
                 yield
 
 
-            nextButton = self.findAndClick(self.ARIA_LABEL,  self.MATCH, 'Next Page')
 
-            # if url1 and url2 are not different, we have hit the last page of the current profile
-            if nextButton is None:
-                self.cur_profile = next(self.profile_generator)
-                self.driver.get(self.home_url)
+            self.findAndClick(self.ARIA_LABEL,  self.MATCH, 'Next Page')
 
     def chooseToBuildIndeedResume(self):
         resButtonPath = '//*[@id="ia-container"]/div/div[1]/div/main/div[2]/div[2]/div/div/div[1]/div/div/div[2]/div[1]/div/div[2]/span[1]'
         editButtonPath = '//*[@id="edit-Ee5RAspBhdSgNHMSFzJyZg"]'
-        indResPth  = '//*[@data-testid="IndeedResumeCard"]'
 
-        self.findAndClick(self.WHOLE, self.WHOLE, indResPth)
-        #self.findAndClick(self.TXT, self.CONTAINS, 'Indeed Resume', waitBeforeClicking=1)
+        #self.findAndClick(self.WHOLE, self.WHOLE, resButtonPath)
+        self.findAndClick(self.TXT, self.CONTAINS, 'Indeed Resume', waitBeforeClicking=1)
         editButton = self.findAndClick( self.TXT, self.CONTAINS,'Edit resume', timeLimit=1)
         return editButton
 
@@ -1254,73 +965,63 @@ class IndeedHelper(SeleniumWrap):
             phone = self.findClosestRelatives(self.TXT, self.MATCH, 'Phone number', self.WHOLE, self.WHOLE, '//input')[0]
             self.fillMoveOn(phone, self.phone_num)
             try:
-                cS = self.findClosestRelatives(self.TXT, self.MATCH, IndeedHelper.area_specifier_text[self.country], self.WHOLE, self.WHOLE, '//input')[0]
-                self.fillMoveOn(cS, self.areaSpec)
+                cS = self.findClosestRelatives(self.TXT, self.MATCH, 'City, State', self.WHOLE, self.WHOLE, '//input')[0]
+                self.fillMoveOn(cS, self.cityState)
             except:
                 pass
             return self.findAndClick(self.TXT, self.MATCH, "Continue", checkNewPage=True )
 
     def edit_contact_info(self):
         #self.findAndClick(self.CONTAINS, self.ID, 'edit-contact-info')
-        fn_input = self.findClosestRelatives(self.TXT, self.MATCH, 'First name', self.WHOLE, self.WHOLE, self.INPUT)[0]
+        fn_input = self.findClosestRelatives(self.TXT, self.CONTAINS, 'First name', self.WHOLE, self.WHOLE, self.INPUT)[0]
         self.smartClick(element=fn_input)
         self.smartClick(element=fn_input)
         self.fillMoveOn(fn_input, self.firstName)
 
-        ln_input = self.findClosestRelatives(self.TXT, self.MATCH, 'Last name', self.WHOLE, self.WHOLE, self.INPUT)[0]
+        ln_input = self.findClosestRelatives(self.TXT, self.CONTAINS, 'Last name', self.WHOLE, self.WHOLE, self.INPUT)[0]
         self.smartClick(element=ln_input)
         self.fillMoveOn(ln_input, self.lastName)
 
-        head_input = self.findClosestRelatives(self.TXT, self.MATCH,  'Headline', self.WHOLE, self.WHOLE, self.INPUT)[0]
+        head_input = self.findClosestRelatives(self.TXT, self.CONTAINS,  'Headline', self.WHOLE, self.WHOLE, self.INPUT)[0]
         self.smartClick(element=head_input)
         self.fillMoveOn(head_input, self.headline)  # need GPT
 
-        phone_num_input = self.findClosestRelatives(self.TXT, self.MATCH, 'Phone', self.WHOLE, self.WHOLE, self.INPUT)[0]
+        phone_num_input = self.findClosestRelatives(self.TXT, self.CONTAINS, 'Phone', self.WHOLE, self.WHOLE, self.INPUT)[0]
         self.smartClick(element=phone_num_input)
         self.fillMoveOn(phone_num_input, self.phone_num)  # need GPT
 
         showPhone = self.findClosestRelatives(self.ID, self.CONTAINS, 'showPhoneNumber', self.WHOLE, self.WHOLE, self.INPUT)[0]
-        if showPhone.is_selected():
+        if not showPhone.is_selected():
             self.smartClick(element=showPhone)
 
-        chg_country_but = self.findClosestRelatives(self.TXT, self.MATCH, 'Country', self.WHOLE, self.WHOLE, self.BUTTON)[0]
-        self.smartClick(element=chg_country_but)
-        chg_country_drp = self.findClosestRelatives(self.TXT, self.MATCH, 'Country', self.WHOLE, self.WHOLE, self.SELECT)[0]
-        self.fillDropDown(chg_country_drp, self.country)
-
-
-        citystate_input = self.findClosestRelatives(self.TXT, self.CONTAINS, IndeedHelper.area_specifier_text[self.country], self.WHOLE, self.WHOLE, self.INPUT)[0]
+        citystate_input = self.findClosestRelatives(self.TXT, self.CONTAINS,  'City, State', self.WHOLE, self.WHOLE, self.INPUT)[0]
         self.smartClick(element=citystate_input)
-        self.fillMoveOn(citystate_input, self.areaSpec)  # need GPT
+        self.fillMoveOn(citystate_input, self.cityState)  # need GPT
 
         zip_input = self.findClosestRelatives(self.TXT, self.CONTAINS,  'Postal code', self.WHOLE, self.WHOLE, '//input')[0]
         self.smartClick(element=zip_input)
         self.fillMoveOn(zip_input, self.zip )  # need GPT
 
-        result = self.findAndClick( self.TXT, self.MATCH, 'Save', travelUp=1, checkNewPage=True, timeLimit=.5)
 
-        if result is None:
-            result = self.findAndClick(self.ARIA_LABEL, self.MATCH, 'Back', checkNewPage=True, timeLimit=5)
-
-        return result
+        return self.findAndClick( self.TXT, self.CONTAINS, 'Save', travelUp=1, checkNewPage=True)
 
     def do_summary(self):
         txtBoxPath = "//div[@role='textbox']"
         self.findFillMoveOn(self.WHOLE, self.WHOLE, txtBoxPath, self.resumeSummary) # need GPT
-        return self.findAndClick(self.TXT, self.MATCH, 'Save', travelUp=1, waitBeforeClicking=.5, checkNewPage=True)
+        return self.findAndClick(self.TXT, self.CONTAINS, 'Save', travelUp=1, waitBeforeClicking=.5, checkNewPage=True)
 
     def do_education(self):
         # delete all prior
-        deletes = self.findClosestRelatives(self.TXT, self.MATCH,  'Education', self.ID, self.CONTAINS, 'delete', srchLvlLmt=2)
+        deletes = self.findClosestRelatives(self.TXT, self.CONTAINS,  'Education', self.ID, self.CONTAINS, 'delete', srchLvlLmt=2)
         self.click_all(deletes)
 
-        addEduBut = self.findClosestRelatives( self.TXT, self.MATCH, 'Education', self.WHOLE, self.WHOLE, self.BUTTON)[0]
+        addEduBut = self.findClosestRelatives( self.TXT, self.CONTAINS, 'Education', self.WHOLE, self.WHOLE, self.BUTTON)[0]
         self.smartClick(element=addEduBut, waitBeforeClicking=.7)
 
         return self.fillEducationInfo()
 
     def handleEdu(self, edu : dict):
-        eduLvl, fieldOS, schoolName, cityState, current, fromDate, toDate, country = tuple(edu.values())
+        eduLvl, fieldOS, schoolName, cityState, current, fromDate, toDate = tuple(edu.values())
         current = "y" in current.lower()
 
         # education level
@@ -1332,12 +1033,6 @@ class IndeedHelper(SeleniumWrap):
         # school name
         self.findFillMoveOn(self.ID, self.CONTAINS, 'school', schoolName)
 
-        #country location
-        chg_country_but = self.findClosestRelatives(self.TXT, self.MATCH, 'Country', self.WHOLE, self.WHOLE, self.BUTTON)[0]
-        self.smartClick(element=chg_country_but)
-        chg_country_drp = self.findClosestRelatives(self.TXT, self.MATCH, 'Country', self.WHOLE, self.WHOLE, self.SELECT)[0]
-        self.fillDropDown(chg_country_drp, country)
-
         # school location
         self.findFillMoveOn(self.ID, self.CONTAINS, 'cityState', cityState)
 
@@ -1347,21 +1042,18 @@ class IndeedHelper(SeleniumWrap):
 
         #  drop downs
         drp_dwns = self.driver.find_elements('xpath', "//*[contains(@id, 'SelectFormField')]")
-        if current:
-            frmMon, frmYr = tuple(drp_dwns[-2:])
-        else:
-            frmMon, frmYr = tuple(drp_dwns[-4:-2])
+        frmMon, frmYr = tuple(drp_dwns[:2])
         frmMonCont, frmYrCont = tuple(fromDate.split(" "))
         self.fillDropDown(frmMon, frmMonCont)
         self.fillDropDown(frmYr, frmYrCont)
 
         if not current:
-            toMon, toYr = tuple(drp_dwns[-2:])
+            toMon, toYr = tuple(drp_dwns[2:])
             toMonCont, toYrCont = tuple(toDate.split(" "))
             self.fillDropDown(toMon, toMonCont)
             self.fillDropDown(toYr, toYrCont)
 
-        return self.findAndClick(self.TXT, self.MATCH, 'Save', travelUp=1, waitBeforeClicking=1, checkNewPage=True)
+        return self.findAndClick(self.TXT, self.CONTAINS, 'Save', travelUp=1, waitBeforeClicking=1, checkNewPage=True)
 
     def do_skiils(self):
         # delete all prior
@@ -1370,9 +1062,7 @@ class IndeedHelper(SeleniumWrap):
 
         for skill in self.skills:
             if "and" == skill[:3]:
-                skill = skill[4:]
-            if " and" == skill[:4]:
-                skill = skill[5:]
+                skill = skill[3:]
             try:
                 addSkillBut = self.findClosestRelatives(self.TXT, self.MATCH,  'Skills', self.WHOLE, self.WHOLE, self.BUTTON)[0]
             except:
@@ -1395,23 +1085,19 @@ class IndeedHelper(SeleniumWrap):
         self.click_all(deletes)
 
         for job in self.jobs:
-            try:
-                addWorkBut = self.findClosestRelatives(self.TXT, self.MATCH ,  'Work experience', self.WHOLE, self.WHOLE, self.BUTTON)[0]
-            except:
-                traceback.print_exc()
-                h = 3
+            addWorkBut = self.findClosestRelatives(self.TXT, self.MATCH ,  'Work experience', self.WHOLE, self.WHOLE, self.BUTTON)[0]
             self.smartClick(element=addWorkBut, waitBeforeClicking=.7, checkNewPage=True)
             possExp = self.handleJob(job)
             if isinstance(possExp, ElementClickInterceptedException):
                 return possExp
     def do_edu(self):
         # delete all prior
-        deletes = self.findClosestRelatives( self.TXT, self.MATCH, 'Education', self.ID, self.CONTAINS,
+        deletes = self.findClosestRelatives( self.TXT, self.CONTAINS, 'Education', self.ID, self.CONTAINS,
                                             'delete', srchLvlLmt=2)
         self.click_all(deletes)
 
         for edu in self.edus:
-            addEduBut = self.findClosestRelatives( self.TXT, self.MATCH, 'Education', self.WHOLE, self.WHOLE, self.BUTTON)[0]
+            addEduBut = self.findClosestRelatives( self.TXT, self.CONTAINS, 'Education', self.WHOLE, self.WHOLE, self.BUTTON)[0]
             self.smartClick(element=addEduBut, waitBeforeClicking=.7, checkNewPage=True)
             possExp = self.handleEdu(edu)
             if isinstance(possExp, ElementClickInterceptedException):
@@ -1421,7 +1107,7 @@ class IndeedHelper(SeleniumWrap):
     def process_job_file(self, filename):
         jobFile = open(filename, "r")
         infoDict = {}
-        for subject in ['title', 'comp', 'compType', 'cityState', 'current', 'fromDate', 'toDate']:
+        for subject in ['title', 'comp', 'cityState', 'current', 'fromDate', 'toDate']:
             _, infoDict[subject] = self.nextNonBlankLine(jobFile), self.nextNonBlankLine(jobFile).strip()
 
 
@@ -1431,38 +1117,9 @@ class IndeedHelper(SeleniumWrap):
                       rawDesc, self.JobDescriptionText, infoDict['title'])
         infoDict['desc'] = mygpt.sendAll()'''
 
-        mygpt = myGPT2("job_desc_prompts2.txt", self.jobTitle, self.JobDescriptionText, infoDict['title'],
-                      infoDict['compType'],  rawDesc, infoDict['title'], infoDict['compType'])
-
-        doAgain = True
-        while doAgain:
-            jobDesc = mygpt.sendAll().split("Here are the 3 points:")[1].strip()
-            doAgain = mygpt.need_redo
-        infoDict['desc'] = jobDesc
-
-        return infoDict
-
-    def process_job_record(self, record):
-        infoDict = {}
-        for subject in [('title', "JobTitle"), ('comp',"CompanyName"), ('compType',"CompanyType"), ('cityState',"areaSpec"),
-                        ('current',"currentPosition"), ('fromDate',"From"), ('toDate',"To"), ("country","country")]:
-            infoDict[subject[0]] = record[subject[1]]
-
-
-        #read the rest of the lines, that'll be the description
-        rawDesc = record["Description"]
-        '''mygpt = myGPT("job_desc_prompts.txt", infoDict['title'], infoDict['comp'],
-                      rawDesc, self.JobDescriptionText, infoDict['title'])
-        infoDict['desc'] = mygpt.sendAll()'''
-
-        mygpt = myGPT2("job_desc_prompts2.txt", self.jobTitle, self.JobDescriptionText, infoDict['title'],
-                      infoDict['compType'],  rawDesc, infoDict['title'], infoDict['compType'])
-
-        doAgain = True
-        while doAgain:
-            jobDesc = mygpt.sendAll().split("Here are the 3 points:")[1].strip()
-            doAgain = mygpt.need_redo
-        infoDict['desc'] = jobDesc
+        mygpt = myGPT2("job_desc_prompts2.txt", self.JobDescriptionText, infoDict['title'],
+                      infoDict['comp'], rawDesc, infoDict['title'])
+        infoDict['desc'] = mygpt.sendAll()
 
         return infoDict
 
@@ -1474,45 +1131,21 @@ class IndeedHelper(SeleniumWrap):
 
         return infoDict
 
-    def process_edu_record(self, record):
-        infoDict = {}
-        for subject in [('educationLevel',"level"), ('fieldOfStudy',"fieldOfStudy"), ('school',"SchoolName"), ('cityState',"areaSpec"),
-                        ('current',"currentlyEnrolled"), ('frmDate',"From"), ('toDate',"To"), ("country", "country")]:
-            infoDict[subject[0]] = record[subject[1]]
-
-        return infoDict
-
     def load_jobs(self):
         self.jobs.clear()
-
-        for jobRec in self.jobRecords:
-            if self.cur_profile["jobN"] is None or jobRec["jobNum"] in self.cur_profile["jobN"]:
-                self.jobs.append(self.process_job_record(jobRec))
-
-        '''files_in_subdir = os.listdir(self.MY_PATH + self.dataPath)
-
-        if self.cur_profile["jobN"] is None:  # then doing all job files
-            jobFiles = [self.MY_PATH + self.dataPath  + f for f in files_in_subdir if re.match(r'Job\d+\.txt$', f)]
-        else:
-            jobFiles = [self.MY_PATH + self.dataPath + f"Job{n}.txt" for n in self.cur_profile["jobN"] ]
+        files_in_subdir = os.listdir(self.MY_PATH + self.dataPath)
+        jobFiles = [self.MY_PATH + self.dataPath  + f for f in files_in_subdir if re.match(r'Job\d+\.txt$', f)]
 
         for jobFile in jobFiles:
-            self.jobs.append(self.process_job_file(jobFile))'''
+            self.jobs.append(self.process_job_file(jobFile))
 
     def load_edu(self):
         self.edus.clear()
-        for eduRec in self.eduRecords:
-            if self.cur_profile["eduN"] is None or eduRec["eduNum"] in self.cur_profile["eduN"]:
-                self.edus.append(self.process_edu_record(eduRec))
-        '''files_in_subdir = os.listdir(self.MY_PATH + self.dataPath)
-
-        if self.cur_profile["eduN"] is None:
-            eduFiles = [self.MY_PATH + self.dataPath  + f for f in files_in_subdir if re.match(r'Edu\d+\.txt$', f)]
-        else:
-            eduFiles = [self.MY_PATH + self.dataPath + f"Edu{n}.txt" for n in self.cur_profile["eduN"]]
+        files_in_subdir = os.listdir(self.MY_PATH + self.dataPath)
+        eduFiles = [self.MY_PATH + self.dataPath  + f for f in files_in_subdir if re.match(r'Edu\d+\.txt$', f)]
 
         for eduFile in eduFiles:
-            self.edus.append(self.process_edu_file(eduFile))'''
+            self.edus.append(self.process_edu_file(eduFile))
 
     def deleteAllPrevJobs(self):
         t.sleep(1)
@@ -1537,7 +1170,7 @@ class IndeedHelper(SeleniumWrap):
                 self.addAnother()
 
     def handleJob(self, job : dict ):
-        title, comp, _, cityState, current, fromDate, toDate, country, desc = tuple(job.values())
+        title, comp, cityState, current, fromDate, toDate, desc = tuple(job.values())
         current = "y" in current.lower()
 
         # Job Title
@@ -1545,12 +1178,6 @@ class IndeedHelper(SeleniumWrap):
 
         # company name
         self.findFillMoveOn(self.ID, self.CONTAINS, 'company', comp)
-
-        # country location
-        chg_country_but = self.findClosestRelatives(self.TXT, self.MATCH, 'Country', self.WHOLE, self.WHOLE, self.BUTTON)[0]
-        self.smartClick(element=chg_country_but)
-        chg_country_drp = self.findClosestRelatives(self.TXT, self.MATCH, 'Country', self.WHOLE, self.WHOLE, self.SELECT)[0]
-        self.fillDropDown(chg_country_drp, country)
 
         # city state
         self.findFillMoveOn(self.ID, self.CONTAINS, 'cityState', cityState)
@@ -1561,54 +1188,29 @@ class IndeedHelper(SeleniumWrap):
 
         #  drop downs
         drp_dwns = self.driver.find_elements('xpath', "//*[contains(@id, 'SelectFormField')]")
-        if current:
-            frmMon, frmYr = tuple(drp_dwns[-2:])
-        else:
-            frmMon, frmYr = tuple(drp_dwns[-4:-2])
+        frmMon, frmYr = tuple(drp_dwns[:2])
         frmMonCont, frmYrCont = tuple(fromDate.split(" "))
         self.fillDropDown(frmMon, frmMonCont)
         self.fillDropDown(frmYr, frmYrCont)
 
         if not current:
-            toMon, toYr = tuple(drp_dwns[-2:])
+            toMon, toYr = tuple(drp_dwns[2:])
             toMonCont, toYrCont = tuple(toDate.split(" "))
             self.fillDropDown(toMon, toMonCont)
             self.fillDropDown(toYr, toYrCont)
 
         # description
         txtBoxPath = "//div[@role='textbox']"
-        desc = desc.replace("- ", "")
         descEle = self.findFillMoveOn(self.WHOLE, self.WHOLE, txtBoxPath, desc)  # need GPT
 
         while any([descPoint[2:] not in descEle.text for descPoint in desc.split("\n")]):
             self.findFillMoveOn(self.WHOLE, self.WHOLE, txtBoxPath, desc)
 
-        #make bullets
-        descEle.send_keys(Keys.CONTROL, "a")
-        xp = "//button[@data-testid='insertUnorderedList']"
-        self.findAndClick(self.WHOLE, self.WHOLE, xp)
-
-        return self.findAndClick(self.TXT, self.MATCH, 'Save', travelUp=1, waitBeforeClicking=1, checkNewPage=True)
-
-
-    def checkIfMoreQuestionsAppeared(self, tup_ptr):
-        allPageQuestions, origQuestSet, questn = tup_ptr
-        nextQuestInd = allPageQuestions.index(questn) + 1
-        QsLeft = allPageQuestions[nextQuestInd:]
-        del allPageQuestions[nextQuestInd:]
-        latestAllQs = set(self.findAndClick(self.CLASS, self.CONTAINS, 'Questions-item',
-                                            indInList=self.ALL, txtCond="#$%^&*(KJH"))
-        newQs = latestAllQs - origQuestSet
-        origQuestSet.clear()
-        origQuestSet.update(latestAllQs)
-        allPageQuestions.extend(newQs)
-        allPageQuestions.extend(QsLeft)
+        return self.findAndClick(self.TXT, self.CONTAINS, 'Save', travelUp=1, waitBeforeClicking=1, checkNewPage=True)
 
     def analyzeAndAnsQuestions(self):
         allPageQuestions = self.findAndClick(self.CLASS, self.CONTAINS, 'Questions-item',
                                              indInList=self.ALL, txtCond="#$%^&*(KJH")
-
-        origQuestSet = set(allPageQuestions)
         if len(allPageQuestions) > 0:
             url1 = self.driver.current_url
             # hit continue. Since no answers are chosen, this
@@ -1621,20 +1223,16 @@ class IndeedHelper(SeleniumWrap):
             if url1 != url2:
                 return  # nothing to do...questions already answered
 
+            self.prev_questions.clear()
+
             for questn in allPageQuestions:
                 try:
-                    ret = self.process_question(questn)
-                    if isinstance(ret, BadPost):
-                        return ret
-                    #after answering quesiton, see if any more pop up
-                    self.checkIfMoreQuestionsAppeared( (allPageQuestions, origQuestSet, questn) )
-                    self.MML.append(datetime.datetime.now())
-
+                    self.process_question(questn)
                 except:
                     traceback.print_exc()
                     h = 3
 
-        return self.keepGoing()
+            return self.keepGoing()
 
     def checkIfQuestionAlreadyAnswered(self, questn, type, answer_choices):
         if type == self.FreeResponse or type == self.FreeResponseLong:
@@ -1647,12 +1245,12 @@ class IndeedHelper(SeleniumWrap):
             return checked is not None
         elif type == self.DropDown:
             return answer_choices['dropDown'].get_attribute("value") != ""
-        elif type == self.SelectApplicable or type == self.DateFill:
+        elif type == self.SelectApplicable:
             return False
         else:
-            return
+            return True
 
-    def ensureQualityOfDateRespAns(self, gptObj, questn, helpTxt, ans):
+    def ensureQualityOfDateRespAns(self, gptObj, questn, helpTxt):
         qxpath = self.generate_full_xpath(questn)
         updatedQ = self.findAndClick(self.WHOLE, self.WHOLE, qxpath, txtCond="dasfsd", timeLimit=1)
         _, answer_choices, errorTxt, _ = self.extractQuestionInfo(updatedQ)
@@ -1663,90 +1261,57 @@ class IndeedHelper(SeleniumWrap):
             qxpath = self.generate_full_xpath(questn)
             updatedQ = self.findAndClick(self.WHOLE, self.WHOLE, qxpath, txtCond="dasfsd", timeLimit=1)
             _, answer_choices, errorTxt, _ = self.extractQuestionInfo(updatedQ)
-        return ans
 
-    def ensureQualityOfFreeRespAns(self, gptObj, questn, helpTxt, ans):
+    def ensureQualityOfFreeRespAns(self, gptObj, questn, helpTxt):
         qxpath = self.generate_full_xpath(questn)
         updatedQ = self.findAndClick(self.WHOLE, self.WHOLE, qxpath, txtCond="dasfsd", timeLimit=1)
         _, answer_choices, errorTxt, _ = self.extractQuestionInfo(updatedQ)
 
         while errorTxt is not None:
-            helpTxt = errorTxt.text
             ans = gptObj.sendFromFile("free_resp_choice_wrong_prompts.txt", helpTxt)
             self.fillMoveOn(answer_choices['inputBox'], ans)
             qxpath = self.generate_full_xpath(questn)
             updatedQ = self.findAndClick(self.WHOLE, self.WHOLE, qxpath, txtCond="dasfsd", timeLimit=1)
             _, answer_choices, errorTxt, _ = self.extractQuestionInfo(updatedQ)
 
-        return ans
-
-
     def getTopChoiceScore(self, ans, answer_choices):
         choices_n_scores = [(ans_choice, self.jaccard_similarity(ans_choice, ans)) for ans_choice in
                             answer_choices.keys()]
         choices_n_scores.sort(key=lambda x: x[1], reverse=True)
-        thresh = self.jaccard_similarity(ans + "~`*", ans)
+        thresh = self.jaccard_similarity(ans + "~`", ans)
         topChoice, topScore = choices_n_scores[0]
         return topChoice, topScore, thresh
     def ensureQualityOfMultChoiceAns(self, gptObj, answer_choices, answer):
         topChoice, topScore, thresh = self.getTopChoiceScore(answer, answer_choices)
         while topScore < thresh:
-            answer = gptObj.sendFromFile("mult_choice_wrong_prompts.txt").split("The answer is:")[1]
+            answer = gptObj.sendFromFile("mult_choice_wrong_prompts.txt")
             topChoice, topScore, thresh = self.getTopChoiceScore(answer, answer_choices)
-        inputElement = self.findAndClick(self.WHOLE, self.WHOLE, self.INPUT, txtCond="adsfadsfads",
-                                         findFrom=answer_choices[topChoice])
-        while not inputElement.is_selected():
-            self.smartClick(element=answer_choices[topChoice])
-        return topChoice
+        self.smartClick(element=answer_choices[topChoice])
 
     def ensureQualityOfSelectApplicableAns(self, gptObj, answer_choices, ans):
         answers = ans
-        topChoiceScoreThresh = [self.getTopChoiceScore(answer, answer_choices) for answer in answers]
-        while any(topScore < thresh for topChoice, topScore, thresh in topChoiceScoreThresh):
+        while any(answer not in answer_choices.keys() for answer in answers):
             answer = gptObj.sendFromFile("select_applicable_wrong_prompts.txt")
             answers = [thing.strip() for thing in answer.split("\n") if len(thing.strip()) > 0 ]
-            topChoiceScoreThresh = [self.getTopChoiceScore(answer, answer_choices) for answer in answers]
 
-        final_answers = []
-        for topChoice, topScore, thresh in topChoiceScoreThresh:
-            inputElement = self.findAndClick(self.WHOLE, self.WHOLE, self.INPUT, txtCond="adsfadsfads",
-                                             findFrom=answer_choices[topChoice])
-            while not inputElement.is_selected():
-                self.smartClick(element=answer_choices[topChoice])
-            final_answers.append(topChoice)
-        return str(final_answers)
-
+        for answer in answers:
+            self.smartClick(element=answer_choices[answer])
 
     def ensureQualityOfDropDownAns(self, gptObj, answer_choices, answer):
         topChoice, topScore, thresh = self.getTopChoiceScore(answer, answer_choices['answers'])
         while topScore < thresh:
             answer = gptObj.sendFromFile("mult_choice_wrong_prompts.txt")
             topChoice, topScore, thresh = self.getTopChoiceScore(answer, answer_choices['answers'])
-        #print(f"b4  *{answer_choices['dropDown'].get_attribute('value')}*")
-        while answer_choices['dropDown'].get_attribute("value") == "":
-            #print(f"b4 send eys  *{answer_choices['dropDown'].get_attribute('value')}*")
-            answer_choices['dropDown'].send_keys(topChoice)
-            answer_choices['dropDown'].send_keys(Keys.TAB)
-            #print(f"after send eys  *{answer_choices['dropDown'].get_attribute('value')}*")
-        return topChoice
+        answer_choices['dropDown'].send_keys(topChoice)
 
-    def relevantSubStr(self, substr, fullStr):
-        maxLen = int(len(substr)*1.5)
-        # Escape any special characters in substr
-        escaped_substr = re.escape(substr.lower())
-        # Construct the regular expression pattern
-        pattern = rf'^(?!.{{{maxLen},}})(.*[^a-zA-Z])?{escaped_substr}([^a-zA-Z].*)?$'
-        # Check if the string matches the pattern
-        return bool(re.match(pattern, fullStr))
 
     def checkIfAPreMadeAnswerFits(self, questn_txt, type, answer_choices):
         detailKeysOrdrd = list(self.details.keys())
         detailKeysOrdrd.sort(key=lambda x:len(x), reverse=True)
         ourAns = None
         for detKey in detailKeysOrdrd:
-            if self.relevantSubStr(detKey, questn_txt.lower()):
+            if detKey in questn_txt.lower() and 4*len(detKey) >= len(questn_txt):
                 ourAns = self.details[detKey]
-                break
         if ourAns is not None:
             if type == self.DropDown:
                 answer_choices['dropDown'].send_keys(ourAns)
@@ -1759,14 +1324,10 @@ class IndeedHelper(SeleniumWrap):
             return False
     def process_question(self, questn):  #//div[contains(@class, 'Questions-item')]
         #Do we even have to do this question?
-        txt = questn.text
-        if '(optional)' in txt:
+        if '(optional)' in questn.text:
             return
 
         questn_txt, answer_choices, errorTxt, type = self.extractQuestionInfo(questn)
-
-        if isinstance(type, BadPost):
-            return type
 
         if self.checkIfQuestionAlreadyAnswered(questn, type, answer_choices):
             return
@@ -1778,74 +1339,61 @@ class IndeedHelper(SeleniumWrap):
         if errorTxt is not None:
             helpTxt = errorTxt.text
 
-        self.txt = questn_txt
-
 
         #  get ans back from chat GPT
         ans = None
-        final_answer = None
         if type == self.FreeResponse or type == self.FreeResponseLong:
             # get chat GPT help with free response question
-            mygpt = myGPT2("free_response_question_prompts.txt", self.JobDescriptionText, str(self.prev_questions),
-                          str(self.details), self.lifeSummary, questn_txt, helpTxt, self.zip, self.phone_num, self.email, version=1)
+            mygpt = myGPT("free_response_question_prompts.txt", self.JobDescriptionText, str(self.prev_questions),
+                          self.lifeSummary, questn_txt, helpTxt, self.zip, self.phone_num, self.email)
             ans = mygpt.sendAll()
             self.fillMoveOn(answer_choices['inputBox'], ans)
 
-            final_answer = self.ensureQualityOfFreeRespAns(mygpt, questn, helpTxt, ans)
+            self.ensureQualityOfFreeRespAns(mygpt, questn, helpTxt)
 
         elif type == self.DateFill:
             # get chat GPT help with free response question
-            mygpt = myGPT2("date_fill_question_prompts.txt", self.JobDescriptionText, str(self.prev_questions),
-                        questn_txt, self.today_mmddyyy(), helpTxt, version=1)
+            mygpt = myGPT("date_fill_question_prompts.txt", self.JobDescriptionText, str(self.prev_questions),
+                        questn_txt, self.today_mmddyyy(), helpTxt)
             ans = mygpt.sendAll()
-            month, day, year = tuple(ans.split("-"))
-            #self.fillMoveOn(answer_choices['inputBox'], ans)
-            self.findAndClick(self.ARIA_LABEL, self.CONTAINS, "Choose a date", findFrom=questn)
+            self.fillMoveOn(answer_choices['inputBox'], ans)
 
-            #  select month
-            monSelect = self.findAndClick(self.ARIA_LABEL, self.CONTAINS, "Month select", findFrom=questn,
-                                          txtCond="adfas")
-            self.fillDropDown(monSelect, month)
-
-            # seelct year
-            yrSelect = self.findAndClick(self.ARIA_LABEL, self.CONTAINS, "Year select", findFrom=questn,
-                                          txtCond="adfas")
-            self.fillDropDown(yrSelect, year)
-
-            self.findAndClick(self.TXT, self.MATCH, day, findFrom=questn)
-
-            #final_answer = self.ensureQualityOfDateRespAns(mygpt, questn, helpTxt, ans)
+            self.ensureQualityOfDateRespAns(mygpt, questn, helpTxt)
 
 
         elif type == self.MultChoice:
             #get chat GPT help
-            mygpt = myGPT2("mult_choice_question_prompts.txt", self.JobDescriptionText,  str(self.prev_questions),
-                          questn_txt, "\n".join(list(answer_choices.keys())), helpTxt, version=1)
-            ans = mygpt.sendAll().split("The answer is:")[1]
+            mygpt = myGPT("mult_choice_question_prompts.txt", self.JobDescriptionText,  str(self.prev_questions),
+                          questn_txt, "\n".join(list(answer_choices.keys())), helpTxt)
+            ans = mygpt.sendAll()
 
-            final_answer = self.ensureQualityOfMultChoiceAns(mygpt, answer_choices, ans)
+            self.ensureQualityOfMultChoiceAns(mygpt, answer_choices, ans)
 
         elif type == self.SelectApplicable:
             #get chat GPT help
-            mygpt = myGPT2("select_applicable_question_prompts.txt", self.JobDescriptionText,  str(self.prev_questions),
-                          questn_txt, "\n".join(list(answer_choices.keys())), helpTxt, version=1)
+            mygpt = myGPT("select_applicable_question_prompts.txt", self.JobDescriptionText,  str(self.prev_questions),
+                          questn_txt, "\n".join(list(answer_choices.keys())), helpTxt)
             ans = mygpt.sendAll()
             ans_list = [thing.strip() for thing in ans.split("\n") if len(thing.strip()) > 0 ]
 
-            final_answer = self.ensureQualityOfSelectApplicableAns(mygpt, answer_choices, ans_list)
+            self.ensureQualityOfSelectApplicableAns(mygpt, answer_choices, ans_list)
 
 
         elif type == self.DropDown:
             # get chat GPT help
-            mygpt = myGPT2("drop_down_question_prompts.txt", self.JobDescriptionText,  str(self.prev_questions),
-                          questn_txt, str(self.details), self.lifeSummary,  "\n".join(list(answer_choices['answers'].keys())),
-                           helpTxt, version=1)
+            mygpt = myGPT("drop_down_question_prompts.txt", self.JobDescriptionText,  str(self.prev_questions),
+                          questn_txt, str(self.details), self.lifeSummary,  "\n".join(list(answer_choices['answers'].keys())), helpTxt)
             ans = mygpt.sendAll()
 
             #  break here because need to verify that dropdwn is actually the corrct element to send answer to
-            final_answer = self.ensureQualityOfDropDownAns(mygpt, answer_choices, ans)
+            self.ensureQualityOfDropDownAns(mygpt, answer_choices, ans)
+            #self.smartClick(element=answer_choices["dropDown"])
 
-        self.prev_questions.append({"Question":questn_txt, "Answer":final_answer})
+
+        elif type == self.Bad:
+            return
+
+        self.prev_questions.append(questn_txt)
 
 
     def extractQuestionInfo(self, questn):
@@ -1857,9 +1405,6 @@ class IndeedHelper(SeleniumWrap):
         questionText = ""
         # determine type  //*[@aria-label="Day and time option"]
         type = self.determine_question_type(questn)
-
-        if isinstance(type, BadPost):
-            return None, None, None, type
 
         #get error text
         errorTxt = self.findAndClick(self.ID,  self.CONTAINS, 'errorText', txtCond="$%^&*()", findFrom=questn, timeLimit=2)
@@ -1874,7 +1419,7 @@ class IndeedHelper(SeleniumWrap):
                 ans_dict['inputBox'] = self.findAndClick(self.WHOLE, self.WHOLE, self.xpath_or(self.INPUT, self.TXTAREA) , findFrom=questn)
                 if ans_dict['inputBox'] is None:
                     type = self.Bad
-                txtRoot = self.findAndClick(self.WHOLE, self.WHOLE, self.LABEL, findFrom=questn, txtCond="#$%^&")
+                txtRoot = self.findAndClick(self.WHOLE, self.WHOLE, self.LABEL, findFrom=questn)
                 questionText = {self.FreeResponse: txtRoot.text,
                                 self.DateFill: txtRoot.text,
                                 self.FreeResponseLong: txtRoot.text.split("\n")[-1].replace("\"", "")}[type]
@@ -1882,23 +1427,20 @@ class IndeedHelper(SeleniumWrap):
             elif type == self.MultChoice:
                 intermediate_ans_list = self.findAndClick(self.WHOLE, self.WHOLE, self.LABEL, findFrom=questn, indInList=self.ALL)
                 ans_dict = { element.text : element for element in intermediate_ans_list}
-                questionText = self.findAndClick(self.WHOLE, self.WHOLE, '//legend', findFrom=questn, txtCond="#$%^&").text
+                questionText = self.findAndClick(self.WHOLE, self.WHOLE, '//legend', findFrom=questn).text
             elif type == self.DropDown:
                 intermediate_ans_list = self.findAndClick(self.WHOLE, self.WHOLE, self.OPTION, findFrom=questn, indInList=self.ALL)
                 ans_dict = {}
-                ans_dict['answers'] = { element.text : element for element in intermediate_ans_list if len(element.text) > 0 }
+                ans_dict['answers'] = { element.text : element for element in intermediate_ans_list}
                 ans_dict['dropDown'] = self.findAndClick(self.WHOLE, self.WHOLE, '//select', findFrom=questn)
-                questionText = self.findAndClick(self.WHOLE, self.WHOLE, self.LABEL, findFrom=questn, txtCond="#$%^&").text
+                questionText = self.findAndClick(self.WHOLE, self.WHOLE, self.LABEL, findFrom=questn).text
             elif type == self.SelectApplicable:
                 intermediate_ans_list = self.findAndClick(self.WHOLE, self.WHOLE, self.LABEL, findFrom=questn, indInList=self.ALL)
                 intermediate_ans_list.pop(0)
                 ans_dict = {element.text: element for element in intermediate_ans_list}
                 questionText = self.findAndClick(self.WHOLE, self.WHOLE, self.LABEL, findFrom=questn, txtCond="zdsffd").text
             elif type == self.Bad:
-                try:
-                    questionText = self.findAndClick(self.WHOLE, self.WHOLE, self.LABEL, findFrom=questn, txtCond="#$%^&").text
-                except:
-                    t = 3
+                questionText = self.findAndClick(self.WHOLE, self.WHOLE, self.LABEL, findFrom=questn).text
         except Exception as e:
             print("An error occurred:", e)
             traceback.print_exc()
@@ -1911,15 +1453,6 @@ class IndeedHelper(SeleniumWrap):
 
         return questionText, ans_dict, errorTxt, type
 
-    def redirectAndSkip(self, message):
-        self.driver.get("https://www.google.com")
-        try:
-            alert = self.driver.switch_to.alert
-            alert.accept()
-        except:
-            pass
-        return BadPost(message)
-
     def determine_question_type(self, questn):
         try:
             qChild = self.get_child(questn, 1, 1)
@@ -1930,20 +1463,12 @@ class IndeedHelper(SeleniumWrap):
         listOfBad = self.findAndClick( '@aria-label', self.MATCH, 'Day and time option', findFrom=questn, indInList=self.ALL)
         if len(listOfBad) > 0 or self.num_children(self.get_child_complex(questn, "1/2")) == 0:
             # then it's a question we don't want
-            if "upload" in questn.text.lower():
-                return self.redirectAndSkip("bad question... not dealing with it")
-            else:
-                return self.Bad
+            return self.Bad
         elif self.findAndClick(self.WHOLE, self.WHOLE, "//fieldset", findFrom=questn, timeLimit=.1, txtCond="*()") is not None:
             #  also contains input, find out what kind of input (radio or checkbox)
             inputEle = self.findAndClick(self.WHOLE, self.WHOLE, self.INPUT, txtCond="asdf", findFrom=questn, timeLimit=.1)
             typeOfInput = inputEle.get_attribute("type")
             return {"radio": self.MultChoice, "checkbox": self.SelectApplicable}[typeOfInput]
-        elif self.findAndClick(self.WHOLE, self.WHOLE, "//div[@role='group']", findFrom=questn, timeLimit=.1, txtCond="*()") is not None:
-            return self.redirectAndSkip("This was the group... analzye and see..")
-        elif self.findAndClick(self.ID, self.CONTAINS, "FileUpload", findFrom=questn, timeLimit=.1, txtCond="*()") is not None:
-            #redirect to google because that's the environment that tells us we need to skip this post
-            return self.redirectAndSkip("They wanted us to upload a file... fuck that.. not dealing with it")
         elif self.findAndClick(self.WHOLE, self.WHOLE, self.TXTAREA, findFrom=questn, timeLimit=.1, txtCond="^&*") is not None:
             return self.FreeResponseLong
 
@@ -1962,14 +1487,11 @@ class IndeedHelper(SeleniumWrap):
 
     def do_cover_letter(self):
 
-        #selection = self.findAndClick(self.ID, self.CONTAINS,  'write-cover-letter-selection-card')
-        cl = self.findAndClick(self.WHOLE, self.WHOLE, "//div[@data-testid='CoverLetterRadioCard']", txtCond="asdfas")
-        if cl is not None:
-            cl.click()
+        selection = self.findAndClick(self.ID, self.CONTAINS,  'write-cover-letter-selection-card')
 
         self.findFillMoveOn(self.WHOLE, self.WHOLE, self.TXTAREA, self.coverLetter)
 
-        return self.findAndClick(self.TXT, self.MATCH, ['Update', 'Review your application'], travelUp=1, checkNewPage=True)
+        return self.findAndClick(self.TXT, self.MATCH, 'Update', travelUp=1, checkNewPage=True)
 
 
     def addAnother(self):
@@ -1977,53 +1499,23 @@ class IndeedHelper(SeleniumWrap):
 
 
     def finalizeResumeSection(self):
-        self.findAndClick(self.TXT, self.MATCH, 'Save', travelUp=1, waitBeforeClicking=.7, checkNewPage=True)
+        self.findAndClick(self.TXT, self.CONTAINS, 'Save', travelUp=1, waitBeforeClicking=.7, checkNewPage=True)
 
     def nextResumeSection(self):
-        self.findAndClick( self.TXT, self.MATCH, 'Save and continue', travelUp=1)
+        self.findAndClick( self.TXT, self.CONTAINS, 'Save and continue', travelUp=1)
 
-    def split_into_substrings(self, s):
-        # Split the string and filter out empty strings, then extend to ensure 3 elements
-        parts = [x if x else None for x in s.split(' ')] + [None] * 2
-        return parts[0], parts[1], parts[2]
 
-    def getProfileGen(self):
-        infinite_iterator = itertools.cycle(self.profiles)
-        for profile in infinite_iterator:
-            self.home_url = profile["home"]
-            yield profile
-    def load_startup_info(self, info):
+
+    def load_startup_info(self):
         # purpose of '_' is to skip the explanation of the next line/section
         # nextOccrance(self,file_handler, substr, delim="\t", after=""):
         try:
-            self.MY_PATH          =  "Users\\" + f"{info['FirstName']} {info['LastName']} {info['id']}" + "\\"
-            homeInfos         =  info["homePage"].split("\n")
-            for info_h in homeInfos:
-                info_h = info_h.strip("\r")
-                h, j, e = self.split_into_substrings(info_h)
-                self.profiles.append({"home":h,
-                                      "eduN": [int(n) for n in e.split(",")] if e else e,
-                                      "jobN": [int(n) for n in j.split(",")] if j else j})
-            self.profile_generator = self.getProfileGen()
-            self.cur_profile = next(self.profile_generator)
-
-
-            self.home_url_pattern =  info["homePagePattern"]
-            self.chrome_profile  +=  info["ProfilePath"]
-            self.chrome_profile_ = info["ProfilePath"]
-            self.user_id = int(info["id"])
-            self.applicationsLeft = info["AppsLeft"]
-            self.firstName = info["FirstName"]
-            self.lastName = info["LastName"]
-            self.phone_num = info["PhoneNumber"]
-            self.email = info["IndeedEmail"]
-            self.addr = info["address"]
-            self.areaSpec = info["areaSpec"]
-            self.country = info["country"]
-            self.zip = info["zip"]
-            self.lifeSummary = info["LifeSummary"]
-            self.avoid = info["avoid"]
-
+            f = open(self.configPath + "StartUpInfo.txt", 'r')
+            _, my_path_id         =  self.nextNonBlankLine(f), self.nextNonBlankLine(f)
+            self.MY_PATH          =  "Users\\" + my_path_id + "\\"
+            self.home_url         =  self.nextOccurance(f, my_path_id)
+            self.home_url_pattern =  self.nextOccurance(f, my_path_id)
+            self.chrome_profile  +=  self.nextOccurance(f, my_path_id)
         except:
             return
 
@@ -2031,47 +1523,46 @@ class IndeedHelper(SeleniumWrap):
     def load_life_summary(self):
         # purpose of '_' is to skip the explanation of the next line/section
         try:
+            f = open(self.MY_PATH + self.dataPath + "LifeSummary.txt", 'r')
+            _, self.firstName = self.nextNonBlankLine(f), self.nextNonBlankLine(f)
+            _, self.lastName  =  self.nextNonBlankLine(f), self.nextNonBlankLine(f)
+            _, self.phone_num =  self.nextNonBlankLine(f), self.nextNonBlankLine(f)
+            _, self.email     =  self.nextNonBlankLine(f), self.nextNonBlankLine(f)
+            _, self.addr      = self.nextNonBlankLine(f), self.nextNonBlankLine(f)
+            _, self.cityState =  self.nextNonBlankLine(f), self.nextNonBlankLine(f)
+            _, self.zip       =  self.nextNonBlankLine(f), self.nextNonBlankLine(f)
+
+            #skip explanation for summary
+            self.nextNonBlankLine(f)
+
+            self.lifeSummary  =  self.readRestNonBlank(f)  # read the rest
             self.setDetails()
-            #self.saveUserInDB()
-        except Exception as e:
-            print("An error occurred:", e)
-            traceback.print_exc()
+            self.saveUserInDB()
+        except:
+            return
 
     def setDetails(self):
-        c, s = tuple(self.areaSpec.split(","))
+        c, s = tuple(self.cityState.split(","))
         self.details = {"name": f"{self.firstName} {self.lastName}",
                         "first name": self.firstName,
                         "last name": self.lastName,
                         "number":self.phone_num, "phone":self.phone_num,
-                        "phone number":self.phone_num.replace("(", "").replace(")", "").replace(" ", "").replace("-", ""),
                         "email": self.email,
                         "address":self.addr,
-                        "city":c, "state":s.strip(), "country":self.country,
-                        "zip":self.zip, "postal code":self.zip}
+                        "city":c, "state":s.strip(), "country":"United States",
+                        "zip":self.zip}
 
 
 
     def jobContainsForbiddenCharacteristics(self):
-        mygpt = myGPT2("avoid_job_characteristics_prompts2.txt", self.JobDescriptionText)
-        mygpt.sendAll()
         # get the avoidance qualities
-        #avoidFile = open(self.MY_PATH + self.dataPath + "AvoidTheseJobCharacteristics.txt", 'r')
-        #avoidLines = avoidFile.readlines()
-        for avoidLine in self.avoid.split("\n"):
-            if len(avoidLine.strip()) == 0:
-                continue
-            #prompt = f'''Does this job match this characteristic:\n{avoidLine}\n\nif not, then just say "no",
-            # if so, then say "yes" and also include the portion of the job description that 
-            # matches the above characteristic.'''
-
-            prompt = f'''{avoidLine} If the answer is no, then reply "NO" and say nothing else.  If the answer is yes, 
-            then reply "YES" and then also tell me the portion of the job description that made you say "YES"'''
-            ans = mygpt.send(prompt).lower()
-            if "yes" in ans:
-                self.reportAction("CHAT GPT SAID: " + ans, False)
-                return True
-
-        return False
+        avoidFile = open(self.MY_PATH + self.dataPath + "AvoidTheseJobCharacteristics.txt", 'r')
+        avoidLines = avoidFile.read().strip()
+        if len(avoidLines) > 0:
+            mygpt = myGPT("avoid_job_characteristics_prompts.txt", self.JobDescriptionText, avoidLines)
+            return 'yes' in mygpt.sendAll()
+        else:
+            return False
 
     def getPositionInfo(self):
         x = "//*[@data-testid='inlineHeader-companyName']"
@@ -2091,11 +1582,7 @@ class IndeedHelper(SeleniumWrap):
 
     def generateHeadline(self):
         mygpt = myGPT2("headline_prompts2.txt", self.JobDescriptionText)
-
-        doAgain = True
-        while doAgain:
-            self.headline = mygpt.sendAll().split("The headline is:")[1].strip().strip(".")
-            doAgain = mygpt.need_redo
+        self.headline = mygpt.sendAll()
 
     def generateCL(self):
         '''mygpt = myGPT("cover_letter_prompts.txt", self.jobTitle, self.companyName,
@@ -2105,14 +1592,10 @@ class IndeedHelper(SeleniumWrap):
         self.coverLetter = mygpt.sendAll()'''
 
         mygpt = myGPT2("cover_letter_prompts2.txt", self.jobTitle, self.companyName,
-                       self.JobDescriptionText, self.firstName, self.lastName,
-                       self.lifeSummary, self.firstName, self.lastName, self.phone_num,
-                       self.email, self.areaSpec, self.today())
-
-        doAgain = True
-        while doAgain:
-            self.coverLetter = mygpt.sendAll()
-            doAgain = mygpt.need_redo
+                      self.JobDescriptionText, self.firstName, self.lastName,
+                      self.lifeSummary, self.firstName, self.lastName, self.phone_num,
+                      self.email, self.cityState, self.today())
+        self.coverLetter = mygpt.sendAll()
 
 
     def generateSummary(self):
@@ -2120,39 +1603,19 @@ class IndeedHelper(SeleniumWrap):
         self.resumeSummary = mygpt.sendAll()'''
 
         mygpt = myGPT2("summary_prompts2.txt", self.coverLetter, self.firstName)
-
-        doAgain = True
-        while doAgain:
-            self.resumeSummary = mygpt.sendAll()
-            doAgain = mygpt.need_redo
+        self.resumeSummary = mygpt.sendAll()
 
     def generateSkills(self):
         '''mygpt = myGPT("skills_prompts.txt", self.JobDescriptionText, self.lifeSummary)
         skillsStrList = mygpt.sendAll()
         self.skills2 = skillsStrList.split(",")'''
 
-        # initial skill list generation
-        mygpt = myGPT2("skills_prompts2.txt", self.jobTitle, self.JobDescriptionText, self.lifeSummary)
-
-        doAgain = True
-        while doAgain:
-            skillsStrList2 = mygpt.sendAll()
-            doAgain = mygpt.need_redo
-
-        firstTry = skillsStrList2
-        skillsStrList2 = skillsStrList2.split("END_LIST")[0].strip().strip(";;")
-        skillsStrList2 = skillsStrList2.replace("Here is the combined list:", "").strip().strip(".")
-        intermediate_skills = skillsStrList2.split(";;")
-
-
-        # skill list cleaning
-        mygpt = myGPT2("skills_prompts_cleaning.txt", self.jobTitle, str(intermediate_skills), version=1)
+        mygpt = myGPT2("skills_prompts2.txt", self.JobDescriptionText, self.lifeSummary)
         skillsStrList2 = mygpt.sendAll()
-        secTry = skillsStrList2
-        skillsStrList2 = skillsStrList2.split("END_LIST")[0].strip().strip(";;")
-        skillsStrList2 = skillsStrList2.replace("Here is the revised list:", "").strip().strip(".").strip("\"").strip()
-        self.skills = skillsStrList2.split(";;")
-        self.tries.append({"1":firstTry, "2":secTry})
+        self.skills = skillsStrList2.split(",")
+
+
+
 
     def run(self):
         self.start_up()
@@ -2171,7 +1634,6 @@ class StateMachine:
         self.expected_environments = self.load_environments("ExpectedEnvironments.txt")
         self.transitions = self.load_transitions("StateTransitions.txt")
         self.current_state = self.states[0]
-        self.prev_state = None
 
 
     def validate_files(self, states_file, expected_environments_file, state_transitions_file):
@@ -2315,12 +1777,8 @@ class StateMachine:
             self.helper.reportAction(f"Calling function: {funcName}() in environment: {environment}", False)
             funcResult  = self.executeFunc(funcName)
             # need to check that we accomplished what we wanted to accomplish with this function
-            if isinstance(funcResult, StartFromTop):
-                self.helper.reportAction(f"Transitioning  STATE from {self.current_state} BACK TO {self.prev_state}", False)
-                self.current_state = self.prev_state
-            elif not isinstance(funcResult, ElementClickInterceptedException):
+            if not isinstance(funcResult, ElementClickInterceptedException):
                 self.helper.reportAction(f"Transitioning  STATE from {self.current_state} to {next_state}", False)
-                self.prev_state = self.current_state
                 self.current_state = next_state
             else:
                 self.helper.reportAction(f"Not Transitioning  STATE from {self.current_state} to {next_state} because function failed somewhere.  Remaining in state to try again")
@@ -2349,124 +1807,12 @@ class StateMachine:
                 break
             self.transition(env)
 
-'''def loadUsersFromDB():
-    emailCol = "IndeedEmail"
-    passCol = "IndeedPass"
-
-    checker_query = """SELECT * FROM users WHERE AppsLeft > ? AND Active = ?"""
-
-
-    values = (0, "T")
-    conn = sqlite3.connect('IndHelperDB.db')
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-
-
-    cursor.execute(checker_query, values)
-
-    # Fetch one record, if it exists
-    allRecords = cursor.fetchall()
-
-    # task1:  get all the records from the Job table that have the same userID as each of the records in allRecords
-    # task2:  get all the records from the Edu table that have the same userID as each of the records in allRecords
-    # task3:  return a data structure for which index 0 is a tuple containing the first record in allRecords, index 1 is
-    #         all the records from task2 that match the first records in allRecords, index 2 is all the records from the
-    #         task3 that match the first record in allRecords.
-
-    return allRecords'''
-
-def loadUsersFromDB():
-    checker_query = """SELECT * FROM users WHERE AppsLeft > ? AND Active = ?"""
-
-    values = (0, "T")
-    conn = sqlite3.connect('IndHelperDB.db')
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-
-    cursor.execute(checker_query, values)
-    allRecords = cursor.fetchall()
-
-    user_data = []
-
-    for record in allRecords:
-        userID = record["id"]
-
-        # Task 1: Get all the records from the Job table that have the same userID
-        job_query = """SELECT * FROM Job WHERE userID = ?"""
-        cursor.execute(job_query, (userID,))
-        job_records = cursor.fetchall()
-
-        # Task 2: Get all the records from the Edu table that have the same userID
-        edu_query = """SELECT * FROM Edu WHERE userID = ?"""
-        cursor.execute(edu_query, (userID,))
-        edu_records = cursor.fetchall()
-
-        # Task 3: Construct the data structure
-        user_data.append({"mainInfo":record, "edus":edu_records, "jobs":job_records})
-
-    conn.close()
-    return user_data
-
-def RunUser(user_to_run, masterRecords):
-    while (True):
-        try:
-            sm = StateMachine(IndeedHelper(user_to_run, masterRecords["milestoneList"]))
-            masterRecords["sm_ref"] = sm
-            sm.run()
-        except Exception as e:
-            try:
-                sm.helper.reportAction(f"An error occurred: {e}", False)
-                sm.helper.driver.quit()
-            except:
-                pass
-
-def ReportStall(id):
-    engine = pyttsx3.init()
-    engine.setProperty('rate', 150)
-    engine.setProperty('volume', 1)
-    engine.say(f"Yoooooo bro id {id} is stalled")
-    engine.runAndWait()
-
 
 if __name__ == "__main__":
     #ih = IndeedHelper()
     #ih.run()
-    usersToStart = list(loadUsersFromDB())[:1]
-
-    threads = []
-    usr_records = {}
-
-    for user in usersToStart:
-        usr_records[user["mainInfo"]["id"]] = {"milestoneList":[datetime.datetime.now()], "sm_ref":None}
-        thread = Thread(target=RunUser, args=(user,usr_records[user["mainInfo"]["id"]]))
-
-        # Start the thread
-        thread.start()
-
-        # Append the threadto the list of threads
-        threads.append(thread)
-
-
-    while True:
-        t.sleep(60)  #runs every mi`n
-        try:
-            for id, rec in usr_records.items():
-                lastMilestone = rec["milestoneList"][-1]
-                now = datetime.datetime.now()
-                if (now - lastMilestone).seconds > 60*15:
-                    if False:
-                        ReportStall(id)
-                    else:
-                        rec["sm_ref"].helper.driver.quit()
-                        rec["sm_ref"].helper.driver = None
-                        rec["milestoneList"].append(datetime.datetime.now())
-        except:
-            h = 5
-            traceback.print_exc()
-
-    #for thread in threads:
-    #    thread.join()
-
+    sm = StateMachine(IndeedHelper())
+    sm.run()
 
 
 #ih = IndeedHelper()

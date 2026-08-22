@@ -1,23 +1,22 @@
-# This is a sample Python script.
+# main3.py
+#
+# Same IndeedHelper/StateMachine application logic as main.py, but with the
+# browser-automation layer replaced: SeleniumWrap -> PlaywrightWrap (drives a
+# real Chrome window over the Chrome DevTools Protocol, the same way
+# birdcatcher_py/bird_automation.py's PlaywrightSession does), and the
+# top-level run loop rebuilt around birdcatcher_py/console_trace.py-style
+# always-visible tracing plus classified, non-silent error handling instead
+# of main.py's bare "except: pass" retry loop.
+#
+# `By` and `Keys` are reused from selenium.webdriver.common as plain constant
+# namespaces (e.g. By.CSS_SELECTOR == "css selector") -- no Selenium browser
+# driver is used anywhere in this file. Selenium's exception classes are
+# reused the same way, purely so the isinstance(...) checks already present
+# in IndeedHelper's logic keep working unchanged.
+
 import pygetwindow as gw
-#from pywinauto.application import Application
 import pyttsx3
-from pywinauto import Application
-import subprocess
-
-
-# GPT HELP:  https://chat.openai.com/c/aec09a74-238d-4f97-b49a-b6ca98e1d810
-
-#Note  need to set up dummy chrome profile if you want browser to remember things
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchWindowException, StaleElementReferenceException, ElementClickInterceptedException, ElementNotInteractableException
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
+import pyautogui
 from threading import Thread
 import datetime
 import traceback
@@ -27,18 +26,76 @@ import os, re
 import sqlite3
 import inspect
 import time as t
-#import openai
+
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import (
+    NoSuchWindowException,
+    StaleElementReferenceException,
+    ElementClickInterceptedException,
+    ElementNotInteractableException,
+)
+
+from playwright.sync_api import (
+    sync_playwright,
+    TimeoutError as PlaywrightTimeoutError,
+    Error as PlaywrightError,
+)
+
 from myGPT import myGPT
 from myGPT2 import myGPT as myGPT2
-#from selenium import webdriver
-#import webdriver_manager
-#from webdriver_manager.chrome import ChromeDriverManager
-import inspect
-import pyautogui
-
-
 
 log = None
+
+
+# =====================================================================================
+#  console_trace  --  ported from birdcatcher_py/console_trace.py
+#  Always prints (flush=True), so progress/errors are visible live in the
+#  terminal instead of silently going only to a log file, which is what made
+#  main.py's failures invisible.
+# =====================================================================================
+
+_last_print_time = 0.0
+
+
+def _elapsed_ms() -> float:
+    global _last_print_time
+    now = t.time()
+    if _last_print_time == 0.0:
+        _last_print_time = now
+        return 0.0
+    elapsed = (now - _last_print_time) * 1000
+    _last_print_time = now
+    return elapsed
+
+
+def ct_print(where, what, extra=None):
+    elapsed = _elapsed_ms()
+    suffix = f" | {extra}" if extra else ""
+    print(f"[CT] {elapsed:7.1f}ms | {where} | {what}{suffix}", flush=True)
+
+
+def ct_enter(where, extra=None):
+    ct_print(where, "ENTER", extra)
+
+
+def ct_loop(where, iteration, extra=None):
+    suffix = f" iter={iteration}" if extra is None else f" iter={iteration} | {extra}"
+    ct_print(where, "LOOP", suffix)
+
+
+def ct_wait(where, waiting_for, current_value=None):
+    value_str = f" sees={current_value!r}" if current_value is not None else ""
+    ct_print(where, "WAIT", f"for={waiting_for}{value_str}")
+
+
+def ct_exit(where, result=None):
+    extra = f" result={result}" if result else ""
+    ct_print(where, "EXIT", extra)
+
+
+def ct_error(where, exc):
+    ct_print(where, "ERROR", f"{type(exc).__name__}: {exc}")
 
 
 class BadPost(Exception):
@@ -53,7 +110,235 @@ class StartFromTop(Exception):
         self.message = message
         super().__init__(self.message)
 
-class SeleniumWrap:
+
+# =====================================================================================
+#  Selenium-shaped compatibility layer, backed by Playwright.
+#
+#  IndeedHelper (below) still calls things like self.driver.execute_script(...),
+#  element.get_attribute(...), element.send_keys(Keys.CONTROL, "a") etc. -- exactly
+#  as it did against Selenium. These small wrapper classes give it that same surface
+#  while every actual browser action goes through Playwright underneath.
+# =====================================================================================
+
+class NoAlertPresentException(Exception):
+    pass
+
+
+_KEY_NAME_MAP = {
+    Keys.CONTROL: "Control",
+    Keys.ENTER: "Enter",
+    Keys.TAB: "Tab",
+    Keys.END: "End",
+    Keys.HOME: "Home",
+    Keys.ESCAPE: "Escape",
+    Keys.BACKSPACE: "Backspace",
+    Keys.DELETE: "Delete",
+    Keys.SHIFT: "Shift",
+}
+
+
+def _selector_for_playwright(by, selector):
+    if by in (By.XPATH, "xpath"):
+        return f"xpath={selector}"
+    if by == By.CSS_SELECTOR:
+        return f"css={selector}"
+    if by == By.TAG_NAME:
+        return f"css={selector}"
+    if by == By.ID:
+        return f"css=#{selector}"
+    if by == By.CLASS_NAME:
+        return f"css=.{selector}"
+    return f"css={selector}"
+
+
+class _ElementCompat:
+    """Wraps a Playwright ElementHandle so it quacks like a Selenium WebElement."""
+
+    def __init__(self, handle, wrap):
+        self._handle = handle
+        self._wrap = wrap
+
+    @property
+    def text(self):
+        try:
+            return (self._handle.inner_text() or "").strip()
+        except PlaywrightError as exc:
+            ct_error("_ElementCompat.text", exc)
+            return ""
+
+    @property
+    def tag_name(self):
+        try:
+            return self._handle.evaluate("el => el.tagName.toLowerCase()")
+        except PlaywrightError as exc:
+            ct_error("_ElementCompat.tag_name", exc)
+            return ""
+
+    def get_attribute(self, name):
+        try:
+            if name == "value":
+                value = self._handle.evaluate("el => el.value")
+                if value is not None:
+                    return value
+            return self._handle.get_attribute(name)
+        except PlaywrightError as exc:
+            ct_error("_ElementCompat.get_attribute", exc)
+            return None
+
+    def click(self):
+        self._handle.scroll_into_view_if_needed(timeout=3000)
+        self._handle.click(timeout=5000)
+
+    def send_keys(self, *values):
+        handle = self._handle
+        try:
+            handle.scroll_into_view_if_needed(timeout=3000)
+        except PlaywrightError:
+            pass
+        page = self._wrap._page
+        # focus() rather than click(): fillMoveOn() calls send_keys() repeatedly on the
+        # same element to type in chunks, and re-clicking each time would reset the
+        # cursor position instead of continuing where the previous chunk left off.
+        handle.focus()
+        if len(values) == 2 and values[0] == Keys.CONTROL:
+            page.keyboard.press(f"Control+{values[1]}")
+            return
+        if len(values) == 1 and values[0] in _KEY_NAME_MAP:
+            page.keyboard.press(_KEY_NAME_MAP[values[0]])
+            return
+        text = "".join(values)
+        page.keyboard.type(text)
+
+    def find_element(self, by, selector):
+        elements = self.find_elements(by, selector)
+        if not elements:
+            raise NoSuchWindowException(f"No element found for {by}={selector}")
+        return elements[0]
+
+    def find_elements(self, by, selector):
+        pw_selector = _selector_for_playwright(by, selector)
+        try:
+            handles = self._handle.query_selector_all(pw_selector)
+        except PlaywrightError as exc:
+            ct_error("_ElementCompat.find_elements", exc)
+            return []
+        return [_ElementCompat(h, self._wrap) for h in handles]
+
+
+class _AlertCompat:
+    def __init__(self, dialog):
+        self._dialog = dialog
+
+    @property
+    def text(self):
+        return self._dialog.message
+
+    def accept(self):
+        try:
+            self._dialog.accept()
+        except PlaywrightError:
+            pass
+
+    def dismiss(self):
+        try:
+            self._dialog.dismiss()
+        except PlaywrightError:
+            pass
+
+
+class _SwitchToCompat:
+    def __init__(self, wrap):
+        self._wrap = wrap
+
+    def window(self, handle):
+        self._wrap._switch_to_page(handle)
+
+    @property
+    def alert(self):
+        raise NoAlertPresentException("No alert is present.")
+
+
+class _DriverCompat:
+    """Selenium-WebDriver-shaped facade over the active Playwright Page."""
+
+    def __init__(self, wrap):
+        self._wrap = wrap
+
+    @property
+    def current_url(self):
+        return self._wrap._page.url
+
+    @property
+    def title(self):
+        try:
+            return self._wrap._page.title()
+        except PlaywrightError:
+            return ""
+
+    @property
+    def window_handles(self):
+        return list(self._wrap._context.pages)
+
+    @property
+    def current_window_handle(self):
+        return self._wrap._page
+
+    @property
+    def switch_to(self):
+        return _SwitchToCompat(self._wrap)
+
+    def find_element(self, by, selector):
+        elements = self.find_elements(by, selector)
+        if not elements:
+            raise NoSuchWindowException(f"No element found for {by}={selector}")
+        return elements[0]
+
+    def find_elements(self, by, selector):
+        pw_selector = _selector_for_playwright(by, selector)
+        try:
+            handles = self._wrap._page.query_selector_all(pw_selector)
+        except PlaywrightError as exc:
+            ct_error("_DriverCompat.find_elements", exc)
+            return []
+        return [_ElementCompat(h, self._wrap) for h in handles]
+
+    def execute_script(self, script, *args):
+        # Selenium scripts reference "arguments[0]", "arguments[1]", ... just like a
+        # classic JS function body -- Playwright ElementHandles passed inside the args
+        # array are automatically unwrapped back into real DOM nodes on the page side.
+        arg_values = [a._handle if isinstance(a, _ElementCompat) else a for a in args]
+        js_function = "(arguments) => { " + script + " }"
+        return self._wrap._page.evaluate(js_function, arg_values)
+
+    def refresh(self):
+        self._wrap._page.reload()
+
+    def get(self, url):
+        self._wrap._page.goto(url)
+
+    def back(self):
+        self._wrap._page.go_back()
+
+    def close(self):
+        self._wrap._close_current_page()
+
+    def maximize_window(self):
+        pass  # Chrome is launched with --start-maximized already.
+
+
+class RecoverableBrowserError(Exception):
+    """A browser/session problem where the whole run should restart cleanly."""
+
+
+_DEAD_PAGE_MARKERS = (
+    "Target page, context or browser has been closed",
+    "Target closed",
+    "Connection closed",
+    "has been closed",
+)
+
+
+class PlaywrightWrap:
 
     def __init__(self, home_url, home_url_pattern, profile):
         self.chrome_profile = profile
@@ -81,408 +366,160 @@ class SeleniumWrap:
         self.home_url = home_url
         self.home_url_pattern = home_url_pattern
 
-    def uploadFile(self, fullPath):
-        file_input = self.driver.find_element(By.CSS_SELECTOR, "input[type='file']")
-        file_input.send_keys(fullPath)
+        self.driver = _DriverCompat(self)
+        self._playwright = None
+        self._browser = None
+        self._context = None
+        self._page = None
+        self._chrome_process = None
+        self._debug_port = None
 
-    def nextNonBlankLine(self, file_handler):
-        # This function will yield non-blank lines from the file
-        line = ''
-        while not line or line.strip()[:2] == "//":
-            line = file_handler.readline()
-            if len(line) == 0:
-                break
-            line = line.strip()
-        return line
+    # ------------------------------------------------------------------ lifecycle --
 
-    def readRestNonBlank(self, file_handler):
-        rest = ""
-        line = "something"
-        while line:
-            line = self.nextNonBlankLine( file_handler )
-            rest += line + '\n'
-        return rest
+    def _find_chrome_executable(self):
+        candidates = [
+            os.path.join(os.environ.get("PROGRAMFILES", ""), "Google", "Chrome", "Application", "chrome.exe"),
+            os.path.join(os.environ.get("PROGRAMFILES(X86)", ""), "Google", "Chrome", "Application", "chrome.exe"),
+            os.path.join(os.environ.get("LOCALAPPDATA", ""), "Google", "Chrome", "Application", "chrome.exe"),
+        ]
+        for candidate in candidates:
+            if candidate and os.path.exists(candidate):
+                return candidate
+        raise RuntimeError("Could not find chrome.exe. Install Google Chrome or update _find_chrome_executable().")
 
+    def _free_port(self):
+        import socket
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.bind(("127.0.0.1", 0))
+        port = s.getsockname()[1]
+        s.close()
+        return port
 
-    def nextOccurance(self, file_handler, substr, delim="\t", after=""):
-        active = False
-        line = "something"
-        while line:
-            line = self.nextNonBlankLine(file_handler)
-            if after in line:
-                active = True
-            if active and substr == line[:len(substr)]:
-                return line.split(delim)[1]
-
-    def process_list_element(self, listElement):
-        listMemberElements = self.findAndClick(self.WHOLE, self.WHOLE, self.LIST_ELEMENT,
-                                               indInList=self.ALL, findFrom=listElement)
-        listMemberText = []
-        for memElement in listMemberElements:
-            listMemberText.append(memElement.text)
-        return listMemberText
-
-    def getListByTitle(self, titleText):
-        listElements = self.findClosestRelatives(self.TXT, self.CONTAINS, titleText, self.WHOLE, self.WHOLE, self.LIST)
-        return listElements[0]
-
-    def clickButtonByText(self, buttonText, checkNewPage=False, checkNewTab=False, checkClosed=False, waitBeforeClicking=0):
-        button = self.findClosestRelatives(self.TXT, self.CONTAINS, buttonText,
-                                           self.WHOLE, self.WHOLE, self.BUTTON)[0]
-        return self.smartClick(element=button, checkNewPage=checkNewPage, checkNewTab=checkNewTab,
-                        checkClosed=checkClosed, waitBeforeClicking=waitBeforeClicking)
+    def _wait_for_debug_endpoint(self, timeout_seconds=20.0):
+        from urllib.request import urlopen
+        from urllib.error import URLError
+        endpoint = f"http://127.0.0.1:{self._debug_port}/json/version"
+        deadline = t.time() + timeout_seconds
+        attempt = 0
+        while t.time() < deadline:
+            ct_wait("start_up", f"chrome DevTools endpoint {endpoint}", f"attempt={attempt}")
+            attempt += 1
+            try:
+                with urlopen(endpoint, timeout=1.5) as response:
+                    if response.status == 200:
+                        return True
+            except (URLError, OSError):
+                t.sleep(0.5)
+        return False
 
     def start_up(self):
-        chrome_options = Options()
-        chrome_options.add_argument('ignore-certificate-errors')
-        chrome_options.add_argument('--ignore-ssl-errors=yes')
+        import subprocess
+        ct_enter("start_up", self.home_url)
 
-        chrome_options.add_argument(self.chrome_profile)
-        self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.maximize_window()
-        self.driver.get(self.home_url)
+        chrome_path = self._find_chrome_executable()
+        user_data_dir = self.chrome_profile
+        if user_data_dir.startswith("user-data-dir="):
+            user_data_dir = user_data_dir[len("user-data-dir="):]
+        os.makedirs(user_data_dir, exist_ok=True)
 
-    def goToTab(self, tab_num):
-        # browser has already switched tabs but program still needs to switch
-        all_tabs = self.driver.window_handles
-        self.driver.switch_to.window(all_tabs[tab_num])
+        self._debug_port = self._free_port()
+        launch_args = [
+            chrome_path,
+            f"--remote-debugging-port={self._debug_port}",
+            f"--user-data-dir={user_data_dir}",
+            "--no-first-run",
+            "--no-default-browser-check",
+            "--start-maximized",
+            self.home_url,
+        ]
+        ct_print("start_up", "launching chrome.exe", f"profile={user_data_dir} port={self._debug_port}")
+        self._chrome_process = subprocess.Popen(launch_args)
 
+        if not self._wait_for_debug_endpoint(timeout_seconds=20.0):
+            raise RecoverableBrowserError(
+                f"Chrome launched (pid {self._chrome_process.pid}) but its DevTools endpoint never came up on "
+                f"127.0.0.1:{self._debug_port}. This usually means another Chrome window is already using the "
+                f"profile at \"{user_data_dir}\" -- close every Chrome window for that profile and try again."
+            )
 
+        self._playwright = sync_playwright().start()
+        endpoint = f"http://127.0.0.1:{self._debug_port}"
+        self._browser = self._playwright.chromium.connect_over_cdp(endpoint)
+        if not self._browser.contexts:
+            raise RecoverableBrowserError("Chrome connected over CDP, but no browser context was available.")
+        self._context = self._browser.contexts[0]
+        self._page = self._context.pages[-1] if self._context.pages else self._context.new_page()
+        self._page.on("dialog", self._on_dialog)
+        self._page.bring_to_front()
+        ct_exit("start_up", self._page.url)
 
-    def goToNewTab(self, indexOfNewTab=None):
-        if indexOfNewTab is None:
-            # Get the current window handle
-            current_handle = self.driver.current_window_handle
-
-            # Get the list of all window handles
-            all_handles = self.driver.window_handles
-
-            # Find the index of the current window handle
-            current_index = all_handles.index(current_handle)
-            self.goToTab(current_index+1)
-        else:
-            self.goToTab(indexOfNewTab)
-
-
-    def select_tab_by_url_pattern(self, pattern):
-        """
-        Selects the first tab with a URL matching the given pattern and closes all other tabs.
-
-        Parameters:
-        - driver: The Selenium WebDriver instance.
-        - pattern: The regular expression pattern to match the tab URL.
-        """
-        # Get handles for all open tabs
-        all_tabs = self.driver.window_handles
-
-        # Find the first tab with a URL matching the pattern
-        matching_tab = None
-        for tab in all_tabs:
-            self.driver.switch_to.window(tab)
-            if re.search(pattern, self.driver.current_url):
-                matching_tab = tab
-                break
-
-        # If no matching tab is found, return without doing anything
-        if not matching_tab:
-            self.reportAction("No tab found with a URL matching the pattern.")
-            while True:
-                t.sleep(1)
-            return
-
-        # Close all other tabs
-        for tab in all_tabs:
-            if tab != matching_tab:
-                self.driver.switch_to.window(tab)
-                self.driver.close()
-
-        # Switch to the matching tab
-        self.driver.switch_to.window(matching_tab)
-
-    def click_all(self, list_of_elements, delayBeforeEach=0, delayBeforeFirst=0, timeLimitForEach=10):
-        t.sleep(delayBeforeFirst)
-        for element in list_of_elements:
-            self.smartClick(element= element, waitBeforeClicking=delayBeforeEach, timeLimit=timeLimitForEach)
-
-    def closeDialogBox(self):
-        dialogBox = self.findAndClick(self.WHOLE, self.WHOLE, '//*[@role="dialog" and @aria-modal="true"]',
-                                      txtCond="#$%^&*", timeLimit=.4)
+    def _on_dialog(self, dialog):
+        self.reportAction(f"Auto-accepting a JS dialog: {dialog.message}", False)
         try:
-            if dialogBox is not None:
-                possCloseButs = dialogBox.find_elements(By.TAG_NAME, 'button')
-                for button in possCloseButs:
-                    infoLabel = button.get_attribute("aria-label").lower()
-                    if 'close' in infoLabel:
-                        self.smartClick(element=button)
-                        self.reportAction("Closed Dialog")
-                        return
-            self.reportAction("Saw DIALOG but no close button (couldn't tell from label)")
-        except:
+            dialog.accept()
+        except PlaywrightError:
             pass
-        else:
-            self.reportAction("No Dialog Found ")
 
-    def clickChecker(self, element, checked, cond, ctrl):
-        #check if condition is already met
-        if cond():
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            checked[0] = True
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-        else:
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            try:  # if a new page is expected, then element might become unclickable
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                possibleExp = self.delayedClick(element, ctrl=ctrl)
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                if isinstance(possibleExp, ElementClickInterceptedException):
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                    return possibleExp
-            except:
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                # it's okay if an exception happens here.  Since we previously found the
-                # element, we know it's only unclickable here because the page changed
+    def _switch_to_page(self, page):
+        if page in self._context.pages:
+            self._page = page
+            page.bring_to_front()
+
+    def _close_current_page(self):
+        closing = self._page
+        remaining = [p for p in self._context.pages if p is not closing]
+        try:
+            closing.close()
+        except PlaywrightError:
+            pass
+        if remaining:
+            self._page = remaining[-1]
+
+    def close(self):
+        try:
+            if self._browser is not None:
+                self._browser.close()
+        except PlaywrightError:
+            pass
+        try:
+            if self._playwright is not None:
+                self._playwright.stop()
+        except Exception:
+            pass
+        if self._chrome_process is not None:
+            try:
+                self._chrome_process.terminate()
+            except Exception:
                 pass
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
+
+    # -------------------------------------------------------------- xpath finding --
+
+    def _resolve_matches(self, elementXpath, findFrom):
+        if findFrom is None or findFrom is self.driver:
+            handles = self._page.query_selector_all(f"xpath={elementXpath}")
+        elif isinstance(findFrom, _ElementCompat):
+            handles = findFrom._handle.query_selector_all(f"xpath={elementXpath}")
+        else:
+            handles = findFrom.query_selector_all(f"xpath={elementXpath}")
+        return [_ElementCompat(h, self) for h in handles]
+
+    def _wait_until(self, cond, timeout_seconds):
+        deadline = t.time() + max(timeout_seconds, 0)
+        while t.time() < deadline:
+            try:
+                if cond():
+                    return True
+            except PlaywrightError:
+                pass
             t.sleep(self.DELTA_WAIT)
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            self.graduatedWait(cond)
-            checked[0] = cond()
-            if not checked[0]:
-                raise Exception
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-        return checked[0]
+        return cond() if timeout_seconds > 0 else False
 
-    def handleUnwantedOpenedTab(self):
-        self.driver.switch_to.window(self.driver.window_handles[-1])
-        self.driver.close()
-        self.driver.switch_to.window(self.driver.window_handles[-1])
-
-    def clickAttempt(self, elementXpath, indInList , travelUp , txtCond , checkClosed,  checkNewPage,
-                     checkNewTab , waitBeforeClicking , findFrom , waitBeforeFinding, url_at_start,
-                     num_tabs_at_start, expectingPopUp, ctrl, nohang=False  ):
-
-        t.sleep(waitBeforeFinding)
-
-        # if looking for a list of all matches then don't need to click
-        if indInList == self.ALL:
-            matches = findFrom.find_elements('xpath', elementXpath)
-            self.reportAction(f"returning {len(matches)} matches for {elementXpath}!")
-            return matches
-
-
-        elementList = findFrom.find_elements('xpath', elementXpath)
-        #if len(elementList) == 0:
-        #    return None
-        try:
-            element = elementList[indInList]
-        except Exception as e:
-            if nohang:
-                return None
-            traceback.print_exc()
-            h = 0
-
-        numElementsOriginally = len(elementList)
-
-        #the elemenet being disabled is the same as it not being there
-        if element.get_attribute("disabled") is not None:
-            return None
-
-        # travel upwards if specified...
-        for i in range(travelUp, 0, -1):
-            element = self.get_parent(element)
-        possibleExp = None
-
-        if txtCond == '' or txtCond == element.text:
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            checked = [False]
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            while not checked[0]:
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                #account for the delay
-                possibleExp = self.delayedClick(element, waitBeforeClicking, checked, ctrl)
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                if checkNewPage:
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                    #cond = lambda: url_at_start != self.driver.current_url
-                    def condFunc():
-                        cur_url = self.driver.current_url
-                        self.reportAction(f"checking:\n\tURL before:{url_at_start}\n\tURL after:{cur_url}")
-                        return  url_at_start != cur_url
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                    possibleExp = self.clickChecker(element, checked, condFunc, ctrl)
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                elif checkNewTab:
-                    #cond = lambda: num_tabs_at_start != len(self.driver.window_handles)
-                    def condFunc():
-                        self.reportAction(f"checking:\n\ttabs before:{num_tabs_at_start}\n\ttabs after:{len(self.driver.window_handles)}")
-                        return  num_tabs_at_start != len(self.driver.window_handles)
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-
-                    possibleExp = self.clickChecker(element, checked, condFunc, ctrl)
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                    if possibleExp and not isinstance(possibleExp, Exception) :
-                        # go to ne tab
-                        self.goToNewTab(num_tabs_at_start)
-                elif checkClosed:
-                    def condFunc():
-                        updatedElementList = findFrom.find_elements('xpath', elementXpath)
-                        self.reportAction(
-                            f"checking:\n\t# elements before:{numElementsOriginally}\n\t# elements after:{len(updatedElementList)}")
-                        return  len(updatedElementList) < numElementsOriginally
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-
-                    possibleExp = self.clickChecker(element, checked, condFunc, ctrl)
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                if not expectingPopUp:  # if we aren't expecting a pop up, check for one and close it if it's there
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                    self.closeDialogBox()
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-
-                #check if a new tab opened when we DIDN'T want it to open...
-                if not checkNewTab and num_tabs_at_start != len(self.driver.window_handles):
-                    self.handleUnwantedOpenedTab()
-
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-
-
-                #handle possible exception
-                if isinstance(possibleExp, ElementClickInterceptedException):
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                    return possibleExp
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-
-            self.reportAction(f"clicked {elementXpath} successfully!")
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-
-            if not expectingPopUp:  #if we aren't expecting a pop up, check for one and close it if it's there
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                self.closeDialogBox()
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-        else:
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            self.reportAction(f"found element {elementXpath} but did not click because text did not match: {txtCond}")
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-        self.write("on line: " + str(inspect.currentframe().f_lineno))
-        return element
-
-    def write(self, string):
-        if log is not None and not log.closed:
-            log.write(string)
-
-    def graduatedWait(self, cond, maxWait=2):
-        timeWaited = 0
-        waitAmt = .1
-        while timeWaited < maxWait:
-            if cond():
-                break
-            t.sleep(waitAmt)
-            timeWaited += waitAmt
-            waitAmt *= 2
-
-
-    def delayedClick(self, element, waitBeforeClicking=.05, checked=None, ctrl=False):
-        self.write("on line: " + str(inspect.currentframe().f_lineno))
-        try:
-            #attempt to scroll element to center screen
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            t.sleep(max(waitBeforeClicking, .05))
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            if checked is not None:
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                checked[0] = True
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            if ctrl:
-                action = ActionChains(self.driver)
-                action.key_down(Keys.CONTROL).click(element).key_up(Keys.CONTROL).perform()
-                self.goToNewTab()
-            else:
-                element.click()
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-        except Exception as e:
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            if isinstance(e, StaleElementReferenceException):
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                # If the exception is of type StaleElementReferenceException, re-raise it so it
-                # propagates up the call stack and is ignored by clickChecker().  But we wanna catch
-                # all other exceptions.
-                raise
-            if isinstance(e, ElementClickInterceptedException):
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                # If the exception is of type ElementClickInterceptedException, RETURN (not re-raise) the
-                # exception so it propagates up and we don't change the state
-                self.reportAction("Ran into ElementClickInterceptedException trying to click last found element")
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                checked[0] = e
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                return e
-            if isinstance(e, ElementNotInteractableException):
-                t.sleep(60)
-                checked[0] = False
-                return
-            if isinstance(e, IndexError):
-                raise
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            print("An error occurred:", e)
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            traceback.print_exc()
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-            still = False
-            while still:
-                t.sleep(1)
-
-    def handleCaptcha(self):
-        cap = self.findAndClick(self.TXT, self.MATCH, "Solve with 2Captcha", timeLimit=.1, nohang=True)
-        if cap is None:
-            return True
-
-        #self.smartClick(element=cap)
-        try:
-            while cap.text != 'Captcha solved!':
-                if "error" in cap.text.lower() or "api_http" in cap.text.lower() or "seconds" in cap.text.lower():
-                    #self.driver.back()
-                    #return StartFromTop()
-                    ret = self.findAndClick(self.WHOLE, self.WHOLE, "//iframe[@title='reCAPTCHA']")
-                    if ret is not None:
-                        t.sleep(2)
-                        return True
-                    else:
-                        self.driver.back()
-                        return StartFromTop()
-                t.sleep(.25)
-        except:
-            return True
-
-        return True
-
-    def delta_wait_4_click(self, elementXpath, spentWaiting, timeLimit):
-        reportPause = spentWaiting[0] == 0
-        t.sleep(self.DELTA_WAIT)
-        spentWaiting[0] += self.DELTA_WAIT
-        #captcha here
-        handResult = self.handleCaptcha()
-        if isinstance(handResult, StartFromTop):
-            return handResult
-        if spentWaiting[0] < timeLimit:
-            if reportPause:
-                self.reportAction(f"Paused trying to click. xpath: {elementXpath} ")
-            return True
-        else:
-            self.reportAction(f"*\n*\n*\nTime OUT.  Spent {timeLimit} secs waiting already.\n*\n*\n*")
-            return False
-
-    def findAndClick(self, what, type, elementXpath, indInList=0, travelUp=0, timeLimit=10, txtCond = '', checkClosed=False,
-                     checkNewPage=False, checkNewTab=False, waitBeforeClicking=0, findFrom=None, waitBeforeFinding=0, expectingPopUp=False, elementType="*",
-                     nohang=False, newPageFollowsTimeLimit=False):
+    def findAndClick(self, what, type, elementXpath, indInList=0, travelUp=0, timeLimit=10, txtCond='', checkClosed=False,
+                     checkNewPage=False, checkNewTab=False, waitBeforeClicking=0, findFrom=None, waitBeforeFinding=0,
+                     expectingPopUp=False, elementType="*", nohang=False, newPageFollowsTimeLimit=False):
         if isinstance(elementXpath, str):
             elementXpath = [elementXpath]
-        root = ""
-        if findFrom is None:
-            findFrom = self.driver
-        else:
-            root = "."
+        root = "." if findFrom is not None else ""
 
         elementType = elementType.replace("//", "")
 
@@ -499,61 +536,146 @@ class SeleniumWrap:
                 _elementXpath += f" | {root}//{elementType}[{what}='{elementXpath[i]}']"
 
         return self.smartClick(_elementXpath, indInList, travelUp, timeLimit, txtCond, checkClosed,
-                     checkNewPage, checkNewTab, waitBeforeClicking, findFrom, waitBeforeFinding, expectingPopUp=False,
-                               nohang=nohang, newPageFollowsTimeLimit=newPageFollowsTimeLimit)
+                     checkNewPage, checkNewTab, waitBeforeClicking, findFrom, waitBeforeFinding,
+                     expectingPopUp=expectingPopUp, nohang=nohang, newPageFollowsTimeLimit=newPageFollowsTimeLimit)
 
-    def smartClick(self, elementXpath='', indInList=0, travelUp=0, timeLimit=10, txtCond = '', checkClosed=False,
+    def _perform_click(self, target, waitBeforeClicking=0, ctrl=False, listen_for_new_tab=False):
+        handle = target._handle
+        t.sleep(max(waitBeforeClicking, 0))
+        try:
+            handle.scroll_into_view_if_needed(timeout=3000)
+        except PlaywrightError:
+            pass
+        modifiers = ["Control"] if ctrl else None
+        try:
+            if listen_for_new_tab:
+                try:
+                    with self._context.expect_page(timeout=4000) as new_page_info:
+                        handle.click(modifiers=modifiers, timeout=5000)
+                except PlaywrightTimeoutError as exc:
+                    # Could be the click itself timing out (blocked/intercepted) or just
+                    # no new tab showing up within our wait window after a fine click --
+                    # only the former is a real problem the caller needs to react to.
+                    if "intercepts pointer events" in str(exc):
+                        return ElementClickInterceptedException(str(exc))
+                    return None
+                new_page = new_page_info.value
+                new_page.wait_for_load_state("domcontentloaded")
+                return new_page
+            handle.click(modifiers=modifiers, timeout=5000)
+            return None
+        except (PlaywrightError, PlaywrightTimeoutError) as exc:
+            if "intercepts pointer events" in str(exc):
+                return ElementClickInterceptedException(str(exc))
+            raise
+
+    def smartClick(self, elementXpath='', indInList=0, travelUp=0, timeLimit=10, txtCond='', checkClosed=False,
                      checkNewPage=False, checkNewTab=False, waitBeforeClicking=0, findFrom=None, waitBeforeFinding=0,
-                   element=None , expectingPopUp=False, ctrl=False, nohang=False, newPageFollowsTimeLimit=False):
-
-        if findFrom is None:
-            findFrom = self.driver
-
+                   element=None, expectingPopUp=False, ctrl=False, nohang=False, newPageFollowsTimeLimit=False):
+        ct_enter("smartClick", elementXpath if isinstance(elementXpath, str) else "<by element>")
+        t.sleep(waitBeforeFinding)
         if ctrl:
             checkNewTab = True
 
-        num_tabs_at_start = len(self.driver.window_handles)
-        url_at_start = self.driver.current_url
-
         if element is not None:
             elementXpath = self.generate_full_xpath(element)
+            findFrom = None
 
+        url_at_start = self._page.url
+        start_time = t.time()
+        deadline = start_time + timeLimit
+        attempt = 0
 
-        spentWaiting = [0]
         while True:
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
+            attempt += 1
             try:
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                #the "element" variable might be an exception object here
-                element = self.clickAttempt(elementXpath, indInList, travelUp, txtCond,
-                                            checkClosed,  checkNewPage,  checkNewTab,
-                                            waitBeforeClicking, findFrom, waitBeforeFinding,
-                                            url_at_start, num_tabs_at_start, expectingPopUp,
-                                            ctrl, nohang=nohang)
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                break
-            except Exception as e:
-                if isinstance(e, IndexError):
-                    raise
-                self.write("on line: " + str(inspect.currentframe().f_lineno))
-                waitRes = self.delta_wait_4_click(elementXpath, spentWaiting, timeLimit)
-                if isinstance(waitRes, StartFromTop) or isinstance(e, NoSuchWindowException):
-                    return waitRes
-                if newPageFollowsTimeLimit and spentWaiting[0] >= timeLimit:
-                    return -1
-                if not waitRes:
-                    self.write("on line: " + str(inspect.currentframe().f_lineno))
-                    break
-            self.write("on line: " + str(inspect.currentframe().f_lineno))
-        self.write("on line: " + str(inspect.currentframe().f_lineno))
-        return element
+                matches = self._resolve_matches(elementXpath, findFrom)
 
-    def findClosestRelatives(self,  refWhat, refType, refXpath, targetWhat, targetType, targetXpath, limit=10, srchLvlLmt=float('inf')):
-        reference = self.findAndClick(refWhat, refType,  refXpath, txtCond='@#%   Not Supposed To Match  ^&*()', timeLimit=limit)
+                if indInList == self.ALL:
+                    self.reportAction(f"returning {len(matches)} matches for {elementXpath}!")
+                    ct_exit("smartClick", f"{len(matches)} matches (ALL)")
+                    return matches
+
+                try:
+                    target = matches[indInList]
+                except IndexError:
+                    if nohang or t.time() >= deadline:
+                        if not nohang:
+                            self.reportAction(f"*\n*\n*\nTime OUT.  Spent {timeLimit} secs waiting for {elementXpath}\n*\n*\n*")
+                        ct_exit("smartClick", "not found")
+                        return None
+                    self.handleCaptcha()
+                    ct_wait("smartClick", f"element to appear: {elementXpath}", f"attempt={attempt}")
+                    t.sleep(self.DELTA_WAIT)
+                    continue
+
+                if target.get_attribute("disabled") is not None:
+                    ct_exit("smartClick", "disabled")
+                    return None
+
+                for _ in range(travelUp, 0, -1):
+                    target = self.get_parent(target)
+
+                if txtCond != '' and txtCond != target.text:
+                    self.reportAction(f"found element {elementXpath} but did not click because text did not match: {txtCond}")
+                    ct_exit("smartClick", "text condition mismatch")
+                    return target
+
+                numMatchesOriginally = len(matches)
+                click_result = self._perform_click(
+                    target, waitBeforeClicking=waitBeforeClicking, ctrl=ctrl,
+                    listen_for_new_tab=(ctrl or checkNewTab),
+                )
+                if isinstance(click_result, ElementClickInterceptedException):
+                    if t.time() >= deadline:
+                        self.reportAction(f"Ran into ElementClickInterceptedException trying to click {elementXpath}")
+                        ct_exit("smartClick", "click intercepted, giving up")
+                        return click_result
+                    self.reportAction(f"Click intercepted on {elementXpath}, retrying...")
+                    t.sleep(self.DELTA_WAIT)
+                    continue
+
+                if checkNewTab and click_result is not None:
+                    self._page = click_result
+
+                if checkNewPage:
+                    self._wait_until(lambda: self._page.url != url_at_start, max(deadline - t.time(), .5))
+
+                if checkClosed:
+                    self._wait_until(
+                        lambda: len(self._resolve_matches(elementXpath, findFrom)) < numMatchesOriginally,
+                        max(deadline - t.time(), .5),
+                    )
+
+                if not expectingPopUp:
+                    self.closeDialogBox()
+
+                self.reportAction(f"clicked {elementXpath} successfully!")
+                ct_exit("smartClick", "clicked")
+                return target
+
+            except (PlaywrightError, PlaywrightTimeoutError) as exc:
+                if any(marker in str(exc) for marker in _DEAD_PAGE_MARKERS):
+                    ct_error("smartClick", exc)
+                    return StartFromTop(str(exc))
+                if t.time() >= deadline:
+                    ct_error("smartClick", exc)
+                    if nohang:
+                        return None
+                    if newPageFollowsTimeLimit:
+                        return -1
+                    self.reportAction(f"*\n*\n*\nTime OUT.  Spent {timeLimit} secs waiting on {elementXpath}. ({exc})\n*\n*\n*")
+                    return None
+                ct_wait("smartClick", f"recovering from {type(exc).__name__}", str(exc)[:160])
+                self.handleCaptcha()
+                t.sleep(self.DELTA_WAIT)
+
+    def findClosestRelatives(self, refWhat, refType, refXpath, targetWhat, targetType, targetXpath, limit=10, srchLvlLmt=float('inf')):
+        reference = self.findAndClick(refWhat, refType, refXpath, txtCond='@#%   Not Supposed To Match  ^&*()', timeLimit=limit)
         if reference is None:
             return []
         relatives = []
-        prvWait = self.DELTA_WAIT  # elementXpath
+        prvWait = self.DELTA_WAIT
         self.DELTA_WAIT = .01
         level = 0
         while True:
@@ -563,69 +685,55 @@ class SeleniumWrap:
                 break
             try:
                 reference = self.get_parent(reference)
-            except:
-                #We Will run into an exception if We try to get the parent of the top level element
+            except PlaywrightError:
                 break
-
             level += 1
             if level > srchLvlLmt:
                 break
         self.DELTA_WAIT = prvWait
         return relatives
 
-    def findFillMoveOn(self, what, type, elementXpath, fillContent, indInList=0):
-        element = self.findAndClick( what, type,elementXpath, indInList)
-        self.fillMoveOn(element, fillContent)
-        return element
+    def click_all(self, list_of_elements, delayBeforeEach=0, delayBeforeFirst=0, timeLimitForEach=10):
+        t.sleep(delayBeforeFirst)
+        for element in list_of_elements:
+            self.smartClick(element=element, waitBeforeClicking=delayBeforeEach, timeLimit=timeLimitForEach)
 
-    def findFillEnter(self, what, type,  elementXpath, fillContent, indInList=0):
-        element = self.findAndClick( what, type,elementXpath, indInList)
-        element.send_keys(Keys.CONTROL, "a")
-        element.send_keys(fillContent)
-        element.send_keys(Keys.ENTER)
-        return element
-
-
-    def fillMoveOn(self, element, fillContent, step=20):
+    def closeDialogBox(self):
+        dialogBox = self.findAndClick(self.WHOLE, self.WHOLE, '//*[@role="dialog" and @aria-modal="true"]',
+                                      txtCond="#$%^&*", timeLimit=.4)
         try:
+            if dialogBox is not None:
+                possCloseButs = dialogBox.find_elements(By.TAG_NAME, 'button')
+                for button in possCloseButs:
+                    infoLabel = (button.get_attribute("aria-label") or "").lower()
+                    if 'close' in infoLabel:
+                        self.smartClick(element=button)
+                        self.reportAction("Closed Dialog")
+                        return
+        except PlaywrightError as exc:
+            ct_error("closeDialogBox", exc)
 
-            element.send_keys(Keys.CONTROL, "a")
-            i = 0
-            while i < len(fillContent):
-                end = i + step
-                xtra = 0
-                #make sure we are ending on a real char and not a space
-                while (end - 1) < len(fillContent) and fillContent[end - 1] == ' ':
-                    end += 1
-                element.send_keys(fillContent[i:end])  #send 20 chars at a time
-                element.send_keys(Keys.END) # make sure the cursor
-                i = end
-            element.send_keys(Keys.TAB)
-
-
-        except Exception as e:
-            print("An error occurred:", e)
-            traceback.print_exc()
-            still = False
-            while still:
-                t.sleep(1)
-
-
-    def fillDropDown(self, drpElement, content):
+    def handleCaptcha(self):
+        cap = self.findAndClick(self.TXT, self.MATCH, "Solve with 2Captcha", timeLimit=.1, nohang=True)
+        if cap is None:
+            return True
         try:
-            #make sure that drop doesn't already have the correct contents
-            curVal = drpElement.get_attribute("value")
-            curText = self.findAndClick(self.WHOLE, self.WHOLE, f'.//option[@value="{curVal}"]', txtCond="asdhfl98394",
-                                       findFrom=drpElement).text
-            if content == curText:
-                return
-        except:
-            return
+            while cap.text != 'Captcha solved!':
+                if "error" in cap.text.lower() or "api_http" in cap.text.lower() or "seconds" in cap.text.lower():
+                    ret = self.findAndClick(self.WHOLE, self.WHOLE, "//iframe[@title='reCAPTCHA']")
+                    if ret is not None:
+                        t.sleep(2)
+                        return True
+                    else:
+                        self.driver.back()
+                        return StartFromTop()
+                t.sleep(.25)
+        except PlaywrightError as exc:
+            ct_error("handleCaptcha", exc)
+            return True
+        return True
 
-        self.smartClick(element=drpElement)
-        drpElement.send_keys(content)
-        drpElement.send_keys(Keys.ENTER)
-            
+    # ------------------------------------------------------------- DOM traversal --
 
     def get_parent(self, element, level=1):
         for i in range(level):
@@ -640,25 +748,19 @@ class SeleniumWrap:
         return element.find_elements('xpath', finalPath)[0]
 
     def get_child_complex(self, element, easyPath):
-        # Split the string by '/' and filter out any empty strings
         indices = filter(None, easyPath.split('/'))
-
-        # Convert each index to the corresponding XPath segment
         segments = [f"*[{index}]" for index in indices]
-
-        # Join the segments and prepend with '.'
         finalPath = './' + '/'.join(segments)
-
         try:
             return element.find_elements('xpath', finalPath)[0]
-        except:
+        except (PlaywrightError, IndexError):
             return None
 
     def num_children(self, element):
         try:
             return len(element.find_elements('xpath', './*'))
-        except:
-            None
+        except PlaywrightError:
+            return None
 
     def indexAmongSiblings(self, element):
         index = len(element.find_elements('xpath', './preceding-sibling::*'))
@@ -670,22 +772,15 @@ class SeleniumWrap:
         return self.get_child(parent, indInLevel=indOfSibling)
 
     def generate_full_xpath(self, element):
-        # Base case: if the element is the root html element
         try:
             if element.tag_name == "html":
                 return "/html"
-        except Exception as e:
-            traceback.print_exc()
-            h = 4
+        except PlaywrightError as exc:
+            ct_error("generate_full_xpath", exc)
 
-        # Calculate the index of the current element among its siblings
         siblings = element.find_elements('xpath', "./preceding-sibling::" + element.tag_name)
         index = len(siblings) + 1
-
-        # Recursively generate the XPath for the parent element
         parent_xpath = self.generate_full_xpath(element.find_elements('xpath', "./..")[0])
-
-        # Combine the parent XPath and the current element's tag and index to generate the full XPath
         return f"{parent_xpath}/{element.tag_name}[{index}]"
 
     def xpath_or(self, *args):
@@ -696,82 +791,135 @@ class SeleniumWrap:
                 xpath += " | "
         return xpath
 
-    def reportAction(self, actionMsg, reportStack=True, useFile=True):
-        if useFile:
-            self.outputFile.write(f"\n{actionMsg}\n")
-        else:
-            print(f"\n{actionMsg}\n")
+    # ------------------------------------------------------------------- filling --
 
+    def findFillMoveOn(self, what, type, elementXpath, fillContent, indInList=0):
+        element = self.findAndClick(what, type, elementXpath, indInList)
+        self.fillMoveOn(element, fillContent)
+        return element
+
+    def findFillEnter(self, what, type, elementXpath, fillContent, indInList=0):
+        element = self.findAndClick(what, type, elementXpath, indInList)
+        element.send_keys(Keys.CONTROL, "a")
+        element.send_keys(fillContent)
+        element.send_keys(Keys.ENTER)
+        return element
+
+    def fillMoveOn(self, element, fillContent, step=20):
+        try:
+            element.send_keys(Keys.CONTROL, "a")
+            i = 0
+            while i < len(fillContent):
+                end = i + step
+                while (end - 1) < len(fillContent) and fillContent[end - 1] == ' ':
+                    end += 1
+                element.send_keys(fillContent[i:end])
+                element.send_keys(Keys.END)
+                i = end
+            element.send_keys(Keys.TAB)
+        except PlaywrightError as exc:
+            ct_error("fillMoveOn", exc)
+
+    def fillDropDown(self, drpElement, content):
+        try:
+            curVal = drpElement.get_attribute("value")
+            curText = self.findAndClick(self.WHOLE, self.WHOLE, f'.//option[@value="{curVal}"]', txtCond="asdhfl98394",
+                                       findFrom=drpElement).text
+            if content == curText:
+                return
+        except (PlaywrightError, AttributeError):
+            pass
+        self.smartClick(element=drpElement)
+        drpElement.send_keys(content)
+        drpElement.send_keys(Keys.ENTER)
+
+    # --------------------------------------------------------------------- misc --
+
+    def nextNonBlankLine(self, file_handler):
+        line = ''
+        while not line or line.strip()[:2] == "//":
+            line = file_handler.readline()
+            if len(line) == 0:
+                break
+            line = line.strip()
+        return line
+
+    def select_tab_by_url_pattern(self, pattern):
+        """Switches to the first tab whose URL matches pattern and closes all others."""
+        deadline = t.time() + 15
+        matching_page = None
+        while matching_page is None and t.time() < deadline:
+            for page in self._context.pages:
+                if re.search(pattern, page.url):
+                    matching_page = page
+                    break
+            if matching_page is None:
+                ct_wait("select_tab_by_url_pattern", f"a tab matching {pattern}")
+                t.sleep(.5)
+
+        if matching_page is None:
+            self.reportAction("No tab found with a URL matching the pattern.", False)
+            raise RecoverableBrowserError(f"No open tab matched pattern {pattern!r}; restarting the browser session.")
+
+        for page in list(self._context.pages):
+            if page is not matching_page:
+                try:
+                    page.close()
+                except PlaywrightError:
+                    pass
+        self._page = matching_page
+        matching_page.bring_to_front()
+
+    def escape_regex_special_chars(self, s: str) -> str:
+        special_chars = ['\\', '.', '^', '$', '*', '+', '?', '{', '}', '[', ']', '|', '(', ')']
+        s = s.replace("((", "({[(")[::-1].replace("))", ")}])")[::-1]
+        special_substrings = re.findall(r'\(\{\[\(.*?\)\]\}\)', s)
+        for i, substring in enumerate(special_substrings):
+            s = s.replace(substring, f'PLACE&&&HOLDER{i}')
+        special_substrings = [substring.replace('({[(', '').replace(')]})', '') for substring in special_substrings]
+        for char in special_chars:
+            s = s.replace(char, f'\\{char}')
+        for i, substring in enumerate(special_substrings):
+            s = s.replace(f'PLACE&&&HOLDER{i}', substring)
+        return s
+
+    def reportAction(self, actionMsg, reportStack=True, useFile=True):
+        # Always print live (birdcatcher-style) -- this used to only go to a
+        # log file, which is why main.py's failures were invisible.
+        ct_print("reportAction", actionMsg.replace("\n", " ").strip()[:200])
+        if useFile and getattr(self, "outputFile", None) is not None and not self.outputFile.closed:
+            self.outputFile.write(f"\n{actionMsg}\n")
         if reportStack:
             stack = inspect.stack()
             listFuncCalls = [frame.function for frame in stack]
             listFuncCalls.pop(0)
             funcStack = ' | '.join(listFuncCalls)
-            if useFile:
+            if useFile and getattr(self, "outputFile", None) is not None and not self.outputFile.closed:
                 self.outputFile.write(f"\tFunction Stack: {funcStack}\n")
-            else:
-                print(f"\tFunction Stack: {funcStack}\n")
 
     def getCurrentEnv(self):
-        t.sleep(1)
-        currentEnv = ""
-
-        #  check if a dialog box is present
-        #dialogBox = self.findAndClick(self.WHOLE, self.WHOLE, '//*[@role="dialog" and @aria-modal="true"]',
-        #                              txtCond="#$%^&*", timeLimit=.4)
-        #  first handle URL
-        url = self.driver.current_url
-
-        # if so  get the text
-        if False: #dialogBox is not None:
-            mainText = dialogBox.text
-            currentEnv = f"{url}|{mainText}"
-        # if not, get the first <title>\
-        else:
-            secsSlept = 0
-            while len(self.driver.title) <= 0:
-                print(f"title is {self.driver.title} so sleeping for a second")
-                t.sleep(1)
-                secsSlept += 1
-                if secsSlept > 10:
-                    self.handleCaptcha()
-            cond = lambda : len(self.driver.title) > 0
-            self.graduatedWait(cond, maxWait=5) #wait up to 2 secs for title to load
-            titleText = self.driver.title
-            currentEnv = f"{url}|{titleText}"
-
+        ct_enter("getCurrentEnv")
+        deadline = t.time() + 15
+        title = ""
+        while t.time() < deadline:
+            try:
+                url = self._page.url
+                title = self._page.title()
+            except PlaywrightError as exc:
+                if any(marker in str(exc) for marker in _DEAD_PAGE_MARKERS):
+                    raise
+                url, title = "", ""
+            if title:
+                break
+            self.handleCaptcha()
+            ct_wait("getCurrentEnv", "page title to load")
+            t.sleep(1)
+        currentEnv = f"{url}|{title}"
+        ct_exit("getCurrentEnv", currentEnv[:120])
         return currentEnv
 
-    def escape_regex_special_chars(self, s: str) -> str:
-        # List of regex special characters that need to be escaped
-        special_chars = ['\\', '.', '^', '$', '*', '+', '?', '{', '}', '[', ']', '|', '(', ')']
 
-        #make the markers more complex
-        s = s.replace("((", "({[(")[::-1].replace("))", ")}])")[::-1]
-
-        # Find all substrings that are enclosed between (( and ))
-        special_substrings = re.findall(r'\(\{\[\(.*?\)\]\}\)', s)
-
-        # Replace the special substrings in the original string with placeholders
-        for i, substring in enumerate(special_substrings):
-            s = s.replace(substring, f'PLACE&&&HOLDER{i}')
-
-        # Replace '({[(' and ')]})' in the special substrings
-        special_substrings = [substring.replace('({[(', '').replace(')]})', '') for substring in special_substrings]
-
-        # Escape the special characters in the modified string
-        for char in special_chars:
-            s = s.replace(char, f'\\{char}')
-
-        # Replace the placeholders with the original special substrings
-        for i, substring in enumerate(special_substrings):
-            s = s.replace(f'PLACE&&&HOLDER{i}', substring)
-
-        return s
-
-
-
-class IndeedHelper(SeleniumWrap):
+class IndeedHelper(PlaywrightWrap):
     area_specifier_text = {"United States": 'City, State',
                       "Canada":"City, Province / Territory"}
     def __init__(self, info, masterMilestoneList):
@@ -2164,7 +2312,7 @@ class IndeedHelper(SeleniumWrap):
 
 
 class StateMachine:
-    def __init__(self, helper : SeleniumWrap ):
+    def __init__(self, helper : PlaywrightWrap ):
         self.helper = helper
         self.validate_files("States.txt", "ExpectedEnvironments.txt", "StateTransitions.txt")
         self.states = self.load_states("States.txt")
@@ -2349,32 +2497,6 @@ class StateMachine:
                 break
             self.transition(env)
 
-'''def loadUsersFromDB():
-    emailCol = "IndeedEmail"
-    passCol = "IndeedPass"
-
-    checker_query = """SELECT * FROM users WHERE AppsLeft > ? AND Active = ?"""
-
-
-    values = (0, "T")
-    conn = sqlite3.connect('IndHelperDB.db')
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-
-
-    cursor.execute(checker_query, values)
-
-    # Fetch one record, if it exists
-    allRecords = cursor.fetchall()
-
-    # task1:  get all the records from the Job table that have the same userID as each of the records in allRecords
-    # task2:  get all the records from the Edu table that have the same userID as each of the records in allRecords
-    # task3:  return a data structure for which index 0 is a tuple containing the first record in allRecords, index 1 is
-    #         all the records from task2 that match the first records in allRecords, index 2 is all the records from the
-    #         task3 that match the first record in allRecords.
-
-    return allRecords'''
-
 def loadUsersFromDB():
     checker_query = """SELECT * FROM users WHERE AppsLeft > ? AND Active = ?"""
 
@@ -2407,18 +2529,50 @@ def loadUsersFromDB():
     conn.close()
     return user_data
 
+
+# =====================================================================================
+#  Resilient top-level run loop.
+#
+#  main.py's version of this wrapped everything in "except: pass" with no sleep, so a
+#  startup failure (e.g. two copies fighting over the same Chrome profile) span an
+#  invisible, silent, CPU-pegging infinite retry loop -- nothing printed, nothing
+#  logged, no backoff. This version classifies every failure, always prints it live
+#  (ct_error), and backs off between restarts instead of hot-looping.
+# =====================================================================================
+
+RESTART_BACKOFF_SECONDS = 15
+
+
 def RunUser(user_to_run, masterRecords):
-    while (True):
+    user_label = f"{user_to_run['mainInfo']['FirstName']} {user_to_run['mainInfo']['LastName']} (id={user_to_run['mainInfo']['id']})"
+    consecutive_failures = 0
+    while True:
+        sm = None
         try:
+            ct_enter("RunUser", user_label)
             sm = StateMachine(IndeedHelper(user_to_run, masterRecords["milestoneList"]))
             masterRecords["sm_ref"] = sm
             sm.run()
-        except Exception as e:
-            try:
-                sm.helper.reportAction(f"An error occurred: {e}", False)
-                sm.helper.driver.quit()
-            except:
-                pass
+            ct_exit("RunUser", f"{user_label} reached 'exit' environment, stopping cleanly")
+            return
+        except Exception as exc:
+            consecutive_failures += 1
+            ct_error("RunUser", exc)
+            traceback.print_exc()
+            if sm is not None:
+                try:
+                    sm.helper.reportAction(f"An error occurred: {exc}", False)
+                except Exception as report_exc:
+                    ct_error("RunUser (reportAction)", report_exc)
+            if sm is not None:
+                try:
+                    sm.helper.close()
+                except Exception as close_exc:
+                    ct_error("RunUser (close)", close_exc)
+            backoff = min(RESTART_BACKOFF_SECONDS * consecutive_failures, 300)
+            ct_print("RunUser", f"restarting {user_label} in {backoff}s", f"consecutive_failures={consecutive_failures}")
+            t.sleep(backoff)
+
 
 def ReportStall(id):
     engine = pyttsx3.init()
@@ -2429,47 +2583,33 @@ def ReportStall(id):
 
 
 if __name__ == "__main__":
-    #ih = IndeedHelper()
-    #ih.run()
     usersToStart = list(loadUsersFromDB())[:1]
 
     threads = []
     usr_records = {}
 
     for user in usersToStart:
-        usr_records[user["mainInfo"]["id"]] = {"milestoneList":[datetime.datetime.now()], "sm_ref":None}
-        thread = Thread(target=RunUser, args=(user,usr_records[user["mainInfo"]["id"]]))
-
-        # Start the thread
+        usr_records[user["mainInfo"]["id"]] = {"milestoneList": [datetime.datetime.now()], "sm_ref": None}
+        thread = Thread(target=RunUser, args=(user, usr_records[user["mainInfo"]["id"]]), daemon=True)
         thread.start()
-
-        # Append the threadto the list of threads
         threads.append(thread)
-
+        ct_print("__main__", f"started worker thread for user id={user['mainInfo']['id']}")
 
     while True:
-        t.sleep(60)  #runs every mi`n
+        t.sleep(60)
         try:
             for id, rec in usr_records.items():
                 lastMilestone = rec["milestoneList"][-1]
                 now = datetime.datetime.now()
-                if (now - lastMilestone).seconds > 60*15:
-                    if False:
-                        ReportStall(id)
-                    else:
-                        rec["sm_ref"].helper.driver.quit()
-                        rec["sm_ref"].helper.driver = None
-                        rec["milestoneList"].append(datetime.datetime.now())
-        except:
-            h = 5
+                if (now - lastMilestone).seconds > 60 * 15:
+                    ct_print("__main__", f"user id={id} looks stalled (no milestone in 15 min), restarting its browser")
+                    sm_ref = rec["sm_ref"]
+                    if sm_ref is not None:
+                        try:
+                            sm_ref.helper.close()
+                        except Exception as exc:
+                            ct_error("__main__ (stall recovery)", exc)
+                    rec["milestoneList"].append(datetime.datetime.now())
+        except Exception:
+            ct_error("__main__ (monitor loop)", sys.exc_info()[1])
             traceback.print_exc()
-
-    #for thread in threads:
-    #    thread.join()
-
-
-
-#ih = IndeedHelper()
-#ih.run()
-
-#https://www.indeed.com/jobs?q=&l=Remote&radius=35&start=10&pp=gQAPAAABiqZMUOEAAAACEQs_OgApAQAGAbWQDBy232HQyRWcqeGmhCw1EBtXt2H_3ngANxzAD_7ga50Vm1QAAA&vjk=5bb2ac5d6d7a7740

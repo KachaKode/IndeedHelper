@@ -1,0 +1,48 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+
+
+**KEEP**ALL**TOGETHER**
+I'm applying to a job, here is the job description:
+
+PLACE&&HOLDER&&
+
+Can you give me the 5 most important skills that a person doing this job would need?  Give me the skills in a comma separated list, reply with only the list and make sure the list does not contain a conjunction of enumeration.
+"**END**ALL**TOGETHER**"
+
+
+
+
+**KEEP**ALL**TOGETHER**
+Nice, thanks!  Let's refer to that list as listA.  Now, I want you to read my life summary:
+
+PLACE&&HOLDER&&
+
+Now consider the type of skills a person with this life summary would have (not only the skills that were explicitly mentioned, but you can also extrapolate and also consider skills that were not mentioned but a person fitting this description (the life summary) would have.  Of those skills, give me the 3 most relevant skills to the job description I gave you earlier.  But make sure not to repeat any of the 5 skills you gave me before.  Like before, give me these 3 skills in a comma separated list.  Reply with only the list and make sure the list does not contain a conjunction of enumeration.
+"**END**ALL**TOGETHER**
+
+
+Great, let's refer to that list as listB. Lastly, I want you to combine listA (the 5 skills) and listB (the 3 skills).  Order the list of 8 skills from most to least relevant in regards to the job description.  Make sure you include ALL 5 skills from listA and all 3 skills from listB!!!  The resulting list should have 8 skills.  MAKE SURE YOU DON'T LEAVE OUT ANY OF THE SKILLS!
+
+
+
+Now, repeat that exact list back to me, but capitalize each of the 8 skills the same way you would capitalize a book title and make sure the list does not contain a conjunction of enumeration.
+
+&&CHECK&&
+:
+Reply ONLY with the comma separated list.  Don't number the list either. And I don't need an introductory phrase.  Just give me the list!
+
+
+&&CHECK&&
+AI language model
+Do NOT under ANY CIRCUMSTANCES mention you're an AI language model.

@@ -1,0 +1,22 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+Make sure the answer is formatted like this: mm/dd/yyyy.  And remember, reply back with just the answer.  No apology or introductory statement needed.
+
+
+&&CHECK&&
+:
+I don't want an introductory phrase.  Just give me the date ALONE, formatted as mm/dd/yyyy
+
+&&CHECK&&
+AI language model
+Do NOT under ANY CIRCUMSTANCES mention you're an AI language model.  

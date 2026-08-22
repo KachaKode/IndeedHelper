@@ -1,0 +1,28 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+
+
+**KEEP**ALL**TOGETHER**
+I'm applying to a job, here is the job description:
+
+PLACE&&HOLDER&&
+
+What should the headline of a resume be for a person applying to that position?  Reply back with only the headline.
+"**END**ALL**TOGETHER**"
+
+Make sure your reply is ONLY the headline you create.  I don't need you to include an introductory phrase.  Give me ONLY the HEADLINE.
+
+
+&&CHECK&&
+AI language model
+Do NOT under ANY CIRCUMSTANCES mention you're an AI language model.

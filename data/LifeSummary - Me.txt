@@ -1,0 +1,33 @@
+{Put first Name under here}
+Tommy
+
+{Put last Name under here}
+Orok
+
+{Put Phone number under here. Format:(###) ###-####}
+(770) 383-5362
+
+{Put email under here}
+Tommy@IvyKode.com
+
+{Put city & state under here.  Format: City, State}
+Powder Springs, Georgia
+
+{Put Zip Code under here}
+30127
+
+{Put life summary, year by year, under here}
+I played football in highschool and became the defensive captain despite not having much football knowledge or experience.  I wasn't even the best player on defense.  But I was nonetheless chosen as the leader because of my leadership skills and natural ability to bring people together and rally them.  I got them excited to execute our plans and reach our goal.
+
+Throughout highschool I worked as a math and science tutor.  I tutored subjects like algebra, trigonometry, calculus, linear algebra, physics, biology, chemistry, etc.  From the start (my sophomore year) I was already tutoring kids in college and by the end (my senior year) I was the lead tutor.
+
+After my first python class at Columbia University, I needed a job during the summer before sophomore year.  So, I created a program that would monitor craigslist for cheap iphones, notify me with the information of the seller as soon as it observed one getting posted for sale (as long as the price was below a certain level) so that I could be the first buyer to contact them.  This enabled me to easily find cheap iphones, buy them, and sell them for profit all summer.  This was my introduction to entrepreneurship, web scraping, and automation.  All 3 of those aspects of myself have been greatly developed since then.
+
+During a hackathon I created a custom web server in 4 hours in c.
+
+During the summer before my senior year at Columbia University, I had an internship at a startup called LawNearMe.  It was essentially a service that connected customers with their clients (lawyers that pay a fee to the service so that the service funnels them people in need of lawyers).  Before I arrived at the startup, the typical day in that office consisted of the interns coming in and spending all day on various lawyer/bar association directories copying and pasting names/email addresses of lawyers in order to reach out to them and and convince them to sign up for the service.  The most grueling aspect of the task was gathering up all of the names and email addresses.  After my first day on the job, I found the tedium of the job to be unacceptable.  That day when I got home, I immediately created a web scraper that would automatically extract all of the names and emails from a given lawyer directory.  But that isn't all.  For each lawyer, it also sent them a prewritten email making first contact in trying to sign them up for our services.  I drastically increased daily productivity.  I shared my creation with the rest of the office.  The same amount of work that used to take everyone all day to complete was getting done within the first hour of the day.  
+
+During my senior year at Columbia University, my big project was to lead my team in the development of a food delivery app.  we got an A on it.  
+
+
+My favorite web site I built was for a beach rental service business.  The business serviced several beach locations and would deliver beach equipment to people that rented it from them.  They wanted me to build them a site to manage their business.  My favorite feature of that site that I created was a custom calendar that was connected to their inventory.  when a user visited the site and attempted to book a rental for a specific piece of equipment, the calendar would prevent the business from overbooking any specific equipment on any given day (which was a huge issue for them and a main cause for their refunds and the fees associated with giving out refunds).  It did this by constantly updating whether or not a day was available to be added in a booking based on the equipment being booked and the amount being requested.  If the amount changed, the availablity on the calendar changed in real time.  

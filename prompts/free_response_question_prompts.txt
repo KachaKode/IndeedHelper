@@ -1,0 +1,73 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+
+
+**KEEP**ALL**TOGETHER**
+I'm applying to a job, here is the job description:
+
+PLACE&&HOLDER&&
+
+Before I give you the question, I'll show you the questions that came before this one so you have extra context.  Use the context if you find it relevant.  Here are the previous questions:
+
+PLACE&&HOLDER&&
+
+Also, here are some personal details about myself:
+PLACE&&HOLDER&&
+
+Now, I want you to read my life summary:
+
+PLACE&&HOLDER&&
+
+Based on the job description, my life summary, and the context of the previous questions, please answer this question in a way that would make me most likely to get the job.  Reply as if YOU are the applicant.  This is the question:
+
+PLACE&&HOLDER&&
+
+Reply only with the answer.
+"**END**ALL**TOGETHER**"
+
+**KEEP**ALL**TOGETHER**
+Also, remember this rule about answering the question:  PLACE&&HOLDER&&
+
+And give me the answer ONLY.  No introductory phrase.
+"**END**ALL**TOGETHER**"
+
+
+&&CHECK&&
+- &&AND&& $
+Choose the middle of the range.  And remember, reply back with just the answer.  No apology or introductory statement needed.
+
+//&&CHECK&&
+//zip &&OR&& Zip
+//This is my zip code: PLACE&&HOLDER&&.  Use that if they ask for one.  And remember, reply back with just the answer.  No apology or introductory statement needed.
+
+//&&CHECK&&
+//Phone &&OR&& phone
+//This is my phone number: PLACE&&HOLDER&&.  Use that if they ask for one.  And remember, reply back with just the answer.  No apology or introductory statement needed.
+
+//&&CHECK&&
+//Email &&OR&& email &&OR&& e-mail &&OR&& E-mail
+//This is my phone email: PLACE&&HOLDER&&.  Use that if they ask for one.  And remember, reply back with just the answer.  No apology or introductory statement needed.
+
+&&CHECK&&
+AI language model
+Do NOT under ANY CIRCUMSTANCES mention you're an AI language model.
+
+&&CHECK&&
+XX,XXX
+Give an actual number.  Don't apologize in your reply.  Don't give an introductory phrase.  Just respond as if you are the applicant and use real numbers that are reasonable and make sense.  
+
+
+//'make sure to answer from the perspective of a potential employee answering the question asked by their potential employer'
+//"Answer in a natural way that an interviewee would answer the person that is interviewing them.  Don't just regurgitate info from the job description, but rather, incorporate the info //into a real answer that comes from a real person."
+
+//mygpt.send("Answer in as short a way as possible though.  Get straight to the point.  Don't answer anything that wasn't asked.")

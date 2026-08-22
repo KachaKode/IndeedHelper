@@ -1,0 +1,11 @@
+I am a tutor.  This person's name is REPLACE_NUM_2.  REPLACE_NUM_2 is looking for REPLACE_NUM_1 tutoring.  This is the request they wrote:
+
+"REPLACE_NUM_3"
+
+I want you to write a reply to them using this template:
+
+"If you are still looking for a tutor {for them or their son, daughter, etc.}, then I'd be happy to help you out!  I use {whatever subject they need help with} all the time professionally and have over 10 years of experience in it {or them}. I am confident that no matter where you're at or what you're struggling with, I'll be able to get you to where you want to be.  If I'm wrong, you don't get charged!"
+
+The words between the "{}" are notes for your own understanding and direction.  Now remember, that was just a template.  I'm not necessarily asking you to copy it word for word, but rather I want you to write a new reply that conveys the same kind of information and uses a similar tone.  Make sure the reply is 8 sentences or less.
+
+All I need is the message body.  I don't need a header, subject, or salutation, or a closing "best regards" etc.  Just the body.

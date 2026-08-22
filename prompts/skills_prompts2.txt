@@ -1,0 +1,95 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+
+You are a PLACE&&HOLDER&& who is making a list of skills to put on your resume.  You will use both the description of the job you are applying to and your own life details to come up with a list of impressive and marketable skills.
+
+
+**KEEP**ALL**TOGETHER**
+Here is the job description:
+
+PLACE&&HOLDER&&
+"**END**ALL**TOGETHER**"
+
+Come up with the 5 most important skills that a person doing this job would need.  Call this listA.  Word the skills in a succinct and natural way.  Make sure this list is full of actual SKILLS and not just random words/sentences from the job description.
+
+
+**KEEP**ALL**TOGETHER**
+These are your life details:
+
+PLACE&&HOLDER&&
+"**END**ALL**TOGETHER**
+
+Based on your life details, come up with the 3 most relevant skills you have that would make you look attractive to the employer that posted the aforementioned job description.  Call this listB.  Make sure none of the skills from listA appear in listB. 
+
+
+Lastly, I want you to combine listA (the 5 skills) and listB (the 3 skills).  Make sure you include ALL 5 skills from listA and all 3 skills from listB!!!  The resulting list should have 8 skills.  MAKE SURE YOU DON'T LEAVE OUT ANY OF THE SKILLS!
+
+
+Give me a combined list (comprising of the 5 elements from listA and the 3 elements from listB) and present it as one list. Also, please be sure to capitalize each of the 8 skills the same way an author would capitalize a book title. 
+
+**KEEP**ALL**TOGETHER**
+This part is important... DO NOT LET THE SKILL DESCRIPTIONS BE TOO "WORDY".  Make sure each skill description is concise and succinct.  Here is an example of a BAD and OVERLY WORDY skills list (delimited by ";;"):
+
+Manipulate and analyze large, complex data sets to distill insights from customer data;; Collaborate with engineering and product teams: This indicates your capacity to work cross-functionally, an important aspect in many tech-oriented workplaces;; Partner with other data scientist(s);; Conduct both real-time and historical analysis of customer data and customer success;; Perform deep dive ad-hoc analyses and set up A/B and multivariate experiments;; Proficient with ML software and frameworks;; Experience using machine learning techniques and advanced analytics;; Knowledge of and interest in NLP and AI
+
+And now here is the correct way to do that same list.  This new, corrected, list conveys the same information but it is a much more streamlined version of the example list:
+
+Data Analysis;; Team Collaboration;; Data Science Teamwork;; Customer Data Analysis;; Ad-hoc Analysis & Experimentation;; Machine Learning Proficiency;; Advanced Analytics Experience;; NLP & AI Knowledge
+
+Each skill description should not need to be more than 3 or 4 words.
+"**END**ALL**TOGETHER**
+
+**KEEP**ALL**TOGETHER**
+Another important note... don't just blindly repeat excerpts of the job description if those excerpts don't make sense as a *skill*.  For example, if you see this in the job description listed under skills/requirements/responsibilities:
+	- Manage and optimize our Docker environment.
+	- Implement Kubernetes for orchestration.
+	- Utilize Terraform for infrastructure and Ansible for process automation.
+	- Develop Python scripts as necessary.
+	- US Citizen.
+	- Previous experience as a Docker Engineer or similar role.
+	- Proficiency in Docker, Kubernetes, Terraform, Ansible, and Python.
+	- Bachelor’s degree in Computer Science, Engineering, or a related field.
+	
+that doesn't mean that any of those points should be part of your skills list verbatim.  None of those points are appropriately aticulated skills.  Furthermore, "US Citizen" and "Bachelor’s degree" aren't skills at all!  Differentiate between requirements that are actually skills and requirements that don't qualify as skills.  Based on the aforementioned skills/requirements/respsonsibilities, an appropriate list of skills for you to include if your list would be something like this:
+	-  Docker Proficiency
+	-  Kubernetes Proficiency
+	-  Ansible Experience 
+	-  Terraform Experience 
+	-  Python proficiency 
+
+Don't make it a copy/paste job!  Put some effort into analyzing the skills needed for the skills/requirements/responsibilities listed in the jobb description and put THAT in your skills list. 
+"**END**ALL**TOGETHER**
+
+**KEEP**ALL**TOGETHER**
+I need you to make sure that each skill in your list is: 
+1)  appropriately articulated
+2)  not too wordy
+3)  an actual SKILL rather than a qualification or status 
+4)  SPECIFIC.  (i.e. Don't say something like "Good Understanding of at least one Web Framework") 
+
+If each skill in the list you created satisfies the 4 requirements then you can keep the list as is.  If not, then edit the list so that it only contains points that satisfy the 4 requirements.  Edit/remove points as necessary.  Make sure each skill only appears ONCE in the list.
+"**END**ALL**TOGETHER**
+
+your reply should be in this format:  "Here is the combined list: list_element_1;;list_element_2;;...;;list_element_N;;END_LIST_X" without the quotes, and say NOTHING ELSE.  The list should not be more than 8 skills.
+
+&&CHECK&&NOT&&
+Here is the combined list:
+INCORRECT FORMAT!!!  You  didn't start with "Here is the combined list:".  Remember, your reply should be in this format:  "Here is the combined list: list_element_1;;list_element_2;;...;;list_element_N;;END_LIST_X" without the quotes, and say NOTHING ELSE.
+
+&&CHECK&&NOT&&
+;;
+Remember, your reply should be in this format:  "Here is the combined list: list_element_1;;list_element_2;;...;;list_element_N;;END_LIST_X" without the quotes, and say NOTHING ELSE.
+
+&&CHECK&&
+AI language model
+Do NOT under ANY CIRCUMSTANCES mention you're an AI language model.

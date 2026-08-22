@@ -1,0 +1,46 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+
+
+**KEEP**ALL**TOGETHER**
+I'm applying to a job, here is the job description:
+
+PLACE&&HOLDER&&
+
+Based on the job description, please answer this multiple choice question in a way that would make me most likely to get the job.  Before I give you the question, I'll show you the questions that came before this one so you have extra context.  Use the context if you find it relevant.  Here are the previous questions:
+
+PLACE&&HOLDER&&
+
+Okay now this is the current question you need to answer:
+
+PLACE&&HOLDER&&
+
+Here is also some info about myself, in case it's relevant to the question:
+PLACE&&HOLDER&&
+
+PLACE&&HOLDER&&
+
+And these are the answer choices:
+
+PLACE&&HOLDER&&
+
+Reply back only with the answer choice that would make me most likely to get the job.  Reply back with that answer choice verbatim. 
+"**END**ALL**TOGETHER**"
+
+Also, remember this rule about answering the question:  PLACE&&HOLDER&&
+
+Make sure your reply is ONLY the answer you create.  I don't need you to include an introductory phrase.  Give me ONLY the ANSWER.
+
+&&CHECK&&
+is:
+I said reply back with ONLY the ANSWER.  Your ENTIRE REPLY should JUST be the ANSWER.  NOTHING ELSE.

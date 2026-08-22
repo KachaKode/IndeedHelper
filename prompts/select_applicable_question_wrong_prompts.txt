@@ -1,0 +1,18 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+**KEEP**ALL**TOGETHER**
+I don't see all of your replies among the possible choices I gave you.  Try again and make sure you: 
+    (1) reply with ONLY the answer(s).  No apologies and no introductory message 
+    (2) make sure each answer/reply matches one of choices I provided you with, VERBATIM.  As in no extra spaces, punctuation, or letters.  Which ever choice we deemed was the best choice(s), I need you to give me back the EXACT SAME SEQUENCE OF CHARACTERS.
+"**END**ALL**TOGETHER**"
+

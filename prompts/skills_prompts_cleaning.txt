@@ -1,0 +1,61 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+
+
+**KEEP**ALL**TOGETHER**
+Does this list of skills make sense for a PLACE&&HOLDER&& to put on their resume:
+
+PLACE&&HOLDER&&
+
+I want to make sure that each skill is: 
+1) Specific  (the word "or" should NEVER appear in a skill)
+2) appropriately articulated
+3) not too wordy
+4) an actual skill rather than a qualification or status 
+"**END**ALL**TOGETHER**"
+
+
+
+
+**KEEP**ALL**TOGETHER**
+revise the list so that it is appropriate for me to put on a resume, just give me a list of skills as the reply.  Remove elements of the list that are not appropriate for a list of skills on my resume
+
+The list itself should not be longer than 8 skills, and each skill should not be more than 4 words.  
+
+your reply should be in this format:  "Here is the revised list: list_element_1;;list_element_2;;list_element_3;;...;;list_element_N;;END_LIST_X" without the quotes, and say NOTHING ELSE. 
+"**END**ALL**TOGETHER**
+
+&&CHECK&&NOT&&
+;;&&AND&&;;&&AND&&;;
+Remember, your reply should be in this format:  "Here is the revised list: list_element_1;;list_element_2;;list_element_3;;...;;list_element_N;;END_LIST_X" without the quotes, and say NOTHING ELSE.  There should be a ;; between EACH ELEMENT.
+
+&&CHECK&&NOT&&
+Here is the revised list:
+You didn't start off the reply correctly.  Remember, your reply should be in this format:  "Here is the revised list: list_element_1;;list_element_2;;list_element_3;;...;;list_element_N;;END_LIST_X" without the quotes, and say NOTHING ELSE before or after.
+
+&&CHECK&&NOT&&
+END_LIST
+You didn't end the reply with "END_LIST_X"!!!!!  Try again.  No apology, just give me your reply in the aforementioned proper format.
+
+
+&&CHECK&&
+1)&&AND&&2)&&AND&&3)
+You didn't follow instructions!!!  It's not supposed to be a numbered list and it's not supposed to be one skill per line.  Try again.  No apology, just give me your reply in the aforementioned proper format.
+
+&&CHECK&&
+&&nu_line&&
+You didn't follow instructions!!!  There are not supposed to be ANY new lines in your reply.  I gave you the correct format you should reply in... USE IT!  
+
+&&CHECK&&
+AI language model
+Do NOT under ANY CIRCUMSTANCES mention you're an AI language model.

@@ -1,0 +1,54 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+
+
+**KEEP**ALL**TOGETHER**
+I am trying to fix up my resume, I'm currently creating a cover letter and I need your help creating it.  First, let me give you info about the job I'm applying to.
+
+Job Title: PLACE&&HOLDER&&
+Company Title:PLACE&&HOLDER&&
+Job Description:PLACE&&HOLDER&&
+
+Now let me give you some information about myself.  My name is PLACE&&HOLDER&& PLACE&&HOLDER&& And this is a summary of notable things I've done in my life:PLACE&&HOLDER&&.  
+
+Please create a cover letter incorporating both what you now know about me and the job I'm applying to. The position was advertised on Indeed.com.  Also, you don't need to incorporate ALL of my life summary.  Just incorporate the parts that are relevant or can be *fudged* to become relevant.  Don't force it.  Also, prioritize the things that happened later in my life rather than the earlier things. And also, be creative!!! In at least half of the things you mention from my life summary, you need to direcly mention how those skills i demonstrated/learned/developed doing that thing would be useful in the job I'm applying to.  
+"**END**ALL**TOGETHER**"
+
+
+
+
+**KEEP**ALL**TOGETHER**
+Start the cover letter like this:
+//first_name last_name
+PLACE&&HOLDER&& PLACE&&HOLDER&&
+//  phone | email | city, State
+PLACE&&HOLDER&& | PLACE&&HOLDER&& | PLACE&&HOLDER&&
+
+// today's date MM/DD/YYYY format
+PLACE&&HOLDER&&
+
+Dear Hiring Manager,
+"**END**ALL**TOGETHER**"
+
+
+
+
+Make sure you use NO placeholders. As in, there should be nothing between a '[' and ']' that you need me to fill in.  Just make up your own information for those parts if there are any. Use information that is impressive yet reasonable. Also, make sure the cover letter does not exceed 500 words.  Also, let your entire reply consist of only the cover letter.  No introductory phrase.
+
+&&CHECK&&
+[
+I said no placeholders!!!  Use the information I gave you about myself!  And if it's not relevant to the placeholder, make something up!!  Now go through it again and make sure there are NO PLACEHOLDERS.  Also, don't apologize. Just reply back with the full fixed cover letter and nothing else.  And remember, it needs to be the EXACT same letter, just replace the placeholders with my information (if possibe and if not then come up with something).  And don't apologize or give me an introductory phrase, just give me the letter.  Also... remember to start the letter EXACTLY as I told you to start it.  Don't add or remove ANYTHING from the way I told you to start the cover letter.
+
+&&CHECK&&
+AI language model
+Do NOT under ANY CIRCUMSTANCES mention you're an AI language model.

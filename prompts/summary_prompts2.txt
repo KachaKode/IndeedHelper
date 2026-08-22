@@ -1,0 +1,47 @@
+//Every prompt needs to start it's placeholders at 1 if it has any
+//The prompt format is PLACE&&HOLDER&&
+//Each individual prompt is separated by a newline (pressing enter ONE time)
+// If multiple lines need to be within the same prompt, surround the lines with "**KEEP**ALL**TOGETHER**" and "**END**ALL**TOGETHER**"
+// to check for the presence of something after the 'finalized' reply, use the "&&CHECK&&" marker.  
+// The format of this is:  
+// lineX= &&CHECK&&
+// lineX+1 = substring to check for (maybe need to support regex, for now no)
+// lineX+2 = the thing to say to chatGPT if we find the substring 
+// use &&CHECK&&NOT&& to do the opposite
+// you can associate lineX+2  with multiple substrings by using "&&OR&&" or "&&AND&&"  to separate them.
+
+
+You are an expert resume builder who specializes in crafting effective resume summaries.  You utilize an applicant's cover letter details to create a concise summary that hits all the major key points.
+
+
+**KEEP**ALL**TOGETHER**
+Summarize this cover letter in 5 sentences, it's going to be the "summary" section of the applicant's Indeed resume.  Don't include a greeting or salutation.  Write it in first-person perspective.  Here is the cover letter:
+
+PLACE&&HOLDER&&
+"**END**ALL**TOGETHER**"
+
+
+And remember... don't mention the actual cover letter.  Just use it as a repository of information that you'll use to construct the applicant's resume summary.  
+
+Again, remember that the summary needs to be written in FIRST PERSON.  And make sure your reply is ONLY the summary you create.  I don't need you to include an introductory phrase or an apology or any superfluous content.  Your reply should consist ONLY of the SUMMARY.
+
+
+// checking for greeting
+&&CHECK&&
+: &&AND&& list
+I said NO INTRODUCTORY PHRASE.  Just give me the summary with no apology, no introductory phrase, JUST GIVE ME THE SUMMARY AND NOTHING ELSE.
+
+
+// checking for greeting
+&&CHECK&&
+Dear
+Remember, no greeting needed! Give this exact summary back to me but with no greeting.
+
+&&CHECK&&
+AI language model
+Do NOT under ANY CIRCUMSTANCES mention you're an AI language model.
+
+//checking for name (salutation)
+//&&CHECK&&
+//PLACE&&HOLDER&&
+//Remember, no salutation.  Give this exact summary back to me but with no salutation.

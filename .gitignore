@@ -1,0 +1,19 @@
+# Virtual environment
+venv/
+
+# Python bytecode caches
+__pycache__/
+*.pyc
+
+# PyCharm project files
+.idea/
+
+# Databases and per-applicant data (contain real names, resumes, and Indeed credentials)
+*.db
+Users/
+
+# Logs
+*.log
+clickLog.txt
+logger.txt
+input/api_key.txt
