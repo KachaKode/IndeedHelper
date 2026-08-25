@@ -17,3 +17,6 @@ Users/
 clickLog.txt
 logger.txt
 input/api_key.txt
+
+# GUI -> bot run control files
+runtime/

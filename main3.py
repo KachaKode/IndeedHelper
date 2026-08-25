@@ -22,10 +22,12 @@ import datetime
 import traceback
 import sys
 import itertools
+import json
 import os, re
 import sqlite3
 import inspect
 import time as t
+from pathlib import Path
 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -96,6 +98,54 @@ def ct_exit(where, result=None):
 
 def ct_error(where, exc):
     ct_print(where, "ERROR", f"{type(exc).__name__}: {exc}")
+
+
+RUNTIME_DIR = Path(__file__).resolve().parent / "runtime"
+
+
+class RunControl:
+    """Commands from the GUI to a running bot, passed through a small JSON file.
+
+    The GUI is the only writer and the bot is the only reader, so there is no
+    locking to get wrong and no port to manage. A missing or unreadable file
+    reads as "paused" -- that is what makes a freshly launched run open the
+    browser, land on the home page, and then wait for you instead of
+    immediately applying to jobs.
+
+    File shape:  {"mode": "paused"|"running", "command": "home"|null, "seq": N}
+
+    `seq` only ever increases; the bot remembers the last one it acted on so a
+    one-shot command fires once rather than on every poll.
+    """
+
+    def __init__(self, user_id, root=None):
+        # `root` is the project root, matching RunnerManager.project_root on the
+        # GUI side, so both ends resolve to the same <root>/runtime directory.
+        base = (Path(root) / "runtime") if root else RUNTIME_DIR
+        self.path = base / f"control_{user_id}.json"
+        self._handled_seq = 0
+
+    def _read(self):
+        try:
+            return json.loads(self.path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return {}
+
+    def mode(self):
+        mode = self._read().get("mode")
+        return mode if mode in ("running", "paused") else "paused"
+
+    def pending_command(self):
+        data = self._read()
+        try:
+            seq = int(data.get("seq") or 0)
+        except (TypeError, ValueError):
+            return None
+        command = data.get("command")
+        if command and seq > self._handled_seq:
+            self._handled_seq = seq
+            return command
+        return None
 
 
 class BadPost(Exception):
@@ -970,6 +1020,7 @@ class IndeedHelper(PlaywrightWrap):
 
         self.eduRecords = info["edus"]
         self.jobRecords = info["jobs"]
+        self.searchRecords = info["searches"]
         self.load_startup_info(info["mainInfo"])
         self.outputFile = open(f"{self.MY_PATH}output {nowTime}.txt", "w")
 
@@ -1271,6 +1322,16 @@ class IndeedHelper(PlaywrightWrap):
     def doDbThenbackToStart(self):
         self.prepDBCommit()
         self.backToStart()
+
+    def goHome(self):
+        """Navigate straight back to this profile's search URL.
+
+        Used by the Run tab's "Go to home" button, and after start-up so the
+        browser lands somewhere known before pausing.
+        """
+        ct_print("goHome", self.home_url[:90])
+        self.reportAction(f"Going to home page: {self.home_url}", False)
+        self.driver.get(self.home_url)
 
     def backToStart(self):
         pattern = self.escape_regex_special_chars(self.home_url_pattern)
@@ -2130,31 +2191,38 @@ class IndeedHelper(PlaywrightWrap):
     def nextResumeSection(self):
         self.findAndClick( self.TXT, self.MATCH, 'Save and continue', travelUp=1)
 
-    def split_into_substrings(self, s):
-        # Split the string and filter out empty strings, then extend to ensure 3 elements
-        parts = [x if x else None for x in s.split(' ')] + [None] * 2
-        return parts[0], parts[1], parts[2]
-
     def getProfileGen(self):
         infinite_iterator = itertools.cycle(self.profiles)
         for profile in infinite_iterator:
             self.home_url = profile["home"]
             yield profile
+
     def load_startup_info(self, info):
-        # purpose of '_' is to skip the explanation of the next line/section
-        # nextOccrance(self,file_handler, substr, delim="\t", after=""):
+        # Job searches come from the job_searches table (ordered by `position`,
+        # which is what decides run order) rather than the old space-delimited
+        # users.homePage blob. That column still exists as an audit trail but is
+        # no longer read.
         try:
             self.MY_PATH          =  "Users\\" + f"{info['FirstName']} {info['LastName']} {info['id']}" + "\\"
-            homeInfos         =  info["homePage"].split("\n")
-            for info_h in homeInfos:
-                info_h = info_h.strip("\r")
-                h, j, e = self.split_into_substrings(info_h)
-                self.profiles.append({"home":h,
-                                      "eduN": [int(n) for n in e.split(",")] if e else e,
-                                      "jobN": [int(n) for n in j.split(",")] if j else j})
+
+            for rec in self.searchRecords:
+                jobNums = (rec["job_nums"] or "").strip()
+                eduNums = (rec["edu_nums"] or "").strip()
+                # An empty list means "use every Job/Edu record for this user",
+                # which the rest of the code expresses as None.
+                self.profiles.append({"home": rec["url"],
+                                      "eduN": [int(n) for n in eduNums.split(",")] if eduNums else None,
+                                      "jobN": [int(n) for n in jobNums.split(",")] if jobNums else None})
+
+            if not self.profiles:
+                raise ValueError(
+                    f"User {info['id']} ({info['FirstName']} {info['LastName']}) has no rows in "
+                    f"job_searches, so there is no job search to start from. Add one in the "
+                    f"database admin GUI (db_admin.py) before running this user."
+                )
+
             self.profile_generator = self.getProfileGen()
             self.cur_profile = next(self.profile_generator)
-
 
             self.home_url_pattern =  info["homePagePattern"]
             self.chrome_profile  +=  info["ProfilePath"]
@@ -2172,8 +2240,12 @@ class IndeedHelper(PlaywrightWrap):
             self.lifeSummary = info["LifeSummary"]
             self.avoid = info["avoid"]
 
-        except:
-            return
+        except Exception as exc:
+            # This used to be a bare `except: return`, which silently produced a
+            # half-configured helper -- a NULL homePage turned into "no profiles"
+            # with no error anywhere. Fail loudly instead.
+            ct_error("load_startup_info", exc)
+            raise
 
 
     def load_life_summary(self):
@@ -2312,8 +2384,9 @@ class IndeedHelper(PlaywrightWrap):
 
 
 class StateMachine:
-    def __init__(self, helper : PlaywrightWrap ):
+    def __init__(self, helper : PlaywrightWrap, control=None ):
         self.helper = helper
+        self.control = control if control is not None else RunControl(getattr(helper, "user_id", "unknown"))
         self.validate_files("States.txt", "ExpectedEnvironments.txt", "StateTransitions.txt")
         self.states = self.load_states("States.txt")
         self.expected_environments = self.load_environments("ExpectedEnvironments.txt")
@@ -2490,22 +2563,68 @@ class StateMachine:
             t.sleep(1)
 
 
+    def handleCommand(self, command):
+        """Run a one-shot command sent from the GUI."""
+        if command == "home":
+            self.helper.goHome()
+            # Starting over from the search page means the previous state no
+            # longer describes where we are.
+            self.current_state = self.states[0]
+            self.prev_state = None
+            ct_print("StateMachine", "went home", f"state reset to {self.current_state}")
+        else:
+            ct_print("StateMachine", "ignoring unknown command", str(command))
+
+    def waitWhilePaused(self):
+        """Block until the GUI switches this run to 'running'.
+
+        Commands still run while paused, so "Go to home" works without having
+        to start applying first.
+        """
+        announced = False
+        while self.control.mode() == "paused":
+            command = self.control.pending_command()
+            if command:
+                self.handleCommand(command)
+                continue
+            if not announced:
+                ct_print("StateMachine", "PAUSED", "waiting for a command from the Run tab")
+                announced = True
+            t.sleep(1)
+        if announced:
+            ct_print("StateMachine", "RESUMED")
+
     def run(self):
         while True:
+            self.waitWhilePaused()
+
+            command = self.control.pending_command()
+            if command:
+                self.handleCommand(command)
+                continue
+
             env = self.helper.getCurrentEnv()
             if env == "exit":
                 break
             self.transition(env)
 
-def loadUsersFromDB():
-    checker_query = """SELECT * FROM users WHERE AppsLeft > ? AND Active = ?"""
+def loadUsersFromDB(userIds=None):
+    """Load runnable users.
 
-    values = (0, "T")
+    With no argument this returns every user flagged Active with applications
+    left -- the standalone behaviour. When the GUI launches a run it passes the
+    explicit ids it selected instead, so the child process runs exactly who it
+    was told to and cannot be affected by a later edit to the Active column.
+    """
     conn = sqlite3.connect('IndHelperDB.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    cursor.execute(checker_query, values)
+    if userIds:
+        placeholders = ",".join("?" for _ in userIds)
+        cursor.execute(f"SELECT * FROM users WHERE id IN ({placeholders})", tuple(userIds))
+    else:
+        cursor.execute("""SELECT * FROM users WHERE AppsLeft > ? AND Active = ?""", (0, "T"))
     allRecords = cursor.fetchall()
 
     user_data = []
@@ -2523,8 +2642,15 @@ def loadUsersFromDB():
         cursor.execute(edu_query, (userID,))
         edu_records = cursor.fetchall()
 
-        # Task 3: Construct the data structure
-        user_data.append({"mainInfo":record, "edus":edu_records, "jobs":job_records})
+        # Task 3: Get this user's job searches, in run order. `position` decides
+        # which search the bot starts on, so the ORDER BY is load-bearing.
+        search_query = """SELECT * FROM job_searches WHERE user_id = ? ORDER BY position"""
+        cursor.execute(search_query, (userID,))
+        search_records = cursor.fetchall()
+
+        # Task 4: Construct the data structure
+        user_data.append({"mainInfo":record, "edus":edu_records, "jobs":job_records,
+                          "searches":search_records})
 
     conn.close()
     return user_data
@@ -2552,6 +2678,9 @@ def RunUser(user_to_run, masterRecords):
             ct_enter("RunUser", user_label)
             sm = StateMachine(IndeedHelper(user_to_run, masterRecords["milestoneList"]))
             masterRecords["sm_ref"] = sm
+            # start_up() has opened the browser on the home page and stopped
+            # there; sm.run() begins paused and waits for the Run tab.
+            ct_print("RunUser", "READY", f"{user_label} is on the home page and paused")
             sm.run()
             ct_exit("RunUser", f"{user_label} reached 'exit' environment, stopping cleanly")
             return
@@ -2583,7 +2712,20 @@ def ReportStall(id):
 
 
 if __name__ == "__main__":
-    usersToStart = list(loadUsersFromDB())[:1]
+    # --user-id N may be repeated; the GUI spawns one process per selected user
+    # so that a crash or a hung browser can only take down that one user.
+    requestedIds = []
+    for index, arg in enumerate(sys.argv):
+        if arg == "--user-id" and index + 1 < len(sys.argv):
+            requestedIds.append(int(sys.argv[index + 1]))
+
+    usersToStart = list(loadUsersFromDB(requestedIds or None))
+
+    if not usersToStart:
+        ct_print("__main__", "no users to run",
+                 f"requested={requestedIds}" if requestedIds
+                 else "nothing is marked Active with applications left")
+        raise SystemExit(1)
 
     threads = []
     usr_records = {}

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IndeedHelper Database</title>
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <span class="sidebar__brand-dot"></span>
+        <span>IndeedHelper DB</span>
+      </div>
+
+      <div class="sidebar__section-label">Automation</div>
+      <button class="nav-item is-active" data-view="run">
+        <span>Run</span><span class="nav-item__count" id="count-running">-</span>
+      </button>
+
+      <div class="sidebar__section-label">Accounts</div>
+      <button class="nav-item" data-view="users">
+        <span>Users</span><span class="nav-item__count" id="count-users">-</span>
+      </button>
+
+      <div class="sidebar__section-label">Selected User</div>
+      <button class="nav-item" data-view="profile" data-needs-user>
+        <span>Profile</span>
+      </button>
+      <button class="nav-item" data-view="searches" data-needs-user>
+        <span>Job Searches</span><span class="nav-item__count" id="count-searches">-</span>
+      </button>
+      <button class="nav-item" data-view="jobs" data-needs-user>
+        <span>Work History</span><span class="nav-item__count" id="count-jobs">-</span>
+      </button>
+      <button class="nav-item" data-view="edu" data-needs-user>
+        <span>Education</span><span class="nav-item__count" id="count-edu">-</span>
+      </button>
+
+      <div class="sidebar__section-label">History (read only)</div>
+      <button class="nav-item" data-view="applications">
+        <span>Applications</span><span class="nav-item__count" id="count-apps">-</span>
+      </button>
+      <button class="nav-item" data-view="applications-old">
+        <span>Legacy</span><span class="nav-item__count" id="count-apps-old">-</span>
+      </button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="topbar__title" id="view-title">Users</h1>
+          <p class="topbar__sub" id="view-sub"></p>
+        </div>
+        <div class="topbar__actions" id="view-actions"></div>
+      </header>
+      <div class="content">
+        <div class="content__inner" id="view-root"></div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toasts" id="toasts"></div>
+  <div id="modal-root"></div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
