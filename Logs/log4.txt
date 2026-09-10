@@ -1,0 +1,1499 @@
+[CT]     0.0ms | RunUser | ENTER | Tommy Orok (id=9)[CT]     0.0ms | __main__ | started worker thread for user id=9
+[CT]     2.2ms | start_up | ENTER | https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0
+[CT]     1.7ms | start_up | launching chrome.exe | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=5558
+[CT]    13.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:5558/json/version sees='attempt=0'
+[CT]  2911.0ms | start_up | EXIT
+[CT]    11.3ms | RunUser | READY | Tommy Orok (id=9) is on the home page and paused
+[CT]     0.6ms | StateMachine | PAUSED | waiting for a command from the Run tab
+[CT]  8089.4ms | StateMachine | RESUMED
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]   212.4ms | getCurrentEnv | EXIT |  result=|Flexible Technical Project Manager Jobs � Apply Today to Work From Home in Remote (August 27, 2026) | Indeed
+No transition for state initNewApp and env |Flexible Technical Project Manager Jobs � Apply Today to Work From Home in Remote (August 27, 2026) | Indeed
+[CT]  1030.6ms | RunUser | ERROR | AttributeError: 'NoneType' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 3283, in RunUser
+    sm.run()
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 3208, in run
+    self.transition(env)
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 2965, in transition
+    if "default" == next_state.strip():
+AttributeError: 'NoneType' object has no attribute 'strip'
+[CT]     1.0ms | reportAction | An error occurred: 'NoneType' object has no attribute 'strip'
+[CT]   100.8ms | RunUser | restarting Tommy Orok (id=9) in 15s | consecutive_failures=1
+[CT] 15016.4ms | RunUser | ENTER | Tommy Orok (id=9)
+[CT]     1.7ms | start_up | ENTER | https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0
+[CT]     2.1ms | start_up | launching chrome.exe | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=2520
+[CT]    15.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:2520/json/version sees='attempt=0'
+[CT]  2018.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:2520/json/version sees='attempt=1'
+[CT]  3363.2ms | start_up | EXIT |  result=https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0
+[CT]    14.3ms | RunUser | READY | Tommy Orok (id=9) is on the home page and paused
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]  2114.5ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d
+[CT]  1012.0ms | reportAction | Calling function: newApp() in environment: https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0|Flexible Technical Project Manager 
+[CT]   839.4ms | process_job_openings | 16 job cards on this page
+[CT]  1264.7ms | smartClick | ENTER | .//a
+[CT]    67.2ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]   404.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]  2389.9ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    82.3ms | reportAction | clicked /html/body[1]/main[1]/div[1]/div[1]/div[2]/div[1]/div[5]/div[1]/div[1]/div[4]/div[1]/div[1]/ul[1]/li[6]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/div[1]/h3[1]/a[1
+[CT]     5.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]    14.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=1'
+[CT]   214.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=2'
+[CT]   353.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    27.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=3'
+[CT]  1497.4ms | reportAction | found element //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on
+[CT]     5.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid='inlineHeader-companyName']
+[CT]   300.8ms | reportAction | found element //*[@data-testid='inlineHeader-companyName'] but did not click because text did not match: dsfdsd324
+[CT]     4.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    20.1ms | smartClick | ENTER | //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1
+[CT]    67.1ms | reportAction | found element //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 but did not click because text did not match: adfddfsa
+[CT]     4.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    13.6ms | smartClick | ENTER | //*[@id='jobDescriptionText']
+[CT]    63.0ms | reportAction | found element //*[@id='jobDescriptionText'] but did not click because text did not match: adsfdasf134
+[CT]     3.2ms | smartClick | EXIT |  result=text condition mismatch
+starting: avoid_job_characteristics_prompts2.txt @ 21:49:56 ... (will time out @ 21:54:56)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:50:04
+	Attempting the future retreival
+	Attempting Completion
+	Attempting the future retreival
+	Attempting Completion
+starting: job_desc_prompts2.txt @ 21:50:17 ... (will time out @ 21:55:17)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:50:25
+starting: job_desc_prompts2.txt @ 21:50:25 ... (will time out @ 21:55:25)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:50:31
+starting: job_desc_prompts2.txt @ 21:50:31 ... (will time out @ 21:55:31)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:50:37
+starting: job_desc_prompts2.txt @ 21:50:37 ... (will time out @ 21:55:37)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:50:44
+starting: cover_letter_prompts2.txt @ 21:50:44 ... (will time out @ 21:55:44)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:50:53
+starting: skills_prompts2.txt @ 21:50:53 ... (will time out @ 21:55:53)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:51:00
+starting: skills_prompts_cleaning.txt @ 21:51:00 ... (will time out @ 21:56:00)
+	Attempting the future retreival
+	Attempting Completion
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:51:13
+starting: headline_prompts2.txt @ 21:51:13 ... (will time out @ 21:56:13)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:51:19
+starting: summary_prompts2.txt @ 21:51:19 ... (will time out @ 21:56:19)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 21:51:26
+[CT] 89632.9ms | reportAction | Transitioning  STATE from initNewApp to start
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     5.9ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/viewjob?jk=a83b3d238cdddbaf&tk=1k130u8ph2130000&from=serp&vjs=3|Senior Technical Project Manager 
+[CT]  1004.0ms | reportAction | Calling function: startApplication() in environment: https://www.indeed.com/viewjob?jk=a83b3d238cdddbaf&tk=1k130u8ph2130000&from=serp&vjs=3|Senior Technical Project Manager - Remote - Indeed.com
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Applied']
+[CT]     9.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=1'
+[CT]   220.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=2'
+[CT]   222.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=3'
+[CT]   223.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=4'
+[CT]   219.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=5'
+[CT]   223.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=6'
+[CT]   219.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.1ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=7'
+[CT]   220.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=8'
+[CT]   239.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=9'
+[CT]   217.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=10'
+[CT]   224.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=11'
+[CT]   220.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=12'
+[CT]   211.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=13'
+[CT]   216.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=14'
+[CT]   218.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=15'
+[CT]   210.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=16'
+[CT]   223.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.0ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=17'
+[CT]   212.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=18'
+[CT]   223.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=19'
+[CT]   209.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=20'
+[CT]   213.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.0ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=21'
+[CT]   213.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.3ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=22'
+[CT]   220.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=23'
+[CT]   216.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=24'
+[CT]   216.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=25'
+[CT]   222.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=26'
+[CT]   220.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=27'
+[CT]   217.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=28'
+[CT]   219.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=29'
+[CT]   222.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=30'
+[CT]   220.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=31'
+[CT]   215.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.5ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=32'
+[CT]   217.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=33'
+[CT]   221.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=34'
+[CT]   224.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=35'
+[CT]   218.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=36'
+[CT]   228.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=37'
+[CT]   212.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=38'
+[CT]   223.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=39'
+[CT]   217.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=40'
+[CT]   222.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=41'
+[CT]   219.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=42'
+[CT]   219.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=43'
+[CT]   221.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=44'
+[CT]   220.9ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[text()='Applied'] * * *
+[CT]     3.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]  4191.1ms | reportAction | clicked //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indee
+[CT]     4.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from start to hitApply
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     5.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.2ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1096.2ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module|Upload or create a resume for this applicati
+[CT]  1013.0ms | reportAction | Calling function: startResume() in environment: https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module|Upload or create a resume for this application | Indeed
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-label"] | //*[@data-testid="resume-selection-structured-resume-radio-card"] | //*[@data-testid="IndeedResumeCard"]
+[CT]   317.6ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-label"] | //*[@data-testid="resume-selection-structured-resume-radio-card"] | //*[@data-testid="IndeedResumeCard"] successfully!
+[CT]     6.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options"]
+[CT]   342.1ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options"] successfully!
+[CT]     4.0ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options-editResumeDetails"] | //button[contains(normalize-space(.), 'Edit resume')] | //a[contains(normalize-space(.), 'Edit resume')]
+[CT]   845.1ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options-editResumeDetails"] | //button[contains(normalize-space(.), 'Edit resume')] | //a[contains(normalize-space(.), 'E
+[CT]     6.4ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from hitApply to startedOnResume
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]    36.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1003.3ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    36.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    45.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   235.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   462.7ms | reportAction | clicked //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] successfully!
+[CT]     5.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     5.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/contact|contactInformation.editFromResume
+[CT]  1006.4ms | reportAction | Calling function: doContactInfo() in environment: https://profile.indeed.com/resume/contact|contactInformation.editFromResume
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="first-name-input"]
+[CT]   294.3ms | reportAction | clicked //*[@data-testid="first-name-input"] successfully!
+[CT]     5.3ms | smartClick | EXIT |  result=clicked
+[CT]    47.3ms | smartClick | ENTER | //*[@data-testid="last-name-input"]
+[CT]   204.2ms | reportAction | clicked //*[@data-testid="last-name-input"] successfully!
+[CT]     4.1ms | smartClick | EXIT |  result=clicked
+[CT]    36.9ms | smartClick | ENTER | //*[@data-testid="headline-input"]
+[CT]   206.8ms | reportAction | clicked //*[@data-testid="headline-input"] successfully!
+[CT]     3.5ms | smartClick | EXIT |  result=clicked
+[CT]    77.8ms | smartClick | ENTER | //*[@data-testid="phone-input-input"]
+[CT]   179.9ms | reportAction | clicked //*[@data-testid="phone-input-input"] successfully!
+[CT]     5.3ms | smartClick | EXIT |  result=clicked
+[CT]    93.2ms | smartClick | ENTER | //*[@data-testid="street-address-input"]
+[CT]   200.1ms | reportAction | clicked //*[@data-testid="street-address-input"] successfully!
+[CT]     5.3ms | smartClick | EXIT |  result=clicked
+[CT]    41.0ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]   142.0ms | reportAction | clicked //*[@data-testid="location-input-autocomplete-input"] successfully!
+[CT]     4.1ms | smartClick | EXIT |  result=clicked
+[CT]    60.3ms | smartClick | ENTER | //*[@data-testid="postal-code-input"]
+[CT]   145.0ms | reportAction | clicked //*[@data-testid="postal-code-input"] successfully!
+[CT]     5.7ms | smartClick | EXIT |  result=clicked
+[CT]    60.8ms | smartClick | ENTER | //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save']
+[CT]  5160.6ms | reportAction | clicked //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.5ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to finishedEditContactInfo
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     4.9ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1002.8ms | reportAction | Calling function: startSummary() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary']
+[CT]   179.1ms | reportAction | clicked //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary'] successfully!
+[CT]     4.0ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Summary'][@contenteditable='true'] | //*[@aria-label='Summary'] | //div[@role='textbox']
+[CT]    39.3ms | reportAction | found element //*[@aria-label='Summary'][@contenteditable='true'] | //*[@aria-label='Summary'] | //div[@role='textbox'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    60.5ms | smartClick | ENTER | //*[@data-testid="summary-inline-save-button"] | //*[@aria-label='Save summary']
+[CT]   138.7ms | reportAction | clicked //*[@data-testid="summary-inline-save-button"] | //*[@aria-label='Save summary'] successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditContactInfo to finishedEditSummary
+[CT]     1.2ms | getCurrentEnv | ENTER
+[CT]     5.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1006.3ms | reportAction | Calling function: startWorkExp() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]   205.5ms | smartClick | ENTER
+[CT]  1223.0ms | reportAction | clicked /html/body[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[3]/button[1] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Delete this work experience']
+[CT]     7.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Delete this work experience'] sees='attempt=1'
+[CT]   683.8ms | reportAction | clicked //*[@aria-label='Delete this work experience'] successfully!
+[CT]     5.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.5ms | smartClick | ENTER | //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete']
+[CT]   288.7ms | reportAction | clicked //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete'] successfully!
+[CT]     6.6ms | smartClick | EXIT |  result=clicked
+[CT]   765.2ms | deleteExistingEntries | removed existing work experience | Edit AI Consultant work experience (3 -> 0)
+[CT]    75.3ms | reportAction | Removed 1 pre-existing work experience entry before adding this user's.
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]   731.3ms | smartClick | WAIT | for=recovering from Error sees='ElementHandle.click: Element is not attached to the DOM\nCall log:\n  - attempting click action\n    - waiting for element to be visible, enabled and stable\n'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.9ms | smartClick | EXIT |  result=not found
+[CT]   948.5ms | reportAction | clicked //*[@aria-label='Add work experience'] successfully!
+[CT]     4.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="job-title-input-autocomplete-input"]
+[CT]     8.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Could not find the job title field (job-title-input-autocomplete-input) on this page.
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="company-input-autocomplete-input"]
+[CT]     8.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Could not find the company field (company-input-autocomplete-input) on this page.
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]     8.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Could not find the job location field (location-input-autocomplete-input) on this page.
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="is-current-toggle"]
+[CT]    11.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Could not find the I currently work here toggle.
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]    19.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='From month'] sees='attempt=1'
+[CT]   369.7ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     7.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   144.6ms | smartClick | ENTER
+[CT]  1609.2ms | reportAction | clicked /html/body[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div
+[CT]     6.0ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='October']
+[CT]   131.6ms | reportAction | clicked //*[@role='option'][normalize-space(.)='October'] successfully!
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]   312.2ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]   102.4ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    10.1ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    39.7ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.2ms | smartClick | ENTER
+[CT]  1580.8ms | reportAction | clicked /html/body[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/div[1]/div[1]/div[1]/div[2]/div
+[CT]     5.5ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2017']
+[CT]    95.4ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2017'] successfully!
+[CT]     5.1ms | smartClick | EXIT |  result=clicked
+[CT]   313.4ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]   101.0ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    11.8ms | smartClick | ENTER | //*[@aria-label='To month']
+[CT]    43.8ms | reportAction | found element //*[@aria-label='To month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    10.0ms | smartClick | ENTER
+[CT]  1545.0ms | reportAction | clicked /html/body[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/div
+[CT]     5.4ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='May']
+[CT]   119.3ms | reportAction | clicked //*[@role='option'][normalize-space(.)='May'] successfully!
+[CT]     7.5ms | smartClick | EXIT |  result=clicked
+[CT]   302.8ms | smartClick | ENTER | //*[@aria-label='To month']
+[CT]    45.0ms | reportAction | found element //*[@aria-label='To month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.2ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    33.7ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.1ms | smartClick | ENTER
+[CT]  1604.5ms | reportAction | clicked /html/body[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/div[1]/div[1]/div[2]/div[2]/div
+[CT]     6.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.5ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2020']
+[CT]   105.0ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2020'] successfully!
+[CT]     4.3ms | smartClick | EXIT |  result=clicked
+[CT]   303.2ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    43.4ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.0ms | smartClick | ENTER | //*[@aria-label='Description'] | //div[@role='textbox']
+[CT]   115.1ms | reportAction | clicked //*[@aria-label='Description'] | //div[@role='textbox'] successfully!
+[CT]     4.1ms | smartClick | EXIT |  result=clicked
+[CT]   109.8ms | smartClick | ENTER | //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList']
+[CT]   144.7ms | reportAction | clicked //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList'] successfully!
+[CT]     5.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save']
+[CT] 10114.9ms | reportAction | clicked //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     6.4ms | smartClick | EXIT |  result=clicked
+[CT]     0.5ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8583.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.5ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.9ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditSummary to finishedEditWorkExp
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     5.0ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1007.0ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    35.1ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8568.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.6ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     5.5ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1001.7ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    29.8ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8554.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.8ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     5.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1009.7ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    28.8ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8566.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.6ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     4.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1008.9ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    26.4ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8540.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.3ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     4.3ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1015.0ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    33.3ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8555.9ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     5.5ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     6.3ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1008.7ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    36.6ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8566.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.8ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     4.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1005.1ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    38.3ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8562.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.5ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.2ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.5ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     6.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1004.2ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    37.2ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8542.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.6ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.1ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.2ms | getCurrentEnv | ENTER
+[CT]     5.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1013.2ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    32.5ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8568.5ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.9ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     4.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1001.9ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    29.6ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8554.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.4ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     6.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1003.0ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    34.1ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8592.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.3ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     4.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1005.6ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    36.3ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8557.5ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.9ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.1ms | getCurrentEnv | ENTER
+[CT]     5.3ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1006.3ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    35.8ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8551.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.1ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     3.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1005.9ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    36.4ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8567.9ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.1ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.7ms | getCurrentEnv | ENTER
+[CT]     5.5ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1012.9ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    29.8ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8558.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.7ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     5.4ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     7.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1015.1ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    39.0ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8564.8ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     5.2ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.5ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     5.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1014.1ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    36.0ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8575.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     1.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.8ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     6.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1004.0ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    39.6ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8577.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.3ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     4.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1014.0ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    36.7ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8573.8ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     5.0ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     6.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1004.3ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    28.5ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8559.8ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.5ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.5ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     5.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1001.6ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    32.9ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8558.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.7ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     4.1ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1004.1ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    32.7ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8586.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.1ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     4.9ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1003.5ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    47.1ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8584.8ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     1.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.2ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     4.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1004.4ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    43.2ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8592.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     6.7ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     2.0ms | getCurrentEnv | ENTER
+[CT]     7.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1015.4ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]   112.5ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8598.0ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     1.1ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.2ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.1ms | getCurrentEnv | ENTER
+[CT]     6.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1003.9ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    54.7ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8582.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     5.4ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     9.0ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1007.8ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    84.9ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8565.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.1ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.5ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     6.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1014.2ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    33.9ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8567.8ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     7.6ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]    16.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1005.6ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1549.9ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8989.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.1ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     5.9ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1004.8ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    44.6ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8564.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.6ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.1ms | getCurrentEnv | ENTER
+[CT]     3.3ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1006.7ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    28.0ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8545.8ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.8ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     4.3ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1008.4ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    32.4ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8551.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.8ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     5.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1001.8ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    26.5ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8566.5ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.4ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     4.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1010.7ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    35.2ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8556.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     5.2ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     6.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1012.2ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    33.8ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8557.5ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.2ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     3.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1008.9ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    30.8ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8554.5ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.7ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     3.1ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1004.7ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    28.5ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8561.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     5.6ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     7.5ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1000.5ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    36.2ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8555.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     5.4ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     8.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1011.1ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    34.0ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8559.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.8ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     5.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1001.2ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    35.2ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8571.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     1.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.9ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     4.9ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1005.9ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    27.2ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8560.8ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.6ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     3.9ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1009.5ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    31.1ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8568.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.7ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.3ms | getCurrentEnv | ENTER
+[CT]     5.3ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1000.6ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    31.2ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8562.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     2.9ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.6ms | getCurrentEnv | ENTER
+[CT]     4.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1009.5ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    25.6ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8534.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.5ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.2ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.6ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     6.3ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1003.8ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    28.4ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8567.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     4.1ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.8ms | getCurrentEnv | ENTER
+[CT]     5.0ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1012.3ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    96.9ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8547.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.6ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     3.1ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     4.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1006.5ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    32.5ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8572.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     5.2ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.2ms | getCurrentEnv | ENTER
+[CT]     4.9ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1006.2ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    36.9ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]  8553.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 8 secs waiting on //*[@aria-label='Add work experience']. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - attempting click action     2 � waiting for element to be 
+[CT]     2.7ms | reportAction | Could not find the 'Add work experience' button.
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditWorkExp
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     4.1ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]  1002.2ms | reportAction | Calling function: doWorkExp() in environment: https://profile.indeed.com/resume/experience/add|Add work experience
+[CT]    28.6ms | smartClick | ENTER | //*[@aria-label='Add work experience']

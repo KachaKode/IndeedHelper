@@ -10,11 +10,13 @@ Bound to 127.0.0.1 only -- this serves a local desktop window, never a network.
 from __future__ import annotations
 
 from dataclasses import asdict
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
 from flask import Flask, jsonify, request
 
+from . import billing
 from .data import (
     ACTIVE_CHOICES,
     APPLICATION_FIELDS,
@@ -300,6 +302,14 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
     def run_status():
         return jsonify({"runs": runner.status(), "anyRunning": runner.any_running()})
 
+    @app.get("/api/run/log/<int:user_id>")
+    def run_log(user_id: int):
+        """The complete log for a run. The Run tab only displays a tail, but Copy
+        needs the whole thing -- the start of a run is usually where the useful
+        part is."""
+        text = runner.full_log(user_id)
+        return app.response_class(text, mimetype="text/plain; charset=utf-8")
+
     @app.post("/api/run/command")
     def run_command():
         """Drive a running bot: pause it, let it apply, or send it home.
@@ -323,5 +333,40 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
 
         result = runner.write_control(int(user_id), **actions[action])
         return jsonify({"ok": True, "control": result})
+
+    # ----------------------------------------------------------------- admin --
+
+    @app.get("/api/admin/probe")
+    def admin_probe():
+        """Lightweight: just the live call, no Costs API round trip. Used for
+        the background poll that drives the app-wide low-credit banner."""
+        return jsonify(billing.probe_status(db.project_root))
+
+    @app.get("/api/admin/status")
+    def admin_status():
+        """Everything the Admin tab shows, refreshed on every visit.
+
+        Spend is summed from the moment the current grant was saved, not a
+        fixed rolling window, so "grant minus spend" are on the same clock.
+        """
+        grant = billing.get_credit_grant(db.project_root)
+        since = datetime.fromisoformat(grant["at"]) if grant else None
+        return jsonify({
+            "probe": billing.probe_status(db.project_root),
+            "costs": billing.fetch_costs(db.project_root, start_time=since),
+            "grant": grant,
+        })
+
+    @app.put("/api/admin/grant")
+    def admin_set_grant():
+        body = _json_body()
+        try:
+            amount = float(body.get("amount"))
+        except (TypeError, ValueError):
+            return jsonify({"error": "amount must be a number"}), 400
+        if amount < 0:
+            return jsonify({"error": "amount cannot be negative"}), 400
+        grant = billing.set_credit_grant(db.project_root, amount)
+        return jsonify({"ok": True, "grant": grant})
 
     return app

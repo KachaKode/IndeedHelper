@@ -1,13 +1,65 @@
 import openai
 import datetime
+import os
 import time as t
 import concurrent.futures
+from pathlib import Path
+
+
+# Which model writes the cover letters, summaries and job descriptions.
+#
+# This was hard-coded to 'gpt-3.5-turbo-0125' -- a 2023 model -- which is the
+# main reason everything it produced read as generic and machine-written. No
+# amount of prompt work fixes a model that old.
+#
+# Read from input/model.txt so it can be changed without touching code, since
+# which models an account can actually reach varies. tools/list_models.py prints
+# what this API key is allowed to use.
+_DEFAULT_MODEL = "gpt-4o"
+_MODEL_FILE = Path(__file__).resolve().parent / "input" / "model.txt"
+
+# A second, faster model for the mechanical work. Screener questions are mostly
+# "pick Yes or No from these two choices", and a page of them at three round
+# trips each is where the time goes: one run spent 12.7 minutes of GPT time on
+# thirteen questions. The prose -- cover letter, summary, job descriptions --
+# still goes to the model in model.txt.
+_DEFAULT_FAST_MODEL = "gpt-5-mini"
+_FAST_MODEL_FILE = Path(__file__).resolve().parent / "input" / "model_fast.txt"
+
+
+def _read_model_file(path):
+    try:
+        name = path.read_text(encoding="utf-8").strip()
+        return name if name and not name.startswith("#") else ""
+    except OSError:
+        return ""
+
+
+def configured_model():
+    """The model to use: $INDEEDHELPER_MODEL, then input/model.txt, then the default."""
+    return (os.environ.get("INDEEDHELPER_MODEL", "").strip()
+            or _read_model_file(_MODEL_FILE)
+            or _DEFAULT_MODEL)
+
+
+def configured_fast_model():
+    """The model for short, mechanical answers. Falls back to the main one."""
+    return (os.environ.get("INDEEDHELPER_FAST_MODEL", "").strip()
+            or _read_model_file(_FAST_MODEL_FILE)
+            or _DEFAULT_FAST_MODEL
+            or configured_model())
 
 #  https://chat.openai.com/c/28f417b1-35f8-44d3-8515-dd5b64cf7395
 
 
 class myGPT:
-    def __init__(self, setupInfo, *args, inputPath=".//input", promptsPath=".//prompts", chatTimeOut=300, version=2):
+    def __init__(self, setupInfo, *args, inputPath=".//input", promptsPath=".//prompts",
+                 chatTimeOut=90, version=2, model=None):
+        # chatTimeOut was 300s. With three retries and a 60s pause between them
+        # that is 17 minutes before one stuck completion gives up, and each
+        # prompt file makes several completions. 90s is well past the slowest
+        # call actually observed (96s was the outlier; the median is 29s).
+        self.model = model
         self.nextMessages = []
         self.checks = {}
         self.checkNOTs = {}
@@ -211,10 +263,21 @@ class myGPT:
         '''this function checks for the presense of sub strings in the reply
         that ARE suppsoed to be in the reply.  If it does not find one
         of these required substrings, it sends chatgpt a message about it '''
+        # Unbounded until now, unlike its sibling doChecks (which gives up
+        # after 5). gpt-5-nano skips the required "The answer is:"/"The
+        # headline is:" preamble far more often than gpt-5-mini ever did, so
+        # this ran for hours, one real API call every 15-20s, forever
+        # printing "GPT made mistake not having this" (Logs/Log20.txt).
+        counts = {}
         while True:
             for reqOrGroup, responseToNoReqStr in self.checkNOTs.items():
                 if self.checkOrGroup(reqOrGroup, self.reply, checkForPresence=False):
                     self.send(responseToNoReqStr)
+                    counts[reqOrGroup] = counts.setdefault(reqOrGroup, 0) + 1
+                    if counts[reqOrGroup] > 5:
+                        print("\tThere might be an issue, keep on repeating the same check")
+                        self.need_redo = True
+                        return
                     print(f"\tGPT made mistake not having this: {reqOrGroup}, gtta send this: {responseToNoReqStr} @ {datetime.datetime.now().strftime('%H:%M:%S')}")
                     break
             else:
@@ -256,6 +319,24 @@ class myGPT:
         self.formatPrompt = formatPromptFile.read()
         formatPromptFile.close()
 
+    # Retrying these is pointless -- no amount of waiting adds credit to an
+    # account or fixes a bad key. Retrying them forever is what made an empty
+    # OpenAI balance look like a hung bot for minutes at a time.
+    PERMANENT_ERROR_MARKERS = (
+        "no credits remaining",
+        "insufficient_quota",
+        "exceeded your current quota",
+        "incorrect api key",
+        "invalid api key",
+    )
+    MAX_SEND_ATTEMPTS = 6
+
+    def _is_permanent(self, exc):
+        if type(exc).__name__ in ("AuthenticationError", "PermissionError", "InvalidRequestError"):
+            return True
+        message = str(exc).lower()
+        return any(marker in message for marker in self.PERMANENT_ERROR_MARKERS)
+
     def send(self, nu_msg=None):
         #pause for 2 secs so don't get jammed up...?
         t.sleep(5)
@@ -264,13 +345,27 @@ class myGPT:
             {"role": "user", "content": nu_msg},
         )
         secs = 5
+        attempts = 0
 
         while True:
             try:
                 chat = self.executeWrapperWithTimeOut()
                 break
             except Exception as e:
-                print(f"\tRan into {e} error so waiting {secs} seconds and trying again")
+                attempts += 1
+                # flush=True or these never reach the log the GUI is showing.
+                print(f"\tGPT call failed ({type(e).__name__}): {e}", flush=True)
+
+                if self._is_permanent(e):
+                    print("\tThis will not succeed on retry -- giving up so the "
+                          "error is reported instead of retried forever.", flush=True)
+                    raise
+                if attempts >= self.MAX_SEND_ATTEMPTS:
+                    print(f"\tGiving up after {attempts} attempts.", flush=True)
+                    raise
+
+                print(f"\tRetrying in {secs}s (attempt {attempts} of "
+                      f"{self.MAX_SEND_ATTEMPTS})", flush=True)
                 t.sleep(secs)
                 secs *= 2
 
@@ -278,30 +373,49 @@ class myGPT:
         self.context.append({"role": "assistant", "content": self.reply})
         return self.reply
 
-    def executeWrapperWithTimeOut(self):
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            print(f"\tAttempting the future retreival")
+    MAX_TIMEOUT_RETRIES = 3
+
+    # Pause between retries. Was 60 seconds, which turned one unlucky request
+    # into minutes of doing nothing at all.
+    RETRY_PAUSE = 5
+
+    def executeWrapperWithTimeOut(self, attempt=1):
+        # NOT a `with` block. ThreadPoolExecutor.__exit__ calls shutdown(wait=True),
+        # so when future.result() timed out, leaving the block sat and waited for
+        # the very request that had just been declared hung. The timeout could
+        # not actually abandon anything: one stuck call ate over an hour of a two
+        # hour run while the log showed nothing at all.
+        executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+        try:
+            print(f"\tAttempting the future retreival", flush=True)
             future = executor.submit(self.sendChatWrapper)
             try:
-                result = future.result(timeout=self.chatTimeOut)  # 600 seconds = 10 minutes
-                return result
+                return future.result(timeout=self.chatTimeOut)
             except concurrent.futures.TimeoutError:
-                print(f"\tChat Completion timed out. after {self.chatTimeOut} secs.. Restarting... in 1 min")
-                # If you want to retry the function after a timeout, you can call the function again here
-                t.sleep(60)
-                print("\tRestarting now")
-                return self.executeWrapperWithTimeOut()
-            except Exception as e:
-                # Handle other exceptions as needed
-                raise e
+                # This used to recurse unconditionally, so a chat that never came
+                # back retried for the rest of time.
+                if attempt >= self.MAX_TIMEOUT_RETRIES:
+                    print(f"\tChat Completion timed out {attempt} times "
+                          f"({self.chatTimeOut}s each). Giving up.", flush=True)
+                    raise
+                print(f"\tChat Completion timed out after {self.chatTimeOut} secs "
+                      f"(attempt {attempt} of {self.MAX_TIMEOUT_RETRIES}).. "
+                      f"retrying in {self.RETRY_PAUSE}s", flush=True)
+                t.sleep(self.RETRY_PAUSE)
+                return self.executeWrapperWithTimeOut(attempt + 1)
+        finally:
+            # Let a hung request die on its own time rather than holding the run.
+            executor.shutdown(wait=False)
 
     def sendChatWrapper(self):
-        print("\tAttempting Completion")
+        model = self.model or configured_model()
+        print(f"\tAttempting Completion ({model})", flush=True)
+        # request_timeout bounds the HTTP call itself. Without it the socket can
+        # sit open indefinitely and no amount of waiting on the future helps,
+        # because there is nothing to interrupt.
         return openai.ChatCompletion.create(
-            # model="gpt-3.5-turbo", messages=messages
-            #model="gpt-3.5-turbo-16k-0613", messages=self.context
-            model='gpt-3.5-turbo-0125', messages=self.context
-        )
+            model=model, messages=self.context,
+            request_timeout=self.chatTimeOut)
 
     def sendFromFile(self, filename, *args):
         self.nextMessages.clear()

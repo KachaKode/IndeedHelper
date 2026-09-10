@@ -1,0 +1,1134 @@
+=== USER 9 profile ===
+id: 9
+FirstName: Tommy
+LastName: Orok
+PhoneNumber: (770) 383-5362
+email: tommyorok43@gmail.com
+address: 448 Schofield Dr
+areaSpec: Powder Springs, Ga
+country: United States
+zip: 30127
+IndeedEmail: tommyorok43@gmail.com
+IndeedPass: Abcd1234!
+Home Page Index: 0
+homePage: https://www.indeed.com/jobs?q=mandarin&l=Remote&sc=0kf%3Aattr%28DSQF7%29%3B&vjk=d30e65eff346c325 5,6
+https://www.indeed.com/jobs?q=customer+service+representative&l=Remote&rbl=Remote&jlid=aaa2b906602aa8f5&vjk=a445b0f54332142e 5,6
+https://www.indeed.com/jobs?q=marketing&l=Remote&sc=0kf%3Aattr%28DSQF7%29explvl%28ENTRY_LEVEL%29%3B&vjk=288452ccb043c07e 1,2
+https://www.indeed.com/jobs?q=french&l=Remote&sc=0kf%3Aattr%28DSQF7%29%3B&vjk=f990e5f0fde53cac 5,6
+https://www.indeed.com/jobs?q=customer+service+representative&l=Remote&rbl=Remote&jlid=aaa2b906602aa8f5&vjk=a445b0f54332142e 5,6
+https://www.indeed.com/jobs?q=data+entry&l=Remote&sc=0kf%3Aattr%28DSQF7%29%3B&vjk=f3009cab761fce48 3,4
+homePagePattern: https://(((www.)?))(((smartapply.)?))(((ca.)?))indeed.com/jobs?((.*))
+ProfilePath: C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12
+PositionInterests: Technical Project Manager
+Network manager
+Software manager
+Solutions Architect
+Software Consultant
+DevOps
+Cybersecurity
+Software Engineer
+Programmer
+FinTech
+Network Engineer
+AppsLeft: 349
+Active: T
+LifeSummary: I played football in highschool and became the defensive captain despite not having much football knowledge or experience.  I wasn't even the best player on defense.  But I was nonetheless chosen as the leader because of my leadership skills and natural ability to bring people together and rally them.  I got them excited to execute our plans and reach our goal.
+
+Throughout highschool I worked as a math and science tutor.  I tutored subjects like algebra, trigonometry, calculus, linear algebra, physics, biology, chemistry, etc.  From the start (my sophomore year) I was already tutoring kids in college and by the end (my senior year) I was the lead tutor.
+
+After my first python class at Columbia University, I needed a job during the summer before sophomore year.  So, I created a program that would monitor craigslist for cheap iphones, notify me with the information of the seller as soon as it observed one getting posted for sale (as long as the price was below a certain level) so that I could be the first buyer to contact them.  This enabled me to easily find cheap iphones, buy them, and sell them for profit all summer.  This was my introduction to entrepreneurship, web scraping, and automation.  All 3 of those aspects of myself have been greatly developed since then.
+
+During a hackathon I created a custom web server in 4 hours in c.
+
+During the summer before my senior year at Columbia University, I had an internship at a startup called LawNearMe.  It was essentially a service that connected customers with their clients (lawyers that pay a fee to the service so that the service funnels them people in need of lawyers).  Before I arrived at the startup, the typical day in that office consisted of the interns coming in and spending all day on various lawyer/bar association directories copying and pasting names/email addresses of lawyers in order to reach out to them and and convince them to sign up for the service.  The most grueling aspect of the task was gathering up all of the names and email addresses.  After my first day on the job, I found the tedium of the job to be unacceptable.  That day when I got home, I immediately created a web scraper that would automatically extract all of the names and emails from a given lawyer directory.  But that isn't all.  For each lawyer, it also sent them a prewritten email making first contact in trying to sign them up for our services.  I drastically increased daily productivity.  I shared my creation with the rest of the office.  The same amount of work that used to take everyone all day to complete was getting done within the first hour of the day.  
+
+During my senior year at Columbia University, my big project was to lead my team in the development of a food delivery app.  we got an A on it.  
+
+
+My favorite web site I built was for a beach rental service business.  The business serviced several beach locations and would deliver beach equipment to people that rented it from them.  They wanted me to build them a site to manage their business.  My favorite feature of that site that I created was a custom calendar that was connected to their inventory.  when a user visited the site and attempted to book a rental for a specific piece of equipment, the calendar would prevent the business from overbooking any specific equipment on any given day (which was a huge issue for them and a main cause for their refunds and the fees associated with giving out refunds).  It did this by constantly updating whether or not a day was available to be added in a booking based on the equipment being booked and the amount being requested.  If the amount changed, the availablity on the calendar changed in real time.  
+
+Here are the 4 most recent projects I have worked on...
+
+1)  Automated Client Acquisition System
+Got it. Here is a clean, professional write-up that simply describes your service as a general offering for freelancers on any marketplace.
+
+---
+
+**Service Overview**
+
+**Automated Client Acquisition & Lead-Response System**
+
+Our service is a fully automated client acquisition solution designed for freelancers, consultants, and service providers operating on online marketplaces. We help you secure more clients by eliminating the delay between a potential customer posting a project and your response.
+
+**How It Works**
+
+Our proprietary bot continuously monitors your chosen freelance platforms in real-time. The moment a new job posting, help request, or client inquiry appears that matches your skills and criteria, our system springs into action. Within seconds, it automatically sends a personalized introductory message on your behalf to the prospective client.
+
+Each message is dynamically crafted to include the client's name, reference specific details from their project description, and highlight your relevant expertise—creating a genuine, human-like first impression that stands out from generic templates.
+
+**What We Deliver**
+
+- **Instant Response Times:** Your first message is sent within seconds of a client posting their need, dramatically increasing your chances of being noticed and hired.
+- **24/7 Coverage:** You never miss an opportunity, even while you sleep, travel, or focus on existing projects.
+- **Personalization at Scale:** Every outreach is tailored to the individual client, avoiding the spammy feel of mass messaging.
+- **Increased Client Flow:** By consistently being among the first to respond, you will see a measurable increase in inquiries, interviews, and booked jobs.
+
+**Who This Is For**
+
+This service is ideal for any freelancer who relies on marketplace platforms for client acquisition—whether you are a tutor, writer, designer, developer, consultant, or creative professional. If your income depends on responding to client requests quickly, our service gives you a permanent competitive edge.
+
+**Pricing Structure**
+
+We offer flexible, risk-free pricing options:
+
+- **Monthly Subscription:** Pay a flat monthly fee for continuous, unlimited monitoring and automated outreach. Perfect for high-volume freelancers who want consistent lead flow.
+- **Per-Reach-Out Package:** Pre-purchase a set number of automated responses and use them at your own pace. Ideal for those with fluctuating workloads.
+
+**Our Guarantee**
+
+We are confident in our system's ability to grow your client base. We offer a guaranteed increase in clientele; if you do not see a significant uplift in inquiries and booked jobs, you pay nothing. Your success is our success.
+-----------------------------------------------------
+
+2) The "Tommy Planner"
+**Tommy Planner: System Analysis**
+
+**Executive Summary**
+Tommy is not fundamentally a conventional planner or note collection. It is an attention-management system built around the reality that work unfolds recursively: starting one task exposes another, that task reveals several prerequisites, and the original work may temporarily disappear several levels up the hierarchy.
+
+Its defining capability is preserving continuity through that process. Topics can branch to effectively unlimited depth, while current-topic markers, breadcrumbs, subtree views, history, saved paths, groups, and cycle handoff notes help the user return to the correct point without reconstructing their train of thought.
+
+The central implementation is a custom `<plan-organizer>` web component in [PlanOrganizer.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Tommy/Planning/PlanOrganizer.js), supported by a Mongo-backed API and specialized services for navigation, cycles, references, reminders, reporting, images, import, and export.
+
+**Core Mental Model**
+- A **plan** is a navigable workspace containing root topics, groups, a designated current topic, and optional links to subplans.
+- A **topic** combines task, note, and container behavior. It has a title, formatted supporting content, status, reminders, images, group membership, references, and children.
+- A **subtopic** is a full topic nested beneath another topic. The data model imposes no fixed nesting limit; practical limits are browser and database capacity.
+- A **subplan** turns a large branch into its own independently navigable plan while preserving its relationship to the parent.
+- A **current topic** is the explicit answer to “Where should I resume?” It can be set for the whole plan or separately for an active group.
+- A **cycle** is an execution routine layered over topics. It determines what receives attention, in what order, and for how long.
+
+**Recursive Planning And Resumption**
+Tommy models the way investigative and creative work actually expands. A user can begin with a high-level objective, descend through prerequisites and newly discovered work, finish one branch, and then return to the next unfinished branch at the appropriate level.
+
+- Topics are displayed as collapsible bubbles with inline-editable titles and notes.
+- Children can be created indefinitely, reordered, moved inside other topics, moved before or after siblings, or returned to the plan root.
+- Desktop uses drag-and-drop; mobile provides explicit move controls, ancestor breadcrumbs, and descendant destinations.
+- Completing a parent with unfinished descendants triggers a warning and offers to complete anyway or jump directly to the unfinished work.
+- Completion timestamps are retained, enabling historical reporting instead of simply hiding finished items.
+- Expansion and collapse state is remembered per plan.
+- The last route is restored when the planner reopens.
+- Topic history keeps the most recent navigation trail and supports back and forward movement.
+- History tracking can be paused, allowing temporary exploration without losing the meaningful working path.
+- Named breadcrumb paths can be saved, renamed, sorted, reopened, and deleted. These preserve a multi-plan or multi-reference route as a reusable destination.
+
+Deep nesting is handled intelligently. Tommy shows six hierarchy levels on desktop and three on mobile. When a branch becomes deeper, it offers a “View deeper topics” transition that makes the selected branch a temporary local root. The user gets the focus of a separate workspace without losing the surrounding breadcrumb context.
+
+**Current Topic Designation**
+The current-topic system is one of Tommy’s most important features.
+
+A plan can designate one topic as its current point of attention. “Go to current” navigates to it, expands its ancestors, enters a virtual subtree when necessary, scrolls it into view, and highlights it. Groups can maintain their own current-topic pointers, allowing each workstream to remember a separate resume position.
+
+This is materially different from assigning a due date or starring an item. It records the user’s mental cursor: the exact point where work should continue after interruption or after completing a deep branch.
+
+**Plans, Subplans, And Navigation**
+- Plans can be created, renamed, deleted, pinned, searched, and displayed as top-level plans or as the complete plan collection.
+- Home cards show topic counts, completion counts, and progress.
+- Frequently accessed plans are tracked and surfaced alongside pinned plans.
+- A topic can be converted into a subplan. Its children become root topics in the new plan, while the original topic remains the doorway.
+- Existing plans can also be linked as subplans.
+- Plan breadcrumbs preserve the parent-to-child navigation chain.
+- Returning through breadcrumbs can restore the relevant topic context rather than merely reopening the plan’s top.
+
+This provides progressive decomposition: small work remains inline; larger branches can graduate into plans without breaking the conceptual chain that created them.
+
+**Groups**
+Groups create a second organizational axis independent of hierarchy.
+
+- Plan-scoped groups organize topics within one plan.
+- Global groups can collect topics from multiple plans into one cross-plan workstream.
+- Groups have names, colors, topic counts, filters, and current-topic designations.
+- Filtering by a global group displays grouped sections from every participating plan.
+- Deleting a group preserves its topics and only removes their group assignment.
+- A topic currently belongs to one group, so groups function as categories or workstreams rather than multi-value tags.
+
+This matters because hierarchy answers “What does this belong under?” while groups answer “What kind of attention or context does this require?”
+
+**Cycles**
+Cycles turn Tommy’s stored plans into an active working system. The implementation lives primarily in [CycleManager.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Tommy/Planning/classes/CycleManager.js).
+
+- Users create reusable cycles from an ordered selection of topics, including topics from different plans.
+- Each cycle has a default interval, with optional per-topic duration overrides.
+- Topics can have arbitrary priority levels. Higher-priority topics are interleaved more frequently into the execution sequence.
+- Each topic can have a customized spoken name.
+- The active widget shows the current topic, next topic, remaining time, accumulated topic time, priority, and handoff note.
+- Users can start, pause, resume, stop, advance, stay for another interval, jump to another cycle topic, or navigate directly to the underlying plan topic.
+- Timer completion produces an alarm and optional browser speech.
+- Topics can be active, temporarily inactive, finished within the cycle, or removed.
+- Finishing a cycle topic can optionally complete the underlying planner topic.
+- Replacement mode lets another topic take over a cycle position while optionally completing the old topic, marking it finished or inactive, and swapping group assignments.
+- The same planner topic can participate in multiple cycles, with visible membership badges.
+
+Cycles also preserve **handoff notes**. When moving away from a topic, the user can record what was happening, what remains unresolved, or what should happen next. Those notes are retained historically and presented when the topic comes around again. This directly reduces the cost of context switching.
+
+The active session survives navigation and page reloads through session storage and restores in a paused state. It does not currently provide durable cross-device active-session recovery.
+
+**Cycle Statistics**
+Cycle statistics measure execution rather than only completion:
+
+- Total productive time for a cycle.
+- Productive time by topic.
+- Number of working sessions per topic.
+- Current session start time.
+- Cumulative paused time.
+- Lifetime topic statistics retained in each cycle configuration.
+
+Together with completion reporting, Tommy can distinguish “work completed” from “attention invested,” which is valuable for open-ended work where progress does not always produce an immediately completed task.
+
+**References And Reflections**
+Tommy supports several relationship types instead of forcing every connection into folders.
+
+- **Subtopics** express ownership and decomposition.
+- **Subplans** express a branch large enough to become its own workspace.
+- **References** are lightweight links to plans, topics, or subtopics.
+- **Reflections** place a synchronized copy of a topic tree somewhere else.
+- **Groups** express cross-hierarchy context.
+
+References are embedded directly inside titles or notes as atomic reference objects. A searchable picker browses the complete plan tree. Clicking a reference navigates to the target, restores its context, expands the necessary path, and highlights it. Copy and paste preserve valid reference objects while sanitizing unrelated pasted markup.
+
+The underlying [ReferenceManager.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Tommy/Planning/classes/ReferenceManager.js) can validate links, count references, calculate statistics, and locate backlinks, although backlink and reference-statistics views are not yet fully surfaced in the interface.
+
+Reflections are substantially more powerful than references. They copy a selected topic subtree into another location while preserving synchronization. Edits to titles, content, and status propagate in either direction; child ordering and newly created descendants are reconciled; the newest update wins when the two sides differ. Reflections can later be unlinked and retained as independent content. The synchronization algorithm is implemented in [sync_reflection.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/api/Tommy/sync_reflection.js).
+
+**Search, Reminders, And Reports**
+Search can inspect titles, note content, or both; include or exclude descendants and subplans; and highlight matches. Matching descendants cause their ancestor paths to appear, so search results retain structural context instead of becoming an isolated flat list.
+
+Reminders support completion dates, times, optional spoken announcements, urgency styling, in-app notifications, and escalating horizons from seven days before through the due moment. They are currently browser-session reminders: there is no service worker, server scheduler, or push-notification delivery when Tommy is closed.
+
+The completed-tasks report defaults to the last 30 days, can be global or plan-specific, groups results by plan, displays completion dates and topic breadcrumbs, links back to the original topic, and supports export. Its implementation is in [CompletedTasksReport.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Tommy/Planning/utils/CompletedTasksReport.js).
+
+**Pictures**
+Topics can receive pictures through file selection or direct clipboard paste.
+
+- Images are resized in the browser to a maximum 1600-pixel dimension.
+- Transparent images remain PNG; other images are compressed as JPEG.
+- The client attempts to keep each image below roughly 3 MB.
+- Topic documents retain image metadata while image data is stored separately.
+- Images load lazily only when needed, with at most three simultaneous requests.
+- IndexedDB caches up to 250 images or approximately 100 MB for seven days.
+- Collapsed topics show image indicators; expanded topics show thumbnails.
+- Images can be viewed in a full-screen lightbox and deleted.
+- Image upload and deletion participate in undo and redo.
+
+The caching layer is implemented in [PlannerImageCache.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Tommy/Planning/utils/PlannerImageCache.js).
+
+**Import And Export**
+Import accepts pasted text or `.md`, `.markdown`, and `.txt` files. Users choose whether imported content belongs at the plan root or beneath a selected topic.
+
+Markdown headings become nested topics, with heading depth determining hierarchy and intervening paragraphs becoming topic notes. Tab-indented outlines are also recognized, with indentation determining parentage. A preview and topic count are shown before committing the import. See [ImportUI.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Tommy/Planning/utils/ImportUI.js).
+
+Export can begin from an entire plan or a selected topic. Users can include or exclude subtopics, subplans, and reference labels, and can select individual branches. Output is available as heading-based Markdown or a numbered hierarchical HTML outline, with preview, clipboard, and file-download actions. Linked-plan cycles are guarded against during traversal. See [ExportMarkdownGenerator.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Tommy/Planning/utils/ExportMarkdownGenerator.js).
+
+Current export is designed for readable content transfer, not full backup and restoration. It does not preserve every status, reminder, group, cycle, image, or planner-specific relationship.
+
+**Interface Design**
+Tommy uses an information-dense but responsive bubble interface with visual badges for completion, reminders, current status, groups, cycles, subplans, reflections, references, content, and pictures. Editing occurs in place, reducing the separation between capturing a thought and organizing it.
+
+Desktop and mobile receive different hierarchy and movement behavior. The interface includes responsive toolbars, mobile drawers, long-press action hints, system dark-mode support, keyboard search, layered Escape behavior, modal focus handling, and practical touch targets.
+
+Undo and redo cover high-impact structural operations, including deletion, movement, subplan conversion, reminders, topic creation, cycle changes, and images. They are targeted operational history, not a universal revision history for all text editing.
+
+**What Sets Tommy Apart**
+Tommy’s distinction is the combination of **recursive decomposition, preserved context, and active execution**.
+
+Traditional task managers generally expect work to fit into a shallow project, section, and task structure. Note systems support arbitrary nesting and linking but rarely provide a strong answer to “What should I work on now, and where was I when I stopped?” Timer applications manage focus intervals but are usually disconnected from the structure and history of the work.
+
+Tommy combines those concerns. The tree captures how the problem unfolded; subtree navigation controls visual complexity; current-topic pointers preserve the return position; references and reflections connect knowledge without flattening it; groups provide alternate work contexts; and cycles decide how attention moves through the system.
+
+That makes it particularly well suited to exploratory projects, research, technical investigations, creative work, executive-function support, and any workflow where the next task is often discovered only after beginning the current one.
+
+**Architecture And Readiness**
+The frontend is primarily vanilla JavaScript organized around a large Shadow DOM web component, an in-memory [PlanStore.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Tommy/Planning/classes/PlanStore.js), and service classes. [DataAdapter.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Tommy/Planning/classes/DataAdapter.js) connects optimistic client updates to Mongo-backed serverless endpoints.
+
+The functional scope is substantial, but several areas keep the current implementation from being production-ready for independent customer accounts or teams:
+
+- API endpoints use the hardcoded identity `test_user_1`; there is no real user authentication or authorization.
+- Guest and plan-access links are interface modes controlled by URL parameters, not secure access grants enforced by the backend.
+- There is no real-time collaboration, assignment system, commenting model, recurring-task engine, or calendar integration.
+- Reminder delivery depends on the application being open.
+- Import and export are not lossless backup mechanisms.
+- Multi-document structural operations are not consistently transactional.
+- Existing-plan linking does not appear to prevent every possible circular subplan relationship.
+- The very large main component, duplicate legacy files, evolved cycle methods, and lack of dedicated Tommy browser tests increase maintenance risk.
+- Storing compressed image data directly in MongoDB is workable at modest scale but will become expensive and operationally awkward as usage grows.
+
+**Bottom Line**
+Tommy already contains the foundations of a distinctive standalone product. Its strongest idea is not infinite nesting by itself; it is making deep nesting usable by preserving the user’s place, intent, and re-entry context. The combination of recursive topics, current-topic pointers, virtual subtrees, saved paths, synchronized reflections, cross-plan groups, handoff-aware cycles, pictures, import/export, reminders, and execution statistics gives it a coherent identity: a planner for work that reveals itself as you do it.
+
+3) Redfish Beach Equipment Rental Platform (Customer and Admin side)
+**Executive Summary**
+Redfish is a mature rental, contract, payment, fulfillment, and financial-operations platform serving customers, property owners, partners, beach attendants, and administrators.
+
+It extends far beyond an online storefront. Redfish manages product eligibility, contract entitlements, inventory reservations, customer and staff-created orders, operational fulfillment, invoices, scheduled payments, refunds, accounting history, partner reporting, sales-tax reporting, payment reconciliation, and financial repair workflows.
+
+**Architecture**
+- The backend uses Node.js, Express, and MongoDB. It deploys through Vercel serverless functions configured in [vercel.json]
+- The frontend uses native JavaScript modules, Web Components, and Shadow DOM without a conventional frontend bundling step.
+- APIs combine an explicit `/api/v1` router with an older dynamic module-loading mechanism. The primary registry is [router.js]
+- MongoDB is the system of record, accessed through a cached client with bounded connection pooling.
+- A large `SessionManager` coordinates user context, portals, properties, units, carts, inventory caches, discounts, checkout idempotency, and admin-order state.
+- Critical workflows use checkout attempt IDs, Square idempotency keys, MongoDB transactions where available, and Redis-backed distributed locks when Upstash is configured.
+
+**Users And Access**
+- Authentication uses Auth.js credential sessions, JWTs, and Argon2id password hashing.
+- Customer signup, login, logout, initial-password setup, forgotten-password, and password-reset workflows are implemented.
+- Users belong to configurable groups governed by `Permissions`, `UserGroups`, and per-user `PermissionOverrides`.
+- Access levels include `read`, `write`, and `none`; `ADMIN_GLOBAL` provides global administrative access.
+- Scope rules can limit users to their own contracts, properties, units, or orders.
+- Sessions refresh the user’s current profile and group data, allowing permission and portal changes to take effect before JWT expiration.
+
+**Customer Experience**
+- A unified portal router resolves retail, guest, and owner experiences from portal configuration and URL suffixes.
+- Portal configuration controls branding, logos, colors, contact details, booking instructions, tipping, property and unit selectors, and product availability.
+- Guests select their property and unit, then see only products permitted for that company, partner, portal, property, and unit.
+- Included contract entitlements appear before ordinary inventory when a unit has contract-backed capacity.
+- Products support quantities, rental periods, timeslots, locations, rate plans, discounts, and physical-resource assignments.
+- Inventory is temporarily reserved during checkout, with visible cart expiration and cleanup of abandoned reservations.
+- The storefront handles ordinary rentals, beach equipment, bonfires, LSV or golf-cart rentals, and additional configurable product types.
+- Owner portals expose contracts, purchases, purchase limits, units, season dates, permitted periods, and payment-model choices.
+- Payment models include owner-paid and guest-paid/rebate arrangements, deposits, recurring schedules, taxes, fees, and rebate calculations.
+- Owners can review future installments and completed Square payments.
+- Customer profiles include contact information, mailing and billing addresses, saved cards, card controls, order history, and invoices.
+- Customers submit change requests rather than directly modifying protected order and financial data.
+
+**Checkout And Billing**
+[GeneralPaymentForm.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Transactions/GeneralPaymentForm.js) is the common checkout engine used by retail, guest, owner, administrative, invoice, and tokenized payment-link workflows.
+
+- Checkout collects dynamic order fields, customer and property data, billing information, saved or new cards, agreements, signatures, taxes, fees, discounts, and optional tips.
+- Square provides card tokenization, saved-card management, charges, refunds, and payment metadata.
+- Authorized portals can offer pay-later or invoice checkout.
+- Zero-dollar and complimentary transactions can bypass card collection where permitted.
+- Secure signature-request and payment-link tokens allow customers to finish outstanding agreement or payment actions from emailed links.
+- Successful checkout creates orders, line items, reservations, payment records, invoices, and confirmation-email work.
+- Checkout idempotency prevents duplicate submissions from creating duplicate charges or orders.
+
+**Admin Order Creation**
+Administrative order creation begins in [AdminNewOrderWizard.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/AdminSettings/AdminNewOrderWizard.js).
+
+- The standard workflow follows Portal → Customer → Cart → Checkout.
+- Staff can search existing customers by name, email, or telephone, or create a profile during the order.
+- The cart supports rental and contract products, rate plans, discounts, dates, quantities, properties, units, locations, entitlements, and resource availability.
+- Administrative orders reuse the customer checkout engine, keeping pricing, tax, fee, reservation, signature, invoice, and payment behavior consistent.
+- Completion options include charging a card, sending an invoice, saving an invoice without sending it, and complimentary checkout.
+- Staff can override booking dates and provide admin-only checkout fields.
+- Ghost or walk-up mode creates operational orders without ordinary card checkout and supports Daily List and imported-Poynt workflows.
+- Source metadata distinguishes customer, contract, admin-wizard, ghost, blocked, Poynt, seasonal-set, calendar, and resource-block orders.
+
+**Order Management**
+- The order list supports backend pagination, historical loading, live refresh, date-basis selection, search, configurable columns, and draggable column order.
+- Filters cover status, check-in, LSV status, site, property, unit, location, category, product, resource, contract type, signature, settlement, order type, refunds, and outstanding balances.
+- Derived columns expose resource assignments and settlement summaries.
+- Authorized users can select and bulk-delete orders.
+- Order details dispatch to specialized rental, contract, contract-payment, room-charge, ghost, and Poynt views.
+- Rental orders support adding, editing, removing, and restoring line items.
+- Staff can change dates, quantities, locations, resources, pricing, taxes, fees, rebates, and discounts while checking resulting inventory conflicts.
+- Balances can be charged, refunds issued and distributed, external payments recorded, cards recovered, and documented ad hoc fees added with S3 attachments.
+- Contract orders support purchase, date, unit, rate-plan, payment-model, exclusion, schedule, rebate, signature, and payment-link changes.
+- Room-charge orders support editable equipment charges, card or external payments, refunds, signatures, and adjustment history.
+- Financial changes produce iterations, snapshots, accounting entries, and regenerated invoices.
+- Administrators can compare historical and current order states.
+- Repair tools diagnose, preview, apply, and roll back iteration-history repairs while reconciling stored financials with canonical calculations.
+- Settled payments and refunds carry extra guards so later edits cannot silently invalidate reconciliation sessions.
+
+**Operations**
+- The Daily List provides date, site, and location manifests; check-in and check-out; undo; operational notes; configurable product columns; and walk-up order creation.
+- Seating tracks primary, extra, required, assigned, missing, and bonus seats, with conflict prevention and forward carry or clearing.
+- The Resource Calendar displays physical inventory reservations and supports drag-and-drop date or resource changes with conflict checks and financial previews.
+- Staff can create closures and availability blocks against individual or shared resources.
+- The BA Schedule manages attendant shifts, approvals, and tip-pool calculations.
+- Contract-resource assignment connects owner purchases and entitlements to specific physical inventory.
+
+**Reports And Financial Tools**
+- **Partner reporting** calculates service-date revenue, partner shares, refunds, retained cancellation amounts, exclusions, room-charge deductions, settlements, and edit diagnostics.
+- Partner workbooks include summary, partner, Redfish, category, raw-data, all-orders, Poynt, refunds, excluded, canceled, room-charge, open-balance, settlement, diagnostic, and edit-review sheets.
+- **Sales Dashboard** reports sales and refunds by service or order date, with date presets, KPIs, trends, partner/category matrices, property and unit filters, drilldowns, CSV output, and prior-year references.
+- **Sales-tax reporting** produces payment-basis tax exports with jurisdiction allocations, summaries, formulas, and raw transaction rows.
+- **Square reconciliation** supports Square and external settlements, payment/refund candidate selection, withheld fees, expected-versus-bank-deposit variance, adjustments, chargebacks, journal corrections, settlement, reopening, and CSV export.
+- **Poynt import** accepts CSV and XLSX daily transaction files, maps and previews fields, validates totals, records settlement variance, creates booking orders, and supports batch rollback and auditing.
+- **Customer credits** identifies orders holding more customer money than is currently owed and produces a repair-oriented workbook.
+- **Room-charge reporting** summarizes equipment quantities, amounts, units, and signatures for preview, printing, and spreadsheets.
+- **General exports** include configurable order extracts and iteration-split workbooks with optional service-date filtering.
+
+**Scheduled Payments**
+- Administrators can create, view, edit, delete, zero out, or recalculate installments.
+- Installments can be charged immediately against saved cards, marked paid externally, refunded, or redirected to replacement cards.
+- Balance charges and distributed refunds can span multiple historical payments.
+- Executed contract installments can generate linked `contract_payment` child orders containing subtotal, fee, tax, and payment-component history.
+- Processing endpoints and manual controls exist, but automatic daily charging is disabled because the configured Vercel cron path is intentionally invalid.
+
+**Month-End Tools**
+Month-end is currently supported by a coordinated toolkit rather than one production “Close Month” command:
+
+- Poynt transaction import
+- Square and external-payment reconciliation
+- Customer-credit review
+- Sales-tax exports
+- Partner settlement workbooks
+- Room-charge review
+- Open-balance analysis
+- Sales-dashboard verification
+- Refund and cancellation review
+- Diagnostic and edit-review workbooks
+
+`MonthlyStatements`, `ConsolidatedStatements`, `InventoryHoldback`, and `ClosedPeriods` concepts exist in the data model. Statement-generation APIs are currently registered under `/api/v1/test-statements/*`, while [reporting.html](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/reporting.html) still uses prototype data.
+
+The platform does not yet expose one production control that locks a period, generates every statement, posts final attribution, and records close approval. QuickBooks and several related settings remain placeholders, so full general-ledger export and accounting-system synchronization are not complete.
+
+**Email And Documents**
+- Administrators manage templates, merge fields, product/contract/location associations, recipient overrides, attachments, scheduling conditions, previews, and activation status.
+- Messages can be queued or sent immediately.
+- Vercel processes the email queue every minute.
+- Delivery uses SendGrid’s SMTP relay when configured, with generic SMTP as fallback.
+- Puppeteer and Chromium generate invoices and other PDFs.
+- S3 can store order attachments, and Sharp can resize image attachments before delivery.
+
+**Data Model**
+- Commerce collections include `Orders`, `LineItems`, `ResourceReservations`, `SquarePayments`, `ScheduledPayments`, `Invoices`, `OrderIterations`, `OrderSnapshots`, `RefundEvents`, and accounting/allocation records.
+- Catalog and tenancy collections include `Companies`, `Partners`, `Sites`, `Properties`, `Units`, `Contracts`, `ContractPurchases`, `Products`, `RatePlans`, `Resources`, `Locations`, categories, allowability rules, taxes, fees, and discounts.
+- Supporting collections cover users, groups, permissions, email templates, queues and history, Poynt batches, reconciliation sessions and adjustments, BA schedules, dashboard projections, documents, and notifications.
+- Orders support rental, contract, contract-payment, room-charge, manual, and Poynt-booking types.
+
+**Legacy Public Areas**
+Older About, product, contact, employment, and partnership pages remain in the public application. The contact, employment, and partnership forms currently log submissions in the browser rather than sending them to a production backend workflow.
+
+**Important Risks**
+- Numerous mutating `/api/v1/test-*` endpoints are mounted in the production router without standard permission middleware.
+- Some administrative write routes use rate limiting but do not consistently apply `requirePermission`; handler-level authorization needs a dedicated audit.
+- The credential handler logs reconstructed request bodies, creating a risk that credentials could enter application logs.
+- Rate limiting and some locks fall back to process memory, which is unreliable across serverless instances. Upstash is effectively required for production concurrency guarantees.
+- Several navigation entries still point to `example.com` placeholders.
+- Large frontend components and duplicated historical or “copy” variants increase regression risk and obscure ownership boundaries.
+- The sophisticated repair and backfill tooling indicates that historical financial consistency remains an active operational concern.
+
+
+4)  Luxury Discount Aggregation Site
+
+**Executive Summary**
+The Luxury Discount Aggregation Site, currently branded **My Wife’s Assistant**, is a decision system for discovering unusually strong luxury-retail values across multiple stores. It replaces retailer-by-retailer clearance browsing with one normalized, continuously refreshed view of the market.
+
+Its objective is more specific than “show sale merchandise.” It helps a shopper use a finite budget to find the greatest number of genuinely compelling opportunities: products with both a low final cost and an unusually large gap between original and sale price.
+
+The system begins at the intersection of the **deepest discounts and lowest final prices**. It then accepts moderately higher prices while preserving exceptional discount quality. Only after those opportunities have been reviewed does it relax the required discount depth. This prevents cheap but ordinary markdowns from crowding out rarer, more economically attractive deals.
+
+**The Optimization Philosophy**
+The system treats shopping as a constrained, multi-objective search:
+
+1. **Protect the budget.** Current price determines whether an item belongs in the shopper’s feasible range.
+2. **Maximize value distortion.** Within that range, the largest reductions from the reference price appear first.
+3. **Prefer more opportunities.** Lower final prices let a fixed budget reach more products.
+4. **Preserve deal quality before weakening standards.** The progression allows somewhat higher prices within a powerful discount class before moving down to weaker markdowns.
+5. **Spend attention only once.** Seen items disappear unless deliberately restored.
+6. **Return only when the market has changed.** Cleared areas reopen when genuinely new merchandise arrives.
+
+This is a lexicographic strategy rather than a simple “sort by price” or “sort by percentage” command. A cheap item with a routine markdown does not automatically outrank a slightly more expensive product selling at a fraction of its former price.
+
+The result is a practical approximation of a value-maximizing search: find as many exceptional candidates as the budget can support without diluting the definition of an exceptional deal too early.
+
+**Two-Dimensional Deal Space**
+Every product occupies a cell in a matrix formed by **final price** and **discount depth**.
+
+The price ladder is:
+
+- `$0–25`
+- `$25–50`
+- `$50–100`
+- `$100–200`
+- `$200+`
+- Arbitrary custom minimum and maximum prices
+
+The discount ladder is:
+
+- At least `95% off`, or an original price at least `20×` the sale price
+- `90–95% off`, or `10–20×`
+- `80–90% off`, or `5–10×`
+- `75–80% off`, or `4–5×`
+- `66–75% off`, or `3–4×`
+- `50–66% off`, or `2–3×`
+- `33–50% off`, or `1.5–2×`
+- Under `33% off`
+
+These ranges are mutually exclusive and exhaustive. Boundary values cannot appear in two buckets, and no valid markdown falls into a gap. The definitions and conversion mathematics are centralized in [buckets.ts](C:/Users/PJuJu/OneDrive/Documents/Work/CPP/src/lib/buckets.ts) and [discount.ts](C:/Users/PJuJu/OneDrive/Documents/Work/CPP/src/lib/discount.ts).
+
+**Discount Mathematics**
+For current price `P` and original price `O`, the system stores:
+
+```text
+discount percentage = 1 - P/O
+value multiplier    = O/P
+```
+
+A `$100` product originally priced at `$500` is therefore `80% off` and has a `5×` multiplier.
+
+The multiplier is especially useful psychologically. “80% off” can feel abstract, while “the original price was five times today’s price” communicates the magnitude immediately. Both are shown so shoppers can use whichever representation is more intuitive.
+
+For products with price variation across size or color, Tommy stores the minimum and maximum current price. Cards say “up to X% off,” and detail pages explain the full range rather than suggesting every variant receives the best price.
+
+**Assisted Progression**
+Assisted Progression converts the two-dimensional matrix into a guided review workflow.
+
+- The shopper chooses a price lane or custom budget ceiling.
+- The system begins with the deepest available discount class.
+- Items inside the class are presented with the least expensive opportunities prioritized.
+- Empty combinations are skipped automatically.
+- “I’ve reviewed these” explicitly clears the current stage and moves to the next meaningful one.
+- A stage is never considered cleared merely because the shopper scrolled past it or left the page.
+- When no unseen products remain, the system recommends the next stage.
+- Progress persists across sessions for account holders and locally for guests.
+- Reset returns the shopper to the strongest value class.
+- Custom mode supports arbitrary price and multiplier or percentage boundaries.
+
+The full progression state includes the chosen price range, current discount bucket, cleared buckets, clearance timestamps, and last update time. This makes deal hunting resumable instead of requiring another exhaustive search every visit.
+
+**Why Seen Tracking Matters**
+Most shopping systems repeatedly show the same inventory because repeated exposure can eventually create familiarity and purchase pressure. This site uses repetition as a problem to eliminate.
+
+Opening an item or explicitly marking it reviewed records it as seen. “Hide seen” is enabled by default for signed-in shoppers, with controls to reveal seen items or mark the entire current result set as reviewed.
+
+This changes the emotional meaning of browsing. The shopper is not asking, “Did I overlook something somewhere in these hundreds of cards?” The system provides a reliable answer: everything currently shown is either new or intentionally restored.
+
+Cleared stages remain cleared. If new products later enter one, Tommy displays a restrained notification such as “3 new in 75–80% off.” It reopens the opportunity without erasing the shopper’s progress.
+
+**Psychology And Choice Architecture**
+The system addresses several recurring weaknesses in online shopping:
+
+- **Choice overload:** The complete sale universe is broken into finite, meaningful cells.
+- **Decision fatigue:** Empty and completed cells disappear from the path.
+- **Fear of missing out:** Cross-store aggregation and persisted progress create confidence that the strongest available areas were reviewed.
+- **Promotional noise:** Retailer-specific banners and merchandising priorities are replaced by consistent mathematics.
+- **Repeated-exposure pressure:** Seen inventory is hidden instead of continuously recycled.
+- **Anchoring confusion:** Original price, current price, percentage reduction, and multiplier are shown together.
+- **Premature compromise:** The guided order preserves strong discount standards before descending into ordinary markdowns.
+- **Unbounded vigilance:** Alerts monitor the market without requiring constant manual checking.
+- **Accidental completion:** Progress advances through explicit shopper intent, not passive scrolling.
+
+The interface remains an assistant rather than a purchase-pressure engine. It does not transact, manufacture countdowns, or imply that every markdown should be bought. Its job is to surface candidates efficiently and let the shopper decide whether the product itself is desirable.
+
+A markdown is also treated honestly as a reduction from a retailer’s listed reference price, not proof of objective intrinsic value. Aggregation identifies unusually priced opportunities; the product detail view supplies the evidence needed for the final judgment.
+
+**Browse Experience**
+The main screen is the working product rather than a marketing landing page. It presents:
+
+- All, Women, Men, and Kids sections with live counts.
+- Universal discount, final-price, source, and seen-state filters.
+- Deepest-discount, price-low-to-high, and price-high-to-low sorting.
+- Facet counts that respect every other active filter.
+- Disabled states for combinations with no inventory.
+- A responsive product grid showing up to 120 results at a time.
+- Clear result totals, active-filter reset, and empty-state guidance.
+- A source directory linking directly to participating retailers.
+
+The faceted counts are important: before selecting a price or discount tier, shoppers can see how many products the choice will produce. The interface therefore communicates the shape of the opportunity space instead of requiring trial-and-error filtering.
+
+**Product Cards And Details**
+Cards show the product image, brand, title, current price or price range, struck-through original price, discount badge, source, saved/seen controls, and a direct retailer link.
+
+The internal detail view adds:
+
+- Up to five product images
+- Brand and full product title
+- Current and original prices
+- Honest variant-price messaging
+- Discount depth
+- Department and category
+- Retail source
+- Rich product description
+- Available sizes and other source-provided details
+- A direct “View on [retailer]” purchase link
+
+Descriptions and additional images are lazily enriched from the product page on first viewing and cached thereafter. This keeps the initial index lightweight while providing the richer text required for product evaluation and keyword alerts. The experience is implemented around [page.tsx](C:/Users/PJuJu/OneDrive/Documents/Work/CPP/src/app/page.tsx), [item-card.tsx](C:/Users/PJuJu/OneDrive/Documents/Work/CPP/src/components/item-card.tsx), and the [item detail route](C:/Users/PJuJu/OneDrive/Documents/Work/CPP/src/app/item/%5Bid%5D/page.tsx).
+
+**Accounts And Personalization**
+Guests can browse, filter, inspect products, and follow retailer links without creating an account. When they attempt a persistent feature, a login gate explains its value instead of blocking ordinary discovery.
+
+Accounts use email and password authentication, bcrypt password hashing, signed JWT sessions, and server-side authorization. Signed-in shoppers receive:
+
+- Saved products
+- A saved-items view organized by the same price and discount matrix
+- Seen history
+- Hide-seen behavior
+- Bulk “mark current results seen”
+- Persistent assisted-progression state
+- Custom price and discount ranges
+- Personal alert rules
+- Cross-device continuity
+
+Saved and seen are intentionally separate. Saving means “this deserves consideration”; seen means “I have already evaluated it.” A product can be reviewed without being shortlisted, or saved while remaining visible for comparison.
+
+**Multi-Source Aggregation**
+The platform combines sale inventory from Nordstrom, Neiman Marcus, Saks, Bloomingdale’s, and additional adapter-backed retailers.
+
+Every retailer is translated into a canonical item format. Source-specific names, embedded data structures, price ranges, image collections, categories, and product URLs become consistent fields. Cross-source deduplication prevents the same underlying product from masquerading as several separate discoveries while preserving each retailer’s offer and direct link.
+
+Shoppers can view the entire market or restrict results to selected sources. Because all retailers share the same discount and price mathematics, a `75% off` item from one store can be compared meaningfully with a `75% off` item from another.
+
+**Saved Searches And Alerts**
+Alert rules delegate the repetitive work of monitoring luxury clearance inventory.
+
+A rule can combine:
+
+- One or more keywords matched against titles and enriched descriptions
+- Men, Women, Kids, or unrestricted section
+- Minimum and maximum final price
+- Minimum and maximum multiplier or discount
+- One or more retailers
+- Active or paused status
+
+The checker runs on a jittered schedule, compares rules against newly arrived products, and sends concise email notifications with product evidence and direct retailer links. Each alert-product combination is recorded so the same product is never emailed twice for the same rule. Per-recipient rate limits prevent floods, and every message includes one-click unsubscribe.
+
+Alerts preserve the site’s core hierarchy: the user is notified about new products that satisfy an already rational budget-and-value policy, rather than being lured back by generic sale messaging.
+
+**Data Freshness**
+The site is a periodically refreshed product index, not a live scraper attached to every page view.
+
+- Each scrape creates a monitored run record.
+- Existing products are updated by stable source ID.
+- New products receive a `firstSeenAt` timestamp.
+- Reappearing products receive current prices and a refreshed `lastSeenAt`.
+- Products absent from a completed source run become inactive.
+- Inactive products disappear from normal browse results without destroying history.
+- Source badges show when each retailer was last updated.
+- Newly arrived inventory can be identified relative to the previous run or a cleared-stage timestamp.
+
+This architecture supports seen tracking, alerts, deduplication, fast filtering, and historical continuity while minimizing retailer requests.
+
+**Scraping And Enrichment**
+The ingestion system uses a pluggable `SourceAdapter` contract in [types.ts](C:/Users/PJuJu/OneDrive/Documents/Work/CPP/src/scrapers/types.ts). Adding a retailer requires an adapter, not changes throughout the application.
+
+Adapters prefer structured JSON already embedded in listing pages. Cheerio handles ordinary server-rendered HTML; Playwright is reserved for pages requiring JavaScript execution. Requests are serialized per host, delayed with jitter, retried with exponential backoff, and stopped gracefully when a source cannot be refreshed reliably.
+
+The Nordstrom adapter parses embedded listing data, reconstructs canonical product links, maps departments, captures price ranges and images, and enriches product details from JSON-LD. The complete refresh lifecycle is orchestrated by [scrape.ts](C:/Users/PJuJu/OneDrive/Documents/Work/CPP/scripts/scrape.ts), while [enrich.ts](C:/Users/PJuJu/OneDrive/Documents/Work/CPP/scripts/enrich.ts) prioritizes enrichment of the deepest-discount inventory.
+
+Fixture-driven development allows adapters to be built and tested against saved retailer pages without repeatedly contacting the source.
+
+**Operations And Administration**
+Operational tools support:
+
+- Fixture and live scrape modes
+- Source selection
+- Minimum-discount and maximum-page controls
+- Batch product enrichment
+- Database connectivity checks
+- Product invariant checks
+- Per-run status, duration, item count, and error recording
+- Active/inactive inventory monitoring
+- Source enablement
+- Prisma Studio database inspection
+- Scheduled scraping and alert execution
+- Graceful source-failure reporting
+
+Run monitoring makes failures visible without corrupting the existing browse index. A failed refresh leaves the last successful data available and directs users to the retailer when current aggregation is temporarily unavailable.
+
+**Architecture**
+The completed platform uses Next.js 16, React 19, TypeScript, Tailwind CSS 4, PostgreSQL, Prisma 7, Auth.js, bcrypt, Cheerio, Playwright, Vitest, and Resend or SMTP delivery.
+
+Server Components query the indexed inventory directly, while URL-based filters make browse states linkable and reload-safe. PostgreSQL stores users, sources, products, saved and seen relationships, alerts, alert hits, and scrape-run history. The canonical schema is defined in [schema.prisma](C:/Users/PJuJu/OneDrive/Documents/Work/CPP/prisma/schema.prisma).
+
+Discount calculations, filter construction, scraping normalization, alert matching, and presentation all consume the same canonical definitions. This prevents subtle disagreements where a scraper, filter, and email system classify the same item differently.
+
+**Visual Design**
+The interface combines a compact marketplace grid with boutique styling: warm neutral surfaces, a wine/rose accent, serif display typography, restrained sans-serif controls, strong product photography, and automatic dark mode.
+
+It is mobile-first, with two-column cards on phones and progressively wider grids on larger screens. Horizontal filter rows remain touch-friendly without consuming the viewport. The presentation feels appropriate for luxury merchandise while keeping price and discount evidence more prominent than decorative editorial content.
+
+**What Sets It Apart**
+Most retailer sale pages optimize for one store’s merchandising goals. Marketplace aggregators usually optimize for relevance, popularity, sponsorship, or conversion. Coupon sites emphasize promotional codes. Price trackers generally follow products the shopper already knows about.
+
+This system optimizes the **order in which unknown opportunities are discovered**.
+
+Its distinctive combination is:
+
+- Discount depth and final price treated as separate dimensions
+- Deep-discount-first, affordability-aware progression
+- Explicit preservation of reviewed territory
+- New-since-cleared resurfacing
+- Cross-retailer normalization
+- Saved versus seen separation
+- Rich keyword-aware alerts
+- Transparent source links
+- No requirement to buy through the platform
+
+It does not merely answer “What is on sale?” It answers: **“Given what I am willing to spend, where are the rarest value opportunities, how many of them can I realistically consider, what have I already reviewed, and what genuinely new opportunities appeared since I last looked?”**
+
+**Bottom Line**
+The Luxury Discount Aggregation Site is best understood as a disciplined shopping methodology embodied in software. It converts an overwhelming, repetitive, psychologically noisy activity into a finite progression through the strongest available opportunities. Budget determines feasibility, discount depth determines deal quality, current price determines how many opportunities can fit within that budget, and persistent memory ensures the shopper never has to start the search over.
+avoid: Does the job description explicitly mention  that the compensation is purely commission-based (i.e. there is NO base salary, the only way to get paid is through commission)?
+Does the job description explicitly mention the worker going into the office in-person? 
+skipped: 
+WritingSample: I know yesterday's call caught you in the car and in traffic, so I appreciate you working through all of this with me anyway. I am following up in writing so that we are both operating from the same understanding before I begin building. I am going to use lend and borrow as the vocabulary throughout, since you were right that it is the clearest way to state it. Everything we have today is borrower-side; it only ever restricts what the shopping portal is permitted to pull. What you described is the opposite direction, and there is currently no way to express it at all.
+
+The Mode dropdown is therefore being replaced with three independent checkboxes: block borrowing, block lending, and block renting its own equipment. You tick whichever combination applies to the situation. Destin RV during the big-league week is lending only; they continue renting their own carts, and every other portal loses access to them. OSP during construction is own-rentals only; OSP shows no bikes, while retail and FunVacay can still pull them. Beneath those boxes there is a second portal picker for the counterparties, defaulting to "All other portals," and that is what handles the 30A road closure. You would select the 30A portals at the top, tick borrowing, and then name Amalfi, Embassy and DRV as the properties they cannot borrow from; OSP and BSP would remain available. Please note that every block you have already placed will continue to behave exactly as it does today. I am not disturbing any of them.
+
+The second item is separating the "allow span" checkbox into two, because at present a single box permits spanning and ending together, and those are not the same permission. Christmas is the case that demonstrates it. Retail and FunVacay cannot have anything ending on the 25th, as somebody would have to go collect it; on-site equipment, by contrast, may end on the 25th without issue, since it sits in place until the next turn. Under the current arrangement you would have to block the 25th and the 26th and reason it through each time, and as you put it, it will not always be you placing the block. Both boxes will default to unchecked, per your instruction. I did not add an "allow starts" option, for the reason you gave on the call: there is no sense in placing a block that permits a rental to start on the blocked day.
+
+The third item is the calendar dates setting, which is what began this conversation. You are correct that the way blocks function now is right and should be left alone; this is an additional setting rather than a change to the existing behavior. When it is ticked, the system disregards the rate-plan offsets entirely and blocks the literal dates exactly as you entered them. That is why your one-day block on a nightly item did not do what you expected; the offsets were shifting it off the day you typed. I was overcomplicating this on the phone by trying to compensate for the offsets, when the correct answer is simply not to apply them in the first place. For daily items such as beach chairs the current offset-aware behavior remains correct, so it stays the default, and I will place a short advisory note under the date fields explaining the distinction rather than a hard error.
+
+One further point, before it comes up separately: the portal-wide close you raised, the "permit revoked, no selling today" scenario, is already expressible once these three pieces land. All portals, all products, all three boxes ticked, and calendar dates on. No separate feature is required, and I will walk you through it once it is up. The midnight question is a broader matter of rental time semantics that affects considerably more than blocks, so I am setting it aside for the moment. As for timing, I would estimate two to three days for all three pieces; however, I will say what I always say, which is that I have given you that estimate before and watched it turn into a week. I will let you know as each piece goes up so that you can test them as they arrive rather than waiting on the whole.
+
+=== JOBS for user 9 ===
+--- job 1 Software Developer @ 21st Century Realty (Real Estate), October 2017-May 2020 ---
+**Executive Summary**
+Redfish is a mature rental, contract, payment, fulfillment, and financial-operations platform serving customers, property owners, partners, beach attendants, and administrators.
+
+It extends far beyond an online storefront. Redfish manages product eligibility, contract entitlements, inventory reservations, customer and staff-created orders, operational fulfillment, invoices, scheduled payments, refunds, accounting history, partner reporting, sales-tax reporting, payment reconciliation, and financial repair workflows.
+
+**Architecture**
+- The backend uses Node.js, Express, and MongoDB. It deploys through Vercel serverless functions configured in [vercel.json]
+- The frontend uses native JavaScript modules, Web Components, and Shadow DOM without a conventional frontend bundling step.
+- APIs combine an explicit `/api/v1` router with an older dynamic module-loading mechanism. The primary registry is [router.js]
+- MongoDB is the system of record, accessed through a cached client with bounded connection pooling.
+- A large `SessionManager` coordinates user context, portals, properties, units, carts, inventory caches, discounts, checkout idempotency, and admin-order state.
+- Critical workflows use checkout attempt IDs, Square idempotency keys, MongoDB transactions where available, and Redis-backed distributed locks when Upstash is configured.
+
+**Users And Access**
+- Authentication uses Auth.js credential sessions, JWTs, and Argon2id password hashing.
+- Customer signup, login, logout, initial-password setup, forgotten-password, and password-reset workflows are implemented.
+- Users belong to configurable groups governed by `Permissions`, `UserGroups`, and per-user `PermissionOverrides`.
+- Access levels include `read`, `write`, and `none`; `ADMIN_GLOBAL` provides global administrative access.
+- Scope rules can limit users to their own contracts, properties, units, or orders.
+- Sessions refresh the user’s current profile and group data, allowing permission and portal changes to take effect before JWT expiration.
+
+**Customer Experience**
+- A unified portal router resolves retail, guest, and owner experiences from portal configuration and URL suffixes.
+- Portal configuration controls branding, logos, colors, contact details, booking instructions, tipping, property and unit selectors, and product availability.
+- Guests select their property and unit, then see only products permitted for that company, partner, portal, property, and unit.
+- Included contract entitlements appear before ordinary inventory when a unit has contract-backed capacity.
+- Products support quantities, rental periods, timeslots, locations, rate plans, discounts, and physical-resource assignments.
+- Inventory is temporarily reserved during checkout, with visible cart expiration and cleanup of abandoned reservations.
+- The storefront handles ordinary rentals, beach equipment, bonfires, LSV or golf-cart rentals, and additional configurable product types.
+- Owner portals expose contracts, purchases, purchase limits, units, season dates, permitted periods, and payment-model choices.
+- Payment models include owner-paid and guest-paid/rebate arrangements, deposits, recurring schedules, taxes, fees, and rebate calculations.
+- Owners can review future installments and completed Square payments.
+- Customer profiles include contact information, mailing and billing addresses, saved cards, card controls, order history, and invoices.
+- Customers submit change requests rather than directly modifying protected order and financial data.
+
+**Checkout And Billing**
+[GeneralPaymentForm.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/Transactions/GeneralPaymentForm.js) is the common checkout engine used by retail, guest, owner, administrative, invoice, and tokenized payment-link workflows.
+
+- Checkout collects dynamic order fields, customer and property data, billing information, saved or new cards, agreements, signatures, taxes, fees, discounts, and optional tips.
+- Square provides card tokenization, saved-card management, charges, refunds, and payment metadata.
+- Authorized portals can offer pay-later or invoice checkout.
+- Zero-dollar and complimentary transactions can bypass card collection where permitted.
+- Secure signature-request and payment-link tokens allow customers to finish outstanding agreement or payment actions from emailed links.
+- Successful checkout creates orders, line items, reservations, payment records, invoices, and confirmation-email work.
+- Checkout idempotency prevents duplicate submissions from creating duplicate charges or orders.
+
+**Admin Order Creation**
+Administrative order creation begins in [AdminNewOrderWizard.js](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/AdminSettings/AdminNewOrderWizard.js).
+
+- The standard workflow follows Portal → Customer → Cart → Checkout.
+- Staff can search existing customers by name, email, or telephone, or create a profile during the order.
+- The cart supports rental and contract products, rate plans, discounts, dates, quantities, properties, units, locations, entitlements, and resource availability.
+- Administrative orders reuse the customer checkout engine, keeping pricing, tax, fee, reservation, signature, invoice, and payment behavior consistent.
+- Completion options include charging a card, sending an invoice, saving an invoice without sending it, and complimentary checkout.
+- Staff can override booking dates and provide admin-only checkout fields.
+- Ghost or walk-up mode creates operational orders without ordinary card checkout and supports Daily List and imported-Poynt workflows.
+- Source metadata distinguishes customer, contract, admin-wizard, ghost, blocked, Poynt, seasonal-set, calendar, and resource-block orders.
+
+**Order Management**
+- The order list supports backend pagination, historical loading, live refresh, date-basis selection, search, configurable columns, and draggable column order.
+- Filters cover status, check-in, LSV status, site, property, unit, location, category, product, resource, contract type, signature, settlement, order type, refunds, and outstanding balances.
+- Derived columns expose resource assignments and settlement summaries.
+- Authorized users can select and bulk-delete orders.
+- Order details dispatch to specialized rental, contract, contract-payment, room-charge, ghost, and Poynt views.
+- Rental orders support adding, editing, removing, and restoring line items.
+- Staff can change dates, quantities, locations, resources, pricing, taxes, fees, rebates, and discounts while checking resulting inventory conflicts.
+- Balances can be charged, refunds issued and distributed, external payments recorded, cards recovered, and documented ad hoc fees added with S3 attachments.
+- Contract orders support purchase, date, unit, rate-plan, payment-model, exclusion, schedule, rebate, signature, and payment-link changes.
+- Room-charge orders support editable equipment charges, card or external payments, refunds, signatures, and adjustment history.
+- Financial changes produce iterations, snapshots, accounting entries, and regenerated invoices.
+- Administrators can compare historical and current order states.
+- Repair tools diagnose, preview, apply, and roll back iteration-history repairs while reconciling stored financials with canonical calculations.
+- Settled payments and refunds carry extra guards so later edits cannot silently invalidate reconciliation sessions.
+
+**Operations**
+- The Daily List provides date, site, and location manifests; check-in and check-out; undo; operational notes; configurable product columns; and walk-up order creation.
+- Seating tracks primary, extra, required, assigned, missing, and bonus seats, with conflict prevention and forward carry or clearing.
+- The Resource Calendar displays physical inventory reservations and supports drag-and-drop date or resource changes with conflict checks and financial previews.
+- Staff can create closures and availability blocks against individual or shared resources.
+- The BA Schedule manages attendant shifts, approvals, and tip-pool calculations.
+- Contract-resource assignment connects owner purchases and entitlements to specific physical inventory.
+
+**Reports And Financial Tools**
+- **Partner reporting** calculates service-date revenue, partner shares, refunds, retained cancellation amounts, exclusions, room-charge deductions, settlements, and edit diagnostics.
+- Partner workbooks include summary, partner, Redfish, category, raw-data, all-orders, Poynt, refunds, excluded, canceled, room-charge, open-balance, settlement, diagnostic, and edit-review sheets.
+- **Sales Dashboard** reports sales and refunds by service or order date, with date presets, KPIs, trends, partner/category matrices, property and unit filters, drilldowns, CSV output, and prior-year references.
+- **Sales-tax reporting** produces payment-basis tax exports with jurisdiction allocations, summaries, formulas, and raw transaction rows.
+- **Square reconciliation** supports Square and external settlements, payment/refund candidate selection, withheld fees, expected-versus-bank-deposit variance, adjustments, chargebacks, journal corrections, settlement, reopening, and CSV export.
+- **Poynt import** accepts CSV and XLSX daily transaction files, maps and previews fields, validates totals, records settlement variance, creates booking orders, and supports batch rollback and auditing.
+- **Customer credits** identifies orders holding more customer money than is currently owed and produces a repair-oriented workbook.
+- **Room-charge reporting** summarizes equipment quantities, amounts, units, and signatures for preview, printing, and spreadsheets.
+- **General exports** include configurable order extracts and iteration-split workbooks with optional service-date filtering.
+
+**Scheduled Payments**
+- Administrators can create, view, edit, delete, zero out, or recalculate installments.
+- Installments can be charged immediately against saved cards, marked paid externally, refunded, or redirected to replacement cards.
+- Balance charges and distributed refunds can span multiple historical payments.
+- Executed contract installments can generate linked `contract_payment` child orders containing subtotal, fee, tax, and payment-component history.
+- Processing endpoints and manual controls exist, but automatic daily charging is disabled because the configured Vercel cron path is intentionally invalid.
+
+**Month-End Tools**
+Month-end is currently supported by a coordinated toolkit rather than one production “Close Month” command:
+
+- Poynt transaction import
+- Square and external-payment reconciliation
+- Customer-credit review
+- Sales-tax exports
+- Partner settlement workbooks
+- Room-charge review
+- Open-balance analysis
+- Sales-dashboard verification
+- Refund and cancellation review
+- Diagnostic and edit-review workbooks
+
+`MonthlyStatements`, `ConsolidatedStatements`, `InventoryHoldback`, and `ClosedPeriods` concepts exist in the data model. Statement-generation APIs are currently registered under `/api/v1/test-statements/*`, while [reporting.html](C:/Users/PJuJu/OneDrive/Documents/Work/Joel_Site/Vercel_Example/RedFish/public/reporting.html) still uses prototype data.
+
+The platform does not yet expose one production control that locks a period, generates every statement, posts final attribution, and records close approval. QuickBooks and several related settings remain placeholders, so full general-ledger export and accounting-system synchronization are not complete.
+
+**Email And Documents**
+- Administrators manage templates, merge fields, product/contract/location associations, recipient overrides, attachments, scheduling conditions, previews, and activation status.
+- Messages can be queued or sent immediately.
+- Vercel processes the email queue every minute.
+- Delivery uses SendGrid’s SMTP relay when configured, with generic SMTP as fallback.
+- Puppeteer and Chromium generate invoices and other PDFs.
+- S3 can store order attachments, and Sharp can resize image attachments before delivery.
+
+**Data Model**
+- Commerce collections include `Orders`, `LineItems`, `ResourceReservations`, `SquarePayments`, `ScheduledPayments`, `Invoices`, `OrderIterations`, `OrderSnapshots`, `RefundEvents`, and accounting/allocation records.
+- Catalog and tenancy collections include `Companies`, `Partners`, `Sites`, `Properties`, `Units`, `Contracts`, `ContractPurchases`, `Products`, `RatePlans`, `Resources`, `Locations`, categories, allowability rules, taxes, fees, and discounts.
+- Supporting collections cover users, groups, permissions, email templates, queues and history, Poynt batches, reconciliation sessions and adjustments, BA schedules, dashboard projections, documents, and notifications.
+- Orders support rental, contract, contract-payment, room-charge, manual, and Poynt-booking types.
+
+**Legacy Public Areas**
+Older About, product, contact, employment, and partnership pages remain in the public application. The contact, employment, and partnership forms currently log submissions in the browser rather than sending them to a production backend workflow.
+
+**Important Risks**
+- Numerous mutating `/api/v1/test-*` endpoints are mounted in the production router without standard permission middleware.
+- Some administrative write routes use rate limiting but do not consistently apply `requirePermission`; handler-level authorization needs a dedicated audit.
+- The credential handler logs reconstructed request bodies, creating a risk that credentials could enter application logs.
+- Rate limiting and some locks fall back to process memory, which is unreliable across serverless instances. Upstash is effectively required for production concurrency guarantees.
+- Several navigation entries still point to `example.com` placeholders.
+- Large frontend components and duplicated historical or “copy” variants increase regression risk and obscure ownership boundaries.
+- The sophisticated repair and backfill tooling indicates that historical financial consistency remains an active operational concern.
+
+
+--- job 2 AI Consultant @ Kacha Inc (Software Development), August 2023-August 2026 ---
+## AI Consulting Capabilities: LLM-Augmented Software Development
+
+### Executive Summary
+
+We leverage a multi-LLM workflow to dramatically increase project productivity, code quality, and requirements fidelity. Our process pairs **worker LLMs** (responsible for planning and implementation) with **reviewer LLMs** (responsible for auditing and scoring), creating a rigorous back-and-forth review cycle that catches issues before they reach production. Combined with structured knowledge management, meeting transcription, and persistent context tracking, this approach ensures that every decision is documented, every change is traceable, and every implementation has been scrutinized by independent AI review before a single line of code is deployed.
+
+---
+
+### 1. The Multi-LLM Review Workflow
+
+#### Context Provisioning
+
+Before any work begins, the worker LLM is provided with comprehensive context:
+
+- Client requirements (transcripts, written specs, meeting notes)
+- Existing codebase structure and relevant files
+- Schema definitions, API contracts, and business rules
+- Historical context from the bug fix tracker and enhancement tracker
+- Prior decisions and their rationale
+
+This ensures the LLM isn't working in a vacuum — it has the full picture of what exists, what's changing, and why.
+
+#### Plan Creation & Review Cycle
+
+The workflow follows a structured **plan → review → revise → score** cycle:
+
+1. **Worker LLM drafts a plan** — covering schema changes, API design, frontend components, migration strategy, file organization, and edge cases.
+
+2. **Reviewer LLM audits the plan** — evaluating it against requirements, existing architecture, potential conflicts, backward compatibility, security, and completeness. The reviewer assigns a **score out of 10** and provides specific, actionable feedback.
+
+3. **Worker LLM responds to the review** — for each piece of feedback, it either:
+   - **Agrees** and updates the plan accordingly, or
+   - **Disagrees** and defends its rationale with specific reasoning
+
+4. **Reviewer LLM evaluates the response** — for each defended point, it either:
+   - **Accepts the rationale** and moves on, or
+   - **Pushes back further** with additional reasoning as to why the defense is invalid
+
+5. **This cycle repeats** until the reviewer LLM assigns a score of **9/10 or higher**.
+
+6. **Human review** — once the AI review cycle converges, the human reviews the final plan and either approves, requests changes, or provides additional context that restarts the cycle.
+
+Only after both the reviewer LLM (≥9/10) and the human are satisfied does work proceed to implementation.
+
+#### Implementation & Review Cycle
+
+The same back-and-forth process applies to the implementation itself:
+
+1. **Worker LLM implements the plan** — writing code across all layers (schema, API, frontend, migrations, documentation).
+
+2. **Reviewer LLM audits the implementation** — checking for correctness, adherence to the approved plan, code quality, edge case handling, security, and potential regressions. Assigns a score out of 10.
+
+3. **Worker LLM responds** — agreeing and fixing, or defending with rationale.
+
+4. **Cycle repeats** until reviewer score ≥ 9/10 and human approval is obtained.
+
+This dual-review system means every piece of work is scrutinized by an independent AI before it reaches the human reviewer, dramatically reducing the number of issues the human needs to catch and ensuring higher quality output.
+
+---
+
+### 2. The Vibe Code Workflow: Structured Knowledge Management
+
+#### Bug Fix Tracker & Enhancement Tracker
+
+We maintain dedicated folders (`enhancement_tracker/` and bug fix tracking) that serve as a **persistent memory of all changes made to the system**. Each entry documents:
+
+- **What changed** — the specific code modification
+- **Why it changed** — the business reason or bug being addressed
+- **The specific use case being responded to** — if applicable, the client request or user scenario that triggered the change
+- **Date and scope** — when the change was made and what it affects
+
+This serves several critical purposes:
+
+- **Prevents regression** — when the AI is asked to make a change, it can reference the tracker to understand what was previously done and avoid undoing prior work. Without this, an LLM might "fix" a problem by reverting a previous fix, creating an endless loop of re-introducing and re-fixing the same issue.
+
+- **Prevents repeated attempts** — if a problem keeps appearing, the tracker shows every approach already tried. This stops the cycle of trying the same solution over and over and forces new approaches.
+
+- **Provides audit trail** — any stakeholder can trace why the system behaves the way it does, back to the original business decision.
+
+- **Cross-session continuity** — when work spans multiple sessions or even months, the tracker ensures context isn't lost between engagements.
+
+#### Meeting Recording, Transcription & AI Querying
+
+All client meetings are **recorded and transcribed**. The transcripts are stored and made available to the LLM, creating a queryable knowledge base of every client conversation. This enables:
+
+- **Context retrieval on demand** — when a question arises about a past decision or requirement, we can ask the LLM to search the transcripts and provide the answer with the relevant context.
+
+- **Direct quote verification** — the LLM can provide exact quotes from the transcript, which we can then locate in the original recording to verify accuracy. This mitigates against hallucinations — if the LLM says "the client requested X," we can verify by finding the exact quote in the transcript.
+
+- **Requirements traceability** — every feature can be traced back to the specific conversation where it was requested, ensuring nothing is lost in translation between client intent and implementation.
+
+- **Post-meeting clarification** — after a meeting is over, if a question arises about a note or decision, we can query the LLM for additional context without needing to follow up with the client.
+
+---
+
+### 3. Persistent Context & Memory System
+
+Across sessions, the LLM maintains a **persistent memory database** that stores:
+
+- **Project architecture decisions** (e.g., hierarchy model, portal types, schema design)
+- **Implementation summaries** (files created/modified, key design decisions, setup commands)
+- **Client preferences** (terminology, UI conventions, business rules)
+- **Bug fix histories** (root cause, fix applied, files affected)
+- **Feature completion status** (what's done, what's pending, what's blocked)
+
+This means when a new session starts, the LLM already knows the system's history, architecture, and prior decisions — it doesn't start from scratch. This is what allows us to maintain continuity on a complex, evolving system across months of development.
+
+---
+
+### 4. Full-Stack Implementation Discipline
+
+Once plans are approved through the review cycle, implementation follows strict discipline:
+
+- **No file exceeds 1000 lines** — logic is modularized into helper files
+- **No duplicated logic** — shared helpers are created and reused across the codebase
+- **Legacy replacement, not preservation** — when changing functionality, the old approach is replaced entirely unless explicitly directed otherwise
+- **Defense in depth** — validation at frontend, API, and database layers
+- **Migration safety** — all schema changes include preview, dry-run, and confirm modes
+- **Backward compatibility** — new fields have defaults, existing API calls continue working
+
+---
+
+### 5. The Complete Cycle
+
+```
+Client Meeting → Record & Transcribe → Extract Requirements
+                                                    ↓
+Provide Context to Worker LLM → Worker Drafts Plan
+                                                    ↓
+Reviewer LLM Audits Plan → Scores & Provides Feedback
+                                                    ↓
+Worker LLM Responds (fixes or defends) ← → Reviewer Evaluates Response
+        ↑                                              ↓
+        └──────── Repeat until score ≥ 9/10 ───────────┘
+                                                    ↓
+                                          Human Review & Approval
+                                                    ↓
+                              Worker LLM Implements (all layers)
+                                                    ↓
+Reviewer LLM Audits Implementation → Scores & Provides Feedback
+                                                    ↓
+Worker LLM Responds (fixes or defends) ← → Reviewer Evaluates Response
+        ↑                                              ↓
+        └──────── Repeat until score ≥ 9/10 ───────────┘
+                                                    ↓
+                                          Human Review & Approval
+                                                    ↓
+                              Document in Enhancement/Bug Fix Tracker
+                                                    ↓
+                                          Deploy & Validate
+```
+
+---
+
+### Productivity Impact
+
+This workflow delivers measurable productivity gains:
+
+- **Fewer bugs reach production** — the dual AI review cycle catches issues before human review
+- **No repeated mistakes** — the tracker prevents re-introducing fixed bugs or re-trying failed approaches
+- **No lost context** — persistent memory and meeting transcripts ensure continuity across sessions and months
+- **Faster turnaround** — the worker LLM handles full-stack implementation (schema, API, frontend, migrations, docs) in a single pass, with the reviewer LLM ensuring quality
+- **Requirements fidelity** — every feature traces back to a transcript quote, and every plan is audited against the original requirements before implementation begins
+- **Scalable knowledge** — as the system grows, the tracker and memory system grow with it, making it easier to onboard new work without losing historical context
+
+--- job 3 Head Systems Engineer @ Gryphus Trading (Asset Management), December 2015-August 2019 ---
+Based on the detailed email correspondence, here is a comprehensive, narrative-style write-up describing your role, specific projects, technical challenges, and professional growth at **Gryphus** (the hedge fund startup). 
+
+This is written in a third-person narrative suitable for a cover letter, LinkedIn "About" section, or a detailed case study to attach to a resume. I have cited specific, verifiable examples from your emails to provide concrete evidence of your capabilities.
+
+---
+
+### Professional Narrative: Systems Integration & Trading Infrastructure Engineer at Gryphus
+
+**Context & Role:**
+At Gryphus, a nascent quantitative hedge fund, I served as the lead infrastructure and integration engineer, tasked with building the firm’s automated trading pipeline from the ground up. My mandate was to bridge the gap between proprietary trading algorithms and the low-latency, high-stakes ecosystem of the Chicago Mercantile Exchange (CME). This involved not only deep C++ software engineering but also low-level network administration, cryptographic security implementation, and rigorous vendor relationship management.
+
+---
+
+### Core Technical Achievements & Detailed Case Studies
+
+#### 1. End-to-End FIX Protocol Implementation with HMAC Authentication
+**The Challenge:** The firm needed to securely connect its algorithms to CME’s production trading servers. The standard Financial Information eXchange (FIX) logon was being rejected due to missing custom fields and incorrect Sender/Target CompIDs. Furthermore, CME required dynamic HMAC-SHA-256 cryptographic signatures for all session logons, a security measure that was not natively supported by our third-party FIX engine (OnixS) out-of-the-box.
+
+**My Actions & Technical Deep-Dive:**
+- I diagnosed an `Invalid SenderCompID (49) tag` error where the server was misreading the inbound message structure. Through systematic testing (swapping the `SENDER_COMP_ID` and `TARGET_COMP_ID` in the `Session` constructor), I proved the issue was not a code syntax error but rather a server-side interpretation of the FIX tags.
+- I engineered a custom authentication workflow by intercepting the outbound session message stream via the `onOutboundSessionMsg` callback. I manually injected proprietary CME tags—such as `EncryptedPasswordMethod (1400)`, `EncryptedPasswordLen (1401)`, and `EncryptedPassword (1402)`—into the Logon message, ensuring they were dynamically populated based on the current `SendingTime` to prevent replay attacks.
+- Collaborating with network administrator Ambaj Sharma, I obtained the Access and Secret Keys and utilized the Crypto++ library to generate the HMAC digest, integrating it seamlessly into the logon handshake without disrupting the standard FIX message flow. 
+- I also diagnosed a critical issue where the `onOutboundSessionMsg` event was not firing during logon because the listener was bound to the application-level (`onOutboundApplicationMsg`) rather than the session-level, demonstrating a deep understanding of the engine's event hierarchy.
+
+**Relevance to Job Roles:**
+- *Senior C++/FinTech Engineer:* Demonstrates mastery of complex SDKs, event-driven architecture, and memory management.
+- *Cybersecurity/DevSecOps Engineer:* Proven ability to implement cryptographic signing in high-compliance financial environments.
+- *Technical Solutions Architect:* Ability to customize vendor software to meet strict, non-standard external requirements.
+
+---
+
+#### 2. High-Frequency Market Data Acquisition (CME MDP 3.0)
+**The Challenge:** The algorithm required real-time, low-latency market data via CME’s multicast UDP feeds. For weeks, the software received zero data. The issue was not code-related; it was a severe networking blind spot involving multicast routing, IGMP, and firewall policies.
+
+**My Actions & Technical Deep-Dive:**
+- I systematically disproved that the issue was code-related by temporarily disabling the local firewall on the colocation server and successfully connecting to our private internal FIX server, isolating the problem to the external CME multicast feed.
+- Using `tcpdump`, I captured outgoing packets and discovered the machine was only sending IGMP join requests to `224.0.0.22` with a Time-To-Live (TTL) of `1`. I translated this technical finding to the network team, explaining why these packets were being dropped by the ISP's upstream router.
+- I worked directly with the firewall specialists to trace these IGMP packets through the ASA firewall, identifying that the firewall was dropping them due to an "invalid IP option." I facilitated the configuration of PIM (Protocol Independent Multicast) neighbourship and investigated the need for a specific rendezvous point to traverse the internet.
+- To prove the data feed was non-functional, I utilized OnixS’s `MulticastTest` utility, stripped the API out of the equation, and ran raw socket tests to definitively prove the network layer was the bottleneck.
+- I corrected a major configuration oversight by identifying that we were using the "Certification" environment `config.xml` instead of the production file located at `/SBEFix/Production/Configuration/` on the CME FTP, which immediately resolved the missing instrument definitions once the network was fixed.
+
+**Relevance to Job Roles:**
+- *Site Reliability Engineer (SRE) / DevOps:* Deep proficiency in diagnosing Layer 3 network issues, socket buffers (`/proc/sys/net/core/rmem_max`), and system-level tuning.
+- *Systems Engineer (Trading Infrastructure):* Expert-level understanding of multicast group management, UDP vs TCP traffic, and kernel-level reverse path filtering (`rp_filter`).
+- *Network Engineer (Financial):* Ability to speak the language of firewall administrators and ISP engineers while simultaneously debugging via C++ code.
+
+---
+
+#### 3. Low-Level Data Normalization & Concurrency Management
+**The Challenge:** CME transmits prices in a highly optimized mantissa/exponent format (e.g., `213255` representing `2132.55`) and delivers book updates in aggregate ticks. The standard API callbacks were either not firing or providing unreadable data.
+
+**My Actions & Technical Deep-Dive:**
+- I built a custom conversion layer to translate the `PRICE::mantissa()` and `PRICE::exponent()` data structures into usable floating-point values for the strategy engine, meticulously applying the `DisplayFactor (9787)` multiplier provided in the `SecurityDefinition` message to ensure mathematical accuracy.
+- I resolved a threading and object lifecycle issue where the main `main()` function was exiting prematurely, destroying the `Handler` object before the asynchronous multicast callbacks (e.g., `onBookUpdate`) could execute. I remedied this by implementing a robust infinite wait loop (using `std::getchar()`) and correcting an invalid `usleep` parameter (50000000 was exceeding the system limit of 1000000), preventing the application from crashing silently.
+- I implemented the `NullLogger` to suppress verbose debugging output in production, optimizing performance for low-latency operations, and configured the handler to use local CDT time rather than GMT for execution report timestamps.
+
+**Relevance to Job Roles:**
+- *C++ Software Engineer (General):* Expertise in data type conversion, system-level C APIs (`usleep`), and RAII (Resource Acquisition Is Initialization) object lifecycles.
+- *Quantitative Developer:* Experience processing high-density numerical data accurately without precision loss.
+- *Embedded/Low-Latency Engineer:* Understanding the trade-offs between human-readable formats and machine-efficiency.
+
+---
+
+#### 4. Technical Vendor & Stakeholder Management
+**The Challenge:** The project relied heavily on third-party software (OnixS). I served as the primary technical liaison between Gryphus, our colocation provider (Nirvana TS), and the software vendor.
+
+**My Actions:**
+- I utilized the OnixS JIRA ticketing system (`CCMEMDH-1251`) to log issues professionally, providing them with verbose debug logs, exact code snippets (e.g., the `Session *initiator` constructor), and clear reproduction steps. 
+- When the vendor suggested a fix that was erroneous (advising me to use a boolean for `traceMessages` which required an enum), I consulted the developer reference guide, corrected the syntax to `MessageTracing::SbeFormat`, and provided feedback to the vendor, showcasing my ability to independently verify support recommendations.
+- I evaluated alternative data solutions (such as IQFeed for backup/development), conducting due diligence to understand their Linux/headless server compatibility and licensing structures, ensuring the firm had fallback options.
+
+**Relevance to Job Roles:**
+- *Technical Project Manager / Lead:* Demonstrated ability to coordinate between internal strategy teams, external colo providers, and software vendors.
+- *Customer-Facing Solutions Engineer:* Excellent communication skills, translating complex `tcpdump` outputs and C++ stack traces into actionable business intelligence for non-technical stakeholders (like Butch).
+
+---
+
+### Summary of Hard & Soft Skills Demonstrated
+
+| **Category** | **Specific Skills** |
+| :--- | :--- |
+| **Programming** | C++ (STL, Memory Management), TCP/IP Socket Programming, Multi-threading/Callbacks. |
+| **Financial Protocols** | FIX 4.2/4.4 Protocol (Logon, Heartbeat, Order Routing), CME MDP 3.0 (SBE/Multicast). |
+| **Security** | HMAC-SHA-256, Cryptographic Key Management, Encrypted FIX Tag Injection. |
+| **Network/Systems** | Linux Administration (`ifconfig`, `tcpdump`, `sysctl`), IGMP/Multicast Routing, Firewall Diagnostics, Static Routing. |
+| **DevOps/Cloud** | Colocation server management, Kernel tuning (socket buffers, reverse path filtering). |
+| **Soft Skills** | Crisis management (production firefighting), Vendor escalation, Technical documentation, Cross-team collaboration (Dev/Network/Business). |
+
+### Target Job Titles This Experience Aligns With
+
+- **Senior C++ Software Engineer** (FinTech, High-Frequency Trading, or general high-performance computing)
+- **Quantitative Developer / Algorithmic Trading Developer** (Infrastructure side)
+- **Trading Systems Engineer** (Focus on connectivity and exchange gateways)
+- **Site Reliability Engineer (SRE)** (Specifically for latency-sensitive distributed systems)
+- **Technical Solutions Architect** (Financial Services vertical)
+- **Senior Integration Engineer** (Systems integration, API gateways)
+
+---
+
+### Conclusion of Write-Up
+At Gryphus, I was forced to operate at the "hands-on" layer of the financial stack, where a single misplaced bracket in a FIX tag, a misconfigured kernel parameter (`rp_filter`), or an overlooked environment variable could cost the firm thousands of dollars per minute in halted trading. I successfully transitioned the firm's codebase from a local development sandbox to a production-ready, securely authenticated, and data-receiving colocation environment, laying the foundation for the firm's automated trading revenue stream.
+
+--- job 4 Software Consultant @ Ivy Kode (Software), 2019-2025 ---
+I provided guidance for a lot of students and adult professionals in various topics such as python, c++, and java.  I explained concepts and also helped debug code.  
+
+My journey into consulting was driven by a desire for variety and a ceiling I hit in traditional full-time roles. I loved the technical work, but I didn't want to be forced into management just to see my salary grow. Consulting offered a path to significantly higher compensation, but with it came a different set of trade-offs and a need for a specific kind of resilience.
+
+My day-to-day reality is that I’m primarily a hands-on developer. I write code for probably 95% of my time. The nature of the work varies wildly. Sometimes, I’m brought in as part of a 'clean-up crew' for projects that have gone awry—maybe the internal team was forced back to the office and lost staff, or an offshoring initiative went sideways and everything broke. Other times, I'm on an agile modernization project, helping a client transition a legacy system to a modern stack.
+
+There are two main types of consulting engagements I've been a part of:
+
+Staff Augmentation: I'm essentially a contract developer on a larger team. It's a good way to get a paycheck and be exposed to a new environment, but you’re often there to fill a gap and are seen as a temporary resource.
+
+Specialist/Project-Based Consulting: This is where the real value comes in. Companies often bring us in because their internal team has reached a political or technical standstill. They need an external expert to sidestep the internal politics and get things moving. Sometimes, we're the 'fall guys' set up for a likely failure, but more often, we're there to deliver a specific outcome that they can't achieve with their own staff. We often handle the difficult, high-risk, or niche projects that no one internally wants to take responsibility for.
+
+The key skills I bring are a blend of deep technical knowledge and high-level architectural thinking. It’s not just about writing code; it’s about understanding the business problem. A significant portion of my work involves talking to stakeholders, gathering requirements, and building the right solution. Often, my most important task is convincing the client that what they asked for isn't actually what they need to solve their problem. This ability to guide and communicate is critical. In a sense, I’m a 'leaderdoer'—I lead the technical direction while also doing the work.
+
+What I love about it:
+
+Constant Learning and Variety: I'm exposed to a wide range of tech stacks and industries from one engagement to the next. This keeps things fresh and is a great accelerant for my career growth.
+
+Avoiding Office Politics: As a consultant, I can maintain a semi-removed focus on technical solutions without getting entangled in internal office drama or the slow, political process of getting promoted.
+
+Autonomy: On a good project, I have the autonomy to focus on getting the job done without the overhead of all the internal company processes.
+
+Increased Enjoyment: For me, the challenge of jumping into new and unfamiliar situations has made my enjoyment of software development increase by a large margin.
+
+What I dislike or find challenging:
+
+Risk and Instability: This is the biggest trade-off. Contracts can dry up, and I've experienced dry spells of up to five months. Being an independent consultant means you are a profit center with zero risk to the company; they can let you go at any time. It's a 'feast or famine' lifestyle. You need a strong network and significant financial buffer to manage the uncertainty.
+
+The 'Musical Chairs': You're constantly moving between teams, projects, and technologies. It can be a lot to manage, especially if you're juggling multiple clients at once.
+
+The Quality of the Project: Your experience is heavily dependent on the specific client and project. You can end up on a fantastic, challenging project or one that is a complete disaster—like a project with no requirements, poor leadership, or a toxic team where you're expected to write acceptance criteria as a developer.
+
+Burnout: The pressure to deliver value quickly and the long hours can lead to burnout. It's a common pitfall in the consulting world.
+
+Travel: In the past, a lot of consulting required heavy travel (Monday-Thursday), which takes a toll. This has improved with remote work, but it's still a factor for some roles.
+
+One of the biggest mistakes I see consultants make is letting their lifestyle creep up with their high salary. When a contract ends, you can find yourself without income for months. Discipline and financial planning are non-negotiable.
+
+Regarding the recent AI boom, I'm not worried. It's just another tool. There's plenty of AI code that needs to be fixed or thrown out. The future of software consulting will likely be even more in demand, as companies that over-rely on 'AI-slop' will inevitably create messes that require experts to untangle. The value of a consultant has never been in the typing; it's in understanding the architecture, the business needs, and solving the right problem. That's not going away.
+
+=== EDU for user 9 ===
+{'userID': 9, 'eduNum': 1, 'level': "Bachelor's Degree", 'fieldOfStudy': 'Computer Science', 'SchoolName': 'Columbia University', 'areaSpec': 'New York, New York', 'currentlyEnrolled': 'No', 'From': 'August 2012', 'To': 'May 2016', 'country': 'United States'}

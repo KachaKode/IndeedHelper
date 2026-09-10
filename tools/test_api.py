@@ -47,7 +47,7 @@ def main() -> int:
         check("GET / serves the app shell", client.get("/").status_code == 200)
         check("GET /css/app.css serves the stylesheet", client.get("/css/app.css").status_code == 200)
         check("GET /js/app.js serves the entry module", client.get("/js/app.js").status_code == 200)
-        for module in ("core", "users", "searches", "history", "applications"):
+        for module in ("core", "users", "searches", "history", "applications", "appdetail"):
             check(f"GET /js/{module}.js", client.get(f"/js/{module}.js").status_code == 200)
 
         # ------------------------------------------------------------- reads --
@@ -64,11 +64,52 @@ def main() -> int:
         check("searches are position-ordered",
               [s["position"] for s in searches] == sorted(s["position"] for s in searches))
 
+        # Counts are NOT hard-coded here: every real run adds an application, so
+        # a literal total fails the suite the next time the bot sends one.
         apps = client.get("/api/applications?page=1").get_json()
-        check("applications paginate", apps["total"] == 4977 and len(apps["rows"]) == 50,
+        check("applications paginate",
+              apps["total"] > len(apps["rows"]) and len(apps["rows"]) == 50,
               f"total={apps['total']} rows={len(apps['rows'])}")
+        check("the page count matches the total",
+              apps["pages"] == -(-apps["total"] // 50),
+              f"{apps['pages']} pages for {apps['total']} rows at 50/page")
         check("application search filters",
-              client.get("/api/applications?search=Williams").get_json()["total"] < 4977)
+              client.get("/api/applications?search=Williams").get_json()["total"] < apps["total"])
+
+        # The long columns hold Python repr, not JSON: `['a', 'b']` and
+        # `[{'title': ...}]`, switching quote style around apostrophes
+        # ("Bachelor's Degree"). The GUI showed them raw. They are parsed
+        # server-side so the browser gets real arrays to lay out.
+        detail = client.get(f"/api/applications/{apps['rows'][0]['id']}").get_json()
+        check("the detail record carries parsed copies", "_parsed" in detail)
+        check("the raw columns are still exactly as stored",
+              isinstance(detail.get("skills"), (str, type(None))),
+              "a raw column was replaced rather than supplemented")
+
+        parsed_any, checked = 0, 0
+        for row in client.get("/api/applications?page=1").get_json()["rows"][:15]:
+            rec = client.get(f"/api/applications/{row['id']}").get_json()
+            for name in ("skills", "jobHist", "eduHist", "QsAndAs"):
+                raw = (rec.get(name) or "").strip()
+                if not raw or raw == "[]":
+                    continue
+                checked += 1
+                if isinstance(rec["_parsed"].get(name), list):
+                    parsed_any += 1
+        check("every stored list parses into a real list",
+              checked > 0 and parsed_any == checked,
+              f"{parsed_any} of {checked} parsed")
+
+        # literal_eval must not choke on the quote-switching, and must refuse
+        # anything that is not a plain literal.
+        from dbgui.data import IndeedDB as _DB
+        check("an apostrophe inside a value parses",
+              _DB.parse_stored_literal("[{'level': \"Bachelor's Degree\"}]")
+              == [{"level": "Bachelor's Degree"}])
+        check("unparseable text yields None, not a crash",
+              _DB.parse_stored_literal("not a literal at all") is None)
+        check("a bare string is not treated as a record",
+              _DB.parse_stored_literal("'just a string'") is None)
         check("GET /api/applications/<id> returns full record",
               "cover_letter" in client.get(f"/api/applications/{apps['rows'][0]['id']}").get_json())
         check("GET /api/applications-old", client.get("/api/applications-old").status_code == 200)

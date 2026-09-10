@@ -60,6 +60,7 @@ def make_state_machine(control):
     sm.states = ["Init", "Applying"]
     sm.current_state = "Applying"
     sm.prev_state = "Init"
+    sm.selfPaused = False      # set by __init__ in real use; __new__ skips it
     return sm
 
 

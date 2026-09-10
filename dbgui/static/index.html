@@ -7,7 +7,12 @@
   <link rel="stylesheet" href="/css/app.css" />
 </head>
 <body>
-  <div class="app">
+  <div class="shell">
+    <div class="credit-alert" id="credit-alert" hidden>
+      <span class="credit-alert__text" id="credit-alert-text"></span>
+      <button class="btn btn--sm" id="credit-alert-goto">Open OpenAI billing</button>
+    </div>
+    <div class="app">
     <aside class="sidebar">
       <div class="sidebar__brand">
         <span class="sidebar__brand-dot"></span>
@@ -45,6 +50,11 @@
       <button class="nav-item" data-view="applications-old">
         <span>Legacy</span><span class="nav-item__count" id="count-apps-old">-</span>
       </button>
+
+      <div class="sidebar__section-label">Billing</div>
+      <button class="nav-item" data-view="admin">
+        <span>Admin</span>
+      </button>
     </aside>
 
     <main class="main">
@@ -59,6 +69,7 @@
         <div class="content__inner" id="view-root"></div>
       </div>
     </main>
+    </div>
   </div>
 
   <div class="toasts" id="toasts"></div>

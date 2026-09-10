@@ -6,6 +6,7 @@ import { renderSearches } from './searches.js';
 import { renderJobs, renderEdu } from './history.js';
 import { renderApplications, renderApplicationsOld } from './applications.js';
 import { renderRun, stopPolling } from './run.js';
+import { renderAdmin } from './admin.js';
 
 const state = { view: 'run', userId: null, users: [] };
 
@@ -18,6 +19,7 @@ const VIEWS = {
   'edu':              renderEdu,
   'applications':     renderApplications,
   'applications-old': renderApplicationsOld,
+  'admin':            renderAdmin,
 };
 
 const NEEDS_USER = new Set(['profile', 'searches', 'jobs', 'edu']);
@@ -103,6 +105,42 @@ async function go(view) {
   }
 }
 
+/* ---------------------------------------------------- credit-exhausted banner
+   App-shell state, not view state: it has to stay visible no matter which
+   nav item is active, so it lives outside VIEWS/go() entirely and just keeps
+   polling in the background. A trivial real call costs a fraction of a cent,
+   so this is deliberately infrequent -- the Admin tab itself gives an
+   on-demand, always-fresh check for anyone who wants to know right now. */
+const CREDIT_POLL_INTERVAL_MS = 10 * 60 * 1000;
+
+async function checkCredits() {
+  const banner = document.getElementById('credit-alert');
+  const text = document.getElementById('credit-alert-text');
+  if (!banner || !text) return;
+  try {
+    const probe = await api.get('/api/admin/probe');
+    if (probe.exhausted) {
+      text.textContent = `OpenAI credits are exhausted: ${probe.message || 'no credits remaining.'}`;
+      banner.hidden = false;
+    } else {
+      banner.hidden = true;
+    }
+  } catch {
+    // A network hiccup checking this is not itself something to alarm about.
+  }
+}
+
+function wireCreditAlert() {
+  const goto = document.getElementById('credit-alert-goto');
+  if (goto) {
+    goto.addEventListener('click', () => {
+      window.open('https://platform.openai.com/settings/organization/billing/overview', '_blank');
+    });
+  }
+  checkCredits();
+  setInterval(checkCredits, CREDIT_POLL_INTERVAL_MS);
+}
+
 function wireNav() {
   // Every view saves as you edit, so navigation never needs to guard anything.
   document.querySelectorAll('.nav-item').forEach((btn) => {
@@ -115,6 +153,7 @@ function wireNav() {
 
 async function boot() {
   wireNav();
+  wireCreditAlert();
   await refreshCounts();
 
   // Preselect the active user so the app opens on something useful. Counts are

@@ -1,0 +1,2132 @@
+[CT]     0.0ms | RunUser | ENTER | Tommy Orok (id=9)
+[CT]     0.0ms | __main__ | started worker thread for user id=9
+[CT]     0.5ms | start_up | ENTER | https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0
+[CT]     2.2ms | start_up | launching chrome.exe | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=11392
+[CT]    11.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:11392/json/version sees='attempt=0'
+[CT]  2040.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:11392/json/version sees='attempt=1'
+[CT]  1721.8ms | start_up | EXIT
+[CT]    15.0ms | RunUser | READY | Tommy Orok (id=9) is on the home page and paused
+[CT]     0.5ms | StateMachine | PAUSED | waiting for a command from the Run tab
+[CT] 18245.1ms | StateMachine | RESUMED
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]   464.8ms | getCurrentEnv | EXIT |  result=|Flexible Technical Project Manager Jobs � Apply Today to Work From Home in Remote (August 27, 2026) | Indeed
+No transition for state initNewApp and env |Flexible Technical Project Manager Jobs � Apply Today to Work From Home in Remote (August 27, 2026) | Indeed
+[CT]  1025.0ms | RunUser | ERROR | AttributeError: 'NoneType' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 3064, in RunUser
+    sm.run()
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 2989, in run
+    self.transition(env)
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 2746, in transition
+    if "default" == next_state.strip():
+AttributeError: 'NoneType' object has no attribute 'strip'
+[CT]     1.1ms | reportAction | An error occurred: 'NoneType' object has no attribute 'strip'
+[CT]    63.1ms | RunUser | restarting Tommy Orok (id=9) in 15s | consecutive_failures=1
+[CT] 15007.6ms | RunUser | ENTER | Tommy Orok (id=9)
+[CT]     1.5ms | start_up | ENTER | https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0
+[CT]     1.5ms | start_up | launching chrome.exe | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=4968
+[CT]     9.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:4968/json/version sees='attempt=0'
+[CT]  2851.3ms | start_up | EXIT |  result=https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0
+[CT]     8.5ms | RunUser | READY | Tommy Orok (id=9) is on the home page and paused
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]    62.6ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d
+[CT]  1007.1ms | reportAction | Calling function: newApp() in environment: https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0|Flexible Technical Project Manager 
+[CT]  1930.1ms | process_job_openings | 16 job cards on this page
+[CT]   692.0ms | smartClick | ENTER | .//a
+[CT]   137.8ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]   361.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]  1788.4ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]     0.0ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    99.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@role="dialog" and @aria-modal="true"] sees='attempt=1'
+[CT]   214.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@role="dialog" and @aria-modal="true"] sees='attempt=2'
+[CT]   306.4ms | reportAction | * * * Time OUT.  Spent 0.4 secs waiting for //*[@role="dialog" and @aria-modal="true"] * * *
+[CT]     3.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | clicked /html/body[1]/main[1]/div[1]/div[1]/div[2]/div[1]/div[5]/div[1]/div[1]/div[4]/div[1]/div[1]/ul[1]/li[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[1]/div[1]/h3[1]/a[1
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on https://www.indeed.com/viewjob?jk=e19aa7d4d83f56d6&tk=1k12kl1ihg0j3802&from=serp | moved=True
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]   556.2ms | reportAction | found element //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on
+[CT]     4.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid='inlineHeader-companyName']
+[CT]   472.3ms | reportAction | found element //*[@data-testid='inlineHeader-companyName'] but did not click because text did not match: dsfdsd324
+[CT]     4.5ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    39.7ms | smartClick | ENTER | //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1
+[CT]   151.1ms | reportAction | found element //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 but did not click because text did not match: adfddfsa
+[CT]     5.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    11.0ms | smartClick | ENTER | //*[@id='jobDescriptionText']
+[CT]    95.8ms | reportAction | found element //*[@id='jobDescriptionText'] but did not click because text did not match: adsfdasf134
+[CT]     5.6ms | smartClick | EXIT |  result=text condition mismatch
+starting: avoid_job_characteristics_prompts2.txt @ 18:15:07 ... (will time out @ 18:20:07)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:15:16
+	Attempting the future retreival
+	Attempting Completion
+	Attempting the future retreival
+	Attempting Completion
+starting: job_desc_prompts2.txt @ 18:15:29 ... (will time out @ 18:20:29)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:15:36
+starting: job_desc_prompts2.txt @ 18:15:36 ... (will time out @ 18:20:36)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:15:43
+starting: job_desc_prompts2.txt @ 18:15:43 ... (will time out @ 18:20:43)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:15:49
+starting: job_desc_prompts2.txt @ 18:15:49 ... (will time out @ 18:20:49)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:15:56
+starting: cover_letter_prompts2.txt @ 18:15:56 ... (will time out @ 18:20:56)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:16:09
+starting: skills_prompts2.txt @ 18:16:09 ... (will time out @ 18:21:09)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:16:15
+starting: skills_prompts_cleaning.txt @ 18:16:15 ... (will time out @ 18:21:15)
+	Attempting the future retreival
+	Attempting Completion
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:16:27
+starting: headline_prompts2.txt @ 18:16:27 ... (will time out @ 18:21:27)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:16:34
+starting: summary_prompts2.txt @ 18:16:34 ... (will time out @ 18:21:34)
+	Attempting the future retreival
+	Attempting Completion
+done... @ 18:16:41
+[CT] 93277.8ms | reportAction | Transitioning  STATE from initNewApp to start
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     5.9ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/viewjob?jk=e19aa7d4d83f56d6&tk=1k12kl1ihg0j3802&from=serp&vjs=3|Project Manager III | Full-Time |
+[CT]  1013.1ms | reportAction | Calling function: startApplication() in environment: https://www.indeed.com/viewjob?jk=e19aa7d4d83f56d6&tk=1k12kl1ihg0j3802&from=serp&vjs=3|Project Manager III | Full-Time | Remote - Remote - Indeed.c
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Applied']
+[CT]     7.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=1'
+[CT]   209.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=2'
+[CT]   208.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=3'
+[CT]   211.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=4'
+[CT]   209.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=5'
+[CT]   224.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=6'
+[CT]   211.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=7'
+[CT]   208.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=8'
+[CT]   207.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=9'
+[CT]   209.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=10'
+[CT]   239.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.1ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=11'
+[CT]   209.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=12'
+[CT]   209.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=13'
+[CT]   209.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=14'
+[CT]   211.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=15'
+[CT]   212.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=16'
+[CT]   221.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=17'
+[CT]   212.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     1.6ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=18'
+[CT]   211.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=19'
+[CT]   209.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=20'
+[CT]   209.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=21'
+[CT]   221.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=22'
+[CT]   210.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=23'
+[CT]   220.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=24'
+[CT]   210.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=25'
+[CT]   212.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.4ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=26'
+[CT]   208.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=27'
+[CT]   219.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=28'
+[CT]   213.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=29'
+[CT]   221.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=30'
+[CT]   208.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=31'
+[CT]   208.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.1ms | smartClick | EXIT |  result=not found
+[CT]     1.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=32'
+[CT]   208.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=33'
+[CT]   207.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=34'
+[CT]   221.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=35'
+[CT]   212.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=36'
+[CT]   207.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=37'
+[CT]   212.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=38'
+[CT]   206.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=39'
+[CT]   218.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=40'
+[CT]   208.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=41'
+[CT]   210.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=42'
+[CT]   212.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=43'
+[CT]   220.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=44'
+[CT]   210.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=45'
+[CT]   208.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=46'
+[CT]   209.4ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[text()='Applied'] * * *
+[CT]     3.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]  4038.8ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]   107.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    40.5ms | smartClick | ENTER
+[CT]  8747.7ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.0ms | smartClick | EXIT |  result=not found
+[CT]  8369.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     1.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - at
+[CT]     3.6ms | reportAction | Closed Dialog
+[CT]     3.6ms | reportAction | clicked //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indee
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from start to hitApply
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     5.3ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume f
+[CT]  1006.7ms | reportAction | Calling function: startResume() in environment: https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume for this application | Indeed
+[CT]     0.5ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-label"] | //*[@data-testid="resume-selection-structured-resume-radio-card"] | //*[@data-testid="IndeedResumeCard"]
+[CT]   114.3ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    41.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    48.0ms | smartClick | ENTER
+[CT]  8733.8ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]  8264.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - at
+[CT]     3.2ms | reportAction | Closed Dialog
+[CT]     2.2ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-label"] | //*[@data-testid="resume-selection-structured-resume-radio-card"] | //*[@data-testid="IndeedResumeCard"] successfully!
+[CT]     2.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options"]
+[CT]    99.7ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    50.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    41.0ms | smartClick | ENTER
+[CT]  8574.0ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    58.7ms | smartClick | EXIT |  result=not found
+[CT]  8254.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Call log:   - at
+[CT]     4.6ms | reportAction | Closed Dialog
+[CT]     3.2ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options"] successfully!
+[CT]     2.5ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options-editResumeDetails"] | //button[contains(normalize-space(.), 'Edit resume')] | //a[contains(normalize-space(.), 'Edit resume')]
+[CT]   820.2ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    99.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@role="dialog" and @aria-modal="true"] sees='attempt=1'
+[CT]   227.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@role="dialog" and @aria-modal="true"] sees='attempt=2'
+[CT]   549.4ms | reportAction | * * * Time OUT.  Spent 0.4 secs waiting for //*[@role="dialog" and @aria-modal="true"] * * *
+[CT]     4.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options-editResumeDetails"] | //button[contains(normalize-space(.), 'Edit resume')] | //a[contains(normalize-space(.), 'E
+[CT]     4.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from hitApply to startedOnResume
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]    45.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1009.2ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]   149.0ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    47.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    22.7ms | smartClick | ENTER
+[CT]  8876.5ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]  8238.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.6ms | reportAction | Closed Dialog
+[CT]     2.5ms | reportAction | clicked //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] successfully!
+[CT]     2.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     4.1ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/contact|About you
+[CT]  1001.6ms | reportAction | Calling function: doContactInfo() in environment: https://profile.indeed.com/resume/contact|About you
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="first-name-input"]
+[CT]   104.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    24.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    17.9ms | smartClick | ENTER
+[CT]  8505.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.5ms | smartClick | EXIT |  result=not found
+[CT]  8245.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.6ms | reportAction | Closed Dialog
+[CT]     4.7ms | reportAction | clicked //*[@data-testid="first-name-input"] successfully!
+[CT]     3.9ms | smartClick | EXIT |  result=clicked
+[CT]   257.4ms | smartClick | ENTER | //*[@data-testid="last-name-input"]
+[CT]   106.7ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    96.9ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    17.8ms | smartClick | ENTER
+[CT]  8575.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.0ms | smartClick | EXIT |  result=not found
+[CT]  8230.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.9ms | reportAction | Closed Dialog
+[CT]     2.6ms | reportAction | clicked //*[@data-testid="last-name-input"] successfully!
+[CT]     2.1ms | smartClick | EXIT |  result=clicked
+[CT]   131.9ms | smartClick | ENTER | //*[@data-testid="headline-input"]
+[CT]   175.0ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    28.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    28.5ms | smartClick | ENTER
+[CT]  8591.1ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.4ms | smartClick | EXIT |  result=not found
+[CT]  8243.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.3ms | reportAction | Closed Dialog
+[CT]     3.3ms | reportAction | clicked //*[@data-testid="headline-input"] successfully!
+[CT]     2.3ms | smartClick | EXIT |  result=clicked
+[CT]  1232.5ms | smartClick | ENTER | //*[@data-testid="phone-input-input"]
+[CT]    63.4ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    23.6ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    69.3ms | smartClick | ENTER
+[CT]  8549.5ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.0ms | smartClick | EXIT |  result=not found
+[CT]  8249.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     1.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     8.1ms | reportAction | Closed Dialog
+[CT]    14.1ms | reportAction | clicked //*[@data-testid="phone-input-input"] successfully!
+[CT]    15.9ms | smartClick | EXIT |  result=clicked
+[CT]   525.2ms | smartClick | ENTER | //*[@data-testid="street-address-input"]
+[CT]    78.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    40.1ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    22.7ms | smartClick | ENTER
+[CT]  8659.9ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.4ms | smartClick | EXIT |  result=not found
+[CT]  8243.0ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.2ms | reportAction | Closed Dialog
+[CT]     2.2ms | reportAction | clicked //*[@data-testid="street-address-input"] successfully!
+[CT]     2.4ms | smartClick | EXIT |  result=clicked
+[CT]   231.5ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]    81.4ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    51.9ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    26.8ms | smartClick | ENTER
+[CT]  8538.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.6ms | smartClick | EXIT |  result=not found
+[CT]  8266.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.2ms | reportAction | Closed Dialog
+[CT]     4.0ms | reportAction | clicked //*[@data-testid="location-input-autocomplete-input"] successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]   777.6ms | smartClick | ENTER | //*[@data-testid="postal-code-input"]
+[CT]   126.9ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    79.3ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     8.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    60.1ms | smartClick | ENTER
+[CT]  9038.8ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.4ms | smartClick | EXIT |  result=not found
+[CT]  8259.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     6.3ms | reportAction | Closed Dialog
+[CT]     3.2ms | reportAction | clicked //*[@data-testid="postal-code-input"] successfully!
+[CT]     5.1ms | smartClick | EXIT |  result=clicked
+[CT]   251.6ms | smartClick | ENTER | //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save']
+[CT]  5203.4ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    41.7ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    29.0ms | smartClick | ENTER
+[CT]  8780.4ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.8ms | smartClick | EXIT |  result=not found
+[CT]  8240.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     2.6ms | reportAction | Closed Dialog
+[CT]     3.5ms | reportAction | clicked //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save'] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to finishedEditContactInfo
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     3.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1001.3ms | reportAction | Calling function: startSummary() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary']
+[CT]  5071.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    35.6ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     5.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    28.9ms | smartClick | ENTER
+[CT]  8932.5ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.8ms | smartClick | EXIT |  result=not found
+[CT]  8249.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    8 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.4ms | reportAction | Closed Dialog
+[CT]     2.7ms | reportAction | clicked //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary'] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditContactInfo to startedEditSummary
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     6.9ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1009.9ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT]     0.4ms | reportAction | Transitioning  STATE from startedEditSummary to startedOnResume
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     4.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1010.9ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]   202.8ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    89.7ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     5.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   138.1ms | smartClick | ENTER
+[CT]  9338.7ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     1.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]  8246.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     1.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.6ms | reportAction | Closed Dialog
+[CT]     3.0ms | reportAction | clicked //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] successfully!
+[CT]     2.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     3.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/contact|About you
+[CT]  1015.0ms | reportAction | Calling function: doContactInfo() in environment: https://profile.indeed.com/resume/contact|About you
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="first-name-input"]
+[CT]   137.3ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    40.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     8.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    36.4ms | smartClick | ENTER
+[CT]  8647.7ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.5ms | smartClick | EXIT |  result=not found
+[CT]  8241.0ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.3ms | reportAction | Closed Dialog
+[CT]     2.1ms | reportAction | clicked //*[@data-testid="first-name-input"] successfully!
+[CT]     2.7ms | smartClick | EXIT |  result=clicked
+[CT]   164.7ms | smartClick | ENTER | //*[@data-testid="last-name-input"]
+[CT]    98.4ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    64.0ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    17.4ms | smartClick | ENTER
+[CT]  8539.2ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.9ms | smartClick | EXIT |  result=not found
+[CT]  8235.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     6.2ms | reportAction | Closed Dialog
+[CT]     6.8ms | reportAction | clicked //*[@data-testid="last-name-input"] successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]   324.7ms | smartClick | ENTER | //*[@data-testid="headline-input"]
+[CT]   274.4ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]   248.0ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     6.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    84.7ms | smartClick | ENTER
+[CT]  8719.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.6ms | smartClick | EXIT |  result=not found
+[CT]  8257.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.5ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     5.3ms | reportAction | Closed Dialog
+[CT]     3.8ms | reportAction | clicked //*[@data-testid="headline-input"] successfully!
+[CT]     4.6ms | smartClick | EXIT |  result=clicked
+[CT]  2595.1ms | smartClick | ENTER | //*[@data-testid="phone-input-input"]
+[CT]   286.7ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]   138.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     7.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    33.9ms | smartClick | ENTER
+[CT]  9121.4ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.6ms | smartClick | EXIT |  result=not found
+[CT]  8256.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    8 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     7.7ms | reportAction | Closed Dialog
+[CT]     6.5ms | reportAction | clicked //*[@data-testid="phone-input-input"] successfully!
+[CT]     4.5ms | smartClick | EXIT |  result=clicked
+[CT]  2470.9ms | smartClick | ENTER | //*[@data-testid="street-address-input"]
+[CT]   161.0ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    33.7ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    19.8ms | smartClick | ENTER
+[CT]  8805.8ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.9ms | smartClick | EXIT |  result=not found
+[CT]  8244.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.4ms | reportAction | Closed Dialog
+[CT]     6.2ms | reportAction | clicked //*[@data-testid="street-address-input"] successfully!
+[CT]     4.8ms | smartClick | EXIT |  result=clicked
+[CT]   328.4ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]   117.4ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    48.1ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     6.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    63.7ms | smartClick | ENTER
+[CT]  8803.2ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.4ms | smartClick | EXIT |  result=not found
+[CT]  8251.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.6ms | reportAction | Closed Dialog
+[CT]     3.2ms | reportAction | clicked //*[@data-testid="location-input-autocomplete-input"] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]   394.1ms | smartClick | ENTER | //*[@data-testid="postal-code-input"]
+[CT]   100.1ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    58.0ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    27.3ms | smartClick | ENTER
+[CT]  8694.0ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.4ms | smartClick | EXIT |  result=not found
+[CT]  8255.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.8ms | reportAction | Closed Dialog
+[CT]     4.1ms | reportAction | clicked //*[@data-testid="postal-code-input"] successfully!
+[CT]     3.4ms | smartClick | EXIT |  result=clicked
+[CT]   171.5ms | smartClick | ENTER | //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save']
+[CT]  5109.9ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    31.2ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    26.4ms | smartClick | ENTER
+[CT]  9020.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.9ms | smartClick | EXIT |  result=not found
+[CT]  8230.8ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.2ms | reportAction | Closed Dialog
+[CT]     2.6ms | reportAction | clicked //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save'] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to finishedEditContactInfo
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     3.1ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1006.6ms | reportAction | Calling function: startSummary() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary']
+[CT]     6.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Summary']
+[CT]    22.4ms | reportAction | found element //*[text()='Summary'] but did not click because text did not match: @#%   Not Supposed To Match  ^&*()
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER | .//*[contains(@id, 'delete')]
+[CT]     7.6ms | reportAction | returning 0 matches for .//*[contains(@id, 'delete')]!
+[CT]     2.6ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    10.5ms | smartClick | ENTER | .//*[contains(@id, 'delete')]
+[CT]     7.3ms | reportAction | returning 0 matches for .//*[contains(@id, 'delete')]!
+[CT]     3.8ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    10.2ms | smartClick | ENTER | .//*[contains(@id, 'delete')]
+[CT]     7.8ms | reportAction | returning 0 matches for .//*[contains(@id, 'delete')]!
+[CT]     2.7ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]     9.7ms | smartClick | ENTER | //*[text()='Summary']
+[CT]    25.8ms | reportAction | found element //*[text()='Summary'] but did not click because text did not match: @#%   Not Supposed To Match  ^&*()
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER | .//button
+[CT]     9.7ms | reportAction | returning 0 matches for .//button!
+[CT]     2.6ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    13.6ms | smartClick | ENTER | .//button
+[CT]     9.3ms | reportAction | returning 0 matches for .//button!
+[CT]     2.5ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    10.0ms | smartClick | ENTER | .//button
+[CT]     9.0ms | reportAction | returning 0 matches for .//button!
+[CT]     3.6ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    10.1ms | smartClick | ENTER | .//button
+[CT]    18.0ms | reportAction | returning 3 matches for .//button!
+[CT]     3.7ms | smartClick | EXIT |  result=3 matches (ALL)
+[CT]     0.0ms | smartClick | ENTER
+[CT] 11084.8ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    32.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     2.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    19.6ms | smartClick | ENTER
+[CT]  8665.0ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.4ms | smartClick | EXIT |  result=not found
+[CT]  8255.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.6ms | reportAction | Closed Dialog
+[CT]     3.7ms | reportAction | clicked /html/body[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/button[1] successfully!
+[CT]     2.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditContactInfo to startedEditSummary
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     4.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1001.6ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditSummary to startedOnResume
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     3.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1014.8ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]   145.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    34.1ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    23.1ms | smartClick | ENTER
+[CT]  9001.4ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]  8241.5ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     5.0ms | reportAction | Closed Dialog
+[CT]     3.8ms | reportAction | clicked //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] successfully!
+[CT]     3.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     1.1ms | getCurrentEnv | ENTER
+[CT]     6.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/contact|About you
+[CT]  1014.9ms | reportAction | Calling function: doContactInfo() in environment: https://profile.indeed.com/resume/contact|About you
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="first-name-input"]
+[CT]   119.6ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    27.4ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    21.4ms | smartClick | ENTER
+[CT]  8668.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.3ms | smartClick | EXIT |  result=not found
+[CT]  8244.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     5.6ms | reportAction | Closed Dialog
+[CT]     4.1ms | reportAction | clicked //*[@data-testid="first-name-input"] successfully!
+[CT]     5.0ms | smartClick | EXIT |  result=clicked
+[CT]   286.5ms | smartClick | ENTER | //*[@data-testid="last-name-input"]
+[CT]   231.6ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    43.6ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     6.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    45.5ms | smartClick | ENTER
+[CT]  8782.2ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]  8245.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.1ms | reportAction | Closed Dialog
+[CT]     3.1ms | reportAction | clicked //*[@data-testid="last-name-input"] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]   151.9ms | smartClick | ENTER | //*[@data-testid="headline-input"]
+[CT]   155.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    31.9ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    21.2ms | smartClick | ENTER
+[CT]  8873.0ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.6ms | smartClick | EXIT |  result=not found
+[CT]  8240.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.5ms | reportAction | Closed Dialog
+[CT]     3.2ms | reportAction | clicked //*[@data-testid="headline-input"] successfully!
+[CT]     1.9ms | smartClick | EXIT |  result=clicked
+[CT]  1148.1ms | smartClick | ENTER | //*[@data-testid="phone-input-input"]
+[CT]    80.1ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    77.1ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    21.1ms | smartClick | ENTER
+[CT]  8636.9ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.2ms | smartClick | EXIT |  result=not found
+[CT]  8240.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.3ms | reportAction | Closed Dialog
+[CT]     3.6ms | reportAction | clicked //*[@data-testid="phone-input-input"] successfully!
+[CT]     3.1ms | smartClick | EXIT |  result=clicked
+[CT]   317.9ms | smartClick | ENTER | //*[@data-testid="street-address-input"]
+[CT]   125.8ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    34.3ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    19.7ms | smartClick | ENTER
+[CT]  8628.4ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]  8246.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.5ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.7ms | reportAction | Closed Dialog
+[CT]     3.7ms | reportAction | clicked //*[@data-testid="street-address-input"] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]   248.5ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]    87.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    53.7ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    24.6ms | smartClick | ENTER
+[CT]  8620.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.6ms | smartClick | EXIT |  result=not found
+[CT]  8250.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.8ms | reportAction | Closed Dialog
+[CT]     3.6ms | reportAction | clicked //*[@data-testid="location-input-autocomplete-input"] successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]   321.1ms | smartClick | ENTER | //*[@data-testid="postal-code-input"]
+[CT]    81.4ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    96.6ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     8.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    28.1ms | smartClick | ENTER
+[CT]  8811.3ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.8ms | smartClick | EXIT |  result=not found
+[CT]  8245.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.4ms | reportAction | Closed Dialog
+[CT]     3.6ms | reportAction | clicked //*[@data-testid="postal-code-input"] successfully!
+[CT]     3.0ms | smartClick | EXIT |  result=clicked
+[CT]   222.7ms | smartClick | ENTER | //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save']
+[CT]  5154.2ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    25.6ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    22.9ms | smartClick | ENTER
+[CT]  8635.1ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]  8238.0ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.5ms | reportAction | Closed Dialog
+[CT]     4.2ms | reportAction | clicked //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to finishedEditContactInfo
+[CT]     1.6ms | getCurrentEnv | ENTER
+[CT]     4.1ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1012.0ms | reportAction | Calling function: startSummary() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]     0.5ms | smartClick | ENTER | //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary']
+[CT]  5159.6ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    29.4ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    19.8ms | smartClick | ENTER
+[CT]  8723.4ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     1.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]  8234.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.1ms | reportAction | Closed Dialog
+[CT]     2.1ms | reportAction | clicked //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary'] successfully!
+[CT]     1.5ms | smartClick | EXIT |  result=clicked
+[CT]     1.1ms | reportAction | Transitioning  STATE from finishedEditContactInfo to startedEditSummary
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     3.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1006.5ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditSummary to startedOnResume
+[CT]     1.2ms | getCurrentEnv | ENTER
+[CT]     3.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1014.5ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]   110.9ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    42.1ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    19.6ms | smartClick | ENTER
+[CT]  8866.1ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.2ms | smartClick | EXIT |  result=not found
+[CT]  8249.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     2.7ms | reportAction | Closed Dialog
+[CT]     3.4ms | reportAction | clicked //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] successfully!
+[CT]     3.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     4.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/contact|About you
+[CT]  1001.0ms | reportAction | Calling function: doContactInfo() in environment: https://profile.indeed.com/resume/contact|About you
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="first-name-input"]
+[CT]   119.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    28.2ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    16.7ms | smartClick | ENTER
+[CT]  8565.1ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.4ms | smartClick | EXIT |  result=not found
+[CT]  8238.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.2ms | reportAction | Closed Dialog
+[CT]     2.0ms | reportAction | clicked //*[@data-testid="first-name-input"] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]   205.2ms | smartClick | ENTER | //*[@data-testid="last-name-input"]
+[CT]   182.0ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    30.2ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    20.5ms | smartClick | ENTER
+[CT]  8566.9ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.8ms | smartClick | EXIT |  result=not found
+[CT]  8238.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.0ms | reportAction | Closed Dialog
+[CT]     3.2ms | reportAction | clicked //*[@data-testid="last-name-input"] successfully!
+[CT]     4.6ms | smartClick | EXIT |  result=clicked
+[CT]   178.7ms | smartClick | ENTER | //*[@data-testid="headline-input"]
+[CT]   203.2ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    34.9ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    24.7ms | smartClick | ENTER
+[CT]  8658.7ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.2ms | smartClick | EXIT |  result=not found
+[CT]  8245.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.6ms | reportAction | Closed Dialog
+[CT]     4.2ms | reportAction | clicked //*[@data-testid="headline-input"] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]  1235.6ms | smartClick | ENTER | //*[@data-testid="phone-input-input"]
+[CT]   100.9ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]   131.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     6.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    28.2ms | smartClick | ENTER
+[CT]  8597.2ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.9ms | smartClick | EXIT |  result=not found
+[CT]  8252.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.5ms | reportAction | Closed Dialog
+[CT]     3.1ms | reportAction | clicked //*[@data-testid="phone-input-input"] successfully!
+[CT]     2.7ms | smartClick | EXIT |  result=clicked
+[CT]   267.5ms | smartClick | ENTER | //*[@data-testid="street-address-input"]
+[CT]    72.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    27.4ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    26.5ms | smartClick | ENTER
+[CT]  8583.0ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.1ms | smartClick | EXIT |  result=not found
+[CT]  8254.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.5ms | reportAction | Closed Dialog
+[CT]     2.6ms | reportAction | clicked //*[@data-testid="street-address-input"] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]   243.2ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]    75.0ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    62.4ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     6.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    27.8ms | smartClick | ENTER
+[CT]  8540.5ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.9ms | smartClick | EXIT |  result=not found
+[CT]  8250.0ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.3ms | reportAction | Closed Dialog
+[CT]     4.2ms | reportAction | clicked //*[@data-testid="location-input-autocomplete-input"] successfully!
+[CT]     2.8ms | smartClick | EXIT |  result=clicked
+[CT]   336.1ms | smartClick | ENTER | //*[@data-testid="postal-code-input"]
+[CT]    73.6ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    35.3ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     5.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    36.3ms | smartClick | ENTER
+[CT]  8669.4ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.1ms | smartClick | EXIT |  result=not found
+[CT]  8230.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     2.7ms | reportAction | Closed Dialog
+[CT]     3.2ms | reportAction | clicked //*[@data-testid="postal-code-input"] successfully!
+[CT]     1.6ms | smartClick | EXIT |  result=clicked
+[CT]   143.6ms | smartClick | ENTER | //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save']
+[CT]  5150.1ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    44.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     5.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    20.2ms | smartClick | ENTER
+[CT]  8697.1ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]  8247.5ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.0ms | reportAction | Closed Dialog
+[CT]     3.7ms | reportAction | clicked //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save'] successfully!
+[CT]     2.5ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to finishedEditContactInfo
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     4.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1012.9ms | reportAction | Calling function: startSummary() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary']
+[CT]     9.9ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | ENTER | //*[text()='Summary']
+[CT]    36.5ms | reportAction | found element //*[text()='Summary'] but did not click because text did not match: @#%   Not Supposed To Match  ^&*()
+[CT]     4.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER | .//*[contains(@id, 'delete')]
+[CT]    10.3ms | reportAction | returning 0 matches for .//*[contains(@id, 'delete')]!
+[CT]     3.6ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    17.1ms | smartClick | ENTER | .//*[contains(@id, 'delete')]
+[CT]    10.4ms | reportAction | returning 0 matches for .//*[contains(@id, 'delete')]!
+[CT]     4.6ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    27.9ms | smartClick | ENTER | .//*[contains(@id, 'delete')]
+[CT]    22.7ms | reportAction | returning 0 matches for .//*[contains(@id, 'delete')]!
+[CT]     4.0ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]   133.4ms | smartClick | ENTER | //*[text()='Summary']
+[CT]    33.6ms | reportAction | found element //*[text()='Summary'] but did not click because text did not match: @#%   Not Supposed To Match  ^&*()
+[CT]     4.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER | .//button
+[CT]    11.0ms | reportAction | returning 0 matches for .//button!
+[CT]     3.7ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    12.3ms | smartClick | ENTER | .//button
+[CT]     8.0ms | reportAction | returning 0 matches for .//button!
+[CT]     3.8ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    11.9ms | smartClick | ENTER | .//button
+[CT]     7.3ms | reportAction | returning 0 matches for .//button!
+[CT]     3.2ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    11.6ms | smartClick | ENTER | .//button
+[CT]    18.3ms | reportAction | returning 3 matches for .//button!
+[CT]     3.5ms | smartClick | EXIT |  result=3 matches (ALL)
+[CT]     0.0ms | smartClick | ENTER
+[CT] 11032.9ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    22.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    15.1ms | smartClick | ENTER
+[CT]  8558.4ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.7ms | smartClick | EXIT |  result=not found
+[CT]  8246.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.1ms | reportAction | Closed Dialog
+[CT]     2.2ms | reportAction | clicked /html/body[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/button[1] successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditContactInfo to startedEditSummary
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     6.5ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1007.8ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditSummary to startedOnResume
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     4.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1010.2ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]   125.0ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    39.2ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     2.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    31.3ms | smartClick | ENTER
+[CT]  9013.7ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.5ms | smartClick | EXIT |  result=not found
+[CT]  8237.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.7ms | reportAction | Closed Dialog
+[CT]     2.6ms | reportAction | clicked //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     3.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/contact|About you
+[CT]  1003.0ms | reportAction | Calling function: doContactInfo() in environment: https://profile.indeed.com/resume/contact|About you
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="first-name-input"]
+[CT]   129.9ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    26.9ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     2.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    17.0ms | smartClick | ENTER
+[CT]  8626.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.7ms | smartClick | EXIT |  result=not found
+[CT]  8240.8ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.8ms | reportAction | Closed Dialog
+[CT]     2.8ms | reportAction | clicked //*[@data-testid="first-name-input"] successfully!
+[CT]     2.7ms | smartClick | EXIT |  result=clicked
+[CT]   203.6ms | smartClick | ENTER | //*[@data-testid="last-name-input"]
+[CT]   102.0ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    75.2ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    21.4ms | smartClick | ENTER
+[CT]  8535.4ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.2ms | smartClick | EXIT |  result=not found
+[CT]  8247.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.0ms | reportAction | Closed Dialog
+[CT]     4.4ms | reportAction | clicked //*[@data-testid="last-name-input"] successfully!
+[CT]     3.0ms | smartClick | EXIT |  result=clicked
+[CT]   180.0ms | smartClick | ENTER | //*[@data-testid="headline-input"]
+[CT]   290.1ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    39.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    24.4ms | smartClick | ENTER
+[CT]  8681.5ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]  8266.1ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    6 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     1.5ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     6.3ms | reportAction | Closed Dialog
+[CT]     5.0ms | reportAction | clicked //*[@data-testid="headline-input"] successfully!
+[CT]     5.2ms | smartClick | EXIT |  result=clicked
+[CT]  4116.2ms | smartClick | ENTER | //*[@data-testid="phone-input-input"]
+[CT]   349.4ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]   158.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     6.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    48.7ms | smartClick | ENTER
+[CT]  9641.2ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.7ms | smartClick | EXIT |  result=not found
+[CT]  8268.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.6ms | reportAction | Closed Dialog
+[CT]     3.9ms | reportAction | clicked //*[@data-testid="phone-input-input"] successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]   291.6ms | smartClick | ENTER | //*[@data-testid="street-address-input"]
+[CT]    80.9ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    55.0ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.5ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    23.6ms | smartClick | ENTER
+[CT]  1036.9ms | __main__ | user id=9 has made no progress in 15 minutes | the run may be stuck; stop and restart it from the Run tab if it does not recover on its own
+[CT]  7860.7ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.8ms | smartClick | EXIT |  result=not found
+[CT]  8247.5ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    7 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.4ms | reportAction | Closed Dialog
+[CT]     3.1ms | reportAction | clicked //*[@data-testid="street-address-input"] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]   360.0ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]   293.2ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    29.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    21.1ms | smartClick | ENTER
+[CT]  8715.2ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]  8231.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     5.2ms | reportAction | Closed Dialog
+[CT]     6.1ms | reportAction | clicked //*[@data-testid="location-input-autocomplete-input"] successfully!
+[CT]     5.2ms | smartClick | EXIT |  result=clicked
+[CT]   409.3ms | smartClick | ENTER | //*[@data-testid="postal-code-input"]
+[CT]   134.0ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    85.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     7.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    95.3ms | smartClick | ENTER
+[CT]  8701.5ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.6ms | smartClick | EXIT |  result=not found
+[CT]  8306.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     7.5ms | reportAction | Closed Dialog
+[CT]     5.2ms | reportAction | clicked //*[@data-testid="postal-code-input"] successfully!
+[CT]     6.1ms | smartClick | EXIT |  result=clicked
+[CT]   287.7ms | smartClick | ENTER | //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save']
+[CT]  5039.4ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    36.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    28.7ms | smartClick | ENTER
+[CT]  8928.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.2ms | smartClick | EXIT |  result=not found
+[CT]  8257.9ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     1.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     5.9ms | reportAction | Closed Dialog
+[CT]     5.4ms | reportAction | clicked //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save'] successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to finishedEditContactInfo
+[CT]     1.3ms | getCurrentEnv | ENTER
+[CT]     5.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1009.7ms | reportAction | Calling function: startSummary() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary']
+[CT]  5049.6ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    59.9ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     5.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    24.4ms | smartClick | ENTER
+[CT]  8767.3ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.6ms | smartClick | EXIT |  result=not found
+[CT]  8243.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.9ms | reportAction | Closed Dialog
+[CT]     8.4ms | reportAction | clicked //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary'] successfully!
+[CT]     5.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditContactInfo to startedEditSummary
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]    31.1ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1007.9ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditSummary to startedOnResume
+[CT]     0.7ms | getCurrentEnv | ENTER
+[CT]     4.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1009.7ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]   110.1ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    45.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    63.9ms | smartClick | ENTER
+[CT]  8764.1ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.8ms | smartClick | EXIT |  result=not found
+[CT]  8239.6ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.8ms | reportAction | Closed Dialog
+[CT]     4.2ms | reportAction | clicked //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     5.1ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/contact|About you
+[CT]  1014.0ms | reportAction | Calling function: doContactInfo() in environment: https://profile.indeed.com/resume/contact|About you
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="first-name-input"]
+[CT]   148.6ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    40.8ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    22.1ms | smartClick | ENTER
+[CT]  8637.6ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.9ms | smartClick | EXIT |  result=not found
+[CT]  8243.7ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.2ms | reportAction | Closed Dialog
+[CT]     2.7ms | reportAction | clicked //*[@data-testid="first-name-input"] successfully!
+[CT]     4.7ms | smartClick | EXIT |  result=clicked
+[CT]   223.8ms | smartClick | ENTER | //*[@data-testid="last-name-input"]
+[CT]   201.6ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    35.7ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    21.3ms | smartClick | ENTER
+[CT]  8792.0ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.0ms | smartClick | EXIT |  result=not found
+[CT]  8244.2ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     5.1ms | reportAction | Closed Dialog
+[CT]     3.6ms | reportAction | clicked //*[@data-testid="last-name-input"] successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]   204.7ms | smartClick | ENTER | //*[@data-testid="headline-input"]
+[CT]   180.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    36.9ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     5.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    26.8ms | smartClick | ENTER
+[CT]  8665.4ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.1ms | smartClick | EXIT |  result=not found
+[CT]  8244.0ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.1ms | reportAction | Closed Dialog
+[CT]     3.2ms | reportAction | clicked //*[@data-testid="headline-input"] successfully!
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]  1356.4ms | smartClick | ENTER | //*[@data-testid="phone-input-input"]
+[CT]   200.2ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    34.3ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    29.8ms | smartClick | ENTER
+[CT]  8660.0ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.9ms | smartClick | EXIT |  result=not found
+[CT]  8249.9ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.5ms | reportAction | Closed Dialog
+[CT]     3.6ms | reportAction | clicked //*[@data-testid="phone-input-input"] successfully!
+[CT]     2.5ms | smartClick | EXIT |  result=clicked
+[CT]   465.8ms | smartClick | ENTER | //*[@data-testid="street-address-input"]
+[CT]    88.3ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    44.3ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    22.5ms | smartClick | ENTER
+[CT]  8583.0ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]  8246.4ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.7ms | reportAction | Closed Dialog
+[CT]     4.2ms | reportAction | clicked //*[@data-testid="street-address-input"] successfully!
+[CT]     3.1ms | smartClick | EXIT |  result=clicked
+[CT]   263.1ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]    85.5ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    48.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    25.7ms | smartClick | ENTER
+[CT]  8661.0ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]  8252.9ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     3.8ms | reportAction | Closed Dialog
+[CT]     3.0ms | reportAction | clicked //*[@data-testid="location-input-autocomplete-input"] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]   347.7ms | smartClick | ENTER | //*[@data-testid="postal-code-input"]
+[CT]    96.1ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    76.5ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     4.5ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    35.5ms | smartClick | ENTER
+[CT]  8746.8ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.3ms | smartClick | EXIT |  result=not found
+[CT]  8239.0ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    10 � waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     4.5ms | reportAction | Closed Dialog
+[CT]     3.7ms | reportAction | clicked //*[@data-testid="postal-code-input"] successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]   274.7ms | smartClick | ENTER | //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save']
+[CT]  5107.7ms | smartClick | ENTER | //*[@role="dialog" and @aria-modal="true"]
+[CT]    22.4ms | reportAction | found element //*[@role="dialog" and @aria-modal="true"] but did not click because text did not match: #$%^&*
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    23.9ms | smartClick | ENTER
+[CT]  8580.3ms | smartClick | WAIT | for=recovering from TimeoutError sees='ElementHandle.click: Timeout 5000ms exceeded.\nCall log:\n  - attempting click action\n    2 � waiting for element to be visible, enabled and stable\n      - elemen'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    32.4ms | smartClick | EXIT |  result=not found
+[CT]  8248.3ms | smartClick | ERROR | TimeoutError: ElementHandle.click: Timeout 5000ms exceeded.
+Call log:
+  - attempting click action
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    9 � waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+[CT]     0.0ms | reportAction | * * * Time OUT.  Spent 10 secs waiting on /html/body[1]/div[1]/div[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/nav[1]/button[1]. (ElementHandle.click: Timeout 5000ms exceeded. Ca
+[CT]     6.6ms | reportAction | Closed Dialog
+[CT]     8.1ms | reportAction | clicked //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save'] successfully!
+[CT]     5.6ms | smartClick | EXIT |  result=clicked
+[CT]     1.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to finishedEditContactInfo
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     7.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1014.0ms | reportAction | Calling function: startSummary() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary']
+[CT]    10.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Summary']
+[CT]    38.9ms | reportAction | found element //*[text()='Summary'] but did not click because text did not match: @#%   Not Supposed To Match  ^&*()
+[CT]     4.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     1.0ms | smartClick | ENTER | .//*[contains(@id, 'delete')]
+[CT]    14.7ms | reportAction | returning 0 matches for .//*[contains(@id, 'delete')]!
+[CT]     4.5ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    16.4ms | smartClick | ENTER | .//*[contains(@id, 'delete')]
+[CT]    11.6ms | reportAction | returning 0 matches for .//*[contains(@id, 'delete')]!
+[CT]     3.8ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    13.0ms | smartClick | ENTER | .//*[contains(@id, 'delete')]
+[CT]     9.2ms | reportAction | returning 0 matches for .//*[contains(@id, 'delete')]!
+[CT]     2.7ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    13.9ms | smartClick | ENTER | //*[text()='Summary']
+[CT]    27.3ms | reportAction | found element //*[text()='Summary'] but did not click because text did not match: @#%   Not Supposed To Match  ^&*()
+[CT]     3.5ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER | .//button
+[CT]    10.9ms | reportAction | returning 0 matches for .//button!
+[CT]     3.2ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    14.4ms | smartClick | ENTER | .//button
+[CT]    11.1ms | reportAction | returning 0 matches for .//button!
+[CT]     6.0ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    17.1ms | smartClick | ENTER | .//button
+[CT]    13.8ms | reportAction | returning 0 matches for .//button!
+[CT]     3.1ms | smartClick | EXIT |  result=0 matches (ALL)
+[CT]    12.1ms | smartClick | ENTER | .//button
+[CT]    17.5ms | reportAction | returning 3 matches for .//button!
+[CT]     4.7ms | smartClick | EXIT |  result=3 matches (ALL)
+[CT]     0.5ms | smartClick | ENTER

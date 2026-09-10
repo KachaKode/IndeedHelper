@@ -17,6 +17,8 @@ Users/
 clickLog.txt
 logger.txt
 input/api_key.txt
+input/admin_api_key.txt
+input/credit_grant.json
 
 # GUI -> bot run control files
 runtime/

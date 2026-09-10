@@ -65,6 +65,25 @@ export function mount(node) {
   root.append(node);
 }
 
+/** Scroll a freshly rendered node into view.
+ *
+ *  Views scroll inside `.content`, not the document, and re-rendering resets
+ *  that scroll to the top. A detail pane appended below a 50-row table lands
+ *  around 1600px below the fold, so clicking a row rendered the record
+ *  perfectly and looked like it had done nothing at all.
+ *
+ *  Called after mount(), so it waits a frame for layout to settle. */
+export function reveal(node) {
+  if (!node) return;
+  requestAnimationFrame(() => {
+    try {
+      node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch {
+      node.scrollIntoView(true);   // older engines take no options object
+    }
+  });
+}
+
 /** `userLabel` names whose data is on screen. Every user-scoped view passes it so
  *  it is always obvious which person you are editing. */
 export function setTopbar(title, subtitle, actions = [], userLabel = null) {

@@ -7,21 +7,21 @@
 ((.*))|Displayed here are Job Ads that((.*))
 ((.*))|((.*))Jobs, Employment((.*))
 ((.*))|Add or update your contact information((.*))
-((.*))|Upload or build a resume for this application((.*))
+((.*))|Upload or (((build|create))) a resume for this application((.*))
 
 //'https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))resume'      should match BOTH:
 // 'https://profile.(((ca.)?))indeed.com/resume'    AND 
 // 'https://m5.apply.(((ca.)?))indeed.com/beta/indeedapply/form/resume'
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume((.*))|My Indeed Profile
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/contact((.*))|My Indeed Profile
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/summary((.*))|My Indeed Profile
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience/add((.*))|My Indeed Profile
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education/add((.*))|My Indeed Profile
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills/add((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume((([/?].*)?))|((.*))
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/contact((.*))|((.*))
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/summary((.*))|((.*))
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience/add((.*))|((.*))
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education/add((.*))|((.*))
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills/add((.*))|((.*))
 
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education((.*))|My Indeed Profile
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills((.*))|My Indeed Profile
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education((.*))|((.*))
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills((.*))|((.*))
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience((.*))|((.*))
 
 https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/form/relevant-skills|Want to add any relevant skills to your resume?
 
@@ -30,10 +30,18 @@ https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/
 ((.*))|Review these qualifications found in the job post
 ((.*))|This employer is looking for specific qualifications
 ((.*))|review the contents of this job application((.*))
-((.*))|Add documents to support this application
+((.*))|Add (((documents to support this application|supporting documents)))((.*))
 ((.*))|add relevant work experience information
 // need to close tab
 ((.*))|your application has been submitted
+
+// Some applications land on Indeed's dashboard instead of the smartapply
+// post-apply page after submitting, still showing the "Your application has
+// been submitted!" confirmation there. workflowExecutionId ties this
+// specific dashboard visit to the apply flow that just finished, so this is
+// matched on the URL rather than the title (which is not confirmed to say
+// anything distinctive on this page).
+https://u.indeed.com/o/dashboard?workflowExecutionId=((.*))|((.*))
 
 https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/resumeapply?draftId((.*))|((.*))
 
@@ -78,3 +86,5 @@ https://smartapply.(((ca.)?))indeed.com/beta/indeedapply/postresumeapply((.*))|I
 ((.*))|Just a moment((.*))
 
 ((.*))https://smartapply.indeed.com/beta/indeedapply/form/qualification-questions((.*))|((.*))Questions from Indeed to improve your job matches((.*))
+https://profile.indeed.com/((.*))|Profile((.*))Indeed((.*))
+https://profile.indeed.com/tailored-resume/resume?draft_id=((.*))|((.*))

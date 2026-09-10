@@ -1,0 +1,253 @@
+[CT]     0.0ms | RunUser | ENTER | Tommy Orok (id=9)[CT]     0.0ms | __main__ | started worker thread for user id=9
+[CT]     1.0ms | start_up | ENTER | https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0
+[CT]     1.6ms | start_up | launching chrome.exe | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=4931
+[CT]     7.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:4931/json/version sees='attempt=0'
+[CT]  6302.5ms | start_up | EXIT |  result=https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0
+[CT]    75.9ms | RunUser | READY | Tommy Orok (id=9) is on the home page and paused
+[CT]     0.0ms | StateMachine | PAUSED | waiting for a command from the Run tab
+[CT]  7050.4ms | StateMachine | RESUMED
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]    77.1ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d
+[CT]  1022.6ms | reportAction | Calling function: newApp() in environment: https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0|Flexible Technical Project Manager 
+[CT]   208.2ms | process_job_openings | 16 job cards on this page
+[CT]   100.9ms | smartClick | ENTER | .//a
+[CT]    58.2ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]   401.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]   350.9ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    94.2ms | reportAction | clicked <element: full details of Technical Project Manager> successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.5ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]    18.8ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]     8.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=1'
+[CT]   221.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=2'
+[CT]  1569.0ms | reportAction | found element //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on
+[CT]     1.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid='inlineHeader-companyName']
+[CT]   100.7ms | reportAction | found element //*[@data-testid='inlineHeader-companyName'] but did not click because text did not match: dsfdsd324
+[CT]     3.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.5ms | smartClick | ENTER | //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1
+[CT]    41.5ms | reportAction | found element //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 but did not click because text did not match: adfddfsa
+[CT]     5.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    14.8ms | smartClick | ENTER | //*[@id='jobDescriptionText']
+[CT]    74.5ms | reportAction | found element //*[@id='jobDescriptionText'] but did not click because text did not match: adsfdasf134
+[CT]     4.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   205.0ms | smartClick | ENTER | .//a
+[CT]    64.8ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]     4.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]  1094.3ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    69.2ms | reportAction | clicked <element: full details of Technical Project Manager> successfully!
+[CT]     3.0ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]    16.9ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]    16.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=1'
+[CT]  2144.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=2'
+[CT]   228.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=3'
+[CT]   217.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=4'
+[CT]   222.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=5'
+[CT]   232.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=6'
+[CT]   227.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=7'
+[CT]   232.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=8'
+[CT]   224.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=9'
+[CT]   222.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=10'
+[CT]   217.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=11'
+[CT]   224.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=12'
+[CT]   220.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=13'
+[CT]   221.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=14'
+[CT]   292.3ms | reportAction | * * * Time OUT.  Spent 5 secs waiting for //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[
+[CT]     4.6ms | smartClick | EXIT |  result=not found
+[CT]   370.8ms | smartClick | ENTER | .//a
+[CT]    81.7ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]   435.7ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    65.5ms | closeDialogBox | ERROR | Error: Page.query_selector_all: Execution context was destroyed, most likely because of a navigation
+[CT]     0.0ms | reportAction | clicked <element: full details of Implementation Manager - Moveworks> successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]   177.8ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]   127.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    59.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=1'
+[CT]   230.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=2'
+[CT]   211.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=3'
+[CT]   213.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=4'
+[CT]   221.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=5'
+[CT]   228.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=6'
+[CT]   219.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=7'
+[CT]   214.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=8'
+[CT]   213.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=9'
+[CT]   208.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=10'
+[CT]   209.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=11'
+[CT]   226.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=12'
+[CT]   231.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=13'
+[CT]   219.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=14'
+[CT]   252.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=15'
+[CT]   221.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=16'
+[CT]   220.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=17'
+[CT]   208.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=18'
+[CT]   225.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.6ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=19'
+[CT]   213.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=20'
+[CT]   222.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=21'
+[CT]   222.8ms | reportAction | * * * Time OUT.  Spent 5 secs waiting for //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[
+[CT]     2.2ms | smartClick | EXIT |  result=not found
+[CT]   262.5ms | smartClick | ENTER | .//a
+[CT]    46.0ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]   298.4ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    58.6ms | reportAction | clicked <element: full details of Project Manager> successfully!
+[CT]     4.3ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]    16.9ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]    19.3ms | smartClick | WAIT | for=recovering from Error sees='Page.query_selector_all: Execution context was destroyed, most likely because of a navigation'
+[CT]     0.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   237.0ms | smartClick | EXIT |  result=not found
+[CT]   273.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.1ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=2'
+[CT]   234.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.1ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=3'
+[CT]   226.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=4'
+[CT]   214.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.9ms | smartClick | EXIT |  result=not found
+[CT]     0.7ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=5'
+[CT]   222.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=6'
+[CT]   219.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=7'
+[CT]   223.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.3ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=8'
+[CT]   234.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.0ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=9'
+[CT]   219.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=10'
+[CT]   224.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=11'
+[CT]   218.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=12'
+[CT]   222.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=13'
+[CT]   212.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=14'
+[CT]   222.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=15'
+[CT]   227.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=16'
+[CT]   218.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=17'
+[CT]   208.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.5ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=18'
+[CT]   208.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=19'
+[CT]   222.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=20'
+[CT]   223.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=21'
+[CT]   220.0ms | reportAction | * * * Time OUT.  Spent 5 secs waiting for //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[
+[CT]     4.6ms | smartClick | EXIT |  result=not found
+[CT]   195.6ms | smartClick | ENTER | .//a
+[CT]    59.4ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.5ms | smartClick | ENTER
+[CT]   425.7ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    70.0ms | closeDialogBox | ERROR | Error: Page.query_selector_all: Execution context was destroyed, most likely because of a navigation
+[CT]     0.0ms | reportAction | clicked <element: full details of GCS Program Manager> successfully!
+[CT]     5.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]   272.7ms | reportAction | Cloudflare is challenging this page instead of showing the job. Waiting up to 6 minutes for it to clear rather than skipping the job.
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | clearCaptcha | WAIT | for=the Cloudflare challenge to clear sees='limit=360s'

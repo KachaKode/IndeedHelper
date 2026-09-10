@@ -67,7 +67,7 @@ https://(((www.)?))(((ca.)?))indeed.com/job/((.*))|((.*))Indeed.com
 	default -- updateContactInfo() --> didContactInfo
 
 // page to either upload, change, or continue using current resume 
-((.*))|Upload or build a resume for this application((.*))
+((.*))|Upload or (((build|create))) a resume for this application((.*))
 	hitApply
 	didContactInfo -- startResume() --> startedOnResume
 	//didContactInfo -- addResume() --> addedResume
@@ -75,56 +75,69 @@ https://(((www.)?))(((ca.)?))indeed.com/job/((.*))|((.*))Indeed.com
 	default -- backToDidContactInfo() --> didContactInfo
 
 // main resume page 
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume((([/?].*)?))|((.*))
 	startedOnResume -- startContactInfo() --> startedEditContactInfo
-	finishedEditContactInfo -- startSummary() --> startedEditSummary
+	// The summary is edited inline on this page, so startSummary() opens,
+	// fills and saves it in one go -- there is no separate summary page to
+	// land on, and waiting for one looped back to the top of the resume.
+	finishedEditContactInfo -- startSummary() --> finishedEditSummary
 	finishedEditSummary -- startWorkExp() --> finishedEditWorkExp
 	finishedEditWorkExp -- startEdu() --> finishedEditEdu
 	finishedEditEdu -- startSkills() --> finishedEditSkills
 	finishedEditSkills -- finishResume() --> finishedResume
+	// Still on the resume page after finishResume() means the exit did not take.
+	// Without this line the state fell through to the default below and the
+	// ENTIRE resume was redone -- one run did it five times, deleting and
+	// re-adding the same four jobs each pass. Retry the exit instead; if it
+	// cannot leave, finishResume() stops and asks for a person.
+	finishedResume -- finishResume() --> finishedResume
 	default -- startAtTopOfReviewPage() --> startedOnResume
 
 // contact portion of resume page	
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/contact((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/contact((.*))|((.*))
 	startedEditContactInfo -- doContactInfo() --> finishedEditContactInfo
 	// either this or go back to start
 	//default -- goBackToStartCI() --> startedEditContactInfo
 	default -- doContactInfo() --> finishedEditContactInfo
 
 //  summary portion of resume page
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/summary((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/summary((.*))|((.*))
 	startedEditSummary -- doSummary() --> finishedEditSummary
 	// either this or go back to start
 	//default -- goBackToStartSum() --> startedEditSummary
 	default -- doSummary() --> finishedEditSummary
 
 // experience portion of resume page
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience/add((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience/add((.*))|((.*))
 	startedEditWorkExp -- doWorkExp() --> finishedEditWorkExp
 	// either this or go back to start
 	//default -- goBackToStartWork() --> startedEditWorkExp
 	default -- doWorkExp() --> finishedEditWorkExp
 
 //  edu portion of resume page
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education/add((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education/add((.*))|((.*))
 	startedEditEdu -- doEdu() --> finishedEditEdu
 	// either this or go back to start
 	//default -- goBackToStartEdu() --> startedEditEdu
-	default -- doEdu() --> startedEditEdu
+	// Every other section's default lands on finished<Section>. Education
+	// landed on startedEditEdu, so after education the state matched no rule
+	// on the resume page, fell through to startAtTopOfReviewPage(), and went
+	// back round to contact info instead of moving on to skills.
+	default -- doEdu() --> finishedEditEdu
 	
 //  skills portion of resume page
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills/add((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills/add((.*))|((.*))
 	startedEditSkills -- doSkills() --> finishedEditSkills
 	// either this or go back to start
 	//default -- goBackToStartSkills() --> startedEditSkills
 	default -- doSkills() --> finishedEditSkills
 
 // for the intermediate resume pages:
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/education((.*))|((.*))
 	default -- nextResumeSection() --> finishedEditEdu
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/skills((.*))|((.*))
 	default -- nextResumeSection() --> finishedEditSkills
-https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience((.*))|My Indeed Profile
+https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume/experience((.*))|((.*))
 	default -- nextResumeSection() --> finishedEditWorkExp
 
 https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/form/relevant-skills|Want to add any relevant skills to your resume?
@@ -150,7 +163,7 @@ https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/
 	default -- keepGoing() --> passedQualCheck
 
 // alt qualifications page (don't care about this rn)
-((.*))|This employer is looking fo r specific qualifications
+((.*))|This employer is looking for specific qualifications
 	default -- keepGoing() --> passedQualCheck
 
 // job highlight page (don't care about this rn)
@@ -172,15 +185,23 @@ https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/
 	passedQuestions
 	addedResume
 	finishedResume
+	// hitEditFromReviewPage() leaves us in didContactInfo. Normally the click
+	// has moved us to the resume selection page, which handles that state. When
+	// the review page offers no resume edit at all -- some applications don't --
+	// we are still here, so didContactInfo has to carry on rather than stall.
+	didContactInfo
 	finishedEditSkills -- clickAddDocs() -- clickedAddDocs
-	clickedAddDocs
+	clickedAddDocs -- addDocs() -- finishedAddingDocs
 	submittedApplication
 	finishedAddingDocs -- submitApp() -- submittedApplication
 	hitApply -- hitEditFromReviewPage() -- didContactInfo
 	
 
 //  portion of review resume page that allows me to add CV.
-((.*))|Add documents to support this application
+//  Indeed rebuilt this page; its heading now reads "Add supporting documents".
+//  Both wordings are accepted because only the heading was captured -- the tab
+//  title, which is what actually gets matched here, was not.
+((.*))|Add (((documents to support this application|supporting documents)))((.*))
 	passedQuestions
 	clickedAddDocs -- addDocs() -- finishedAddingDocs
 	default -- backToStart() --> start
@@ -194,7 +215,13 @@ https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/
 // need to close tab
 ((.*))|your application has been submitted
 	default -- doDbThenbackToStart() --> initNewApp
-	
+
+// Same confirmation, reached via Indeed's dashboard instead of the
+// smartapply post-apply page -- see ExpectedEnvironments.txt for why this
+// is matched on the URL, not the title.
+https://u.indeed.com/o/dashboard?workflowExecutionId=((.*))|((.*))
+	default -- doDbThenbackToStart() --> initNewApp
+
 https://smartapply.(((ca.)?))indeed.com/beta/indeedapply/postresumeapply((.*))|Indeed((.*))
 	default -- backToStart() --> initNewApp
 	
@@ -216,3 +243,33 @@ https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/
 	
 ((.*))|Just a moment((.*))
 	default -- handleCaptcha() --> default 
+
+// The Indeed PROFILE page, outside the application. Reached when the resume
+// editor's back arrow is used from a bare /resume URL, i.e. after the editor
+// has lost its `continue=` link to the application. Nothing here belongs to
+// the application, so get back to it (or abandon it) rather than stalling.
+https://profile.indeed.com/((.*))|Profile((.*))Indeed((.*))
+	default -- backToApplication() --> finishedResume
+
+// Indeed's AI-tailored resume review. Click Continue, tick the 'I have
+// reviewed all changes made by AI' box in the dialog that appears, then click
+// the dialog's own Continue. Its controls use data-tn-element rather than
+// data-testid, so the ordinary Continue selectors do not see them.
+//
+// Matched on URL, not title. This used to be `((.*))|((.*))tailored
+// resume((.*))` -- title-only. Confirmed live (Logs/Log23.txt) that the URL
+// settles to /tailored-resume/resume?draft_id=... within ~2 seconds
+// (rememberApplicationUrl caught the continue= param that fast) while the
+// title NEVER updates to mention "tailored resume" at all -- this route
+// does not touch document.title, so no amount of grace period was ever
+// going to make the old rule match; it just sat in UNKNOWN PAGE until
+// someone clicked through by hand, every single time.
+//
+// The literal prefix has to be this specific (not just "tailored-resume/")
+// to outrun "((.*))|Upload or (((build|create))) a resume for this
+// application((.*))" on length: with the stale title left over from the
+// resume-selection page, that ANY-url rule also matches, and longest-wins
+// would hand this page to startResume() instead -- clicking a "select a
+// resume" radio card that is not on this page at all.
+https://profile.indeed.com/tailored-resume/resume?draft_id=((.*))|((.*))
+	default -- confirmTailoredResume() --> finishedResume

@@ -103,7 +103,22 @@ html, body {
 
 /* ------------------------------------------------------------------ layout */
 
-.app { display: flex; height: 100vh; overflow: hidden; }
+.shell { display: flex; flex-direction: column; height: 100vh; }
+.app { display: flex; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+
+/* Shown above the sidebar+content row, on every tab, regardless of which
+   view is mounted -- this is app-shell state, not per-view state. */
+.credit-alert {
+  display: flex; align-items: center; gap: var(--sp-3);
+  flex: 0 0 auto;
+  padding: var(--sp-2) var(--sp-5);
+  background: var(--danger-soft);
+  border-bottom: 1px solid var(--danger);
+  color: var(--danger);
+  font-size: 13px; font-weight: 600;
+}
+.credit-alert__text { flex: 1; }
+.credit-alert[hidden] { display: none; }
 
 .sidebar {
   width: var(--sidebar-w);
@@ -425,6 +440,34 @@ html, body {
 }
 .detail-row__value--inline { background: none; border: none; padding: 0; max-height: none; }
 
+/* Content that exists to be read and copied: run output, stored application
+   records. Buttons and nav stay unselectable so dragging in the UI feels normal. */
+.is-selectable, .detail-row__value {
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: text;
+}
+
+.log-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-2); margin-bottom: 4px;
+}
+
+/* main3.py's [CT] trace is otherwise a wall of same-weight text with no way
+   to tell where one page or question ends and the next begins. These match
+   the markers ct_section()/ct_print() write (">>> PAGE:", ">>> QUESTION:",
+   the "---" rule, "| ERROR |", "NEEDS ATTENTION" / "ATTENTION CLEARED",
+   "reportAction |") so the run log renders them instead of raw text. */
+.log-line { white-space: pre-wrap; word-break: break-word; }
+.log-line--page {
+  color: var(--accent); font-weight: 700; margin-top: 8px;
+}
+.log-line--question { color: var(--info); font-weight: 700; }
+.log-line--rule { color: var(--text-muted); opacity: .45; }
+.log-line--error { color: var(--danger); font-weight: 600; }
+.log-line--attention { color: var(--warning); font-weight: 700; }
+.log-line--action { color: var(--text-muted); }
+
 /* ------------------------------------------------------------- pagination */
 
 .pager {
@@ -447,6 +490,9 @@ html, body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
+/* A bot check is waiting on a person -- make that obvious at a glance. */
+.runbar--alert { background: var(--warning-soft); border-color: var(--warning); }
+.runbar__note { font-size: 12.5px; color: var(--text); flex: 1 1 260px; }
 .toolbar__spacer { flex: 1; }
 .search-input { min-width: 260px; }
 
@@ -518,4 +564,112 @@ tr.is-drop-target td { border-top: 2px solid var(--accent); }
   background: var(--surface-2); border-top: 1px solid var(--border);
 }
 
+/* ------------------------------------------- record expanded inside a table */
+/* The record opens as a row directly beneath the one clicked, so moving between
+   records never means scrolling past the whole list and back. */
+
+.caret {
+  display: inline-block; width: 10px;
+  color: var(--text-faint); font-weight: 700;
+  transition: transform .12s ease;
+}
+.table tbody tr.is-selected .caret { transform: rotate(90deg); color: var(--accent); }
+
+.row-detail > td {
+  padding: 0;
+  background: var(--surface-2);
+  border-bottom: 2px solid var(--border-strong);
+}
+.row-detail__inner { padding: var(--sp-5) var(--sp-5) var(--sp-6); }
+.row-detail__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-3); margin-bottom: var(--sp-4);
+}
+.row-detail__title { margin: 0; font-size: 15px; font-weight: 650; }
+
+/* Facts strip: the who/what/when of the application, read at a glance. */
+.facts {
+  display: grid; grid-template-columns: auto 1fr; gap: 4px var(--sp-4);
+  margin: 0 0 var(--sp-5); font-size: 13px;
+}
+.facts dt {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--text-muted); align-self: center;
+}
+.facts dd { margin: 0; }
+
+.lede { font-size: 14px; line-height: 1.5; }
+
+/* Skills, as chips rather than a raw ['a', 'b'] list. */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-size: 12.5px;
+  background: var(--accent-soft); color: var(--text);
+  border: 1px solid var(--border);
+  padding: 4px 10px; border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Work history and education, as entries rather than dumped dictionaries. */
+.entries { display: flex; flex-direction: column; gap: var(--sp-3); }
+.entry {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: var(--sp-3) var(--sp-4);
+}
+.entry__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--sp-3); flex-wrap: wrap;
+}
+.entry__title { font-size: 13.5px; font-weight: 650; }
+.entry__dates {
+  font-size: 12px; color: var(--text-muted);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.entry__meta { font-size: 12.5px; color: var(--text-muted); margin-top: 1px; }
+.bullets { margin: var(--sp-2) 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5; }
+.bullets li { margin-bottom: 3px; }
+
+/* Screening questions and the answers that were given. */
+.qa { display: flex; flex-direction: column; gap: var(--sp-3); }
+.qa__item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: var(--sp-3) var(--sp-4);
+}
+.qa__q { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.qa__a { font-size: 13px; color: var(--text-muted); }
+
+.muted { color: var(--text-muted); font-size: 13px; }
+
+/* Everything in an expanded record exists to be read and copied. */
+.app-detail, .row-detail__inner .entry, .row-detail__inner .qa__item,
+.row-detail__inner .facts, .chip {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
 .hidden { display: none !important; }
+
+/* -------------------------------------------------------------- admin tab */
+
+.status-line {
+  display: flex; align-items: center; gap: var(--sp-3);
+  font-size: 13.5px;
+}
+.status-line strong { font-size: 15px; }
+
+/* One bar per day of spend, tallest bar defines the scale. Hover shows the
+   exact figure via the title attribute rather than a real tooltip widget. */
+.spend-chart {
+  display: flex; align-items: flex-end; gap: 3px;
+  height: 90px; margin-top: var(--sp-3);
+}
+.spend-chart__bar {
+  flex: 1 1 0; min-width: 3px;
+  background: var(--accent-soft);
+  border-radius: 2px 2px 0 0;
+  transition: background .12s ease;
+}
+.spend-chart__bar:hover { background: var(--accent); }
+
+.grant-row { display: flex; align-items: flex-end; gap: var(--sp-3); }
+.grant-row .field { margin: 0; max-width: 160px; }

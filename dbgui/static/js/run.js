@@ -133,13 +133,35 @@ export async function renderRun(ctx) {
     ]));
   }
 
+  // Every poll rebuilds this whole view, including a brand-new log box per
+  // run -- which would always start at scrollTop 0. Capture where the user
+  // was reading (per run, by userId) before the old boxes are torn out, then
+  // put each new box back in the same place: pinned to the bottom if they
+  // were already there, held in place if they had scrolled up to read.
+  const priorScroll = new Map();
+  document.querySelectorAll('[data-run-log]').forEach((box) => {
+    priorScroll.set(box.dataset.runLog, {
+      top: box.scrollTop,
+      atBottom: box.scrollHeight - box.scrollTop - box.clientHeight < 40,
+    });
+  });
+
   mount(el('div', {}, nodes));
+
+  document.querySelectorAll('[data-run-log]').forEach((box) => {
+    const prior = priorScroll.get(box.dataset.runLog);
+    box.scrollTop = (!prior || prior.atBottom) ? box.scrollHeight : prior.top;
+  });
 
   // Poll only while something is alive; stop as soon as everything settles.
   stopPolling();
   if (anyRunning && ctx.state.view === 'run') {
     poller = setInterval(() => {
       if (ctx.state.view !== 'run') { stopPolling(); return; }
+      // Re-rendering rebuilds the DOM, which would drop whatever the user is
+      // part-way through highlighting. Hold still until they let go.
+      const selection = window.getSelection();
+      if (selection && !selection.isCollapsed) return;
       renderRun(ctx).catch(() => {});
     }, 3000);
   }
@@ -148,7 +170,7 @@ export async function renderRun(ctx) {
 function renderRunCard(ctx, run) {
   const tone = {
     running: 'success', starting: 'warning', paused: 'info',
-    error: 'danger', stopped: 'muted',
+    attention: 'warning', error: 'danger', stopped: 'muted',
   }[run.state] || 'muted';
   const mins = Math.floor(run.uptimeSeconds / 60);
   const uptime = mins >= 60 ? `${Math.floor(mins / 60)}h ${mins % 60}m` : `${mins}m ${run.uptimeSeconds % 60}s`;
@@ -200,11 +222,22 @@ function renderRunCard(ctx, run) {
 
   const body = [];
   if (run.alive) {
-    body.push(el('div', { class: 'runbar' }, [
+    const needsYou = run.state === 'attention';
+    const reason = (run.attentionReason || '').toLowerCase();
+    const note = reason.includes('unknown')
+      ? 'The bot hit a page it does not recognise and paused. Look at the browser window '
+        + '(and save the page HTML if you want it handled), then press Start applying.'
+      : 'Indeed put up a bot check and the run is paused. Solve it in the browser window, '
+        + 'then press Start applying.';
+
+    body.push(el('div', { class: `runbar${needsYou ? ' runbar--alert' : ''}` }, [
       el('span', {
-        class: `badge badge--${isPaused ? 'info' : 'success'}`,
-        text: isPaused ? 'Paused - not applying' : 'Applying',
+        class: `badge badge--${needsYou ? 'warning' : isPaused ? 'info' : 'success'}`,
+        text: needsYou
+          ? `${run.attentionReason || 'Needs you'} - needs you`
+          : isPaused ? 'Paused - not applying' : 'Applying',
       }),
+      needsYou ? el('span', { class: 'runbar__note', text: note }) : null,
       el('span', { class: 'toolbar__spacer' }),
       ...controls,
     ]));
@@ -224,16 +257,54 @@ function renderRunCard(ctx, run) {
     ]));
   }
 
+  const logText = run.lines.length ? run.lines.join('\n') : 'No output yet.';
   const logBox = el('div', {
-    class: 'detail-row__value textarea--mono',
-    style: 'margin-top:16px; max-height:260px; font-size:12px;',
-    text: run.lines.length ? run.lines.join('\n') : 'No output yet.',
+    class: 'detail-row__value textarea--mono is-selectable',
+    style: 'margin-top:8px; max-height:260px; font-size:12px;',
+    'data-run-log': run.userId,
+  }, run.lines.length ? logLines(run.lines) : [el('span', { text: logText })]);
+  // Scroll position (stay at bottom, or hold where the user scrolled to) is
+  // restored by renderRun() after it remounts this box -- see priorScroll there.
+
+  // Copy hands back the COMPLETE log from the server, not the displayed tail.
+  // The box only shows the last 200 lines for speed, but a truncated log is
+  // useless for working out what went wrong at the start of a run.
+  const copyBtn = el('button', {
+    class: 'btn btn--sm btn--ghost', text: 'Copy full log',
+    onclick: async (e) => {
+      const button = e.target;
+      const original = button.textContent;
+      button.textContent = 'Copying...';
+      try {
+        const res = await fetch(`/api/run/log/${run.userId}`);
+        const full = await res.text();
+        const text = full.trim() ? full : logText;
+        try {
+          await navigator.clipboard.writeText(text);
+          toast(`Copied the full log (${text.split('\n').length} lines)`);
+        } catch {
+          // Clipboard refused: drop it into the box and select it so Ctrl+C works.
+          logBox.textContent = text;
+          const range = document.createRange();
+          range.selectNodeContents(logBox);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          toast('Full log selected - press Ctrl+C to copy', 'warning');
+        }
+      } catch (err) {
+        toast(`Could not fetch the full log: ${err.message}`, 'error');
+      } finally {
+        button.textContent = original;
+      }
+    },
   });
-  // Keep the newest line in view, the way a terminal would.
-  setTimeout(() => { logBox.scrollTop = logBox.scrollHeight; }, 0);
 
   body.push(el('div', { class: 'detail-row', style: 'margin-top:16px' }, [
-    el('span', { class: 'detail-row__label', text: `Recent output (last ${run.lines.length} lines)` }),
+    el('div', { class: 'log-head' }, [
+      el('span', { class: 'detail-row__label', text: `Recent output (last ${run.lines.length} lines)` }),
+      copyBtn,
+    ]),
     logBox,
   ]));
 
@@ -250,6 +321,24 @@ function renderRunCard(ctx, run) {
     ]),
     el('div', { class: 'card__body' }, body),
   ]);
+}
+
+// main3.py's ct_section()/ct_print() write plain-text markers (">>> PAGE:",
+// ">>> QUESTION:", a "---" rule, "| ERROR |", "NEEDS ATTENTION" /
+// "ATTENTION CLEARED", "reportAction |") specifically so the trace stays
+// readable in a plain-text log file too -- this just recognises the same
+// markers here and colors them, rather than duplicating the log format.
+function logLines(lines) {
+  return lines.map((line) => {
+    let cls = 'log-line';
+    if (line.includes('>>> PAGE:')) cls += ' log-line--page';
+    else if (line.includes('>>> QUESTION:')) cls += ' log-line--question';
+    else if (line.includes('| ERROR |')) cls += ' log-line--error';
+    else if (line.includes('NEEDS ATTENTION') || line.includes('ATTENTION CLEARED')) cls += ' log-line--attention';
+    else if (/-{10,}/.test(line)) cls += ' log-line--rule';
+    else if (line.includes('reportAction |')) cls += ' log-line--action';
+    return el('div', { class: cls, text: line.length ? line : ' ' });
+  });
 }
 
 function statBlock(label, value) {

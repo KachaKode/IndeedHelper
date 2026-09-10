@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import datetime
 import json
+import os
 import subprocess
 import sys
 import threading
@@ -35,23 +36,54 @@ class PreflightError(Exception):
 
 
 class UserRun:
-    def __init__(self, user_id: int, label: str, process: subprocess.Popen) -> None:
+    def __init__(self, user_id: int, label: str, process: subprocess.Popen,
+                 log_path: Path | None = None) -> None:
         self.user_id = user_id
         self.label = label
         self.process = process
+        # The deque below only keeps a tail for display. Everything the run ever
+        # printed goes to this file, so Copy can hand back the whole thing --
+        # losing the start of a run is exactly what makes a stall hard to read.
+        self.log_path = log_path
+        self._log_file = None
+        if log_path is not None:
+            try:
+                log_path.parent.mkdir(parents=True, exist_ok=True)
+                self._log_file = log_path.open("w", encoding="utf-8", errors="replace")
+            except OSError:
+                self._log_file = None
         self.started_at = datetime.datetime.now()
         self.state = "starting"
         self.last_error: str | None = None
+        self.attention_reason: str | None = None
         self.last_activity: str | None = None
         self.lines: deque[str] = deque(maxlen=MAX_LOG_LINES)
         self.stopped_at: datetime.datetime | None = None
 
     def note(self, line: str) -> None:
         self.lines.append(line)
+        if self._log_file is not None:
+            try:
+                self._log_file.write(line + "\n")
+                self._log_file.flush()
+            except (OSError, ValueError):
+                self._log_file = None      # keep running even if the file goes away
         # The bot's own trace format is "[CT] <elapsed> | <where> | <what> | <extra>".
         if "| ERROR |" in line:
             self.state = "error"
             self.last_error = line.split("| ERROR |", 1)[1].strip()
+        elif "NEEDS ATTENTION" in line:
+            self.state = "attention"
+            # The trailing detail names which situation it is.
+            detail = line.split("|")[-1].strip()
+            reason = detail.split("--")[0].strip() or "Something"
+            self.attention_reason = reason
+            self.last_activity = (f"{reason.title()}: the run is paused and waiting for you. "
+                                  f"Check the browser window, then press Start applying.")
+        elif "ATTENTION CLEARED" in line:
+            self.state = "paused"
+            self.attention_reason = None
+            self.last_activity = "Resolved. Press Start applying to continue."
         elif "| PAUSED |" in line:
             self.state = "paused"
         elif "| RESUMED" in line:
@@ -199,8 +231,13 @@ class RunnerManager:
                 label = f"{user.get('FirstName','')} {user.get('LastName','')}".strip() or f"User {user_id}"
                 # Start paused: the browser opens on the home page and waits.
                 self.write_control(user_id, mode="paused", command=None)
+                # -u (unbuffered) matters: without it, plain print() output from
+                # the bot and the GPT helpers sits in a pipe buffer indefinitely,
+                # so a failure that is being logged still looks like silence.
+                env = dict(os.environ, PYTHONUNBUFFERED="1")
                 process = subprocess.Popen(
-                    [sys.executable, str(self.project_root / "main3.py"), "--user-id", str(user_id)],
+                    [sys.executable, "-u", str(self.project_root / "main3.py"),
+                     "--user-id", str(user_id)],
                     cwd=str(self.project_root),
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
@@ -208,8 +245,11 @@ class RunnerManager:
                     bufsize=1,
                     encoding="utf-8",
                     errors="replace",
+                    env=env,
                 )
-                run = UserRun(user_id, label, process)
+                stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                log_path = self.project_root / "runtime" / "logs" / f"run_{user_id}_{stamp}.log"
+                run = UserRun(user_id, label, process, log_path=log_path)
                 self.runs[user_id] = run
                 threading.Thread(target=self._pump, args=(run,), daemon=True).start()
                 started.append(user_id)
@@ -222,10 +262,22 @@ class RunnerManager:
                 line = raw.rstrip("\n")
                 if line:
                     run.note(line)
+                    # A bot check, or a page the bot does not recognise, needs a
+                    # person -- so stop the run rather than letting it push on.
+                    # Done here so the GUI stays the only writer of the control file.
+                    if "NEEDS ATTENTION" in line:
+                        self.write_control(run.user_id, mode="paused")
         except Exception as exc:  # noqa: BLE001 - reading a dying pipe should not kill the thread
             run.note(f"[runner] stopped reading output: {exc}")
         finally:
             code = run.process.wait()
+            if run._log_file is not None:
+                try:
+                    run._log_file.flush()
+                    run._log_file.close()
+                except (OSError, ValueError):
+                    pass
+                run._log_file = None
             run.stopped_at = datetime.datetime.now()
             if run.state != "stopped":
                 run.state = "stopped" if code == 0 else "error"
@@ -264,6 +316,7 @@ class RunnerManager:
                 "userId": run.user_id,
                 "label": run.label,
                 "state": run.state,
+                "attentionReason": run.attention_reason,
                 "mode": self.read_control(run.user_id)["mode"],
                 "alive": alive,
                 "startedAt": run.started_at.isoformat(timespec="seconds"),
@@ -290,6 +343,20 @@ class RunnerManager:
             return int(row[0])
         except Exception:  # noqa: BLE001 - a status poll must never raise
             return 0
+
+    def full_log(self, user_id: int) -> str:
+        """Everything this run has printed, not just the displayed tail."""
+        with self._lock:
+            run = self.runs.get(user_id)
+        if run is None:
+            return ""
+        if run.log_path is not None and run.log_path.exists():
+            try:
+                return run.log_path.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                pass
+        # No file (or it vanished): the tail is better than nothing.
+        return "\n".join(run.lines)
 
     def any_running(self) -> bool:
         with self._lock:

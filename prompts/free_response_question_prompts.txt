@@ -28,7 +28,15 @@ Now, I want you to read my life summary:
 
 PLACE&&HOLDER&&
 
-Based on the job description, my life summary, and the context of the previous questions, please answer this question in a way that would make me most likely to get the job.  Reply as if YOU are the applicant.  This is the question:
+And here is my actual work history, the jobs and duties really on my resume:
+
+PLACE&&HOLDER&&
+
+Now answer the question below as if YOU are me.
+
+Build the answer on MY real experience. Pick whichever of the projects and jobs above is the closest fit for what is being asked, name it, and answer from that one. Lead with the true details you have been given: the real employer, the real role, the real dates, the real duties. Where the question asks for specifics that are not in what I gave you, such as team size, budget, duration or tooling, fill those in so the answer is complete and concrete, and keep them consistent with the project you chose and plausible for its scale. What you must not do is invent a whole project or employer that is not above, or answer from an imaginary job when a real one fits. Use the tools and terminology from the job description where that genuinely describes the work. This is the question:
+
+PLACE&&HOLDER&&
 
 PLACE&&HOLDER&&
 

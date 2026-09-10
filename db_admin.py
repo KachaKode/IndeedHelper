@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
 from dbgui.data import IndeedDB  # noqa: E402
-from dbgui.migrations import add_target_position, schema_exists  # noqa: E402
+from dbgui.migrations import add_avoid_employers, add_target_position, schema_exists  # noqa: E402
 from dbgui.runner import RunnerManager  # noqa: E402
 from dbgui.server import create_app  # noqa: E402
 
@@ -71,6 +71,10 @@ def main() -> int:
         print(f"Added job_searches.target_position "
               f"(labelled {added['backfilled']} existing searches from their search terms).")
 
+    added_avoid_employers = add_avoid_employers(db)
+    if added_avoid_employers["added"]:
+        print("Added users.avoidEmployers.")
+
     port = free_port()
     url = f"http://127.0.0.1:{port}/"
     runner = RunnerManager(db, ROOT)
@@ -98,7 +102,11 @@ def main() -> int:
 
     try:
         import webview
-        webview.create_window(WINDOW_TITLE, url, width=1400, height=900, min_size=(1000, 640))
+        # text_select defaults to False in pywebview, which disables highlighting
+        # anywhere in the window -- including the run output and the read-only
+        # application records, both of which exist to be read and copied.
+        webview.create_window(WINDOW_TITLE, url, width=1400, height=900,
+                              min_size=(1000, 640), text_select=True)
         webview.start()
         shutdown()
         return 0

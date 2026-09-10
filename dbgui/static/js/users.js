@@ -231,11 +231,27 @@ export async function renderProfile(ctx) {
     ]),
   ]));
 
+  nodes.push(card('Employers to avoid', 'Checked against the scraped company name before any AI call is made for the job.', [
+    el('div', { class: 'form-grid' }, [
+      fullField('Avoid these employers', area('avoidEmployers'),
+        'One employer name per line, exact match (case-insensitive) against the company '
+        + 'name shown on the job listing. A match skips the job immediately, with no AI '
+        + 'calls made at all.'),
+    ]),
+  ]));
+
   nodes.push(card('Content for generated applications', 'Used as source material when writing resumes and cover letters.', [
     el('div', { class: 'form-grid' }, [
       fullField('Position interests', area('PositionInterests'), 'One per line.'),
       fullField('Avoid these job characteristics', area('avoid'), 'One question per line; each is asked about the job description.'),
-      fullField('Life summary', area('LifeSummary', 'textarea--tall')),
+      fullField('Life summary', area('LifeSummary', 'textarea--tall'),
+        'Projects, jobs and achievements. The cover letter and resume summary are '
+        + 'built mainly from the skills you demonstrated here.'),
+      fullField('Writing style sample', area('WritingSample', 'textarea--tall'),
+        'A few paragraphs you actually wrote, in your own voice. Everything generated '
+        + 'is matched to the sentence length, vocabulary and tone of this passage, so '
+        + 'it reads like you rather than like a model. Anything is fine: an email, a '
+        + 'post, a bit of a past cover letter.'),
     ]),
   ]));
 

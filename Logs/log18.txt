@@ -1,0 +1,890 @@
+[CT]     0.0ms | RunUser | ENTER | Tommy Orok (id=9)[CT]     0.0ms | __main__ | started worker thread for user id=9
+[CT]     1.5ms | start_up | ENTER | https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0
+[CT]     1.6ms | start_up | launching chrome.exe | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=4473
+[CT]     8.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:4473/json/version sees='attempt=0'
+[CT]  3048.0ms | start_up | EXIT
+[CT]    11.0ms | RunUser | READY | Tommy Orok (id=9) is on the home page and paused
+[CT]     1.7ms | StateMachine | PAUSED | waiting for a command from the Run tab
+[CT] 62698.7ms | StateMachine | RESUMED
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]   243.5ms | getCurrentEnv | EXIT |  result=|Flexible Technical Project Manager Jobs � Apply Today to Work From Home in Remote (September 1, 2026) | Indeed
+[CT]  1021.6ms | StateMachine | STUCK | no rule for state 'initNewApp' on this page -- |Flexible Technical Project Manager Jobs � Apply Today to Work From Home in Remote (Septem
+[CT]     0.0ms | StateMachine | NEEDS ATTENTION | STUCK: no rule for state 'initNewApp' on this page -- pausing and alerting
+[CT]     0.0ms | reportAction | config/StateTransitions.txt has no transition for state 'initNewApp' on this page, and no default. Add one, or move the page along by hand and press Start applying.   |Flexible Technical Project Manag
+[CT]  1284.3ms | StateMachine | ATTENTION CLEARED | STUCK: no rule for state 'initNewApp' on this page: https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP
+[CT]     0.0ms | reportAction | The page moved on. Press Start applying to continue.
+[CT]     0.6ms | StateMachine | PAUSED | waiting for a command from the Run tab
+[CT]  9095.2ms | StateMachine | RESUMED
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     5.4ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d
+[CT]  1009.3ms | reportAction | Calling function: newApp() in environment: https://www.indeed.com/jobs?q=Technical+Project+Manager&l=Remote&from=searchOnHP%2Cwhereautocomplete&vjk=e90515b1389029d0|Flexible Technical Project Manager 
+[CT]   105.0ms | process_job_openings | 16 job cards on this page
+[CT]    59.6ms | smartClick | ENTER | .//a
+[CT]    41.9ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]   258.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]   277.3ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    75.7ms | reportAction | clicked <element: full details of Project Manager - Electronic Design Services> successfully!
+[CT]     2.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]    10.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=1'
+[CT]   207.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=2'
+[CT]   219.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=3'
+[CT]   210.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] sees='attempt=4'
+[CT]  1328.7ms | reportAction | found element //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on
+[CT]     3.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.6ms | smartClick | ENTER | //*[@data-testid='inlineHeader-companyName']
+[CT]   313.7ms | reportAction | found element //*[@data-testid='inlineHeader-companyName'] but did not click because text did not match: dsfdsd324
+[CT]     2.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.1ms | smartClick | ENTER | //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1
+[CT]    37.8ms | reportAction | found element //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 but did not click because text did not match: adfddfsa
+[CT]     3.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.3ms | smartClick | ENTER | //*[@id='jobDescriptionText']
+[CT]    43.2ms | reportAction | found element //*[@id='jobDescriptionText'] but did not click because text did not match: adsfdasf134
+[CT]     3.9ms | smartClick | EXIT |  result=text condition mismatch
+starting: avoid_job_characteristics_prompts2.txt @ 12:25:59 ... (will time out @ 12:27:29)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:26:09
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+starting: job_desc_prompts2.txt @ 12:26:26 ... (will time out @ 12:27:56)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:27:11
+starting: job_desc_prompts2.txt @ 12:27:11 ... (will time out @ 12:28:41)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:27:46
+starting: job_desc_prompts2.txt @ 12:27:46 ... (will time out @ 12:29:16)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:28:27
+starting: job_desc_prompts2.txt @ 12:28:27 ... (will time out @ 12:29:57)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:29:11
+starting: cover_letter_prompts2.txt @ 12:29:11 ... (will time out @ 12:30:41)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:30:01
+starting: skills_prompts2.txt @ 12:30:01 ... (will time out @ 12:31:31)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:30:30
+starting: skills_prompts_cleaning.txt @ 12:30:30 ... (will time out @ 12:32:00)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:31:26
+starting: headline_prompts2.txt @ 12:31:26 ... (will time out @ 12:32:56)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:31:44
+starting: summary_prompts2.txt @ 12:31:44 ... (will time out @ 12:33:14)
+	Attempting the future retreival
+	Attempting Completion (gpt-5)
+done... @ 12:32:33
+[CT] 393666.4ms | reportAction | Transitioning  STATE from initNewApp to start
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     7.5ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/viewjob?jk=eded75e497255f2c&q=Technical+Project+Manager&l=Remote&tk=1k1esj6hrgdkm801&from=web&adv
+[CT]  1012.2ms | reportAction | Calling function: startApplication() in environment: https://www.indeed.com/viewjob?jk=eded75e497255f2c&q=Technical+Project+Manager&l=Remote&tk=1k1esj6hrgdkm801&from=web&advn=2926834473446378&adid=432
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Applied']
+[CT]     8.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=1'
+[CT]   207.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=2'
+[CT]   211.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=3'
+[CT]   221.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=4'
+[CT]   223.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=5'
+[CT]   219.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=6'
+[CT]   224.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.5ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=7'
+[CT]   220.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=8'
+[CT]   211.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=9'
+[CT]   209.1ms | reportAction | * * * Time OUT.  Spent 2 secs waiting for //*[text()='Applied'] * * *
+[CT]     2.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed']
+[CT]  6525.9ms | reportAction | clicked //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indee
+[CT]     4.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from start to hitApply
+[CT]     1.1ms | getCurrentEnv | ENTER
+[CT]   105.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   239.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1074.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   215.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1055.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1018.2ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume f
+[CT]  1012.2ms | reportAction | Calling function: startResume() in environment: https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume for this application | Indeed
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-label"] | //*[@data-testid="resume-selection-structured-resume-radio-card"] | //*[@data-testid="IndeedResumeCard"]
+[CT]   290.7ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-label"] | //*[@data-testid="resume-selection-structured-resume-radio-card"] | //*[@data-testid="IndeedResumeCard"] successfully!
+[CT]     4.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options"]
+[CT]   425.0ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options"] successfully!
+[CT]     5.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options-editResumeDetails"] | //button[contains(normalize-space(.), 'Edit resume')] | //a[contains(normalize-space(.), 'Edit resume')]
+[CT]  1251.2ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options-editResumeDetails"] | //button[contains(normalize-space(.), 'Edit resume')] | //a[contains(normalize-space(.), 'E
+[CT]     5.4ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from hitApply to startedOnResume
+[CT]     1.3ms | getCurrentEnv | ENTER
+[CT]     7.0ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]     0.8ms | rememberApplicationUrl | noted the way back | https://smartapply.indeed.com/beta/indeedapply/form?from=profile-resume-edit
+[CT]  1008.8ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    38.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    49.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   314.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    32.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   312.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   900.1ms | reportAction | clicked //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] successfully!
+[CT]     5.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     7.3ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/contact|contactInformation.editFromResume
+[CT]  1008.3ms | reportAction | Calling function: doContactInfo() in environment: https://profile.indeed.com/resume/contact|contactInformation.editFromResume
+[CT]     0.6ms | smartClick | ENTER | //*[@data-testid="first-name-input"]
+[CT]   257.0ms | reportAction | found element //*[@data-testid="first-name-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     6.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   426.8ms | smartClick | ENTER | //*[@data-testid="last-name-input"]
+[CT]   116.4ms | reportAction | found element //*[@data-testid="last-name-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   164.7ms | smartClick | ENTER | //*[@data-testid="headline-input"]
+[CT]   128.6ms | reportAction | found element //*[@data-testid="headline-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.5ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   190.7ms | smartClick | ENTER | //*[@data-testid="phone-input-input"]
+[CT]    44.0ms | reportAction | found element //*[@data-testid="phone-input-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   139.4ms | smartClick | ENTER | //*[@data-testid="street-address-input"]
+[CT]    37.9ms | reportAction | found element //*[@data-testid="street-address-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    74.0ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]   142.3ms | reportAction | found element //*[@data-testid="location-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    85.4ms | smartClick | ENTER | //*[@data-testid="postal-code-input"]
+[CT]    82.8ms | reportAction | found element //*[@data-testid="postal-code-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.5ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    92.9ms | smartClick | ENTER | //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save']
+[CT]   785.0ms | reportAction | clicked //*[@data-testid="contact-info-save"] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.5ms | reportAction | Transitioning  STATE from startedEditContactInfo to finishedEditContactInfo
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     8.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1015.3ms | reportAction | Calling function: startSummary() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]     6.8ms | smartClick | ENTER | //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary'] | //*[@data-testid="summary-section"]//button[starts-with(@aria-label, "Edit") or starts-with(@aria-label, "Add")]
+[CT]   181.2ms | reportAction | clicked //*[@aria-label='Edit summary'] | //*[@aria-label='Add summary'] | //*[@data-testid="summary-section"]//button[starts-with(@aria-label, "Edit") or starts-with(@aria-label, "Add")] successfully
+[CT]     4.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Summary'][@contenteditable='true'] | //*[@aria-label='Summary'] | //div[@role='textbox']
+[CT]    37.1ms | reportAction | found element //*[@aria-label='Summary'][@contenteditable='true'] | //*[@aria-label='Summary'] | //div[@role='textbox'] but did not click because text did not match: @#$ never matches %^&
+[CT]     2.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    59.2ms | smartClick | ENTER | //*[@data-testid="summary-inline-save-button"] | //*[@aria-label='Save summary']
+[CT]   146.3ms | reportAction | clicked //*[@data-testid="summary-inline-save-button"] | //*[@aria-label='Save summary'] successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditContactInfo to finishedEditSummary
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     7.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1005.4ms | reportAction | Calling function: startWorkExp() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&
+[CT]   149.1ms | smartClick | ENTER
+[CT]   172.7ms | reportAction | clicked <element: Edit AI Consultant work experience> successfully!
+[CT]     2.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Delete this work experience']
+[CT]     6.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Delete this work experience'] sees='attempt=1'
+[CT]   730.3ms | reportAction | clicked //*[@aria-label='Delete this work experience'] successfully!
+[CT]     4.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete']
+[CT]   294.5ms | reportAction | clicked //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete'] successfully!
+[CT]     5.4ms | smartClick | EXIT |  result=clicked
+[CT]  1112.7ms | deleteExistingEntries | removed existing work experience | Edit AI Consultant work experience (4 -> 3)
+[CT]    88.5ms | smartClick | ENTER
+[CT]   207.4ms | reportAction | clicked <element: Edit Software Consultant work experience> successfully!
+[CT]     2.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Delete this work experience']
+[CT]     7.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    22.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Delete this work experience'] sees='attempt=1'
+[CT]   602.4ms | reportAction | clicked //*[@aria-label='Delete this work experience'] successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete']
+[CT]   139.1ms | reportAction | clicked //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete'] successfully!
+[CT]     4.7ms | smartClick | EXIT |  result=clicked
+[CT]   966.8ms | deleteExistingEntries | removed existing work experience | Edit Software Consultant work experience (3 -> 2)
+[CT]   103.0ms | smartClick | ENTER
+[CT]   172.6ms | reportAction | clicked <element: Edit Software Developer work experience> successfully!
+[CT]     4.0ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Delete this work experience']
+[CT]     5.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Delete this work experience'] sees='attempt=1'
+[CT]   742.6ms | reportAction | clicked //*[@aria-label='Delete this work experience'] successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete']
+[CT]   165.9ms | reportAction | clicked //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete'] successfully!
+[CT]     4.3ms | smartClick | EXIT |  result=clicked
+[CT]   966.6ms | deleteExistingEntries | removed existing work experience | Edit Software Developer work experience (2 -> 1)
+[CT]    48.8ms | smartClick | ENTER
+[CT]   176.4ms | reportAction | clicked <element: Edit Head Systems Engineer work experience> successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Delete this work experience']
+[CT]     7.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Delete this work experience'] sees='attempt=1'
+[CT]   211.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Delete this work experience'] sees='attempt=2'
+[CT]   510.9ms | reportAction | clicked //*[@aria-label='Delete this work experience'] successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete']
+[CT]   148.2ms | reportAction | clicked //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete'] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]  5029.5ms | deleteExistingEntries | removed existing work experience | Edit Head Systems Engineer work experience (1 -> 0)
+[CT]  4090.4ms | reportAction | Removed 4 pre-existing work experience entries before adding this user's.
+[CT]  4087.2ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]   704.9ms | reportAction | clicked //*[@aria-label='Add work experience'] successfully!
+[CT]     4.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="job-title-input-autocomplete-input"]
+[CT]     8.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="job-title-input-autocomplete-input"] sees='attempt=1'
+[CT]   447.5ms | reportAction | found element //*[@data-testid="job-title-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   189.2ms | smartClick | ENTER | //*[@data-testid="company-input-autocomplete-input"]
+[CT]    70.4ms | reportAction | found element //*[@data-testid="company-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     6.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   103.3ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]    65.4ms | reportAction | found element //*[@data-testid="location-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    91.7ms | smartClick | ENTER | //*[@data-testid="is-current-toggle"]
+[CT]    53.5ms | reportAction | found element //*[@data-testid="is-current-toggle"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    15.3ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]    64.8ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    14.8ms | smartClick | ENTER
+[CT]   115.4ms | reportAction | clicked <element: From month> successfully!
+[CT]     3.5ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='October']
+[CT]   118.7ms | reportAction | clicked //*[@role='option'][normalize-space(.)='October'] successfully!
+[CT]     4.7ms | smartClick | EXIT |  result=clicked
+[CT]   315.2ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]    43.7ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    26.6ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    42.0ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.4ms | smartClick | ENTER
+[CT]   118.9ms | reportAction | clicked <element: From year> successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2017']
+[CT]    90.3ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2017'] successfully!
+[CT]     4.9ms | smartClick | EXIT |  result=clicked
+[CT]   313.8ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    37.1ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.2ms | smartClick | ENTER | //*[@aria-label='To month']
+[CT]    34.2ms | reportAction | found element //*[@aria-label='To month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     7.6ms | smartClick | ENTER
+[CT]    84.4ms | reportAction | clicked <element: To month> successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='May']
+[CT]    74.0ms | reportAction | clicked //*[@role='option'][normalize-space(.)='May'] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]   306.3ms | smartClick | ENTER | //*[@aria-label='To month']
+[CT]    39.2ms | reportAction | found element //*[@aria-label='To month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    11.3ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    32.2ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.0ms | smartClick | ENTER
+[CT]    90.1ms | reportAction | clicked <element: To year> successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2020']
+[CT]    87.2ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2020'] successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]   313.1ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    31.3ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     7.4ms | smartClick | ENTER | //*[@aria-label='Description'] | //div[@role='textbox']
+[CT]    80.0ms | reportAction | clicked //*[@aria-label='Description'] | //div[@role='textbox'] successfully!
+[CT]     2.8ms | smartClick | EXIT |  result=clicked
+[CT]    84.9ms | smartClick | ENTER | //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList']
+[CT]   124.1ms | reportAction | clicked //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList'] successfully!
+[CT]     3.0ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save']
+[CT]  1478.9ms | reportAction | clicked //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     4.0ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]   686.0ms | reportAction | clicked //*[@aria-label='Add work experience'] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="job-title-input-autocomplete-input"]
+[CT]     9.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="job-title-input-autocomplete-input"] sees='attempt=1'
+[CT]   352.7ms | reportAction | found element //*[@data-testid="job-title-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   169.7ms | smartClick | ENTER | //*[@data-testid="company-input-autocomplete-input"]
+[CT]    49.0ms | reportAction | found element //*[@data-testid="company-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   130.3ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]    63.8ms | reportAction | found element //*[@data-testid="location-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   205.1ms | smartClick | ENTER | //*[@data-testid="is-current-toggle"]
+[CT]   123.3ms | reportAction | found element //*[@data-testid="is-current-toggle"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    13.2ms | smartClick | ENTER
+[CT]   297.3ms | reportAction | clicked <element: I currently work here> successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]    85.7ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    19.2ms | smartClick | ENTER
+[CT]   147.1ms | reportAction | clicked <element: From month> successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='August']
+[CT]   136.5ms | reportAction | clicked //*[@role='option'][normalize-space(.)='August'] successfully!
+[CT]     6.7ms | smartClick | EXIT |  result=clicked
+[CT]   307.5ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]    37.7ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.3ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    41.3ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    11.3ms | smartClick | ENTER
+[CT]   131.9ms | reportAction | clicked <element: From year> successfully!
+[CT]     2.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2023']
+[CT]    84.8ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2023'] successfully!
+[CT]     3.1ms | smartClick | EXIT |  result=clicked
+[CT]   313.7ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    30.3ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.4ms | smartClick | ENTER | //*[@aria-label='Description'] | //div[@role='textbox']
+[CT]    93.6ms | reportAction | clicked //*[@aria-label='Description'] | //div[@role='textbox'] successfully!
+[CT]     6.4ms | smartClick | EXIT |  result=clicked
+[CT]   100.8ms | smartClick | ENTER | //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList']
+[CT]    98.8ms | reportAction | clicked //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList'] successfully!
+[CT]     3.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save']
+[CT]  1474.8ms | reportAction | clicked //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.5ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]   673.8ms | reportAction | clicked //*[@aria-label='Add work experience'] successfully!
+[CT]     4.5ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="job-title-input-autocomplete-input"]
+[CT]     7.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="job-title-input-autocomplete-input"] sees='attempt=1'
+[CT]   338.2ms | reportAction | found element //*[@data-testid="job-title-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   168.6ms | smartClick | ENTER | //*[@data-testid="company-input-autocomplete-input"]
+[CT]    54.9ms | reportAction | found element //*[@data-testid="company-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    94.3ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]    53.0ms | reportAction | found element //*[@data-testid="location-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   103.0ms | smartClick | ENTER | //*[@data-testid="is-current-toggle"]
+[CT]    46.8ms | reportAction | found element //*[@data-testid="is-current-toggle"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    13.4ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]    51.7ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    11.6ms | smartClick | ENTER
+[CT]    96.5ms | reportAction | clicked <element: From month> successfully!
+[CT]     4.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='December']
+[CT]   121.5ms | reportAction | clicked //*[@role='option'][normalize-space(.)='December'] successfully!
+[CT]     4.4ms | smartClick | EXIT |  result=clicked
+[CT]   307.7ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]    35.1ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.3ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    30.4ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.0ms | smartClick | ENTER
+[CT]   131.7ms | reportAction | clicked <element: From year> successfully!
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2015']
+[CT]    95.1ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2015'] successfully!
+[CT]     5.2ms | smartClick | EXIT |  result=clicked
+[CT]   301.6ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    32.3ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     6.3ms | smartClick | ENTER | //*[@aria-label='To month']
+[CT]    32.9ms | reportAction | found element //*[@aria-label='To month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     6.9ms | smartClick | ENTER
+[CT]    80.8ms | reportAction | clicked <element: To month> successfully!
+[CT]     3.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='August']
+[CT]    81.7ms | reportAction | clicked //*[@role='option'][normalize-space(.)='August'] successfully!
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]   313.9ms | smartClick | ENTER | //*[@aria-label='To month']
+[CT]    38.4ms | reportAction | found element //*[@aria-label='To month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.2ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    40.6ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.0ms | smartClick | ENTER
+[CT]   109.5ms | reportAction | clicked <element: To year> successfully!
+[CT]     4.3ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2019']
+[CT]    91.3ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2019'] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]   303.2ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    31.0ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     7.0ms | smartClick | ENTER | //*[@aria-label='Description'] | //div[@role='textbox']
+[CT]    78.4ms | reportAction | clicked //*[@aria-label='Description'] | //div[@role='textbox'] successfully!
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]    70.8ms | smartClick | ENTER | //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList']
+[CT]   107.6ms | reportAction | clicked //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList'] successfully!
+[CT]     3.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save']
+[CT]  1493.0ms | reportAction | clicked //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Add work experience']
+[CT]   787.6ms | reportAction | clicked //*[@aria-label='Add work experience'] successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="job-title-input-autocomplete-input"]
+[CT]     8.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="job-title-input-autocomplete-input"] sees='attempt=1'
+[CT]   354.5ms | reportAction | found element //*[@data-testid="job-title-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   167.2ms | smartClick | ENTER | //*[@data-testid="company-input-autocomplete-input"]
+[CT]    62.0ms | reportAction | found element //*[@data-testid="company-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.5ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   108.1ms | smartClick | ENTER | //*[@data-testid="location-input-autocomplete-input"]
+[CT]    44.5ms | reportAction | found element //*[@data-testid="location-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    99.6ms | smartClick | ENTER | //*[@data-testid="is-current-toggle"]
+[CT]    65.0ms | reportAction | found element //*[@data-testid="is-current-toggle"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.6ms | reportAction | work from date is '2019', which has no month. Indeed needs both, so this entry will be flagged 'Missing dates'. Fix it in the Work History tab of the GUI.
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    55.6ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     6.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    16.2ms | smartClick | ENTER
+[CT]   142.5ms | reportAction | clicked <element: From year> successfully!
+[CT]     3.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2019']
+[CT]   102.1ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2019'] successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]   301.2ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    30.2ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     6.3ms | reportAction | work to date is '2025', which has no month. Indeed needs both, so this entry will be flagged 'Missing dates'. Fix it in the Work History tab of the GUI.
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    33.2ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     7.0ms | smartClick | ENTER
+[CT]    76.4ms | reportAction | clicked <element: To year> successfully!
+[CT]     3.4ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2025']
+[CT]    77.0ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2025'] successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]   309.1ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    29.7ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.7ms | smartClick | ENTER | //*[@aria-label='Description'] | //div[@role='textbox']
+[CT]    92.2ms | reportAction | clicked //*[@aria-label='Description'] | //div[@role='textbox'] successfully!
+[CT]     2.7ms | smartClick | EXIT |  result=clicked
+[CT]    76.7ms | smartClick | ENTER | //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList']
+[CT]   105.7ms | reportAction | clicked //*[@aria-label='Bulleted list'] | //button[@data-testid='insertUnorderedList'] successfully!
+[CT]     4.4ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save']
+[CT]  1499.6ms | reportAction | clicked //*[@aria-label='Save this work experience'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditSummary to finishedEditWorkExp
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     9.0ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume|Edit your resume
+[CT]  1005.5ms | reportAction | Calling function: startEdu() in environment: https://profile.indeed.com/resume|Edit your resume
+[CT]    58.7ms | smartClick | ENTER
+[CT]   151.9ms | reportAction | clicked <element: Edit Bachelor's Degree education> successfully!
+[CT]     4.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label='Delete this education']
+[CT]     9.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Delete this education'] sees='attempt=1'
+[CT]   635.4ms | reportAction | clicked //*[@aria-label='Delete this education'] successfully!
+[CT]     4.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete']
+[CT]   497.9ms | reportAction | clicked //*[@role='dialog']//button[normalize-space(.)='Delete'] | //*[@role='alertdialog']//button[normalize-space(.)='Delete'] successfully!
+[CT]     4.0ms | smartClick | EXIT |  result=clicked
+[CT]  5009.8ms | deleteExistingEntries | removed existing education | Edit Bachelor's Degree education (1 -> 0)
+[CT]  4089.4ms | reportAction | Removed 1 pre-existing education entry before adding this user's.
+[CT]  4092.9ms | smartClick | ENTER | //*[@aria-label='Add education']
+[CT]   700.1ms | reportAction | clicked //*[@aria-label='Add education'] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="level-of-education-input-autocomplete-input"]
+[CT]     7.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="level-of-education-input-autocomplete-input"] sees='attempt=1'
+[CT]   422.3ms | reportAction | found element //*[@data-testid="level-of-education-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   209.4ms | smartClick | ENTER | //*[@data-testid="field-of-study-input-autocomplete-input"]
+[CT]   127.6ms | reportAction | found element //*[@data-testid="field-of-study-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    91.0ms | smartClick | ENTER | //*[@data-testid="school-input-autocomplete-input"]
+[CT]   105.2ms | reportAction | found element //*[@data-testid="school-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     5.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   178.8ms | smartClick | ENTER | //*[@data-testid="education-location-input-autocomplete-input"]
+[CT]    73.7ms | reportAction | found element //*[@data-testid="education-location-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   108.3ms | smartClick | ENTER | //*[@data-testid="is-current-toggle"]
+[CT]    55.1ms | reportAction | found element //*[@data-testid="is-current-toggle"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.5ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    13.0ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]    42.0ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.9ms | smartClick | ENTER
+[CT]   125.7ms | reportAction | clicked <element: From month> successfully!
+[CT]     4.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='August']
+[CT]   108.7ms | reportAction | clicked //*[@role='option'][normalize-space(.)='August'] successfully!
+[CT]     4.9ms | smartClick | EXIT |  result=clicked
+[CT]   303.3ms | smartClick | ENTER | //*[@aria-label='From month']
+[CT]    35.2ms | reportAction | found element //*[@aria-label='From month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.3ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    31.7ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     6.5ms | smartClick | ENTER
+[CT]   136.7ms | reportAction | clicked <element: From year> successfully!
+[CT]     2.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2012']
+[CT]    90.5ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2012'] successfully!
+[CT]     4.3ms | smartClick | EXIT |  result=clicked
+[CT]   308.1ms | smartClick | ENTER | //*[@aria-label='From year']
+[CT]    29.6ms | reportAction | found element //*[@aria-label='From year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     7.3ms | smartClick | ENTER | //*[@aria-label='To month']
+[CT]    26.6ms | reportAction | found element //*[@aria-label='To month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     6.6ms | smartClick | ENTER
+[CT]    75.2ms | reportAction | clicked <element: To month> successfully!
+[CT]     3.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='May']
+[CT]    93.8ms | reportAction | clicked //*[@role='option'][normalize-space(.)='May'] successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]   303.5ms | smartClick | ENTER | //*[@aria-label='To month']
+[CT]    31.9ms | reportAction | found element //*[@aria-label='To month'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     6.4ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    31.6ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     7.4ms | smartClick | ENTER
+[CT]   108.4ms | reportAction | clicked <element: To year> successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@role='option'][normalize-space(.)='2016']
+[CT]    76.8ms | reportAction | clicked //*[@role='option'][normalize-space(.)='2016'] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]   309.2ms | smartClick | ENTER | //*[@aria-label='To year']
+[CT]    40.1ms | reportAction | found element //*[@aria-label='To year'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.4ms | smartClick | ENTER | //*[@aria-label='Save this education'] | //button[normalize-space(.)='Save']
+[CT]  1579.8ms | reportAction | clicked //*[@aria-label='Save this education'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditWorkExp to finishedEditEdu
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     9.0ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume|Edit your resume
+[CT]  1009.4ms | reportAction | Calling function: startSkills() in environment: https://profile.indeed.com/resume|Edit your resume
+[CT]   278.9ms | smartClick | ENTER
+[CT]   157.0ms | reportAction | clicked <element: Edit Technical Project Leadership> successfully!
+[CT]     3.1ms | smartClick | EXIT |  result=clicked
+[CT]   693.1ms | smartClick | ENTER
+[CT]    90.4ms | reportAction | clicked <element: Delete Technical Project Leadership> successfully!
+[CT]     2.8ms | smartClick | EXIT |  result=clicked
+[CT]    64.3ms | clearSkills | removed skill | Technical Project Leadership (8 -> 7)
+[CT]    70.9ms | smartClick | ENTER
+[CT]   109.3ms | reportAction | clicked <element: Delete Process Automation> successfully!
+[CT]     2.2ms | smartClick | EXIT |  result=clicked
+[CT]    65.0ms | clearSkills | removed skill | Process Automation (7 -> 6)
+[CT]    60.2ms | smartClick | ENTER
+[CT]    87.8ms | reportAction | clicked <element: Delete Technical Communication> successfully!
+[CT]     2.7ms | smartClick | EXIT |  result=clicked
+[CT]    51.8ms | clearSkills | removed skill | Technical Communication (6 -> 5)
+[CT]    52.3ms | smartClick | ENTER
+[CT]    90.5ms | reportAction | clicked <element: Delete Risk and Issue Management> successfully!
+[CT]     3.3ms | smartClick | EXIT |  result=clicked
+[CT]    47.0ms | clearSkills | removed skill | Risk and Issue Management (5 -> 4)
+[CT]    55.4ms | smartClick | ENTER
+[CT]    89.8ms | reportAction | clicked <element: Delete Technical Troubleshooting> successfully!
+[CT]     2.5ms | smartClick | EXIT |  result=clicked
+[CT]    31.0ms | clearSkills | removed skill | Technical Troubleshooting (4 -> 3)
+[CT]    43.2ms | smartClick | ENTER
+[CT]   108.0ms | reportAction | clicked <element: Delete Agile Project Management> successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]    26.4ms | clearSkills | removed skill | Agile Project Management (3 -> 2)
+[CT]    28.7ms | smartClick | ENTER
+[CT]    80.9ms | reportAction | clicked <element: Delete SDLC Management> successfully!
+[CT]     2.7ms | smartClick | EXIT |  result=clicked
+[CT]    17.3ms | clearSkills | removed skill | SDLC Management (2 -> 1)
+[CT]    35.4ms | smartClick | ENTER
+[CT]   124.4ms | reportAction | clicked <element: Delete Stakeholder Management> successfully!
+[CT]     2.6ms | smartClick | EXIT |  result=clicked
+[CT]     7.1ms | clearSkills | removed skill | Stakeholder Management (1 -> 0)
+[CT]     7.6ms | smartClick | ENTER | //*[@data-testid="modal-back-button"]
+[CT]   208.1ms | reportAction | clicked //*[@data-testid="modal-back-button"] successfully!
+[CT]     4.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Removed 8 existing skills before adding this user's.
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"]
+[CT]   566.9ms | smartClick | WAIT | for=recovering from Error sees='ElementHandle.click: Element is not attached to the DOM\nCall log:\n  - attempting click action\n    - waiting for element to be visible, enabled and stable\n'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.2ms | smartClick | EXIT |  result=not found
+[CT]   888.6ms | reportAction | clicked //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"] successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="skill-name-input-autocomplete-input"]
+[CT]     8.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="skill-name-input-autocomplete-input"] sees='attempt=1'
+[CT]   324.1ms | reportAction | found element //*[@data-testid="skill-name-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     2.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   158.4ms | smartClick | ENTER | //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save']
+[CT]  1067.6ms | reportAction | clicked //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     5.3ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"]
+[CT]   684.7ms | smartClick | WAIT | for=recovering from Error sees='ElementHandle.click: Element is not attached to the DOM\nCall log:\n  - attempting click action\n    - waiting for element to be visible, enabled and stable\n'
+[CT]     0.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.9ms | smartClick | EXIT |  result=not found
+[CT]   893.1ms | reportAction | clicked //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"] successfully!
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="skill-name-input-autocomplete-input"]
+[CT]     7.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="skill-name-input-autocomplete-input"] sees='attempt=1'
+[CT]   313.1ms | reportAction | found element //*[@data-testid="skill-name-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   165.2ms | smartClick | ENTER | //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save']
+[CT]  1068.3ms | reportAction | clicked //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.7ms | smartClick | ENTER | //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"]
+[CT]   751.6ms | reportAction | clicked //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"] successfully!
+[CT]     5.4ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="skill-name-input-autocomplete-input"]
+[CT]     7.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="skill-name-input-autocomplete-input"] sees='attempt=1'
+[CT]   375.7ms | reportAction | found element //*[@data-testid="skill-name-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   244.1ms | smartClick | ENTER | //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save']
+[CT]   981.3ms | reportAction | clicked //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     2.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"]
+[CT]   731.5ms | reportAction | clicked //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"] successfully!
+[CT]     5.0ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="skill-name-input-autocomplete-input"]
+[CT]    11.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="skill-name-input-autocomplete-input"] sees='attempt=1'
+[CT]   323.5ms | reportAction | found element //*[@data-testid="skill-name-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   230.8ms | smartClick | ENTER | //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save']
+[CT]   955.8ms | reportAction | clicked //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.4ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"]
+[CT]   707.1ms | reportAction | clicked //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"] successfully!
+[CT]     2.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="skill-name-input-autocomplete-input"]
+[CT]     6.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="skill-name-input-autocomplete-input"] sees='attempt=1'
+[CT]   333.1ms | reportAction | found element //*[@data-testid="skill-name-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   157.8ms | smartClick | ENTER | //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save']
+[CT]  1053.3ms | reportAction | clicked //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     4.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"]
+[CT]   772.9ms | reportAction | clicked //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"] successfully!
+[CT]     4.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="skill-name-input-autocomplete-input"]
+[CT]    17.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.5ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //*[@data-testid="skill-name-input-autocomplete-input"] sees='attempt=1'
+[CT]   384.0ms | reportAction | found element //*[@data-testid="skill-name-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     6.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   172.4ms | smartClick | ENTER | //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save']
+[CT]  1049.5ms | reportAction | clicked //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"]
+[CT]   707.5ms | reportAction | clicked //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"] successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="skill-name-input-autocomplete-input"]
+[CT]    13.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="skill-name-input-autocomplete-input"] sees='attempt=1'
+[CT]   417.0ms | reportAction | found element //*[@data-testid="skill-name-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   246.2ms | smartClick | ENTER | //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save']
+[CT]   986.6ms | reportAction | clicked //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"]
+[CT]   714.1ms | reportAction | clicked //*[@aria-label="Add skill"] | //*[@aria-label="Add skills"] | //*[@data-testid="skills-empty-state"] successfully!
+[CT]     3.0ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="skill-name-input-autocomplete-input"]
+[CT]     9.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="skill-name-input-autocomplete-input"] sees='attempt=1'
+[CT]   263.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="skill-name-input-autocomplete-input"] sees='attempt=2'
+[CT]   320.7ms | reportAction | found element //*[@data-testid="skill-name-input-autocomplete-input"] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   114.3ms | smartClick | ENTER | //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save']
+[CT]   941.5ms | reportAction | clicked //*[@aria-label='Save this skill'] | //button[normalize-space(.)='Save'] successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedEditEdu to finishedEditSkills
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]     7.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume|Edit your resume
+[CT]  1008.5ms | reportAction | Calling function: finishResume() in environment: https://profile.indeed.com/resume|Edit your resume
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying']
+[CT]     7.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=1'
+[CT]   210.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=2'
+[CT]   221.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=3'
+[CT]   209.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=4'
+[CT]   211.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.0ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=5'
+[CT]   217.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.0ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=6'
+[CT]   206.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=7'
+[CT]   209.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=8'
+[CT]   210.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=9'
+[CT]   206.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=10'
+[CT]   208.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=11'
+[CT]   209.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=12'
+[CT]   213.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=13'
+[CT]   207.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=14'
+[CT]   210.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.6ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=15'
+[CT]   209.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=16'
+[CT]   210.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=17'
+[CT]   208.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=18'
+[CT]   210.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=19'
+[CT]   210.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=20'
+[CT]   208.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=21'
+[CT]   220.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=22'
+[CT]   208.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=23'
+[CT]   208.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.7ms | smartClick | EXIT |  result=not found
+[CT]     1.1ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=24'
+[CT]   209.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=25'
+[CT]   210.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=26'
+[CT]   210.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=27'
+[CT]   212.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] sees='attempt=28'
+[CT]   213.3ms | reportAction | * * * Time OUT.  Spent 6 secs waiting for //*[@data-testid="indeed-resume-detail-continue-to-application"] | //button[normalize-space(.)='Continue applying'] * * *
+[CT]     2.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | The resume editor is not offering 'Continue applying', so going straight back to the application it was opened from.
+[CT]  2451.4ms | reportAction | Transitioning  STATE from finishedEditSkills to finishedResume
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     7.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1036.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    30.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1039.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1005.3ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume f
+[CT]  1006.7ms | reportAction | Calling function: addResume() in environment: https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume for this application | Indeed
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="continue-button"]
+[CT]   916.6ms | reportAction | clicked //*[@data-testid="continue-button"] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from finishedResume to addedResume
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     9.3ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume f
+[CT]  1012.3ms | reportAction | Calling function: backToDidContactInfo() in environment: https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume for this application | I
+[CT]     0.0ms | reportAction | Transitioning  STATE from addedResume to didContactInfo
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]     3.8ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Loading https://profile.ind
+[CT]  1010.3ms | StateMachine | UNKNOWN PAGE | https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Loading https://p
+[CT]  2010.4ms | rememberApplicationUrl | noted the way back | https://smartapply.indeed.com/beta/indeedapply/form?from=profile-tailored-resume-create
+[CT] 18186.3ms | StateMachine | NEEDS ATTENTION | UNKNOWN PAGE -- pausing and alerting
+[CT]     0.0ms | reportAction | This page does not match any configured pattern, so the bot does not know what to do with it. Paused.   https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Loa

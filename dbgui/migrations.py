@@ -179,6 +179,48 @@ def add_target_position(db: IndeedDB) -> dict[str, Any]:
     return report
 
 
+def add_writing_sample(db: IndeedDB) -> dict[str, Any]:
+    """Add users.WritingSample -- a passage the applicant actually wrote.
+
+    Everything the bot generates (cover letter, resume summary, work
+    descriptions, free-text screener answers) went out in the model's default
+    register, which reads as machine-written. A real sample of the applicant's
+    own prose gives the prompts something concrete to imitate: sentence length,
+    vocabulary, how formal they are, what they never say.
+
+    Idempotent -- does nothing if the column already exists.
+    """
+    report = {"added": False}
+    with db._connect() as conn:
+        if "WritingSample" in _column_names(conn, "users"):
+            return report
+        db._ensure_backup()
+        conn.execute('ALTER TABLE users ADD COLUMN WritingSample TEXT DEFAULT \'\'')
+        report["added"] = True
+    return report
+
+
+def add_avoid_employers(db: IndeedDB) -> dict[str, Any]:
+    """Add users.avoidEmployers -- a newline-separated list of employer names
+    the bot should skip on sight.
+
+    Unlike users.avoid (job characteristics, which need an AI call per line to
+    evaluate against the job description), an employer name is compared
+    directly against self.companyName once it is scraped, so a match skips
+    the job before any AI call is made for it.
+
+    Idempotent -- does nothing if the column already exists.
+    """
+    report = {"added": False}
+    with db._connect() as conn:
+        if "avoidEmployers" in _column_names(conn, "users"):
+            return report
+        db._ensure_backup()
+        conn.execute('ALTER TABLE users ADD COLUMN avoidEmployers TEXT DEFAULT \'\'')
+        report["added"] = True
+    return report
+
+
 def position_from_url(url: str) -> str:
     """Best-effort label from an Indeed search URL's `q` term."""
     from urllib.parse import parse_qs, urlparse

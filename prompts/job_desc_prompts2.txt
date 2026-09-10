@@ -24,6 +24,8 @@ PLACE&&HOLDER&&
 
 Come up with a duty/responsibility that someone working a job described by DESC2 would do that is also very relevant to DESC1, let's call that POINT1.  Now, I want you to pick 2 duties/responsibilities that someone working a position described by DESC1 would do that are also very relevant to either DESC2 or anything else a PLACE&&HOLDER&& might do at a PLACE&&HOLDER&& Company.  Let's call these POINT2 and POINT3.
 
+PLACE&&HOLDER&&
+
 Give me a list containing POINT1, POINT2, and POINT3.  Don't mention what the points are relevant to, just articulate them in the past tense in such a way that someone would add to their resume when describing what they did in a previous job.
 
 Reply back to me with a bulleted list containing the 3 points.  Let there be a newline between each point, and don't create a numbered list, create a bulleted list where this character "-" serves as the bullet.  Format your reply EXACTLY like this: "Here are the 3 points:- POINT1\n- POINT2\n- POINT3"  After the list, don't say ANYTHING ELSE. 

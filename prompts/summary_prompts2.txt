@@ -21,6 +21,20 @@ PLACE&&HOLDER&&
 "**END**ALL**TOGETHER**"
 
 
+**KEEP**ALL**TOGETHER**
+Below are the applicant's projects and jobs. The COVER LETTER above decides what belongs in this
+summary: it was already filtered down to what this particular job needs. Do not introduce any
+project, job or topic that the cover letter left out. Use this list only to get the concrete
+detail right, the actual thing built or run and the skill it shows, where the cover letter was
+vague. Lead with those concrete skills rather than generic professional qualities:
+PLACE&&HOLDER&&
+"**END**ALL**TOGETHER**"
+
+**KEEP**ALL**TOGETHER**
+PLACE&&HOLDER&&
+"**END**ALL**TOGETHER**"
+
+
 And remember... don't mention the actual cover letter.  Just use it as a repository of information that you'll use to construct the applicant's resume summary.  
 
 Again, remember that the summary needs to be written in FIRST PERSON.  And make sure your reply is ONLY the summary you create.  I don't need you to include an introductory phrase or an apology or any superfluous content.  Your reply should consist ONLY of the SUMMARY.

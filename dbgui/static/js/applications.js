@@ -4,18 +4,10 @@
    edit path here by design: the API exposes no write route for these tables,
    and every field below renders as static text or a readonly control. */
 
-import { api, el, mount, setTopbar, toast, card, emptyState, readonlyTag } from './core.js';
+import { api, el, mount, reveal, setTopbar, toast, card, emptyState, readonlyTag } from './core.js';
+import { applicationBody } from './appdetail.js';
 
-const LONG_FIELDS = [
-  ['headline', 'Headline'],
-  ['resumeSummary', 'Resume summary'],
-  ['skills', 'Skills'],
-  ['jobHist', 'Job history used'],
-  ['eduHist', 'Education used'],
-  ['QsAndAs', 'Screening questions and answers'],
-  ['cover_letter', 'Cover letter'],
-  ['JobDescriptionText', 'Original job description'],
-];
+const COLUMNS = 5;
 
 const state = { page: 1, search: '', userId: '', selectedId: null };
 
@@ -60,16 +52,18 @@ export async function renderApplications(ctx) {
     return;
   }
 
-  const rows = data.rows.map((row) => el('tr', {
-    class: row.id === state.selectedId ? 'is-selected' : '',
-    onclick: async () => { state.selectedId = row.id; ctx.go('applications'); },
-  }, [
-    el('td', { class: 'table__num', text: row.id }),
-    el('td', { text: (row.DateTime || '').slice(0, 16) }),
-    el('td', { class: 'table__truncate', text: row.companyName || '' }),
-    el('td', { class: 'table__truncate', text: row.jobTitle || '' }),
-    el('td', { text: row.fullName || '' }),
-  ]));
+  const rows = data.rows.map((row) => {
+    const caret = el('span', { class: 'caret', text: '›' });
+    const tr = el('tr', {}, [
+      el('td', { class: 'table__num' }, [caret, ` ${row.id}`]),
+      el('td', { text: (row.DateTime || '').slice(0, 16) }),
+      el('td', { class: 'table__truncate', text: row.companyName || '' }),
+      el('td', { class: 'table__truncate', text: row.jobTitle || '' }),
+      el('td', { text: row.fullName || '' }),
+    ]);
+    tr.addEventListener('click', () => toggleRow(row, tr));
+    return tr;
+  });
 
   const table = el('div', { class: 'table-wrap' }, [
     el('table', { class: 'table' }, [
@@ -108,55 +102,68 @@ export async function renderApplications(ctx) {
   ]);
   nodes.push(listCard);
 
-  if (state.selectedId != null) {
-    try {
-      const record = await api.get(`/api/applications/${state.selectedId}`);
-      nodes.push(renderDetail(record));
-    } catch (err) {
-      toast(err.message, 'error');
-    }
-  }
-
   mount(el('div', {}, nodes));
 }
 
-function renderDetail(record) {
-  const summary = el('div', { class: 'form-grid' }, [
-    detailRow('Application ID', String(record.id)),
-    detailRow('Date', record.DateTime || ''),
-    detailRow('Platform', record.Platform || ''),
-    detailRow('Applied as', record.fullName || ''),
-    detailRow('Company', record.companyName || ''),
-    detailRow('Job title', record.jobTitle || ''),
+/* Expand the record IN PLACE, as a row directly beneath the one clicked.
+   It used to be appended below the whole table, which meant scrolling past 50
+   rows to read it and back up again to pick the next one. Nothing is re-fetched
+   or re-rendered here, so the list does not move under the pointer. */
+async function toggleRow(row, tr) {
+  const open = tr.nextElementSibling;
+  const isOpenForThisRow = open && open.classList.contains('row-detail')
+                           && open.dataset.for === String(row.id);
+
+  // Only one open at a time: collapsing first keeps the list short enough to
+  // scan, which is the point of expanding in place.
+  const table = tr.closest('table');
+  table.querySelectorAll('tr.row-detail').forEach((n) => n.remove());
+  table.querySelectorAll('tr.is-selected').forEach((n) => n.classList.remove('is-selected'));
+
+  if (isOpenForThisRow) {
+    state.selectedId = null;
+    return;
+  }
+
+  state.selectedId = row.id;
+  tr.classList.add('is-selected');
+
+  const host = el('td', { colspan: String(COLUMNS) }, [
+    el('div', { class: 'row-detail__inner' }, [el('div', { class: 'muted', text: 'Loading…' })]),
   ]);
+  const detailRow = el('tr', { class: 'row-detail', dataset: { for: String(row.id) } }, [host]);
+  tr.after(detailRow);
 
-  const longNodes = LONG_FIELDS
-    .filter(([key]) => (record[key] || '').toString().trim())
-    .map(([key, label]) => el('div', { class: 'detail-row' }, [
-      el('span', { class: 'detail-row__label', text: label }),
-      el('div', { class: 'detail-row__value', text: String(record[key]) }),
-    ]));
-
-  return el('div', { class: 'card' }, [
-    el('div', { class: 'card__header' }, [
-      el('div', {}, [
-        el('h2', { class: 'card__title', text: `Application #${record.id}` }),
-        el('p', { class: 'card__hint', text: `${record.companyName || ''} - ${record.jobTitle || ''}` }),
+  try {
+    const record = await api.get(`/api/applications/${row.id}`);
+    // The row may have been collapsed again while the request was in flight.
+    if (!detailRow.isConnected) return;
+    host.replaceChildren(el('div', { class: 'row-detail__inner' }, [
+      el('div', { class: 'row-detail__head' }, [
+        el('h3', { class: 'row-detail__title', text: `Application #${record.id}` }),
+        readonlyTag(),
       ]),
-      readonlyTag(),
-    ]),
-    el('div', { class: 'card__body' }, [
-      summary,
-      el('div', { class: 'detail-list', style: 'margin-top:24px' }, longNodes),
-    ]),
-  ]);
+      applicationBody(record),
+    ]));
+    // Only nudge if the expansion pushed itself off-screen.
+    revealIfBelowFold(detailRow);
+  } catch (err) {
+    if (detailRow.isConnected) {
+      host.replaceChildren(el('div', { class: 'row-detail__inner' }, [
+        el('div', { class: 'muted', text: err.message }),
+      ]));
+    }
+    toast(err.message, 'error');
+  }
 }
 
-function detailRow(label, value) {
-  return el('div', { class: 'detail-row' }, [
-    el('span', { class: 'detail-row__label', text: label }),
-    el('div', { class: 'detail-row__value detail-row__value--inline', text: value }),
-  ]);
+/** Scroll only when the freshly opened record starts below the visible area --
+ *  expanding a row near the top should not move the page at all. */
+function revealIfBelowFold(node) {
+  requestAnimationFrame(() => {
+    const top = node.getBoundingClientRect().top;
+    if (top > window.innerHeight - 80) reveal(node);
+  });
 }
 
 /* ------------------------------------------------------------------ legacy */
@@ -172,48 +179,70 @@ export async function renderApplicationsOld(ctx) {
     return;
   }
 
-  let selected = null;
-  const body = el('div', {});
-
-  const draw = () => {
-    const table = el('div', { class: 'table-wrap' }, [
-      el('table', { class: 'table' }, [
-        el('thead', {}, [el('tr', {}, [
-          el('th', { text: 'ID' }), el('th', { text: 'User' }), el('th', { text: 'Opening info' }),
-        ])]),
-        el('tbody', {}, rows.map((row) => el('tr', {
-          class: row.id === (selected && selected.id) ? 'is-selected' : '',
-          onclick: () => { selected = row; draw(); },
-        }, [
-          el('td', { class: 'table__num', text: row.id }),
-          el('td', { class: 'table__num', text: row.user_id }),
-          el('td', { class: 'table__truncate', text: (row.opening_info || '').slice(0, 140) }),
-        ]))),
-      ]),
+  // Expanded in place, like the main table. This one is not paginated at all,
+  // so a record shown below the list landed 3000px down.
+  const tableRows = rows.map((row) => {
+    const caret = el('span', { class: 'caret', text: '›' });
+    const tr = el('tr', {}, [
+      el('td', { class: 'table__num' }, [caret, ` ${row.id}`]),
+      el('td', { class: 'table__num', text: row.user_id }),
+      el('td', { class: 'table__truncate', text: (row.opening_info || '').slice(0, 140) }),
     ]);
+    tr.addEventListener('click', () => toggleLegacyRow(row, tr));
+    return tr;
+  });
 
-    const nodes = [el('div', { class: 'card' }, [
-      el('div', { class: 'card__header' }, [
-        el('div', {}, [el('h2', { class: 'card__title', text: 'Legacy applications' })]),
-        readonlyTag(),
+  mount(el('div', { class: 'card' }, [
+    el('div', { class: 'card__header' }, [
+      el('div', {}, [el('h2', { class: 'card__title', text: 'Legacy applications' })]),
+      readonlyTag(),
+    ]),
+    el('div', { class: 'card__body card__body--flush' }, [
+      el('div', { class: 'table-wrap' }, [
+        el('table', { class: 'table' }, [
+          el('thead', {}, [el('tr', {}, [
+            el('th', { text: 'ID' }), el('th', { text: 'User' }), el('th', { text: 'Opening info' }),
+          ])]),
+          el('tbody', {}, tableRows),
+        ]),
       ]),
-      el('div', { class: 'card__body card__body--flush' }, [table]),
-    ])];
+    ]),
+  ]));
+}
 
-    if (selected) {
-      nodes.push(card(`Legacy record #${selected.id}`, null, [
-        el('div', { class: 'detail-list' }, [
-          ['opening_info', 'Opening info'], ['resume', 'Resume'], ['cover_letter', 'Cover letter'],
-        ].filter(([k]) => (selected[k] || '').trim()).map(([k, label]) => el('div', { class: 'detail-row' }, [
-          el('span', { class: 'detail-row__label', text: label }),
-          el('div', { class: 'detail-row__value', text: selected[k] }),
-        ]))),
-      ], [readonlyTag()]));
-    }
+const LEGACY_FIELDS = [
+  ['opening_info', 'Opening info'],
+  ['resume', 'Resume'],
+  ['cover_letter', 'Cover letter'],
+];
 
-    body.replaceChildren(...nodes);
-  };
+function toggleLegacyRow(row, tr) {
+  const open = tr.nextElementSibling;
+  const isOpenForThisRow = open && open.classList.contains('row-detail')
+                           && open.dataset.for === String(row.id);
 
-  draw();
-  mount(body);
+  const table = tr.closest('table');
+  table.querySelectorAll('tr.row-detail').forEach((n) => n.remove());
+  table.querySelectorAll('tr.is-selected').forEach((n) => n.classList.remove('is-selected'));
+  if (isOpenForThisRow) return;
+
+  tr.classList.add('is-selected');
+  const detailRow = el('tr', { class: 'row-detail', dataset: { for: String(row.id) } }, [
+    el('td', { colspan: '3' }, [
+      el('div', { class: 'row-detail__inner' }, [
+        el('div', { class: 'row-detail__head' }, [
+          el('h3', { class: 'row-detail__title', text: `Legacy record #${row.id}` }),
+          readonlyTag(),
+        ]),
+        el('div', { class: 'detail-list' },
+          LEGACY_FIELDS.filter(([k]) => (row[k] || '').trim()).map(([k, label]) =>
+            el('div', { class: 'detail-row' }, [
+              el('span', { class: 'detail-row__label', text: label }),
+              el('div', { class: 'detail-row__value', text: row[k] }),
+            ]))),
+      ]),
+    ]),
+  ]);
+  tr.after(detailRow);
+  revealIfBelowFold(detailRow);
 }
