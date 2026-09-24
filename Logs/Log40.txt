@@ -1,0 +1,526 @@
+[CT]     0.0ms | RunUser | ENTER | Tommy Orok (id=9)
+[CT]     0.0ms | __main__ | started worker thread for user id=9
+[CT]     1.0ms | start_up | ENTER | https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198
+[CT]     0.5ms | start_up | launching chrome.exe | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=12416
+[CT]     6.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:12416/json/version sees='attempt=0'
+[CT]  6540.2ms | start_up | EXIT |  result=https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198
+[CT]   201.5ms | RunUser | READY | Tommy Orok (id=9) is on the home page and paused
+[CT]     0.5ms | StateMachine | PAUSED | waiting for a command from the Run tab
+[CT] 50343.7ms | StateMachine | RESUMED
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]   151.2ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198|Flexible Python Jobs � Apply Today to Work From Home 
+[CT]  1018.7ms | reportAction | Calling function: newApp() in environment: https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198|Flexible Python Jobs � Apply Today to Work From Home in Remote (September 18, 2026) | Inde
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: newApp()  (from state initNewApp)
+[CT]     https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198
+[CT]     "Flexible Python Jobs � Apply Today to Work From Home in Remote (September 18, 2026) | Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]   109.8ms | process_job_openings | 16 job cards on this page
+[CT]    54.0ms | smartClick | ENTER | .//a
+[CT]    27.8ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]   188.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]   255.6ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    66.3ms | reportAction | clicked <element: full details of Head of AI Revenue Automation> successfully!
+[CT]     2.9ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply']
+[CT]    13.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=1'
+[CT]   210.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=2'
+[CT]   208.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=3'
+[CT]   207.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=4'
+[CT]  1139.8ms | reportAction | found element //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on
+[CT]     4.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    14.5ms | smartClick | ENTER | //*[@data-testid='inlineHeader-companyName'] | //*[@data-testid='company-info-metadata']//a[@role='link']
+[CT]   107.4ms | reportAction | found element //*[@data-testid='inlineHeader-companyName'] | //*[@data-testid='company-info-metadata']//a[@role='link'] but did not click because text did not match: dsfdsd324
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.9ms | smartClick | ENTER | //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 | //*[@data-testid='vj-job-title']
+[CT]    68.4ms | reportAction | found element //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 | //*[@data-testid='vj-job-title'] but did not click because text did not match: adfddfsa
+[CT]     4.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    35.5ms | smartClick | ENTER | //*[@id='jobDescriptionText'] | //*[contains(@class,'simple-job-description-html')]
+[CT]    60.1ms | reportAction | found element //*[@id='jobDescriptionText'] | //*[contains(@class,'simple-job-description-html')] but did not click because text did not match: adsfdasf134
+[CT]     4.5ms | smartClick | EXIT |  result=text condition mismatch
+starting: avoid_job_characteristics_prompts2.txt @ 10:51:22 ... (will time out @ 10:52:52)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:51:29
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+starting: job_desc_prompts2.txt @ 10:51:51 ... (will time out @ 10:53:21)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:52:25
+starting: job_desc_prompts2.txt @ 10:52:25 ... (will time out @ 10:53:55)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:52:50
+starting: job_desc_prompts2.txt @ 10:52:50 ... (will time out @ 10:54:20)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:53:17
+starting: job_desc_prompts2.txt @ 10:53:17 ... (will time out @ 10:54:47)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:53:39
+starting: cover_letter_prompts2.txt @ 10:53:39 ... (will time out @ 10:55:09)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:54:17
+starting: skills_prompts2.txt @ 10:54:17 ... (will time out @ 10:55:47)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:54:39
+starting: skills_prompts_cleaning.txt @ 10:54:39 ... (will time out @ 10:56:09)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:55:29
+starting: headline_prompts2.txt @ 10:55:29 ... (will time out @ 10:56:59)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:55:39
+starting: summary_prompts2.txt @ 10:55:39 ... (will time out @ 10:57:09)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 10:56:06
+[CT] 283991.0ms | reportAction | Transitioning  STATE from initNewApp to start
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     5.2ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/viewjob?jk=34d29669ada0d2d4&q=Python&l=Remote&tk=1k2qfuhokgicp802&from=web&advn=4555735918286253&
+[CT]  1007.6ms | reportAction | Calling function: startApplication() in environment: https://www.indeed.com/viewjob?jk=34d29669ada0d2d4&q=Python&l=Remote&tk=1k2qfuhokgicp802&from=web&advn=4555735918286253&adid=467877894&ad=-6NYlbfkN
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startApplication()  (from state start)
+[CT]     https://www.indeed.com/viewjob?jk=34d29669ada0d2d4&q=Python&l=Remote&tk=1k2qfuhokgicp802&from=web&advn=4555735918286253&adid=467877894&ad=-6NYlbfkN0CW8NfNVKdxBRgx6m7T5HzbjZogE2UyIz9nI6iT4Z-9LUXoXBxLTUZ8EFF3KV1GS8hC6HnWJVaW7UADgTTI0mN-J7FlY7IwSxYnoqm6ysWEsmdfNXb4Y-H8lZIwnhG_QED50Y54_7q7v9ltHkPC8-sX0E-VK7wcyVEBCgtmLfJU5CIl5ceWP7BEIdBklI_-nMNGU_2m1vAE3RS5sHXx8ogEJEvqWZ5dK7MJlWo7rjbimIR40bRlNM3CbUBIx4-Pdotsq39AjNZc7ywGAe1DoCAvES9gsvPeWsrqfNqh1XzwqxrNX4ZoL1ofuWOpSgV2S6hcQ_TLw0SfZqBD9zVTVO-TVWksY9S0cM0Ms48jq7GGwzU3FyTfddzxhGmsVpUxWYaDjsrllc9ZpcIXNat6B50f3lUdhmI9pXpncgTrcgBZk6gVciBs9SXncvZ8myxp5TFBPuj3zgYA2kdgzJg3n4HaF8GIhYU63XuPkUI91u2nmcI3aLjxIDwTbvzMypRjaYKVFc8gWntSAgu0JFi0esGifzgPZpGBmqaeop_o0ETeCKA3DhCPP2ZhJ4JCZrbMKa89CkEwIbu5CT761Rreg0N-DocAYj5RtSe2C08qM_SkcvFirSZLQEJ6Kd9OW62sRrrRMHPYCd7zLVj1CYjWB6aRBshhAr9JGzdfemQO7fRQXC8WiUOHCF8M&pub=4a1b367933fd867b19b072952f68dceb&camk=C3EPSzFlQw-PDHvOyvP-AA%3D%3D&xkcb=SoBW6_M2eaX1mcSLKB0LbzkdCdPP&xpse=SoAr6_I2eaoO92yRFZ0IbzkdCdPP&xfps=a397929f-5a05-435c-9810-37307480537f&vjs=3
+[CT]     "Head of AI Revenue Automation - Remote - Indeed.com"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Applied']
+[CT]     7.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=1'
+[CT]   210.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=2'
+[CT]   209.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.6ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=3'
+[CT]   209.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=4'
+[CT]   207.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=5'
+[CT]   209.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=6'
+[CT]   212.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=7'
+[CT]   210.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=8'
+[CT]   208.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=9'
+[CT]   211.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=10'
+[CT]   210.9ms | reportAction | * * * Time OUT.  Spent 2 secs waiting for //*[text()='Applied'] * * *
+[CT]     2.6ms | smartClick | EXIT |  result=not found
+[CT]     5.8ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply']
+[CT]  4266.4ms | reportAction | clicked //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indee
+[CT]     2.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from start to hitApply
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]    29.8ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/review-module|Review the contents of this job application | Indeed
+[CT]  1003.2ms | reportAction | Calling function: hitEditFromReviewPage() in environment: https://smartapply.indeed.com/beta/indeedapply/form/review-module|Review the contents of this job application | Indeed
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: hitEditFromReviewPage()  (from state hitApply)
+[CT]     https://smartapply.indeed.com/beta/indeedapply/form/review-module
+[CT]     "Review the contents of this job application | Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]    15.8ms | waitOutLoading | WAIT | for=the page to finish loading sees='limit=45s'
+[CT]  2416.8ms | smartClick | ENTER | //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')]
+[CT]     7.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=1'
+[CT]   214.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=2'
+[CT]   211.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=3'
+[CT]   207.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=4'
+[CT]   211.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=5'
+[CT]   209.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=6'
+[CT]   210.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=7'
+[CT]   210.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=8'
+[CT]   210.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=9'
+[CT]   210.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=10'
+[CT]   210.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=11'
+[CT]   213.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=12'
+[CT]   224.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=13'
+[CT]   220.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=14'
+[CT]   212.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=15'
+[CT]   215.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=16'
+[CT]   212.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=17'
+[CT]   210.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=18'
+[CT]   209.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'resume')] | //*[starts-with(@aria-label, 'Edit') and contains(@aria-label, 'Resume')] sees='attempt=19'
+[CT]   212.2ms | reportAction | * * * Time OUT.  Spent 4 secs waiting for //*[@data-testid="ResumeSection-edit-button"] | //*[@data-testid="resume-section-edit-button"] | //*[@aria-label='Edit resume'] | //*[starts-with(@aria-label,
+[CT]     2.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | ENTER | //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20]
+[CT]    22.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=1'
+[CT]   230.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=2'
+[CT]   224.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=3'
+[CT]   219.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=4'
+[CT]   225.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=5'
+[CT]   224.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=6'
+[CT]   226.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=7'
+[CT]   220.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=8'
+[CT]   231.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=9'
+[CT]   224.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=10'
+[CT]   224.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=11'
+[CT]   225.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=12'
+[CT]   222.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=13'
+[CT]   225.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=14'
+[CT]   226.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=15'
+[CT]   224.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=16'
+[CT]   223.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=17'
+[CT]   228.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] sees='attempt=18'
+[CT]   224.7ms | reportAction | * * * Time OUT.  Spent 4 secs waiting for //*[contains(translate(normalize-space(text()), 'RESUME', 'resume'), 'resume') and string-length(normalize-space(text())) < 20] * * *
+[CT]     2.7ms | smartClick | EXIT |  result=not found
+[CT]    15.2ms | reportAction | This application's review page has no resume edit step, so it goes straight on to supporting documents and submission.
+[CT]     0.0ms | reportAction | Transitioning  STATE from hitApply to didContactInfo
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]     4.2ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/review-module|Review the contents of this job application | Indeed
+[CT]  1009.6ms | reportAction | Calling function: clickAddDocs() in environment: https://smartapply.indeed.com/beta/indeedapply/form/review-module|Review the contents of this job application | Indeed
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: clickAddDocs()  (from state didContactInfo)
+[CT]     https://smartapply.indeed.com/beta/indeedapply/form/review-module
+[CT]     "Review the contents of this job application | Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]    25.4ms | smartClick | ENTER | //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')]
+[CT]     7.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=1'
+[CT]   211.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=2'
+[CT]   210.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=3'
+[CT]   209.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=4'
+[CT]   213.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=5'
+[CT]   209.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=6'
+[CT]   207.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=7'
+[CT]   209.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=8'
+[CT]   211.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=9'
+[CT]   211.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=10'
+[CT]   212.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=11'
+[CT]   211.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=12'
+[CT]   208.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=13'
+[CT]   209.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=14'
+[CT]   213.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=15'
+[CT]   221.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=16'
+[CT]   213.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.7ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=17'
+[CT]   210.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=18'
+[CT]   212.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=19'
+[CT]   208.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=20'
+[CT]   209.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=21'
+[CT]   215.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=22'
+[CT]   209.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=23'
+[CT]   211.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=24'
+[CT]   212.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=25'
+[CT]   210.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=26'
+[CT]   209.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=27'
+[CT]   212.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'supporting')] | //*[starts-with(@aria-label, 'Add') and contains(@aria-label, 'Supporting')] sees='attempt=28'
+[CT]   227.9ms | reportAction | * * * Time OUT.  Spent 6 secs waiting for //*[@aria-label='Add supporting documents'] | //*[@data-testid='SupportingDocumentsSection-add-button'] | //*[starts-with(@aria-label, 'Add') and contains(@ar
+[CT]     4.5ms | smartClick | EXIT |  result=not found
+[CT]   320.1ms | smartClick | ENTER
+[CT]   729.0ms | reportAction | clicked <element: Add supporting documents> successfully!
+[CT]     3.6ms | smartClick | EXIT |  result=clicked
+[CT]     0.6ms | reportAction | Transitioning  STATE from didContactInfo to clickedAddDocs
+[CT]     1.1ms | getCurrentEnv | ENTER
+[CT]    44.3ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/resume-module|Review the contents of this job application | Indeed
+[CT]  1013.4ms | reportAction | Calling function: addDocs() in environment: https://smartapply.indeed.com/beta/indeedapply/form/resume-module|Review the contents of this job application | Indeed
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: addDocs()  (from state clickedAddDocs)
+[CT]     https://smartapply.indeed.com/beta/indeedapply/form/resume-module
+[CT]     "Review the contents of this job application | Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     7.4ms | smartClick | ENTER | //*[@data-testid='cover-letter-radio-card-input']
+[CT]    39.9ms | reportAction | found element //*[@data-testid='cover-letter-radio-card-input'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]    22.0ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=1'
+[CT]   214.3ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=2'
+[CT]   218.3ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=3'
+[CT]   217.0ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=4'
+[CT]   216.4ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=5'
+[CT]   212.9ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=6'
+[CT]   214.1ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=7'
+[CT]   215.3ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=8'
+[CT]   217.4ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=9'
+[CT]   216.1ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=10'
+[CT]   216.7ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=11'
+[CT]   215.9ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=12'
+[CT]   215.3ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=13'
+[CT]   214.2ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=14'
+[CT]   217.4ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=15'
+[CT]   211.5ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=16'
+[CT]   216.1ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=17'
+[CT]   216.2ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=18'
+[CT]   216.2ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=19'
+[CT]   219.8ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=20'
+[CT]   217.1ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=21'
+[CT]   214.7ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=22'
+[CT]   215.6ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=23'
+[CT]   216.2ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=24'
+[CT]   214.3ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=25'
+[CT]   217.8ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=26'
+[CT]   212.2ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=27'
+[CT]   215.1ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=28'
+[CT]   215.6ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=29'
+[CT]   217.8ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=30'
+[CT]   217.0ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=31'
+[CT]   219.1ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=32'
+[CT]   216.5ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=33'
+[CT]   219.0ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=34'
+[CT]   213.9ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=35'
+[CT]   216.1ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=36'
+[CT]   218.2ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=37'
+[CT]   215.1ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=38'
+[CT]   216.5ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=39'
+[CT]   215.5ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=40'
+[CT]   214.7ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=41'
+[CT]   218.6ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=42'
+[CT]   214.4ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=43'
+[CT]   218.6ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=44'
+[CT]   214.2ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=45'
+[CT]   218.4ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=46'
+[CT]   218.9ms | smartClick | WAIT | for=all 1 matches still hidden sees='attempt=47'
+[CT]   219.9ms | reportAction | 1 element(s) matched <element: (unnamed entry)> but none are visible, so there was nothing to click.
+[CT]     0.0ms | smartClick | EXIT |  result=matched only hidden elements
+[CT]  3087.6ms | smartClick | ENTER | //*[@data-testid='cover-letter-radio-card-label']
+[CT]    31.4ms | reportAction | found element //*[@data-testid='cover-letter-radio-card-label'] but did not click because text did not match: @#$ never matches %^&
+[CT]     4.0ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]   124.0ms | reportAction | clicked <element: (unnamed entry)> successfully!
+[CT]     4.1ms | smartClick | EXIT |  result=clicked
+[CT]  3098.6ms | smartClick | ENTER | //*[@data-testid='cover-letter-radio-card']
+[CT]    34.7ms | reportAction | found element //*[@data-testid='cover-letter-radio-card'] but did not click because text did not match: @#$ never matches %^&
+[CT]     3.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     0.0ms | smartClick | ENTER
+[CT]   125.4ms | reportAction | clicked <element: (unnamed entry)> successfully!
+[CT]     4.2ms | smartClick | EXIT |  result=clicked
+[CT]  3171.7ms | smartClick | ENTER | //div[@data-testid='CoverLetterRadioCard']
+[CT]     5.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=1'
+[CT]   213.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=2'
+[CT]   211.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=3'
+[CT]   210.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=4'
+[CT]   210.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.8ms | smartClick | EXIT |  result=not found
+[CT]     1.6ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=5'
+[CT]   209.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=6'
+[CT]   271.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=7'
+[CT]   212.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=8'
+[CT]   219.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=9'
+[CT]   209.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=10'
+[CT]   209.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=11'
+[CT]   211.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=12'
+[CT]   209.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.1ms | smartClick | EXIT |  result=not found
+[CT]     1.2ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=13'
+[CT]   209.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=14'
+[CT]   212.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     4.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=15'
+[CT]   213.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=16'
+[CT]   210.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=17'
+[CT]   210.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //div[@data-testid='CoverLetterRadioCard'] sees='attempt=18'
+[CT]   213.2ms | reportAction | * * * Time OUT.  Spent 4 secs waiting for //div[@data-testid='CoverLetterRadioCard'] * * *
+[CT]     2.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Could not select the 'write a cover letter' option; 'No cover letter' is the one that comes preselected, so the letter would not be attached.
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid='cover-letter-radio-card-text-area'] | //textarea[@aria-label='Write a cover letter'] | //textarea
+[CT]    35.9ms | reportAction | found element //*[@data-testid='cover-letter-radio-card-text-area'] | //textarea[@aria-label='Write a cover letter'] | //textarea but did not click because text did not match: @#$ never matches %^&
+[CT]     2.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    93.7ms | smartClick | ENTER | //*[@data-testid="continue-button"] | //button[normalize-space(.)='Continue'] | //button[normalize-space(.)='Update'] | //button[normalize-space(.)='Review your application']
+[CT]    37.0ms | reportAction | found element //*[@data-testid="continue-button"] | //button[normalize-space(.)='Continue'] | //button[normalize-space(.)='Update'] | //button[normalize-space(.)='Review your application'] but did not
+[CT]     4.4ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     8.8ms | smartClick | ENTER
+[CT]  1629.1ms | reportAction | clicked <element: (unnamed entry)> successfully!
+[CT]     4.5ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from clickedAddDocs to finishedAddingDocs
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     5.1ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/review-module|Review the contents of this job application | Indeed
+[CT]  1004.8ms | reportAction | Calling function: submitApp() in environment: https://smartapply.indeed.com/beta/indeedapply/form/review-module|Review the contents of this job application | Indeed
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: submitApp()  (from state finishedAddingDocs)
+[CT]     https://smartapply.indeed.com/beta/indeedapply/form/review-module
+[CT]     "Review the contents of this job application | Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.4ms | StateMachine | STUCK | submitApp() could not continue -- https://smartapply.indeed.com/beta/indeedapply/form/review-module|Review the contents of t
+[CT]     0.0ms | StateMachine | NEEDS ATTENTION | STUCK: submitApp() could not continue -- pausing and alerting
+[CT]     0.0ms | reportAction | TEMPORARY STOP before submitting: check that the cover letter (and any supporting documents) were actually added correctly on this application before pressing Start applying. This stop is deliberate a
+[CT] 10708.2ms | StateMachine | ATTENTION CLEARED | STUCK: submitApp() could not continue: https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module|Uplo
+[CT]     0.6ms | reportAction | The page moved on. Press Start applying to continue.
+[CT]     0.6ms | StateMachine | PAUSED | waiting for a command from the Run tab

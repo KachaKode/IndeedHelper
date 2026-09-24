@@ -22,15 +22,7 @@ PLACE&&HOLDER&&
 Now look at my description of my duties as a PLACE&&HOLDER&& at a PLACE&&HOLDER&& Company, let's call it DESC2:
 PLACE&&HOLDER&&
 
-First, identify any essential qualifications, required experience, or core responsibilities listed in DESC1.  Keep those in mind as targets to hit.
-
-Now, come up with 3 duties/responsibilities for the resume.  All 3 must be grounded in what DESC2 actually describes, meaning they should be things a person in the DESC2 role plausibly did.  However, reword and frame each one so it highlights relevance to DESC1.  Specifically:
-
-- POINT1: Take a duty from DESC2 and reword it to emphasize how it aligns with a core responsibility or need in DESC1.
-- POINT2: Take another duty from DESC2 and reword it to demonstrate one of the essential qualifications or required experience listed in DESC1.  If DESC1 lists essential qualifications that are generic (e.g. communication skills, customer-facing experience, computer skills), draw from DESC2 to show those qualities.  Do NOT invent experience in a domain or industry that DESC2 does not cover.  For example, if DESC1 is a healthcare role but DESC2 has no healthcare experience, do not fabricate healthcare-specific work.  Instead, highlight transferable skills from DESC2 that map to the qualification.
-- POINT3: Take a third duty from DESC2 and reword it to address a different aspect of DESC1 than POINT1 and POINT2 did.
-
-The key rule: every point must be traceable to something in DESC2.  You may reword, emphasize, and reframe to make the connection to DESC1 clear, but you may not invent duties, industries, or domains that are not present in DESC2.  If DESC1 requires specific experience that DESC2 does not cover, find the closest transferable skill from DESC2 and frame it toward that requirement rather than fabricating the missing experience.
+Come up with a duty/responsibility that someone working a job described by DESC2 would do that is also very relevant to DESC1, let's call that POINT1.  Now, I want you to pick 2 duties/responsibilities that someone working a position described by DESC1 would do that are also very relevant to either DESC2 or anything else a PLACE&&HOLDER&& might do at a PLACE&&HOLDER&& Company.  Let's call these POINT2 and POINT3.
 
 PLACE&&HOLDER&&
 

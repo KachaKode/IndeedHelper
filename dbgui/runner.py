@@ -81,9 +81,17 @@ class UserRun:
             self.last_activity = (f"{reason.title()}: the run is paused and waiting for you. "
                                   f"Check the browser window, then press Start applying.")
         elif "ATTENTION CLEARED" in line:
-            self.state = "paused"
             self.attention_reason = None
-            self.last_activity = "Resolved. Press Start applying to continue."
+            # "[auto-resume]" means main3.py already cleared its own selfPaused
+            # flag and is carrying on by itself -- nobody was needed to look at
+            # this one (e.g. a stuck page that unstuck itself). "paused" here
+            # would just be wrong: the bot is not waiting on anyone.
+            if "[auto-resume]" in line:
+                self.state = "running"
+                self.last_activity = "Resolved on its own. Continuing."
+            else:
+                self.state = "paused"
+                self.last_activity = "Resolved. Press Start applying to continue."
         elif "| PAUSED |" in line:
             self.state = "paused"
         elif "| RESUMED" in line:
@@ -234,7 +242,14 @@ class RunnerManager:
                 # -u (unbuffered) matters: without it, plain print() output from
                 # the bot and the GPT helpers sits in a pipe buffer indefinitely,
                 # so a failure that is being logged still looks like silence.
-                env = dict(os.environ, PYTHONUNBUFFERED="1")
+                # PYTHONIOENCODING matches the encoding this pipe is read with
+                # below. Without it the child encodes its output as cp1252,
+                # which cannot represent characters that appear in real job
+                # titles -- printing one raised UnicodeEncodeError and ended
+                # the run (Logs/Log46.txt). main3 also sets this on itself; the
+                # variable additionally covers output from before it is
+                # imported, such as an import error's traceback.
+                env = dict(os.environ, PYTHONUNBUFFERED="1", PYTHONIOENCODING="utf-8:replace")
                 process = subprocess.Popen(
                     [sys.executable, "-u", str(self.project_root / "main3.py"),
                      "--user-id", str(user_id)],
@@ -267,6 +282,17 @@ class RunnerManager:
                     # Done here so the GUI stays the only writer of the control file.
                     if "NEEDS ATTENTION" in line:
                         self.write_control(run.user_id, mode="paused")
+                    # ...but some of those resolve themselves (see the
+                    # "[auto-resume]" comment in main3.py's pauseAndAlert): the
+                    # bot already cleared its own selfPaused and moved on. Without
+                    # this, the control file was left "paused" from the write
+                    # above with nothing to ever undo it, so the bot sat blocked
+                    # on its OWN mode() check even after resolving the situation
+                    # by itself (Logs/Log44.txt: cleared automatically at line
+                    # 1233, then still needed a human to press Start applying at
+                    # line 1235).
+                    elif "ATTENTION CLEARED" in line and "[auto-resume]" in line:
+                        self.write_control(run.user_id, mode="running")
         except Exception as exc:  # noqa: BLE001 - reading a dying pipe should not kill the thread
             run.note(f"[runner] stopped reading output: {exc}")
         finally:
@@ -343,6 +369,29 @@ class RunnerManager:
             return int(row[0])
         except Exception:  # noqa: BLE001 - a status poll must never raise
             return 0
+
+    def applications_by_search(self, user_id: int) -> dict[int, int]:
+        """Per-job_search application counts for user_id's current run, same
+        principle as _applications_since but grouped by search_id. Powers the
+        "this session" column on the Job Searches page. Empty when nothing is
+        running for this user -- the GUI shows 0 for every row in that case.
+        """
+        with self._lock:
+            run = self.runs.get(user_id)
+        if run is None:
+            return {}
+        stamp = run.started_at.strftime("%Y-%m-%d %H:%M:%S")
+        try:
+            with self.db._connect() as conn:
+                rows = conn.execute(
+                    "SELECT search_id, COUNT(*) AS n FROM applications "
+                    "WHERE user_id = ? AND DateTime >= ? AND search_id IS NOT NULL "
+                    "GROUP BY search_id",
+                    (user_id, stamp),
+                ).fetchall()
+            return {int(r["search_id"]): int(r["n"]) for r in rows}
+        except Exception:  # noqa: BLE001 - a status poll must never raise
+            return {}
 
     def full_log(self, user_id: int) -> str:
         """Everything this run has printed, not just the displayed tail."""

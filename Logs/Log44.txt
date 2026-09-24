@@ -1,0 +1,1259 @@
+[CT]     0.0ms | RunUser | ENTER | Tommy Orok (id=9)[CT]     1.5ms | __main__ | started worker thread for user id=9
+[CT]     1.0ms | start_up | ENTER | https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198
+[CT]     0.5ms | start_up | launching chrome.exe | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=4261
+[CT]     9.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:4261/json/version sees='attempt=0'
+[CT]  7236.7ms | start_up | EXIT |  result=https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198
+[CT]    10.7ms | RunUser | READY | Tommy Orok (id=9) is on the home page and paused
+[CT]     1.5ms | StateMachine | PAUSED | waiting for a command from the Run tab
+[CT] 18098.8ms | StateMachine | RESUMED
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]   144.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    56.7ms | smartClick | WAIT | for=recovering from Error sees='Page.query_selector_all: Execution context was destroyed, most likely because of a navigation'
+[CT]     1.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   557.9ms | smartClick | EXIT |  result=not found
+[CT]   218.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1011.9ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198|Flexible Python Jobs � Apply Today to Work From Home 
+[CT]  1022.9ms | reportAction | Calling function: newApp() in environment: https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198|Flexible Python Jobs � Apply Today to Work From Home in Remote (September 23, 2026) | Inde
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: newApp()  (from state initNewApp)
+[CT]     https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198
+[CT]     "Flexible Python Jobs � Apply Today to Work From Home in Remote (September 23, 2026) | Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]    67.7ms | process_job_openings | 16 job cards on this page
+[CT]   142.5ms | smartClick | ENTER | .//a
+[CT]    40.4ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]   255.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     9.3ms | smartClick | ENTER
+[CT]   556.0ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    77.5ms | reportAction | clicked <element: full details of Lead Prisma Cloud Security Engineer> successfully!
+[CT]     2.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply']
+[CT]     9.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=1'
+[CT]   222.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=2'
+[CT]   222.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=3'
+[CT]   828.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   123.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=4'
+[CT]   355.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    66.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=5'
+[CT]   363.8ms | reportAction | found element //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on
+[CT]     4.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   122.4ms | smartClick | ENTER | //*[@data-testid='inlineHeader-companyName'] | //*[@data-testid='company-info-metadata']//a[@role='link']
+[CT]   743.2ms | reportAction | found element //*[@data-testid='inlineHeader-companyName'] | //*[@data-testid='company-info-metadata']//a[@role='link'] but did not click because text did not match: dsfdsd324
+[CT]     4.1ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    41.7ms | smartClick | ENTER | //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 | //*[@data-testid='vj-job-title']
+[CT]   111.7ms | reportAction | found element //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 | //*[@data-testid='vj-job-title'] but did not click because text did not match: adfddfsa
+[CT]     3.5ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    16.9ms | smartClick | ENTER | //*[@id='jobDescriptionText'] | //*[contains(@class,'simple-job-description-html')]
+[CT]   149.3ms | reportAction | found element //*[@id='jobDescriptionText'] | //*[contains(@class,'simple-job-description-html')] but did not click because text did not match: adsfdasf134
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+starting: avoid_job_characteristics_prompts2.txt @ 17:31:36 ... (will time out @ 17:33:06)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:31:43
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+starting: job_desc_prompts2.txt @ 17:32:05 ... (will time out @ 17:33:35)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:32:31
+starting: job_desc_prompts2.txt @ 17:32:31 ... (will time out @ 17:34:01)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:33:00
+starting: job_desc_prompts2.txt @ 17:33:00 ... (will time out @ 17:34:30)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:33:32
+starting: job_desc_prompts2.txt @ 17:33:32 ... (will time out @ 17:35:02)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:34:02
+starting: cover_letter_prompts2.txt @ 17:34:02 ... (will time out @ 17:35:32)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:35:00
+starting: skills_prompts2.txt @ 17:35:00 ... (will time out @ 17:36:30)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:35:27
+starting: skills_prompts_cleaning.txt @ 17:35:27 ... (will time out @ 17:36:57)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:36:20
+starting: headline_prompts2.txt @ 17:36:20 ... (will time out @ 17:37:50)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:36:31
+starting: summary_prompts2.txt @ 17:36:31 ... (will time out @ 17:38:01)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 17:37:00
+[CT] 324776.6ms | reportAction | Transitioning  STATE from initNewApp to start
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]    62.7ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/viewjob?jk=fdfe6063f9cfe024&q=Python&l=Remote&tk=1k382s86ng8q3800&from=web&advn=360637341199143&a
+[CT]  1017.4ms | reportAction | Calling function: startApplication() in environment: https://www.indeed.com/viewjob?jk=fdfe6063f9cfe024&q=Python&l=Remote&tk=1k382s86ng8q3800&from=web&advn=360637341199143&adid=458387949&ad=-6NYlbfkN0
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startApplication()  (from state start)
+[CT]     https://www.indeed.com/viewjob?jk=fdfe6063f9cfe024&q=Python&l=Remote&tk=1k382s86ng8q3800&from=web&advn=360637341199143&adid=458387949&ad=-6NYlbfkN0BjtMmumZExjFGZu2kX4LmoC0ZWK4i5eSAkFO-E1hYx7aOICz577rMJiaFGw55ZEuEjKAi6nDFPrR-KAihDRr_SPPIZr_LoW2m14KlLMrbpfJ37yNH6OtzXFUJS5jgQTpTXYCckxJ2SdtdQ2MK4mOGcIZlyE1F7Ne_yCwfnBlvOo42n6cpS5s-CtvQArl7fCnHtAxzHPLTu7BrSo7vlwiVGGMEVs82ufATrPPk0D4fV-DQMQkavG72LF1YTFN2jsLSVOCOyHz9f9W09_lYEF6Tbqr7Q4jTTXsVDEVJn_KzpHDRCZSbvAgKNOPp0_ltgIrJGgk9JkX0UTSB1nE9TUbF2V1ZRb_6pbqP0LMRZV--HuwjJ01mlNp_czMH2d_6F6KRhcqLB8cLjthOZ9mnmFp_ggB95dLzo_cOtEsYgDoVFkemxd9S61lXs_EO2TIBzvQRMx3bACCeJFytEvfbrLZndcyI8MwVebUd912Ge6JNqcUsOAYe09c5Io_EKy54Q7VOk70lBodQxbR_JKo0IEat8ucDfJKgxroYXTjPMxqSLJXyhiimr17cpkc7qLtzIOPNQ1kIyjRKbc_xXcwmvaIfhiUFpxxFB-OUXorVAJiU6E0_WvB8lr07g83utIYl62XsjUYF45gYkQm8_W0JqO0XlZB87YZ2SefF2bWRh3vIkbpBSi-uNYfMj&pub=4a1b367933fd867b19b072952f68dceb&camk=UoKtGZLa3XIGDENaNvX3fQ%3D%3D&xkcb=SoC_6_M2eoN-ywgQS70IbzkdCdPP&xpse=SoBr6_I2eoN9dugRGb0ObzkdCdPP&xfps=d3620c5c-9a6d-4612-a07e-db67dc0b9cf5&vjs=3
+[CT]     "Lead Prisma Cloud Security Engineer - Remote - Indeed.com"
+[CT] ------------------------------------------------------------------------------
+[CT]     1.0ms | smartClick | ENTER | //*[text()='Applied']
+[CT]    18.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=1'
+[CT]   207.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=2'
+[CT]   218.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     5.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=3'
+[CT]   212.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.6ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=4'
+[CT]   224.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=5'
+[CT]   218.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=6'
+[CT]   209.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     7.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=7'
+[CT]   222.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     6.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=8'
+[CT]   214.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.7ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[text()='Applied'] sees='attempt=9'
+[CT]   217.8ms | reportAction | * * * Time OUT.  Spent 2 secs waiting for //*[text()='Applied'] * * *
+[CT]     4.6ms | smartClick | EXIT |  result=not found
+[CT]    24.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply']
+[CT]  4853.1ms | reportAction | clicked //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indee
+[CT]     4.1ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from start to hitApply
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]   142.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   452.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1015.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1013.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1051.4ms | getCurrentEnv | EXIT |  result=https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume f
+[CT]  1007.1ms | reportAction | Calling function: startResume() in environment: https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume for this application | Indeed
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startResume()  (from state hitApply)
+[CT]     https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection
+[CT]     "Upload or create a resume for this application | Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     1.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-label"] | //*[@data-testid="resume-selection-structured-resume-radio-card"] | //*[@data-testid="IndeedResumeCard"]
+[CT]   207.0ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-label"] | //*[@data-testid="resume-selection-structured-resume-radio-card"] | //*[@data-testid="IndeedResumeCard"] successfully!
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options"]
+[CT]   200.8ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options"] successfully!
+[CT]     4.4ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options-editResumeDetails"] | //button[contains(normalize-space(.), 'Edit resume')] | //a[contains(normalize-space(.), 'Edit resume')]
+[CT]   818.1ms | reportAction | clicked //*[@data-testid="resume-selection-structured-resume-radio-card-resume-options-editResumeDetails"] | //button[contains(normalize-space(.), 'Edit resume')] | //a[contains(normalize-space(.), 'E
+[CT]     3.2ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from hitApply to startedOnResume
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     4.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]     3.2ms | rememberApplicationUrl | noted the way back | https://smartapply.indeed.com/beta/indeedapply/form?from=profile-resume-edit
+[CT]  1013.9ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.5ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    20.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   215.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   216.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   222.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=4'
+[CT]   214.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=5'
+[CT]   216.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=6'
+[CT]   222.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=7'
+[CT]   217.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=8'
+[CT]   219.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=9'
+[CT]   230.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=10'
+[CT]   223.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=11'
+[CT]   229.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=12'
+[CT]   221.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=13'
+[CT]   232.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=14'
+[CT]   217.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.3ms | smartClick | EXIT |  result=not found
+[CT]     0.8ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=15'
+[CT]   227.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=16'
+[CT]   217.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=17'
+[CT]   220.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=18'
+[CT]   217.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=19'
+[CT]   459.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    64.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=20'
+[CT]   217.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=21'
+[CT]   218.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=22'
+[CT]   217.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=23'
+[CT]   214.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=24'
+[CT]   215.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    22.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=25'
+[CT]   229.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=26'
+[CT]   221.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     8.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=27'
+[CT]   278.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   226.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=28'
+[CT]   221.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=29'
+[CT]   225.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=30'
+[CT]   218.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=31'
+[CT]   216.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=32'
+[CT]   213.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=33'
+[CT]   221.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=34'
+[CT]   215.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=35'
+[CT]   223.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    10.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=36'
+[CT]   220.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=37'
+[CT]   220.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=38'
+[CT]   220.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=39'
+[CT]   224.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=40'
+[CT]   221.7ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] * * *
+[CT]     4.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     1.1ms | getCurrentEnv | ENTER
+[CT]     7.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1005.7ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startAtTopOfReviewPage()  (from state startedEditContactInfo)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     1.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to startedOnResume
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]    14.9ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1003.1ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.5ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    37.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    27.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   230.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   238.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   215.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=4'
+[CT]   216.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=5'
+[CT]   217.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=6'
+[CT]   216.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=7'
+[CT]   221.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=8'
+[CT]   223.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=9'
+[CT]   225.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=10'
+[CT]   223.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=11'
+[CT]   229.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.9ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=12'
+[CT]   222.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=13'
+[CT]   222.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    73.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=14'
+[CT]   223.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=15'
+[CT]   218.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=16'
+[CT]   217.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=17'
+[CT]   224.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=18'
+[CT]   222.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.8ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=19'
+[CT]   229.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=20'
+[CT]   217.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=21'
+[CT]   214.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=22'
+[CT]   214.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=23'
+[CT]   219.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.8ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=24'
+[CT]   211.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=25'
+[CT]   220.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=26'
+[CT]   217.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=27'
+[CT]   227.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=28'
+[CT]   252.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=29'
+[CT]   237.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=30'
+[CT]   231.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=31'
+[CT]   248.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   145.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=32'
+[CT]   224.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=33'
+[CT]   325.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    82.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=34'
+[CT]   226.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=35'
+[CT]   231.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=36'
+[CT]   218.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=37'
+[CT]   221.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=38'
+[CT]   217.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    12.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=39'
+[CT]   215.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=40'
+[CT]   219.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=41'
+[CT]   229.3ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] * * *
+[CT]     4.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.5ms | getCurrentEnv | ENTER
+[CT]     8.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1009.8ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startAtTopOfReviewPage()  (from state startedEditContactInfo)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to startedOnResume
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]   152.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1003.3ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    25.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   221.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   218.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   216.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=4'
+[CT]   220.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=5'
+[CT]   225.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=6'
+[CT]   255.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    31.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=7'
+[CT]   644.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=8'
+[CT]   241.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=9'
+[CT]   269.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    43.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=10'
+[CT]   242.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    54.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=11'
+[CT]   244.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=12'
+[CT]   247.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=13'
+[CT]   250.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    69.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=14'
+[CT]   257.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    33.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=15'
+[CT]   475.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    66.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=16'
+[CT]   334.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   328.9ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=17'
+[CT]   235.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    40.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=18'
+[CT]   235.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=19'
+[CT]   287.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=20'
+[CT]   232.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    50.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=21'
+[CT]   246.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=22'
+[CT]   219.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    25.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=23'
+[CT]   247.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   104.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=24'
+[CT]  4074.8ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] * * *
+[CT]     3.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]   100.5ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1011.5ms | reportAction | Stuck on state 'startedEditContactInfo' -- seen 3 times on this page with no progress. Clicking, scrolling to the bottom, and clicking again (cycle 1 of 3), the way a person unsticks it.
+[CT]  3436.4ms | getCurrentEnv | ENTER
+[CT]    33.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1004.0ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startAtTopOfReviewPage()  (from state startedEditContactInfo)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     9.5ms | reportAction | Transitioning  STATE from startedEditContactInfo to startedOnResume
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]  2515.0ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1006.1ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    38.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    34.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   258.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    30.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   229.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   228.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=4'
+[CT]   394.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    99.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=5'
+[CT]   399.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    50.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=6'
+[CT]   472.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   118.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=7'
+[CT]   257.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    75.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=8'
+[CT]   336.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    86.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=9'
+[CT]   253.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    30.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=10'
+[CT]   278.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    48.7ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=11'
+[CT]   233.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=12'
+[CT]   257.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    59.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=13'
+[CT]   235.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.0ms | smartClick | EXIT |  result=not found
+[CT]     1.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=14'
+[CT]   219.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=15'
+[CT]   228.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=16'
+[CT]   229.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    50.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=17'
+[CT]   246.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    22.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=18'
+[CT]   258.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    86.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=19'
+[CT]   235.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    22.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=20'
+[CT]   246.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=21'
+[CT]   257.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    32.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=22'
+[CT]   243.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=23'
+[CT]   243.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    54.8ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=24'
+[CT]   270.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   216.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=25'
+[CT]   240.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    30.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=26'
+[CT]   265.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    37.5ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=27'
+[CT]   392.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    67.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=28'
+[CT]   231.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=29'
+[CT]   252.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=30'
+[CT]   230.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    29.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=31'
+[CT]   240.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    25.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=32'
+[CT]   304.8ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] * * *
+[CT]     3.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]    29.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1008.6ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startAtTopOfReviewPage()  (from state startedEditContactInfo)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to startedOnResume
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]   156.5ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1001.9ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    39.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    27.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   252.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   246.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   232.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=4'
+[CT]   223.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=5'
+[CT]   233.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=6'
+[CT]   224.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    46.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=7'
+[CT]   249.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=8'
+[CT]  1216.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    31.7ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=9'
+[CT]   260.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    80.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=10'
+[CT]   362.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    44.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=11'
+[CT]   281.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    27.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=12'
+[CT]   225.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    29.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=13'
+[CT]   241.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    29.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=14'
+[CT]   222.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=15'
+[CT]   225.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=16'
+[CT]   244.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=17'
+[CT]   223.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=18'
+[CT]   235.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    22.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=19'
+[CT]   231.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=20'
+[CT]   236.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=21'
+[CT]   232.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=22'
+[CT]   235.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=23'
+[CT]   227.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=24'
+[CT]   215.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=25'
+[CT]   230.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=26'
+[CT]   239.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.5ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=27'
+[CT]   241.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   144.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=28'
+[CT]   227.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=29'
+[CT]   228.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=30'
+[CT]   305.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   103.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=31'
+[CT]   260.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    38.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=32'
+[CT]   233.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.5ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=33'
+[CT]   230.6ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] * * *
+[CT]     4.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     1.1ms | getCurrentEnv | ENTER
+[CT]    13.4ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1008.5ms | reportAction | Stuck on state 'startedEditContactInfo' -- seen 3 times on this page with no progress. Clicking, scrolling to the bottom, and clicking again (cycle 2 of 3), the way a person unsticks it.
+[CT]  2589.6ms | getCurrentEnv | ENTER
+[CT]     9.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1004.8ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startAtTopOfReviewPage()  (from state startedEditContactInfo)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.5ms | reportAction | Transitioning  STATE from startedEditContactInfo to startedOnResume
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]    11.5ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1000.9ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    16.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   238.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   240.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    37.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   245.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    48.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=4'
+[CT]   268.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    94.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=5'
+[CT]   232.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=6'
+[CT]   235.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=7'
+[CT]   223.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=8'
+[CT]   240.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=9'
+[CT]   237.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    22.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=10'
+[CT]   296.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=11'
+[CT]   225.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=12'
+[CT]   221.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=13'
+[CT]   220.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=14'
+[CT]   238.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    39.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=15'
+[CT]   228.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=16'
+[CT]   231.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.5ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=17'
+[CT]   265.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   144.2ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=18'
+[CT]   255.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    31.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=19'
+[CT]   229.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=20'
+[CT]   266.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    64.6ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=21'
+[CT]   290.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    65.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=22'
+[CT]   225.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=23'
+[CT]   259.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=24'
+[CT]   684.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=25'
+[CT]  5782.4ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] * * *
+[CT]     4.6ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]  1094.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1005.7ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startAtTopOfReviewPage()  (from state startedEditContactInfo)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to startedOnResume
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]    96.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1012.0ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    83.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    65.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   493.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    82.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   306.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   266.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    33.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=4'
+[CT]   264.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    54.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=5'
+[CT]   403.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    30.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=6'
+[CT]   357.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    51.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=7'
+[CT]   315.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    35.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=8'
+[CT]   814.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   686.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=9'
+[CT]   254.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    69.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=10'
+[CT]   284.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    62.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=11'
+[CT]   345.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    32.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=12'
+[CT]   233.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=13'
+[CT]   230.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    38.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=14'
+[CT]   221.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=15'
+[CT]   228.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.7ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=16'
+[CT]   232.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=17'
+[CT]   227.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=18'
+[CT]   227.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=19'
+[CT]   226.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=20'
+[CT]   221.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.8ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=21'
+[CT]   221.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    38.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=22'
+[CT]   228.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=23'
+[CT]   244.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    25.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=24'
+[CT]   333.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    32.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=25'
+[CT]   229.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=26'
+[CT]   226.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=27'
+[CT]   262.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    48.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=28'
+[CT]   222.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    22.1ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=29'
+[CT]   218.7ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] * * *
+[CT]     4.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]    11.8ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1013.6ms | reportAction | Stuck on state 'startedEditContactInfo' -- seen 3 times on this page with no progress. Clicking, scrolling to the bottom, and clicking again (cycle 3 of 3), the way a person unsticks it.
+[CT]  2641.3ms | getCurrentEnv | ENTER
+[CT]    29.1ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1003.7ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startAtTopOfReviewPage()  (from state startedEditContactInfo)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to startedOnResume
+[CT]     0.6ms | getCurrentEnv | ENTER
+[CT]    71.5ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1008.3ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]   254.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   102.7ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   254.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    34.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   458.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    62.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   263.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   104.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=4'
+[CT]   247.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    29.4ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=5'
+[CT]   251.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    59.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=6'
+[CT]   232.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=7'
+[CT]   237.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=8'
+[CT]   234.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=9'
+[CT]   237.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=10'
+[CT]   225.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=11'
+[CT]   222.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=12'
+[CT]   241.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    22.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=13'
+[CT]   230.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=14'
+[CT]   259.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    30.2ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=15'
+[CT]   232.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=16'
+[CT]   228.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    22.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=17'
+[CT]   238.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=18'
+[CT]   268.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    62.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=19'
+[CT]   237.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=20'
+[CT]   238.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    77.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=21'
+[CT]   225.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=22'
+[CT]   229.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=23'
+[CT]   227.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    31.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=24'
+[CT]   226.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.0ms | smartClick | EXIT |  result=not found
+[CT]     0.6ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=25'
+[CT]   228.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    21.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=26'
+[CT]   225.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=27'
+[CT]   229.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.2ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=28'
+[CT]   227.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=29'
+[CT]   224.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    25.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=30'
+[CT]   476.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   158.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=31'
+[CT]   238.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.0ms | smartClick | EXIT |  result=not found
+[CT]     1.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=32'
+[CT]   228.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=33'
+[CT]   216.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    16.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=34'
+[CT]   227.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=35'
+[CT]   217.3ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] * * *
+[CT]     3.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     1.5ms | getCurrentEnv | ENTER
+[CT]     7.6ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1006.8ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startAtTopOfReviewPage()  (from state startedEditContactInfo)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedEditContactInfo to startedOnResume
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]    10.5ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1010.3ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Profile - Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.0ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]    33.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=1'
+[CT]   224.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    20.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=2'
+[CT]   323.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=3'
+[CT]   221.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=4'
+[CT]   228.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=5'
+[CT]   789.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    26.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=6'
+[CT]   242.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    34.7ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=7'
+[CT]   231.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=8'
+[CT]   228.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    15.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=9'
+[CT]   225.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=10'
+[CT]   237.3ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    14.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=11'
+[CT]   226.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    11.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=12'
+[CT]   217.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    19.7ms | smartClick | EXIT |  result=not found
+[CT]     0.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=13'
+[CT]   233.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    17.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=14'
+[CT]   250.6ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    24.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=15'
+[CT]   227.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    23.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=16'
+[CT]   290.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    39.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=17'
+[CT]   235.7ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    18.6ms | smartClick | EXIT |  result=not found
+[CT]     1.5ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=18'
+[CT]   248.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    28.0ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=19'
+[CT]   258.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    90.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=20'
+[CT]  1426.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    61.3ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=21'
+[CT]   283.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   105.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=22'
+[CT]   574.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    87.1ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=23'
+[CT]   362.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    36.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=24'
+[CT]   248.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   217.6ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=25'
+[CT]   229.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    30.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=26'
+[CT]   216.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    38.4ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=27'
+[CT]   237.8ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    46.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] sees='attempt=28'
+[CT]   307.9ms | reportAction | * * * Time OUT.  Spent 10 secs waiting for //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] * * *
+[CT]     2.8ms | smartClick | EXIT |  result=not found
+[CT]     1.3ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     0.7ms | getCurrentEnv | ENTER
+[CT]    25.2ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1020.6ms | StateMachine | STUCK | stuck cycling on this page -- https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.
+[CT]     5.6ms | StateMachine | NEEDS ATTENTION | STUCK: stuck cycling on this page -- pausing and alerting
+[CT]     0.0ms | reportAction | State 'startedEditContactInfo' keeps recurring on this page with no progress, even after 3 rounds of clicking, scrolling, and clicking again. Look at the page and press Start applying once it is movin
+[CT]  8929.7ms | StateMachine | ATTENTION CLEARED | STUCK: stuck cycling on this page: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapp
+[CT]     0.0ms | reportAction | The page moved on. Press Start applying to continue.
+[CT]     0.6ms | StateMachine | PAUSED | waiting for a command from the Run tab
+[CT] 11085.2ms | StateMachine | RESUMED
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]    26.0ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1009.9ms | reportAction | Calling function: startAtTopOfReviewPage() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-re
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startAtTopOfReviewPage()  (from state startedEditContactInfo)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Edit your resume"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.5ms | reportAction | Transitioning  STATE from startedEditContactInfo to startedOnResume
+[CT]     1.0ms | getCurrentEnv | ENTER
+[CT]    48.7ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Ffor
+[CT]  1004.4ms | reportAction | Calling function: startContactInfo() in environment: https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-e
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: startContactInfo()  (from state startedOnResume)
+[CT]     https://profile.indeed.com/resume?co=US&hl=en_US&continue=https%3A%2F%2Fsmartapply.indeed.com%2Fbeta%2Findeedapply%2Fform%3Ffrom%3Dprofile-resume-edit&from=iapplyform
+[CT]     "Edit your resume"
+[CT] ------------------------------------------------------------------------------
+[CT]     0.4ms | smartClick | ENTER | //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")]
+[CT]   368.0ms | reportAction | clicked //*[@data-testid="contact-info-edit-button"] | //*[@aria-label='Edit contact information'] | //*[contains(@id, "edit-contact-info")] successfully!
+[CT]     3.7ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | reportAction | Transitioning  STATE from startedOnResume to startedEditContactInfo
+[CT]     1.3ms | getCurrentEnv | ENTER
+[CT]    11.9ms | getCurrentEnv | EXIT |  result=https://profile.indeed.com/resume/contact|About you

@@ -395,6 +395,20 @@ html, body {
 .badge--info    { background: var(--info-soft);    color: var(--info); }
 .badge--muted   { background: var(--surface-sunk); color: var(--text-muted); }
 
+/* ------------------------------------------------------- vetted questions */
+
+.vq-choices {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 6px 0; min-width: 220px;
+}
+.vq-choices + .vq-choices {
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);
+}
+.vq-choice {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12.5px; cursor: pointer;
+}
+
 .readonly-tag {
   display: inline-flex; align-items: center; gap: 5px;
   font-size: 11.5px; font-weight: 600;

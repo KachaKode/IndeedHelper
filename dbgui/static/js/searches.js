@@ -16,7 +16,14 @@ function positionFromUrl(url) {
   }
 }
 
+let poller = null;
+
+export function stopSearchesPolling() {
+  if (poller) { clearInterval(poller); poller = null; }
+}
+
 export async function renderSearches(ctx) {
+  stopSearchesPolling();
   const userId = ctx.state.userId;
   const [searches, jobs, edus] = await Promise.all([
     api.get(`/api/users/${userId}/searches`),
@@ -54,11 +61,29 @@ export async function renderSearches(ctx) {
     } catch (err) { toast(err.message, 'error'); }
   };
 
+  // Keyed by search id so the poller below can patch counts in place --
+  // never re-rendering the table, which would otherwise blow away whatever
+  // the user is mid-way through typing in target/URL inputs.
+  const sessionCountSpans = new Map();
+
   const rows = searches.map((row, index) => {
     const targetInput = el('input', {
       class: 'input', type: 'text', value: row.target_position || '',
       placeholder: 'e.g. Customer Service Rep', style: 'min-width:180px',
       onchange: (e) => saveField(row.id, 'target_position', e.target.value),
+    });
+
+    const maxAppsInput = el('input', {
+      class: 'input', type: 'number', min: '0', step: '1',
+      value: row.max_applications ? String(row.max_applications) : '',
+      placeholder: 'No limit', style: 'width:100px',
+      title: 'Switch to the next search after this many applications this session, even if '
+             + 'result pages remain. Leave blank/0 for no limit (switch only when out of pages).',
+      onchange: (e) => {
+        const n = Math.max(0, parseInt(e.target.value, 10) || 0);
+        e.target.value = n ? String(n) : '';
+        saveField(row.id, 'max_applications', n);
+      },
     });
 
     const urlInput = el('input', {
@@ -97,6 +122,16 @@ export async function renderSearches(ctx) {
         allLabel: `All education (${eduOpts.length})`,
         onChange: (next) => saveField(row.id, 'edu_nums', next),
       })]),
+      el('td', {}, [maxAppsInput]),
+      el('td', { class: 'table__num' }, [(() => {
+        const span = el('span', {
+          text: String(row.sessionApplications ?? 0),
+          title: 'Applications submitted from this search in the current bot run. '
+                 + 'Only moves while that user\'s bot is actively running.',
+        });
+        sessionCountSpans.set(row.id, span);
+        return span;
+      })()]),
       el('td', {}, [el('button', {
         class: 'btn btn--sm btn--ghost', text: 'Delete',
         onclick: async () => {
@@ -143,6 +178,8 @@ export async function renderSearches(ctx) {
         el('th', { text: 'Search URL' }),
         el('th', { text: 'Work history used' }),
         el('th', { text: 'Education used' }),
+        el('th', { text: 'Session cap' }),
+        el('th', { text: 'This session' }),
         el('th', { text: '' }),
       ])]),
       el('tbody', {}, rows),
@@ -151,7 +188,27 @@ export async function renderSearches(ctx) {
 
   mount(card(
     'Job searches',
-    'Each search can use a subset of this user\'s work history and education. Pick the records from the lists; leaving a list untouched means the bot uses all of them. Changes save immediately.',
+    'Each search can use a subset of this user\'s work history and education. Pick the records from the lists; leaving a list untouched means the bot uses all of them. Session cap limits how many applications the bot submits from a search before rotating to the next one, even if pages remain -- leave it blank for no limit, so the bot only rotates once a search runs out of pages. "This session" shows live counts while that user\'s bot is running. Changes save immediately.',
     [table], [], true,
   ));
+
+  // Only worth polling while this user actually has a run going -- otherwise
+  // every row is staying at 0 and there is nothing to refresh.
+  const status = await api.get('/api/run/status');
+  if (status.runs.some((r) => r.userId === userId && r.alive)) {
+    poller = setInterval(async () => {
+      if (ctx.state.view !== 'searches' || ctx.state.userId !== userId) { stopSearchesPolling(); return; }
+      try {
+        const [freshStatus, freshSearches] = await Promise.all([
+          api.get('/api/run/status'),
+          api.get(`/api/users/${userId}/searches`),
+        ]);
+        freshSearches.forEach((freshRow) => {
+          const span = sessionCountSpans.get(freshRow.id);
+          if (span) span.textContent = String(freshRow.sessionApplications ?? 0);
+        });
+        if (!freshStatus.runs.some((r) => r.userId === userId && r.alive)) stopSearchesPolling();
+      } catch { /* a missed tick is not worth surfacing */ }
+    }, 3000);
+  }
 }

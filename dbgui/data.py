@@ -18,6 +18,8 @@ from __future__ import annotations
 
 import ast
 import datetime
+import json
+import re
 import shutil
 import sqlite3
 from dataclasses import dataclass, field
@@ -54,7 +56,7 @@ USER_EDITABLE_FIELDS = (
     "FirstName", "LastName", "PhoneNumber", "email", "address", "areaSpec",
     "country", "zip", "IndeedEmail", "IndeedPass", "homePage", "homePagePattern",
     "ProfilePath", "PositionInterests", "AppsLeft", "Active", "LifeSummary",
-    "WritingSample", "avoid", "skipped", "avoidEmployers",
+    "WritingSample", "avoid", "skipped", "avoidEmployers", "LinkedInProfile",
 )
 
 JOB_FIELDS = (
@@ -72,6 +74,48 @@ APPLICATION_FIELDS = (
     "JobDescriptionText", "fullName", "headline", "jobHist", "eduHist",
     "skills", "resumeSummary", "QsAndAs", "cover_letter",
 )
+
+# Screener-question types the vetted-questions system understands. DateFill
+# (Indeed's date-picker widget) is deliberately absent -- a stored/vetted date
+# answer is never correct on a later application, since the right answer is
+# always "today", so DateFill is never seeded, matched, or recorded.
+VETTED_QUESTION_TYPES = (
+    "free_response", "free_response_long", "mult_choice", "select_applicable",
+    "drop_down", "search_select", "select_applicable_combobox",
+)
+
+VETTED_STATUS_CHOICES = [("Vetted", "vetted"), ("Unvetted", "unvetted")]
+
+VETTED_QUESTION_EDITABLE_FIELDS = ("question_text", "answer", "answer_bank", "status")
+
+_TRAILING_WORD_MARKER_RE = re.compile(r"\s*\(?\b(?:required|optional)\b\)?\s*$", re.IGNORECASE)
+_TRAILING_ASTERISK_RE = re.compile(r"\s*\*+\s*$")
+
+
+def normalize_question_text(text: Any) -> str:
+    """Canonical form of a screener-question label, for matching two questions
+    as "the same" regardless of decoration.
+
+    Indeed's own markup adds a trailing required-asterisk (often as a literal
+    NBSP + "*", e.g. "LinkedIn Profile\xa0*") or a "(required)"/"(optional)"
+    suffix -- sometimes both, in either order -- none of which changes what
+    is actually being asked. Both the bot (main3.py) and this module import
+    this exact function so they always agree on what counts as the same
+    question -- see vetted_questions' unique constraint, which is keyed on
+    this output.
+
+    Stripped in a loop rather than one combined regex, since the two
+    decorations can appear in either order or be repeated
+    ("Question *\n(Required)" vs "Question (Required) *").
+    """
+    value = (str(text) if text is not None else "").replace("\xa0", " ")
+    previous = None
+    while previous != value:
+        previous = value
+        value = _TRAILING_WORD_MARKER_RE.sub("", value)
+        value = _TRAILING_ASTERISK_RE.sub("", value)
+    value = " ".join(value.split())
+    return value.strip().casefold()
 
 
 def _quote(name: str) -> str:
@@ -319,14 +363,15 @@ class IndeedDB:
     def list_searches(self, user_id: int) -> list[dict[str, Any]]:
         with self._connect() as conn:
             rows = conn.execute(
-                "SELECT id, user_id, position, url, job_nums, edu_nums, target_position "
+                "SELECT id, user_id, position, url, job_nums, edu_nums, target_position, "
+                "max_applications "
                 "FROM job_searches WHERE user_id = ? ORDER BY position",
                 (user_id,),
             ).fetchall()
         return [dict(r) for r in rows]
 
     def add_search(self, user_id: int, url: str = "", job_nums: str = "", edu_nums: str = "",
-                   target_position: str = "") -> int:
+                   target_position: str = "", max_applications: int = 0) -> int:
         self._ensure_backup()
         with self._connect() as conn:
             row = conn.execute(
@@ -334,15 +379,21 @@ class IndeedDB:
             ).fetchone()
             position = 0 if row[0] is None else int(row[0]) + 1
             cur = conn.execute(
-                "INSERT INTO job_searches (user_id, position, url, job_nums, edu_nums, target_position) "
-                "VALUES (?, ?, ?, ?, ?, ?)",
-                (user_id, position, url, job_nums, edu_nums, target_position),
+                "INSERT INTO job_searches "
+                "(user_id, position, url, job_nums, edu_nums, target_position, max_applications) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (user_id, position, url, job_nums, edu_nums, target_position,
+                 int(max_applications or 0)),
             )
             return int(cur.lastrowid)
 
     def save_search(self, search_id: int, values: dict[str, Any]) -> Path | None:
-        payload = {k: v for k, v in values.items()
-                   if k in ("url", "job_nums", "edu_nums", "target_position")}
+        payload = {}
+        for key, value in values.items():
+            if key == "max_applications":
+                payload[key] = int(value or 0)
+            elif key in ("url", "job_nums", "edu_nums", "target_position"):
+                payload[key] = value
         if not payload:
             return None
         backup = self._ensure_backup()
@@ -460,6 +511,173 @@ class IndeedDB:
             conn.execute(f"DELETE FROM {_quote(table)} WHERE rowid = ?", (rowid,))
         return backup
 
+    # ------------------------------------------------------- vetted questions --
+    # A per-user bank of screener-question answers a human has confirmed correct
+    # (status='vetted') or that the bot has recorded on its own after answering
+    # from scratch (status='unvetted'). main3.py checks this before calling the
+    # LLM; see the "Vetted Questions" plan for the full design.
+
+    def list_vetted_questions(
+        self, user_id: int, *, status: str | None = None, sort: str = "default",
+    ) -> list[dict[str, Any]]:
+        where = "user_id = ?"
+        params: list[Any] = [user_id]
+        if status in ("vetted", "unvetted"):
+            where += " AND status = ?"
+            params.append(status)
+        order = {
+            "alpha": "question_text COLLATE NOCASE",
+            "date_asc": "created_at ASC",
+            "date_desc": "created_at DESC",
+        }.get(sort, "status DESC, question_text")
+        with self._connect() as conn:
+            rows = conn.execute(
+                f"SELECT * FROM vetted_questions WHERE {where} ORDER BY {order}", params,
+            ).fetchall()
+        return [self._decode_vetted_row(dict(r)) for r in rows]
+
+    def get_vetted_question(self, vetted_id: int) -> dict[str, Any] | None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT * FROM vetted_questions WHERE id = ?", (vetted_id,)
+            ).fetchone()
+        return self._decode_vetted_row(dict(row)) if row else None
+
+    @staticmethod
+    def _decode_vetted_row(row: dict[str, Any]) -> dict[str, Any]:
+        row["answer"] = json.loads(row["answer"]) if row.get("answer") is not None else None
+        row["answer_bank"] = json.loads(row["answer_bank"]) if row.get("answer_bank") else None
+        return row
+
+    def add_vetted_question(
+        self, user_id: int, *, question_type: str, question_text: str, answer: Any,
+        answer_bank: Any = None, status: str = "unvetted",
+        source_application_id: int | None = None,
+    ) -> int:
+        if question_type not in VETTED_QUESTION_TYPES:
+            raise ValueError(f"Unknown vetted question type: {question_type!r}")
+        self._ensure_backup()
+        now = datetime.datetime.now().isoformat(" ", "seconds")
+        normalized = normalize_question_text(question_text)
+        with self._connect() as conn:
+            cur = conn.execute(
+                "INSERT INTO vetted_questions "
+                "(user_id, question_type, question_text, normalized_question, answer, "
+                " answer_bank, status, source_application_id, last_answered_at, created_at, updated_at) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (user_id, question_type, question_text, normalized, json.dumps(answer),
+                 json.dumps(answer_bank) if answer_bank is not None else None,
+                 status, source_application_id, now, now, now),
+            )
+            return int(cur.lastrowid)
+
+    def save_vetted_question(self, vetted_id: int, values: dict[str, Any]) -> Path | None:
+        """Filtered update. Editing `answer` also promotes the row to 'vetted'
+        in the same statement -- a human choosing a different answer IS the act
+        of vetting it, per the feature's own spec, and doing this server-side
+        (rather than as two sequential client calls) makes it atomic."""
+        payload = {k: v for k, v in values.items() if k in VETTED_QUESTION_EDITABLE_FIELDS}
+        if not payload:
+            return None
+        if "answer" in payload:
+            payload["answer"] = json.dumps(payload["answer"])
+            payload.setdefault("status", "vetted")
+        if "answer_bank" in payload:
+            payload["answer_bank"] = json.dumps(payload["answer_bank"]) if payload["answer_bank"] is not None else None
+        if "status" in payload and payload["status"] not in ("vetted", "unvetted"):
+            raise ValueError(f"Unknown vetted question status: {payload['status']!r}")
+        if "question_text" in payload:
+            payload["normalized_question"] = normalize_question_text(payload["question_text"])
+        payload["updated_at"] = datetime.datetime.now().isoformat(" ", "seconds")
+        backup = self._ensure_backup()
+        assignments = ", ".join(f"{_quote(k)} = ?" for k in payload)
+        with self._connect() as conn:
+            conn.execute(
+                f"UPDATE vetted_questions SET {assignments} WHERE id = ?",
+                list(payload.values()) + [vetted_id],
+            )
+        return backup
+
+    def set_vetted_status(self, vetted_id: int, status: str) -> Path | None:
+        if status not in ("vetted", "unvetted"):
+            raise ValueError(f"Unknown vetted question status: {status!r}")
+        backup = self._ensure_backup()
+        with self._connect() as conn:
+            conn.execute(
+                "UPDATE vetted_questions SET status = ?, updated_at = ? WHERE id = ?",
+                (status, datetime.datetime.now().isoformat(" ", "seconds"), vetted_id),
+            )
+        return backup
+
+    def delete_vetted_question(self, vetted_id: int) -> Path | None:
+        backup = self._ensure_backup()
+        with self._connect() as conn:
+            conn.execute("DELETE FROM vetted_questions WHERE id = ?", (vetted_id,))
+        return backup
+
+    def delete_vetted_questions(self, user_id: int, status: str | None = None) -> Path | None:
+        if status is not None and status not in ("vetted", "unvetted"):
+            raise ValueError(f"Unknown vetted question status: {status!r}")
+        backup = self._ensure_backup()
+        with self._connect() as conn:
+            if status:
+                conn.execute(
+                    "DELETE FROM vetted_questions WHERE user_id = ? AND status = ?", (user_id, status),
+                )
+            else:
+                conn.execute("DELETE FROM vetted_questions WHERE user_id = ?", (user_id,))
+        return backup
+
+    def find_vetted_answer(self, user_id: int, normalized_question: str) -> dict[str, Any] | None:
+        """Level 1's lookup: an exact, normalized-text match among this user's
+        VETTED (not unvetted) rows only."""
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT * FROM vetted_questions WHERE user_id = ? AND normalized_question = ? "
+                "AND status = 'vetted'",
+                (user_id, normalized_question),
+            ).fetchone()
+        return self._decode_vetted_row(dict(row)) if row else None
+
+    def upsert_unvetted_question(
+        self, user_id: int, *, question_type: str, question_text: str, answer: Any,
+        answer_bank: Any = None, source_application_id: int | None = None,
+    ) -> None:
+        """The runtime hook: record an answer the bot just gave on its own.
+
+        Update-in-place keyed on (user_id, normalized_question) rather than
+        inserting a duplicate every time the same recurring question is
+        answered again -- and never touches a row a human has already vetted:
+        the WHERE on the conflict clause makes this a safe no-op against an
+        already-'vetted' row (a vetted row should never reach this call in the
+        first place, since that is a Level-1 hit; this is belt-and-suspenders).
+        """
+        if question_type not in VETTED_QUESTION_TYPES:
+            raise ValueError(f"Unknown vetted question type: {question_type!r}")
+        self._ensure_backup()
+        now = datetime.datetime.now().isoformat(" ", "seconds")
+        normalized = normalize_question_text(question_text)
+        answer_json = json.dumps(answer)
+        bank_json = json.dumps(answer_bank) if answer_bank is not None else None
+        with self._connect() as conn:
+            conn.execute(
+                "INSERT INTO vetted_questions "
+                "(user_id, question_type, question_text, normalized_question, answer, "
+                " answer_bank, status, source_application_id, last_answered_at, created_at, updated_at) "
+                "VALUES (?, ?, ?, ?, ?, ?, 'unvetted', ?, ?, ?, ?) "
+                "ON CONFLICT(user_id, normalized_question) DO UPDATE SET "
+                "question_type = excluded.question_type, "
+                "question_text = excluded.question_text, "
+                "answer = excluded.answer, "
+                "answer_bank = excluded.answer_bank, "
+                "source_application_id = excluded.source_application_id, "
+                "last_answered_at = excluded.last_answered_at, "
+                "updated_at = excluded.updated_at "
+                "WHERE vetted_questions.status = 'unvetted'",
+                (user_id, question_type, question_text, normalized, answer_json,
+                 bank_json, source_application_id, now, now, now),
+            )
+
     # --------------------------------------------------- applications (read) --
 
     def count_applications(self, user_id: int | None = None, search: str = "") -> int:
@@ -473,21 +691,31 @@ class IndeedDB:
         where, params = self._application_filter(user_id, search)
         with self._connect() as conn:
             rows = conn.execute(
-                "SELECT id, user_id, DateTime, Platform, companyName, jobTitle, fullName, headline "
-                f"FROM applications {where} ORDER BY id DESC LIMIT ? OFFSET ?",
+                "SELECT applications.id, applications.user_id, applications.DateTime, "
+                "applications.Platform, applications.companyName, applications.jobTitle, "
+                "applications.fullName, applications.headline, "
+                "job_searches.target_position AS searchLabel "
+                "FROM applications "
+                "LEFT JOIN job_searches ON job_searches.id = applications.search_id "
+                f"{where} ORDER BY applications.id DESC LIMIT ? OFFSET ?",
                 params + [limit, offset],
             ).fetchall()
         return [dict(r) for r in rows]
 
     def _application_filter(self, user_id: int | None, search: str) -> tuple[str, list[Any]]:
+        # Columns are qualified with "applications." because list_applications
+        # joins job_searches, which also has a user_id column -- an unqualified
+        # "user_id = ?" would be ambiguous once that join is in play.
         clauses, params = [], []
         if user_id is not None:
-            clauses.append("user_id = ?")
+            clauses.append("applications.user_id = ?")
             params.append(user_id)
         if search.strip():
             needle = f"%{search.strip()}%"
             clauses.append(
-                "(companyName LIKE ? OR jobTitle LIKE ? OR fullName LIKE ? OR headline LIKE ? OR DateTime LIKE ?)"
+                "(applications.companyName LIKE ? OR applications.jobTitle LIKE ? OR "
+                "applications.fullName LIKE ? OR applications.headline LIKE ? OR "
+                "applications.DateTime LIKE ?)"
             )
             params.extend([needle] * 5)
         return ("WHERE " + " AND ".join(clauses)) if clauses else "", params
@@ -518,7 +746,16 @@ class IndeedDB:
 
     def get_application(self, app_id: int) -> dict[str, Any] | None:
         with self._connect() as conn:
-            row = conn.execute("SELECT * FROM applications WHERE id = ?", (app_id,)).fetchone()
+            # applications.* (not a bare SELECT *) so the join does not pull in
+            # job_searches' own id/user_id columns under those same names and
+            # silently overwrite the application's.
+            row = conn.execute(
+                "SELECT applications.*, job_searches.target_position AS searchLabel "
+                "FROM applications "
+                "LEFT JOIN job_searches ON job_searches.id = applications.search_id "
+                "WHERE applications.id = ?",
+                (app_id,),
+            ).fetchone()
         if row is None:
             return None
 

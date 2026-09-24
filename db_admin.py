@@ -21,7 +21,11 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
 from dbgui.data import IndeedDB  # noqa: E402
-from dbgui.migrations import add_avoid_employers, add_target_position, schema_exists  # noqa: E402
+from dbgui.migrations import (  # noqa: E402
+    add_avoid_employers, add_linkedin_profile, add_max_applications_per_search,
+    add_search_id_to_applications, add_target_position, schema_exists,
+    vetted_questions_schema_exists,
+)
 from dbgui.runner import RunnerManager  # noqa: E402
 from dbgui.server import create_app  # noqa: E402
 
@@ -63,6 +67,14 @@ def main() -> int:
                 file=sys.stderr,
             )
             return 1
+        if not vetted_questions_schema_exists(conn):
+            print(
+                "The vetted_questions table does not exist yet.\n"
+                "Run the seed script first:\n"
+                "    venv\\Scripts\\python.exe tools/seed_vetted_questions.py --apply",
+                file=sys.stderr,
+            )
+            return 1
 
     # Additive and idempotent, so it is safe to self-heal on startup rather than
     # making the user run a migration by hand for a display-only column.
@@ -74,6 +86,18 @@ def main() -> int:
     added_avoid_employers = add_avoid_employers(db)
     if added_avoid_employers["added"]:
         print("Added users.avoidEmployers.")
+
+    added_linkedin_profile = add_linkedin_profile(db)
+    if added_linkedin_profile["added"]:
+        print("Added users.LinkedInProfile.")
+
+    added_max_applications = add_max_applications_per_search(db)
+    if added_max_applications["added"]:
+        print("Added job_searches.max_applications.")
+
+    added_search_id = add_search_id_to_applications(db)
+    if added_search_id["added"]:
+        print("Added applications.search_id.")
 
     port = free_port()
     url = f"http://127.0.0.1:{port}/"

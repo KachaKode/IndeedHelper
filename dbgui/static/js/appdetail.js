@@ -150,6 +150,7 @@ export function applicationBody(record) {
     ['Applied as', record.fullName],
     ['Company', record.companyName],
     ['Job title', record.jobTitle],
+    ['Job search', record.searchLabel],
   ].filter(([, v]) => String(v || '').trim());
 
   nodes.push(el('dl', { class: 'facts' }, facts.flatMap(([k, v]) => [

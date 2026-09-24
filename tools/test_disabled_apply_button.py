@@ -142,7 +142,12 @@ def main() -> int:
     loop = loop[:loop.index("\n    def ", 1)]
     first_search_at = loop.find("APPLY_BUTTON_XPATH")
     disabled_check_at = loop.find("APPLY_BUTTON_DISABLED_XPATH")
-    clear_captcha_at = loop.find("self.clearCaptcha()")
+    # Searched from disabled_check_at, not from the top of the function: an
+    # earlier, unrelated clearCaptcha()/waitOutLoading() pair now runs before
+    # any of this, giving a still-rendering results PAGE (after a "Next Page"
+    # click) a chance to settle before its job-card count is trusted
+    # (Logs/Log38.txt) -- not the captcha detour this section is pinning.
+    clear_captcha_at = loop.find("self.clearCaptcha()", disabled_check_at)
     check("the disabled check exists in process_job_openings", disabled_check_at != -1)
     check("it runs right after the first Apply-button search",
           first_search_at != -1 and disabled_check_at != -1 and first_search_at < disabled_check_at,

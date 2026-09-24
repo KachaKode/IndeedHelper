@@ -24,6 +24,8 @@ from .data import (
     JOB_FIELDS,
     USER_EDITABLE_FIELDS,
     USER_MULTILINE_FIELDS,
+    VETTED_QUESTION_TYPES,
+    VETTED_STATUS_CHOICES,
     YES_NO_CHOICES,
     IndeedDB,
     rename_user_folder,
@@ -69,6 +71,8 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
             "userFields": list(USER_EDITABLE_FIELDS),
             "multilineFields": list(USER_MULTILINE_FIELDS),
             "applicationFields": list(APPLICATION_FIELDS),
+            "vettedQuestionTypes": list(VETTED_QUESTION_TYPES),
+            "vettedStatusChoices": [{"label": lbl, "value": val} for lbl, val in VETTED_STATUS_CHOICES],
             "dbPath": str(db.db_path),
             "pageSize": PAGE_SIZE,
         })
@@ -159,7 +163,13 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
 
     @app.get("/api/users/<int:user_id>/searches")
     def list_searches(user_id: int):
-        return jsonify(db.list_searches(user_id))
+        searches = db.list_searches(user_id)
+        # 0 for every row when nothing is running for this user, rather than
+        # an extra round trip the frontend would have to special-case.
+        session_counts = runner.applications_by_search(user_id)
+        for row in searches:
+            row["sessionApplications"] = session_counts.get(row["id"], 0)
+        return jsonify(searches)
 
     @app.post("/api/users/<int:user_id>/searches")
     def create_search(user_id: int):
@@ -170,6 +180,7 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
             body.get("job_nums", ""),
             body.get("edu_nums", ""),
             body.get("target_position", ""),
+            body.get("max_applications", 0),
         )
         return jsonify({"id": new_id}), 201
 
@@ -187,6 +198,37 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
     def reorder(user_id: int):
         ids = _json_body().get("ids") or []
         db.reorder_searches(user_id, [int(i) for i in ids])
+        return jsonify({"ok": True})
+
+    # ----------------------------------------------------- vetted questions --
+    # No create route: rows only ever come from the seed script or the live
+    # bot's own runtime hook, never a manual "add a vetted question" action.
+
+    @app.get("/api/users/<int:user_id>/vetted-questions")
+    def list_vetted_questions(user_id: int):
+        status = request.args.get("status") or None
+        sort = request.args.get("sort", "default")
+        return jsonify(db.list_vetted_questions(user_id, status=status, sort=sort))
+
+    @app.put("/api/vetted-questions/<int:vetted_id>")
+    def update_vetted_question(vetted_id: int):
+        db.save_vetted_question(vetted_id, _json_body())
+        return jsonify({"ok": True})
+
+    @app.post("/api/vetted-questions/<int:vetted_id>/status")
+    def set_vetted_question_status(vetted_id: int):
+        db.set_vetted_status(vetted_id, _json_body().get("status"))
+        return jsonify({"ok": True})
+
+    @app.delete("/api/vetted-questions/<int:vetted_id>")
+    def remove_vetted_question(vetted_id: int):
+        db.delete_vetted_question(vetted_id)
+        return jsonify({"ok": True})
+
+    @app.delete("/api/users/<int:user_id>/vetted-questions")
+    def clear_vetted_questions(user_id: int):
+        status = request.args.get("status") or None
+        db.delete_vetted_questions(user_id, status)
         return jsonify({"ok": True})
 
     # ------------------------------------------------------ work history/edu --

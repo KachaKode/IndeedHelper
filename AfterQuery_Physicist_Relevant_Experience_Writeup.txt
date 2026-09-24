@@ -1,0 +1,24 @@
+Tommy Orok — Relevant Experience for AfterQuery Physicist Role
+================================================================
+
+Physics Foundation
+
+My path into physics started at Columbia University, where my major was Computer Science but I pursued a concentration in physics out of a genuine love for the subject. That concentration included Quantum Mechanics I (PHYS G4021) and Quantum Mechanics II (PHYS G4022) in Fall 2012, and Special Relativity (PHYS C2001) in Spring 2014, all taught by Professor Brian Greene. Studying quantum formalism and relativistic kinematics directly under one of the field's leading researchers and communicators gave me both the technical grounding and the habit of translating dense formalism into clear, checkable reasoning, which is the exact skill AfterQuery needs when a physics problem has to be unambiguous enough for a model (and a reviewer) to verify step by step.
+
+Alongside that coursework, I tutored physics throughout college and have continued tutoring math and science, including physics, in the years since. Over time this grew to cover advanced topics well beyond a standard curriculum: astrophysics, special and general relativity, quantum field theory, and quantum chromodynamics, walking students through the strong force, gluon-mediated interactions, and color charge as the QCD analogue of electric charge. Tutoring these subjects forces a specific discipline: you can't hand-wave a result, you have to know exactly which physical principle justifies each step, and you have to be able to catch a student's (or a model's) reasoning error before it compounds. That is essentially the job AfterQuery is hiring for: crafting physics reasoning problems and verifying that a model's solution path stays consistent with physical law from one step to the next.
+
+Applied Computational Rigor
+
+My professional background is in building and validating computational systems, which maps closely onto physics problem design and model evaluation:
+
+- As Head Systems Engineer at Gryphus Trading, I built a C++/GoogleTest validation framework for trading pipelines and a verification workflow that produced gold-standard answer keys, the same core skill as constructing a physics problem with a known-correct solution and a repeatable way to check a model's answer against it.
+
+- Leading a machine learning platform for mean-reversion trading, I engineered features (z-scores, realized volatility, volume anomalies, bid-ask spreads, moving averages) and used walk-forward validation to guard against look-ahead bias, evaluating models on Sharpe ratio, maximum drawdown, and profit factor, and deploying them via AWS SageMaker. That same rigor, defining precise constraints, avoiding hidden assumptions, and testing whether a model's output holds up out of sample, is directly transferable to writing physics questions with clear solution paths and reproducible grading criteria.
+
+- As an AI Consultant at Kacha Inc, I directed a multi-LLM workflow where one model drafts a solution and another reviews it against a rubric before acceptance, auditing outputs for logical consistency and correctness. This is effectively a physics-reasoning review pipeline already in miniature: draft, verify against known principles, iterate.
+
+- Building the Redfish Beach Equipment Rental Platform and The Tommy Planner, I worked extensively with multi-step, stateful logic, including inventory rules that depend on prior bookings and recursive task plans where later steps depend on earlier ones. That experience is well suited to multi-part physics problems where each sub-question's correctness depends on the physical consistency of the steps before it.
+
+Why This Fits AfterQuery
+
+AfterQuery needs someone who can both originate rigorous, real-world physics questions and verify that a model's answer respects the physics rather than just pattern-matching to a plausible-sounding response. My formal coursework in quantum mechanics and special relativity at Columbia, years of hands-on tutoring across relativity, astrophysics, quantum field theory, and quantum chromodynamics, and a career spent building and validating systems where correctness has to be provable rather than assumed give me the combination this role calls for: physical intuition paired with the engineering discipline to make that intuition checkable at scale.

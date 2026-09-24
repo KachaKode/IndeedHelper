@@ -48,6 +48,15 @@ from playwright.sync_api import (
 from myGPT import myGPT
 from myGPT2 import myGPT as myGPT2
 from myGPT2 import configured_fast_model
+# main3.py's one and only import from the dbgui package: a pure, side-
+# effect-free function so both the bot and the GUI agree on what counts as
+# "the same question" for the vetted-questions system. Everything else
+# vetted-questions related in this file stays raw sqlite3 (matching
+# saveAppInDB's own pattern) rather than routing through a full IndeedDB
+# instance, which backs up the whole database file on its first write of a
+# session -- appropriate for a GUI edit, not for a runtime hook in a tight
+# per-question loop.
+from dbgui.data import normalize_question_text
 
 log = None
 
@@ -60,6 +69,36 @@ log = None
 # =====================================================================================
 
 _last_print_time = 0.0
+
+# Windows consoles hand Python a cp1252 stdout, and Indeed's own pages are full
+# of characters cp1252 has no room for -- a job title carrying U+202F (narrow
+# no-break space) raised UnicodeEncodeError from inside print() itself, which
+# killed the run and closed the browser (Logs/Log46.txt). Nothing about writing
+# a log line should ever be able to end a run, so: ask for UTF-8 here, and have
+# _ct_write below survive it anyway on any stream that refuses.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
+
+def _ct_write(line, end="\n"):
+    """print() that cannot raise. See the encoding note above."""
+    try:
+        print(line, end=end, flush=True)
+    except UnicodeEncodeError:
+        # The stream could not be switched to UTF-8: drop to whatever it does
+        # support rather than losing the line -- and the run -- entirely.
+        try:
+            encoding = getattr(sys.stdout, "encoding", None) or "ascii"
+            print(line.encode(encoding, "replace").decode(encoding, "replace"),
+                  end=end, flush=True)
+        except Exception:
+            pass
+    except Exception:
+        # A closed or broken stdout (GUI-launched runs) is not a reason to stop.
+        pass
 
 # Indentation for the granular ct_print noise (smartClick probes, waits, etc.)
 # so it visually nests under whichever page/question banner (ct_section, below)
@@ -86,7 +125,7 @@ def ct_print(where, what, extra=None):
     elapsed = _elapsed_ms()
     suffix = f" | {extra}" if extra else ""
     indent = "  " * _ct_indent
-    print(f"[CT] {elapsed:7.1f}ms | {indent}{where} | {what}{suffix}", flush=True)
+    _ct_write(f"[CT] {elapsed:7.1f}ms | {indent}{where} | {what}{suffix}")
 
 
 _CT_SECTION_RULE = "-" * 78
@@ -107,12 +146,12 @@ def ct_section(kind, title, *detail_lines, indent=0):
     global _ct_indent
     _ct_indent = indent
     prefix = "  " * indent
-    print(f"\n[CT] {prefix}{_CT_SECTION_RULE}", flush=True)
-    print(f"[CT] {prefix}>>> {kind}: {title}", flush=True)
+    _ct_write(f"\n[CT] {prefix}{_CT_SECTION_RULE}")
+    _ct_write(f"[CT] {prefix}>>> {kind}: {title}")
     for line in detail_lines:
         if line:
-            print(f"[CT] {prefix}    {line}", flush=True)
-    print(f"[CT] {prefix}{_CT_SECTION_RULE}", flush=True)
+            _ct_write(f"[CT] {prefix}    {line}")
+    _ct_write(f"[CT] {prefix}{_CT_SECTION_RULE}")
 
 
 def _beep():
@@ -1220,15 +1259,26 @@ class PlaywrightWrap:
         # Always print live (birdcatcher-style) -- this used to only go to a
         # log file, which is why main.py's failures were invisible.
         ct_print("reportAction", actionMsg.replace("\n", " ").strip()[:200])
-        if useFile and getattr(self, "outputFile", None) is not None and not self.outputFile.closed:
-            self.outputFile.write(f"\n{actionMsg}\n")
+        self._writeOutputFile(useFile, f"\n{actionMsg}\n")
         if reportStack:
             stack = inspect.stack()
             listFuncCalls = [frame.function for frame in stack]
             listFuncCalls.pop(0)
             funcStack = ' | '.join(listFuncCalls)
-            if useFile and getattr(self, "outputFile", None) is not None and not self.outputFile.closed:
-                self.outputFile.write(f"\tFunction Stack: {funcStack}\n")
+            self._writeOutputFile(useFile, f"\tFunction Stack: {funcStack}\n")
+
+    def _writeOutputFile(self, useFile, text):
+        """Write to the run's output file, never raising. Reporting what just
+        happened must not be able to end the run (Logs/Log46.txt)."""
+        if not useFile:
+            return
+        handle = getattr(self, "outputFile", None)
+        if handle is None or handle.closed:
+            return
+        try:
+            handle.write(text)
+        except Exception as exc:
+            ct_error("reportAction (writing output file)", exc)
 
     def getCurrentEnv(self, quiet=False):
         """Read the current page as "<url>|<title>".
@@ -1267,6 +1317,10 @@ class IndeedHelper(PlaywrightWrap):
                       "Canada":"City, Province / Territory"}
     def __init__(self, info, masterMilestoneList):
         self.MML = masterMilestoneList
+        # See process_job_openings / RunUser: the job currently being worked
+        # on, and the jobs that crashed an earlier run of this user.
+        self.currentJobKey = None
+        self.crashedJobKeys = set()
         nowTime = datetime.datetime.now().strftime("%Y_%m_%d %H.%M.%S")
         self.MY_PATH = ''  # "Users\\name\\c
         self.home_url = ""
@@ -1276,6 +1330,16 @@ class IndeedHelper(PlaywrightWrap):
         self.profiles = []
         self.profile_generator = None
         self.cur_profile = {}
+        self.cur_profile_index = 0
+        # How many applications have been submitted from self.cur_profile's
+        # search this session. Reset by _advanceProfile(); compared against
+        # cur_profile["maxApps"] to decide whether to rotate searches early.
+        self.appsThisSearch = 0
+        # Parallel to self.profiles -- how many applications have been
+        # submitted from EACH search this session, kept even after rotating
+        # away from it, so the switch-over log line can show the whole
+        # session's picture, not just the search just left.
+        self.searchAppCounts = []
         self.user_id = -1
         self.dataPath = "data\\"
         self.configPath = "config\\"
@@ -1298,6 +1362,13 @@ class IndeedHelper(PlaywrightWrap):
         self.jobs = []
         self.edus = []
         self.prev_questions = []
+        # This user's VETTED (status='vetted' only) screener-question answers,
+        # loaded once per application by loadVettedQuestions(). Keyed by
+        # normalized question text for Level 1's O(1) lookup;
+        # vetted_questions_list holds the same rows, ordered, for feeding the
+        # whole corpus to the model as context (see vettedContextForPrompt).
+        self.vetted_questions = {}
+        self.vetted_questions_list = []
 
         self.Bad = -1
         self.FreeResponse = 0
@@ -1313,6 +1384,7 @@ class IndeedHelper(PlaywrightWrap):
         self.headline = ''
         self.phone_num = ''
         self.email = ''
+        self.linkedin = ''
         self.areaSpec = ''
         self.zip = ''
         self.country = 'United States'
@@ -1321,7 +1393,11 @@ class IndeedHelper(PlaywrightWrap):
         self.jobRecords = info["jobs"]
         self.searchRecords = info["searches"]
         self.load_startup_info(info["mainInfo"])
-        self.outputFile = open(f"{self.MY_PATH}output {nowTime}.txt", "w")
+        # utf-8: this file gets job titles and descriptions straight off
+        # Indeed, which carry characters the Windows default encoding cannot
+        # write -- and a failed write here would end the run (Logs/Log46.txt).
+        self.outputFile = open(f"{self.MY_PATH}output {nowTime}.txt", "w",
+                               encoding="utf-8", errors="replace")
 
         self.load_life_summary()
         super().__init__(self.cur_profile["home"], self.home_url_pattern, self.chrome_profile)
@@ -1367,6 +1443,15 @@ class IndeedHelper(PlaywrightWrap):
         " | //button[normalize-space(.)='Apply with Indeed']"
         " | //button[normalize-space(.)='Apply now']"
         " | //button[normalize-space(.)='Apply on Indeed']"
+        # A newer viewjob template (HTMLz/retirement_plan_implementation_
+        # Consultant.html) renders the Apply button as an <a role="link">
+        # instead of a <button>, with none of the classes or text above --
+        # its own class list is just hashed react-native-web utility classes
+        # (css-g5y9jx r-1loqt21 ...). Only data-testid identifies it
+        # reliably. Without this, none of the alternatives above ever
+        # matched, so every job on this template timed out twice (16s) and
+        # was silently treated as "not applicable from Indeed" (Log36.txt).
+        " | //a[@data-testid='viewjob-indeed-apply']"
     )
 
     # A disabled Apply button (id="indeedApplyButton" ... disabled ...) means
@@ -2083,17 +2168,23 @@ class IndeedHelper(PlaywrightWrap):
         # Create the records table with a foreign key for the user ID
         cursor.execute('''CREATE TABLE IF NOT EXISTS applications
                          (id INTEGER PRIMARY KEY, user_id INTEGER, DateTime TEXT, Platform TEXT,
-                          companyName TEXT, jobTitle TEXT, JobDescriptionText TEXT, 
-                          fullName TEXT, headline TEXT, jobHist TEXT, eduHist TEXT, 
+                          companyName TEXT, jobTitle TEXT, JobDescriptionText TEXT,
+                          fullName TEXT, headline TEXT, jobHist TEXT, eduHist TEXT,
                           skills TEXT, resumeSummary TEXT, QsAndAs TEXT, cover_letter TEXT,
+                          search_id INTEGER,
                           FOREIGN KEY(user_id) REFERENCES users(id))''')
 
-        # Insert a new application record with the user ID
-        cursor.execute("""INSERT INTO applications (user_id, DateTime, Platform, companyName, jobTitle, JobDescriptionText, 
-                          fullName, headline, jobHist, eduHist, skills, resumeSummary, QsAndAs, cover_letter)
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        # Insert a new application record with the user ID. search_id records
+        # which job_searches row this came from, so the GUI can show a live
+        # per-search "applications this session" count straight from this
+        # table (RunnerManager.applications_by_search) instead of parsing it
+        # out of the bot's log.
+        cursor.execute("""INSERT INTO applications (user_id, DateTime, Platform, companyName, jobTitle, JobDescriptionText,
+                          fullName, headline, jobHist, eduHist, skills, resumeSummary, QsAndAs, cover_letter, search_id)
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                        (self.user_id, current_date, "Indeed", companyName, jobTitle, JobDescriptionText, fullName,
-                        headline, jobHist, eduHist, skills, resumeSummary, prevQsAs, coverLetter))
+                        headline, jobHist, eduHist, skills, resumeSummary, prevQsAs, coverLetter,
+                        self.cur_profile.get("searchId")))
 
         # update the fact that we've sent another application
         cursor.execute("""SELECT * FROM users WHERE id = ? """, (self.user_id,))
@@ -2101,6 +2192,13 @@ class IndeedHelper(PlaywrightWrap):
         self.applicationsLeft = userRec["AppsLeft"]
         self.applicationsLeft -= 1
         cursor.execute("""UPDATE users SET AppsLeft = ? WHERE id = ? """, (self.applicationsLeft, self.user_id))
+
+        # Counts toward cur_profile["maxApps"] -- process_job_openings() checks
+        # this to decide whether to rotate to the next job search early.
+        self.appsThisSearch += 1
+        # Kept per-search for the whole session (not reset on rotation), so the
+        # switch-over log line can show every search's tally, not just this one.
+        self.searchAppCounts[self.cur_profile_index] += 1
 
 
         # Save (commit) the changes
@@ -2265,6 +2363,68 @@ class IndeedHelper(PlaywrightWrap):
         self.driver.refresh()
         t.sleep(60)
 
+    def _clickWithoutOpeningTabs(self, x, y):
+        """Click at (x, y) and close any tab that click spawns.
+
+        A blind click at fixed coordinates can land on anything -- a footer
+        link, an ad, a job card -- and plenty of that opens in a new tab.
+        nudgeStuckPage() clicks blind on purpose (it does not know what is
+        under the cursor; that is the whole point of poking an inert page),
+        so nothing there was watching for a resulting tab, and a run stuck on
+        the ghost-profile page quietly accumulated a browser full of stray
+        ones -- Logs/Log45.txt, reported as "why do we have like ten tabs
+        open". self._page is never reassigned here, so the original tab
+        stays the one the state machine keeps working from either way.
+
+        Uses expect_page() rather than a click-then-sleep-then-check poll --
+        the same pattern _perform_click already uses for a DELIBERATE new
+        tab -- because a fixed sleep was unreliable here: it sometimes ran
+        before the new page had registered with the context at all, so nothing
+        was there yet to close (first version of this method leaked tabs in
+        tools/test_nudge_no_tab_leak.py under exactly that race).
+        """
+        try:
+            with self._context.expect_page(timeout=1000) as new_page_info:
+                self._page.mouse.click(x, y)
+        except PlaywrightTimeoutError:
+            return  # the common case: the click did not open a tab
+        except PlaywrightError as exc:
+            ct_error("nudgeStuckPage", exc)
+            return
+        try:
+            new_page_info.value.close()
+        except PlaywrightError:
+            pass
+        try:
+            self._page.bring_to_front()
+        except PlaywrightError:
+            pass
+
+    def nudgeStuckPage(self):
+        """Click, scroll to the bottom, and click again -- the way a person
+        unsticks the page by hand.
+
+        HTMLz/ghost_profile.html: the resume page sometimes renders with its
+        controls (e.g. the contact-info edit button) never becoming findable
+        -- not missing, just inert -- and stays that way indefinitely. Logs/Log42
+        and Logs/Log43 show the state machine ping-ponging between
+        startedOnResume and startedEditContactInfo dozens of times with no
+        progress; the run only continued after a person clicked the page,
+        scrolled, and clicked again. A refresh was tried by hand on this exact
+        page afterward and confirmed NOT to help, so StateMachine repeats this
+        cycle rather than ever falling back to a reload.
+        """
+        try:
+            size = self._page.viewport_size or {"width": 1280, "height": 800}
+            x, y = size["width"] / 2, size["height"] / 2
+            self._clickWithoutOpeningTabs(x, y)
+            self._page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            t.sleep(.5)
+            self._clickWithoutOpeningTabs(x, y)
+        except PlaywrightError as exc:
+            ct_error("nudgeStuckPage", exc)
+        t.sleep(2)
+
     def doDbThenbackToStart(self):
         self.prepDBCommit()
         self.backToStart()
@@ -2353,11 +2513,52 @@ class IndeedHelper(PlaywrightWrap):
         f.write(f"{self.SKIP_REASON_PREFIX}{' '.join(reason.split())}\n")
         f.close()
 
+    def _searchCapReached(self):
+        """True once cur_profile's max_applications cap has been hit this
+        session. A cap of 0 (the default) means unlimited -- the search then
+        only ends when process_job_openings() runs out of result pages."""
+        cap = int(self.cur_profile.get("maxApps") or 0)
+        return cap > 0 and self.appsThisSearch >= cap
+
+    def _advanceProfile(self):
+        """Rotate to the next job search and reset its per-session application
+        count. next(self.profile_generator) also sets self.home_url as a side
+        effect (getProfileGen). cur_profile_index tracks the same position in
+        self.profiles that the generator's itertools.cycle is walking, purely
+        so searchAppCounts can be indexed without the generator exposing it."""
+        self.cur_profile_index = (self.cur_profile_index + 1) % len(self.profiles)
+        self.cur_profile = next(self.profile_generator)
+        self.appsThisSearch = 0
+
+    def _sessionSearchSummary(self):
+        """One line naming every search's application count this session, in
+        run order -- printed alongside every switch-over log line so the
+        full session picture is visible, not just the search just left."""
+        return ", ".join(
+            f"{profile.get('label')}: {self.searchAppCounts[i]}"
+            for i, profile in enumerate(self.profiles)
+        )
+
     def process_job_openings(self):
         #  loop to go thru the different pages
         while True:
             #find the list of job openings
             openings = self.driver.find_elements(By.CSS_SELECTOR, self.JOB_CARD_SELECTOR)
+            if len(openings) == 0:
+                # A page turn can land here an instant before the results pane
+                # has actually re-rendered -- give it the same settle-wait
+                # already used below for a slow-loading job page before
+                # concluding this page is genuinely empty (Logs/Log38.txt: a
+                # "Next Page" click was immediately followed by 0 cards, then
+                # the button itself timed out too, and the bot wrongly
+                # concluded the search was exhausted after only 2
+                # applications). Both calls return immediately when there is
+                # nothing to wait for, so this costs nothing on a page that
+                # really is empty.
+                if self.clearCaptcha():
+                    self.waitOutLoading()
+                openings = self.driver.find_elements(By.CSS_SELECTOR, self.JOB_CARD_SELECTOR)
+
             if len(openings) == 0:
                 # Silence here used to look exactly like "the bot is doing
                 # nothing", so say it out loud -- it almost always means Indeed
@@ -2370,6 +2571,11 @@ class IndeedHelper(PlaywrightWrap):
             else:
                 ct_print("process_job_openings", f"{len(openings)} job cards on this page")
             for opening in openings:
+                if self._searchCapReached():
+                    # Leave the rest of this page's openings alone -- the cap
+                    # means "stop here", not "finish this page first".
+                    break
+
                 self.MML.append(datetime.datetime.now())
                 #  check if it's a non-interactable opening
                 try:
@@ -2383,6 +2589,22 @@ class IndeedHelper(PlaywrightWrap):
 
                 link = self.findAndClick(self.WHOLE, self.WHOLE, self.LINK, txtCond="asdf", findFrom=opening,
                                          timeLimit=1)
+
+                # Indeed's job key (data-jk on the card's title link). RunUser
+                # reads currentJobKey if this job crashes the run, and hands
+                # it back in crashedJobKeys after the restart -- without that,
+                # the restart reopens the same search, clicks the same first
+                # card and crashes the same way every time.
+                self.currentJobKey = None
+                try:
+                    if link is not None:
+                        self.currentJobKey = link.get_attribute("data-jk")
+                except Exception:
+                    pass
+                if self.currentJobKey and self.currentJobKey in self.crashedJobKeys:
+                    ct_print("process_job_openings", "SKIP", f"jk={self.currentJobKey} crashed an earlier run")
+                    self.currentJobKey = None
+                    continue
 
                 urlBeforeClick = self.driver.current_url
                 tabsBeforeClick = len(self._context.pages)
@@ -2469,9 +2691,18 @@ class IndeedHelper(PlaywrightWrap):
 
                 #clear out prev Qs and As
                 self.prev_questions.clear()
+                # Reloaded per application, not once at bot startup: a human
+                # can be vetting/editing questions in the GUI while the bot
+                # runs a long session, and this picks that up within one
+                # application rather than only after a full restart.
+                self.loadVettedQuestions()
 
                 # extract job info
-                self.getPositionInfo()
+                positionInfoProblem = self.getPositionInfo()
+                if positionInfoProblem:
+                    self.reportAction(f"Skipping this job -- {positionInfoProblem}", False)
+                    self.backToStart()
+                    continue
 
                 jobId = f"{self.companyName} {self.jobTitle}\n"
 
@@ -2533,11 +2764,26 @@ class IndeedHelper(PlaywrightWrap):
                 yield
 
 
+            if self._searchCapReached():
+                # Hit this search's session cap -- rotate without even
+                # checking for a next page, since pages may well remain.
+                self.reportAction(
+                    f"Switching job search: [{self.cur_profile.get('label')}] hit its cap of "
+                    f"{self.cur_profile.get('maxApps')} application(s) for this session. "
+                    f"Session so far -- {self._sessionSearchSummary()}.", False)
+                self._advanceProfile()
+                self.driver.get(self.home_url)
+                continue
+
             nextButton = self.findAndClick(self.ARIA_LABEL,  self.MATCH, 'Next Page')
 
             # if url1 and url2 are not different, we have hit the last page of the current profile
             if nextButton is None:
-                self.cur_profile = next(self.profile_generator)
+                self.reportAction(
+                    f"Switching job search: [{self.cur_profile.get('label')}] ran out of result "
+                    f"pages ({self.appsThisSearch} application(s) submitted this session). "
+                    f"Session so far -- {self._sessionSearchSummary()}.", False)
+                self._advanceProfile()
                 self.driver.get(self.home_url)
 
     # Resume selection page. Indeed rebuilt this screen: the old
@@ -4027,7 +4273,7 @@ class IndeedHelper(PlaywrightWrap):
         self._tickChoice(answer_choices[topChoice], topChoice)
         return topChoice
 
-    def ensureQualityOfSelectApplicableAns(self, gptObj, answer_choices, ans):
+    def ensureQualityOfSelectApplicableAns(self, gptObj, answer_choices, ans, questn_txt=""):
         answers = ans
         topChoiceScoreThresh = [self.getTopChoiceScore(answer, answer_choices) for answer in answers]
         for _ in range(self.ANSWER_RETRIES):
@@ -4046,6 +4292,11 @@ class IndeedHelper(PlaywrightWrap):
         for topChoice, topScore, thresh in topChoiceScoreThresh:
             self._tickChoice(answer_choices[topChoice], topChoice)
             final_answers.append(topChoice)
+        # Recorded here, with the real list, rather than by the caller
+        # re-parsing str(final_answers) back into a list.
+        if questn_txt:
+            self.recordUnvettedQuestion(self._vettedTypeName(self.SelectApplicable), questn_txt,
+                                        final_answers, answer_bank=list(answer_choices.keys()))
         return str(final_answers)
 
 
@@ -4055,13 +4306,25 @@ class IndeedHelper(PlaywrightWrap):
     # until a <select> reported a value -- either of which parks the run.
 
     def relevantSubStr(self, substr, fullStr):
-        maxLen = int(len(substr)*1.5)
-        # Escape any special characters in substr
+        """True when substr appears in fullStr as a whole word/phrase, not as
+        a fragment of some longer, unrelated word ("city" inside
+        "electricity" must not count).
+
+        This used to also require the WHOLE of fullStr to be shorter than
+        1.5x substr's own length -- e.g. "zip" (3 chars) required a 4-
+        character question, "linkedin" (8 chars) a 12-character one. Every
+        realistic screener question is longer than that ("What is your zip
+        code?"), so checkIfAPreMadeAnswerFits's canned-answer lookup (name,
+        phone, email, zip, and now linkedin) silently never matched anything
+        in practice; every one of those questions fell through to a
+        model-generated answer instead of the applicant's own exact,
+        on-file value. The boundary check below already rules out the
+        "substring of a longer word" false positive on its own, so the
+        length cap was not needed for that and is simply dropped.
+        """
         escaped_substr = re.escape(substr.lower())
-        # Construct the regular expression pattern
-        pattern = rf'^(?!.{{{maxLen},}})(.*[^a-zA-Z])?{escaped_substr}([^a-zA-Z].*)?$'
-        # Check if the string matches the pattern
-        return bool(re.match(pattern, fullStr))
+        pattern = rf'(?:^|[^a-zA-Z]){escaped_substr}(?:[^a-zA-Z]|$)'
+        return bool(re.search(pattern, fullStr))
 
     # A question can hold more than one control, and they can arrive in stages:
     # "Country" is a single question whose second dropdown (the state) does not
@@ -4115,6 +4378,28 @@ class IndeedHelper(PlaywrightWrap):
         return self._wait_until(
             lambda: self._selectedTextOf(selectElement).lower() == text.lower(), 3)
 
+    def _applySearchSelectChoice(self, questn, trigger, choice):
+        """Open a searchable-select combobox and click one option by its
+        visible text. Shared by the Level-1 vetted-answer path
+        (tryVettedLevel1) and answerSearchSelect's own profile/decline/GPT
+        decision chain below -- applying an already-decided choice is
+        identical either way, only how the choice gets decided differs.
+        """
+        self.smartClick(element=trigger)
+        picked = self.findAndClick(self.TXT, self.MATCH, choice, findFrom=questn, timeLimit=4)
+        if picked is None:
+            self.reportAction(
+                f"Opened a searchable-select question but could not find the option "
+                f"{choice!r} to click.", False)
+            return False
+
+        if not self._wait_until(
+                lambda: "select an option" not in (trigger.text or "").lower(), 3):
+            self.reportAction(
+                f"Chose {choice!r} on a searchable-select question but the control still "
+                f"shows no selection.", False)
+        return True
+
     def _profileAnswerFor(self, options):
         """An option matching something already known about the applicant.
 
@@ -4159,7 +4444,19 @@ class IndeedHelper(PlaywrightWrap):
         Each select is answered from what is already known about the applicant
         where possible, and only otherwise by asking the model.
         """
+        # Level 1 of the vetted-questions system: validated/applied as a
+        # whole against however many linked selects this question currently
+        # has -- not per-round -- so a vetted answer is never partially
+        # applied from stored data and partially from a fresh GPT call
+        # within the same question. answer_choices is unused for this type
+        # (the check works directly off the live <select> elements), so {}
+        # is passed.
+        vettedAnswer = self.tryVettedLevel1(questn, questn_txt, self.DropDown, {})
+        if vettedAnswer is not None:
+            return vettedAnswer
+
         answered = []
+        banks = []
         for _round in range(self.MAX_LINKED_INPUTS):
             pending = [s for s in self._selectsIn(questn) if not self._selectedTextOf(s)]
             if not pending:
@@ -4174,7 +4471,7 @@ class IndeedHelper(PlaywrightWrap):
             source = "the profile"
             if choice is None:
                 mygpt = myGPT2("drop_down_question_prompts.txt", self.JobDescriptionText,
-                               str(self.prev_questions), questn_txt, str(self.details),
+                               str(self.vettedContextForPrompt()), questn_txt, str(self.details),
                                self.lifeSummary, "\n".join(options.keys()), helpTxt,
                                version=1, model=configured_fast_model())
                 reply = mygpt.sendAll()
@@ -4187,6 +4484,7 @@ class IndeedHelper(PlaywrightWrap):
 
             if self.setSelectTo(target, choice):
                 answered.append(choice)
+                banks.append(list(options.keys()))
                 ct_print("answerLinkedInputs", f"chose {choice[:40]!r}", source)
             else:
                 self.reportAction(
@@ -4199,6 +4497,9 @@ class IndeedHelper(PlaywrightWrap):
             self._wait_until(
                 lambda n=len(self._selectsIn(questn)): len(self._selectsIn(questn)) != n, 2)
 
+        if answered:
+            self.recordUnvettedQuestion(self._vettedTypeName(self.DropDown), questn_txt,
+                                        answered, answer_bank=banks)
         return ", ".join(answered)
 
     # The same combobox widget is also how Indeed's demographic/EEO page
@@ -4251,6 +4552,10 @@ class IndeedHelper(PlaywrightWrap):
             self.reportAction(message, False)
             return None
 
+        vettedAnswer = self.tryVettedLevel1(questn, questn_txt, self.SearchSelect, answer_choices)
+        if vettedAnswer is not None:
+            return vettedAnswer
+
         choice = self._profileAnswerFor(options)
         source = "the profile"
         if choice is None:
@@ -4267,7 +4572,7 @@ class IndeedHelper(PlaywrightWrap):
             # the "no option matched" NeedsHumanError below exactly as
             # before if the reply doesn't land on any of them at all.
             mygpt = myGPT2("drop_down_question_prompts.txt", self.JobDescriptionText,
-                           str(self.prev_questions), questn_txt, str(self.details),
+                           str(self.vettedContextForPrompt()), questn_txt, str(self.details),
                            self.lifeSummary, "\n".join(options.keys()), helpTxt,
                            version=1, model=configured_fast_model())
             reply = mygpt.sendAll()
@@ -4287,19 +4592,10 @@ class IndeedHelper(PlaywrightWrap):
             return None
         ct_print("answerSearchSelect", f"chose {choice[:60]!r}", source)
 
-        self.smartClick(element=trigger)
-        picked = self.findAndClick(self.TXT, self.MATCH, choice, findFrom=questn, timeLimit=4)
-        if picked is None:
-            self.reportAction(
-                f"Opened a searchable-select question but could not find the option "
-                f"{choice!r} to click.", False)
+        if not self._applySearchSelectChoice(questn, trigger, choice):
             return None
-
-        if not self._wait_until(
-                lambda: "select an option" not in (trigger.text or "").lower(), 3):
-            self.reportAction(
-                f"Chose {choice!r} on a searchable-select question but the control still "
-                f"shows no selection.", False)
+        self.recordUnvettedQuestion(self._vettedTypeName(self.SearchSelect), questn_txt, choice,
+                                    answer_bank=list(options.keys()))
         return choice
 
     def _tickAriaCheckbox(self, choiceElement, label):
@@ -4322,6 +4618,28 @@ class IndeedHelper(PlaywrightWrap):
             f"Clicked the answer {label!r} {self.SELECT_ATTEMPTS} times and it never "
             f"registered as checked.", False)
         return False
+
+    def _applyComboboxChoices(self, trigger, options, chosen):
+        """Open a 'select all that apply' combobox, tick every choice in
+        `chosen` that still exists among `options`, then close the popup.
+        Shared by the Level-1 vetted-answer path (tryVettedLevel1) and
+        answerSelectApplicableCombobox's own GPT-decided answer below --
+        applying an already-decided set of choices is identical either way.
+        Returns the labels actually ticked.
+        """
+        self.smartClick(element=trigger, expectingPopUp=True)
+        ticked = [choice for choice in chosen
+                 if options.get(choice) is not None
+                 and self._tickAriaCheckbox(options[choice], choice)]
+
+        # Closes the popup: unlike answerSearchSelect's single-select
+        # version, this one stays open after each click so more than one
+        # option can be checked, and never closes on its own.
+        try:
+            self._page.keyboard.press("Escape")
+        except PlaywrightError:
+            pass
+        return ticked
 
     def answerSelectApplicableCombobox(self, questn, answer_choices, required=False,
                                         questn_txt="", helpTxt=""):
@@ -4350,8 +4668,13 @@ class IndeedHelper(PlaywrightWrap):
             self.reportAction(message, False)
             return None
 
+        vettedAnswer = self.tryVettedLevel1(questn, questn_txt, self.SelectApplicableCombobox,
+                                            answer_choices)
+        if vettedAnswer is not None:
+            return vettedAnswer
+
         mygpt = myGPT2("select_applicable_question_prompts.txt", self.JobDescriptionText,
-                       str(self.prev_questions), questn_txt, "\n".join(options.keys()),
+                       str(self.vettedContextForPrompt()), questn_txt, "\n".join(options.keys()),
                        helpTxt, version=1, model=configured_fast_model())
         ans = mygpt.sendAll()
         answers = [thing.strip() for thing in ans.split("\n") if thing.strip()]
@@ -4377,18 +4700,7 @@ class IndeedHelper(PlaywrightWrap):
             self.reportAction(message, False)
             return None
 
-        self.smartClick(element=trigger, expectingPopUp=True)
-        ticked = [choice for choice in chosen
-                 if options.get(choice) is not None
-                 and self._tickAriaCheckbox(options[choice], choice)]
-
-        # Closes the popup: unlike answerSearchSelect's single-select
-        # version, this one stays open after each click so more than one
-        # option can be checked, and never closes on its own.
-        try:
-            self._page.keyboard.press("Escape")
-        except PlaywrightError:
-            pass
+        ticked = self._applyComboboxChoices(trigger, options, chosen)
 
         if not ticked:
             message = ("Could not tick any option for a 'select all that apply' "
@@ -4400,7 +4712,266 @@ class IndeedHelper(PlaywrightWrap):
                     f"Start applying.")
             self.reportAction(message, False)
             return None
+        self.recordUnvettedQuestion(self._vettedTypeName(self.SelectApplicableCombobox),
+                                    questn_txt, ticked, answer_bank=list(options.keys()))
         return ", ".join(ticked)
+
+    def loadVettedQuestions(self):
+        """(Re)load this user's VETTED (status='vetted' only) screener-
+        question answers from the DB. Unvetted rows are never loaded here --
+        Levels 1 and 2 both only ever draw on answers a human has actually
+        confirmed, per the feature's own spec."""
+        self.vetted_questions = {}
+        self.vetted_questions_list = []
+        # -1 is __init__'s sentinel for "no real user loaded yet" -- nothing
+        # to load, and no reason to touch the database at all.
+        if getattr(self, "user_id", -1) is None or getattr(self, "user_id", -1) < 0:
+            return
+        conn = sqlite3.connect('IndHelperDB.db')
+        conn.row_factory = sqlite3.Row
+        try:
+            try:
+                rows = conn.execute(
+                    "SELECT question_type, question_text, normalized_question, answer "
+                    "FROM vetted_questions WHERE user_id = ? AND status = 'vetted'",
+                    (self.user_id,),
+                ).fetchall()
+            except sqlite3.OperationalError:
+                # The table does not exist yet on a database that has not had
+                # tools/seed_vetted_questions.py run against it -- degrade to
+                # "nothing vetted" rather than crashing the whole run over an
+                # optional, self-healing feature.
+                rows = []
+        finally:
+            conn.close()
+
+        for row in rows:
+            entry = {
+                "question_type": row["question_type"],
+                "question_text": row["question_text"],
+                "answer": json.loads(row["answer"]),
+            }
+            self.vetted_questions[row["normalized_question"]] = entry
+            self.vetted_questions_list.append(entry)
+
+    def recordUnvettedQuestion(self, question_type, question_text, answer, answer_bank=None):
+        """Record an answer the bot just gave on its own -- Level 2's
+        context-informed reasoning, or today's unchanged from-scratch
+        fallback -- so the vetted-questions bank grows without anyone having
+        to type anything in by hand. Never called for a Level-1 hit: that
+        answer is already vetted and must not be touched.
+
+        Update-in-place keyed on (user_id, normalized_question) rather than
+        inserting a duplicate every time the same recurring question is
+        answered again, and the WHERE on the conflict clause makes this a
+        safe no-op against a row a human has since vetted (belt-and-
+        suspenders -- a vetted row should never reach this call at all,
+        since that is a Level-1 hit). Mirrors dbgui.data.IndeedDB.
+        upsert_unvetted_question's SQL exactly; kept as a separate raw-
+        sqlite3 statement here rather than constructing a full IndeedDB
+        instance, which backs up the whole database file on its first write
+        of a session -- appropriate for a GUI edit, not for this runtime
+        hook inside a tight per-question loop.
+        """
+        question_text = (question_text or "").strip()
+        if not question_text:
+            return
+        # self.user_id defaults to -1 in __init__ until a real user has been
+        # loaded (load_startup_info) -- the codebase's own existing sentinel
+        # for "no real user context yet". getattr also covers every existing
+        # test fixture built via IndeedHelper.__new__ (which skips __init__
+        # entirely and never sets user_id at all): those exercise
+        # process_question/answerLinkedInputs/etc. directly and must never
+        # write into the real IndHelperDB.db just because this hook now
+        # exists in that code path.
+        if getattr(self, "user_id", -1) is None or getattr(self, "user_id", -1) < 0:
+            return
+        conn = sqlite3.connect('IndHelperDB.db')
+        try:
+            now = datetime.datetime.now().isoformat(" ", "seconds")
+            normalized = normalize_question_text(question_text)
+            conn.execute(
+                "INSERT INTO vetted_questions "
+                "(user_id, question_type, question_text, normalized_question, answer, "
+                " answer_bank, status, source_application_id, last_answered_at, created_at, updated_at) "
+                "VALUES (?, ?, ?, ?, ?, ?, 'unvetted', NULL, ?, ?, ?) "
+                "ON CONFLICT(user_id, normalized_question) DO UPDATE SET "
+                "question_type = excluded.question_type, "
+                "question_text = excluded.question_text, "
+                "answer = excluded.answer, "
+                "answer_bank = excluded.answer_bank, "
+                "last_answered_at = excluded.last_answered_at, "
+                "updated_at = excluded.updated_at "
+                "WHERE vetted_questions.status = 'unvetted'",
+                (self.user_id, question_type, question_text, normalized, json.dumps(answer),
+                 json.dumps(answer_bank) if answer_bank is not None else None, now, now, now),
+            )
+            conn.commit()
+        except sqlite3.OperationalError:
+            # Table does not exist yet -- see loadVettedQuestions. Recording
+            # is best-effort; the bot's own answer already made it onto the
+            # page regardless.
+            pass
+        finally:
+            conn.close()
+
+    def _vettedTypeName(self, type):
+        """The vetted_questions.question_type code for one of this class's
+        own type constants. DateFill has no code -- it never reaches this
+        mapping, since every vetted-questions call site skips it first."""
+        return {
+            self.FreeResponse: "free_response",
+            self.FreeResponseLong: "free_response_long",
+            self.MultChoice: "mult_choice",
+            self.SelectApplicable: "select_applicable",
+            self.DropDown: "drop_down",
+            self.SearchSelect: "search_select",
+            self.SelectApplicableCombobox: "select_applicable_combobox",
+        }.get(type)
+
+    def _matchLiveChoice(self, stored, options):
+        """The actual live key in `options` (an answer_choices-shaped dict,
+        or a plain iterable of option labels) whose normalized form matches
+        a stored vetted answer's label -- or None if no live option matches.
+
+        A separate normalizer from normalize_question_text: this compares
+        answer CHOICES (single words/short phrases), reusing the same
+        case/punctuation folding the rest of the question-answering code
+        already uses (_normaliseChoice) to score a GPT reply against the
+        choices on offer -- not question TEXT.
+        """
+        if not stored:
+            return None
+        target = self._normaliseChoice(stored)
+        for key in options:
+            if self._normaliseChoice(key) == target:
+                return key
+        return None
+
+    def tryVettedLevel1(self, questn, questn_txt, type, answer_choices):
+        """Level 1 of the vetted-questions system: an exact, normalized-text
+        match among this user's VETTED questions, applied without calling
+        the LLM at all. Returns the applied answer (in the same per-type
+        format self.prev_questions already uses) on a hit, or None on a
+        miss -- a miss simply falls through to the unchanged code below,
+        which now draws on the vetted corpus as LLM context regardless (see
+        vettedContextForPrompt).
+
+        DateFill never reaches this: a stored/vetted date answer is never
+        correct on a later application, since the right answer is always
+        "today".
+
+        A choice-based hit is only applied when EVERY item in the stored
+        answer is still present among the choices THIS EXACT question is
+        currently offering (case/punctuation-folded via _matchLiveChoice) --
+        a live option set that is missing even one stored item is treated
+        as a miss, never partially applied, since a different posting can
+        offer a different set of choices for what is otherwise the same
+        question text.
+        """
+        if type == self.DateFill:
+            return None
+
+        # getattr, not a direct attribute access: an IndeedHelper built via
+        # __new__ (this codebase's established test-fixture pattern, which
+        # deliberately skips __init__ to avoid needing a real browser/DB)
+        # never gets vetted_questions set at all. Treating that the same as
+        # "loaded, found nothing" is also the right production behaviour for
+        # any code path that reaches here before loadVettedQuestions() has
+        # ever run once.
+        row = getattr(self, "vetted_questions", {}).get(normalize_question_text(questn_txt))
+        if row is None or row["question_type"] != self._vettedTypeName(type):
+            return None
+
+        answer = row["answer"]
+
+        if type in (self.FreeResponse, self.FreeResponseLong):
+            self.fillMoveOn(answer_choices['inputBox'], answer)
+            return answer
+
+        if type == self.MultChoice:
+            actual = self._matchLiveChoice(answer, answer_choices)
+            if actual is None:
+                return None
+            self._tickChoice(answer_choices[actual], actual)
+            return actual
+
+        if type == self.SelectApplicable:
+            if not isinstance(answer, list) or not answer:
+                return None
+            actuals = [self._matchLiveChoice(item, answer_choices) for item in answer]
+            if any(a is None for a in actuals):
+                return None
+            for actual in actuals:
+                self._tickChoice(answer_choices[actual], actual)
+            return str(actuals)
+
+        if type == self.SearchSelect:
+            options = answer_choices.get('options') or {}
+            actual = self._matchLiveChoice(answer, options)
+            trigger = answer_choices.get('trigger')
+            if actual is None or trigger is None:
+                return None
+            if not self._applySearchSelectChoice(questn, trigger, actual):
+                return None
+            return actual
+
+        if type == self.SelectApplicableCombobox:
+            if not isinstance(answer, list) or not answer:
+                return None
+            options = answer_choices.get('options') or {}
+            trigger = answer_choices.get('trigger')
+            actuals = [self._matchLiveChoice(item, options) for item in answer]
+            if trigger is None or any(a is None for a in actuals):
+                return None
+            ticked = self._applyComboboxChoices(trigger, options, actuals)
+            if not ticked:
+                return None
+            return ", ".join(ticked)
+
+        if type == self.DropDown:
+            if not isinstance(answer, list) or not answer:
+                return None
+            selects = self._selectsIn(questn)
+            if len(selects) != len(answer):
+                return None
+            actuals = [self._matchLiveChoice(item, self._optionsOf(select))
+                      for item, select in zip(answer, selects)]
+            if any(a is None for a in actuals):
+                return None
+            for select, actual in zip(selects, actuals):
+                if not self.setSelectTo(select, actual):
+                    return None
+            return ", ".join(actuals)
+
+        return None
+
+    def _vettedRowAsQA(self, row):
+        """One vetted_questions row rendered back into the SAME legacy
+        per-type display convention self.prev_questions already uses
+        (stringified list for select_applicable, comma-joined for
+        drop_down/select_applicable_combobox, plain string otherwise) --
+        display-only, so the merged prompt context below reads consistently
+        to the model. The DB's own storage stays clean JSON regardless."""
+        answer = row["answer"]
+        if row["question_type"] == "select_applicable":
+            return {"Question": row["question_text"], "Answer": str(answer)}
+        if row["question_type"] in ("drop_down", "select_applicable_combobox"):
+            rendered = ", ".join(answer) if isinstance(answer, list) else str(answer)
+            return {"Question": row["question_text"], "Answer": rendered}
+        return {"Question": row["question_text"], "Answer": answer}
+
+    def vettedContextForPrompt(self):
+        """This user's whole vetted corpus, followed by this application's
+        own answers so far -- fed into every non-DateFill GPT call in place
+        of plain self.prev_questions, so the model can reason from vetted
+        answers (Level 2) exactly as readily as it already reasons from
+        this application's own running history (today's Level 3). Degrades
+        to plain prev_questions when nothing is vetted yet for this user --
+        byte-identical to today's behaviour, no separate call needed.
+        """
+        return [self._vettedRowAsQA(row) for row in getattr(self, "vetted_questions_list", [])] \
+            + self.prev_questions
 
     def checkIfAPreMadeAnswerFits(self, questn_txt, type, answer_choices):
         detailKeysOrdrd = list(self.details.keys())
@@ -4460,6 +5031,19 @@ class IndeedHelper(PlaywrightWrap):
         if self.checkIfAPreMadeAnswerFits(questn_txt, type, answer_choices):
             return
 
+        # Level 1 of the vetted-questions system: an exact match among this
+        # user's vetted answers, applied with no LLM call at all. Only the
+        # four types handled inline below -- DropDown, SearchSelect, and
+        # SelectApplicableCombobox each have their own Level-1 check inside
+        # their own delegate function instead (they decide internally
+        # whether to call the LLM, so checking here too would just be a
+        # second, always-redundant lookup on the exact same miss).
+        if type in (self.FreeResponse, self.FreeResponseLong, self.MultChoice, self.SelectApplicable):
+            vettedAnswer = self.tryVettedLevel1(questn, questn_txt, type, answer_choices)
+            if vettedAnswer is not None:
+                self.prev_questions.append({"Question": questn_txt, "Answer": vettedAnswer})
+                return
+
         helpTxt = "Answer as concisely and in as natural a way as possible"
         if errorTxt is not None:
             helpTxt = errorTxt.text
@@ -4477,13 +5061,14 @@ class IndeedHelper(PlaywrightWrap):
             # they sit between the life summary and the question, and between
             # the question and "reply only with the answer", respectively.
             mygpt = myGPT2("free_response_question_prompts.txt", self.JobDescriptionText,
-                          str(self.prev_questions), str(self.details), self.lifeSummary,
+                          str(self.vettedContextForPrompt()), str(self.details), self.lifeSummary,
                           self.realExperienceBlock(), questn_txt, self.styleGuide(), helpTxt,
                           self.zip, self.phone_num, self.email, version=1)
             ans = self.stripDashes(mygpt.sendAll())
             self.fillMoveOn(answer_choices['inputBox'], ans)
 
             final_answer = self.ensureQualityOfFreeRespAns(mygpt, questn, helpTxt, ans)
+            self.recordUnvettedQuestion(self._vettedTypeName(type), questn_txt, final_answer)
 
         elif type == self.DateFill:
             # get chat GPT help with free response question
@@ -4538,7 +5123,7 @@ class IndeedHelper(PlaywrightWrap):
 
         elif type == self.MultChoice:
             #get chat GPT help
-            mygpt = myGPT2("mult_choice_question_prompts.txt", self.JobDescriptionText,  str(self.prev_questions),
+            mygpt = myGPT2("mult_choice_question_prompts.txt", self.JobDescriptionText,  str(self.vettedContextForPrompt()),
                           questn_txt, "\n".join(list(answer_choices.keys())), helpTxt, version=1, model=configured_fast_model())
             # [-1], not [1]: when GPT answers without the "The answer is:"
             # preamble, [1] is an IndexError that kills the whole question.
@@ -4547,15 +5132,18 @@ class IndeedHelper(PlaywrightWrap):
             ans = mygpt.sendAll().split("The answer is:")[-1]
 
             final_answer = self.ensureQualityOfMultChoiceAns(mygpt, answer_choices, ans)
+            self.recordUnvettedQuestion(self._vettedTypeName(type), questn_txt, final_answer,
+                                        answer_bank=list(answer_choices.keys()))
 
         elif type == self.SelectApplicable:
             #get chat GPT help
-            mygpt = myGPT2("select_applicable_question_prompts.txt", self.JobDescriptionText,  str(self.prev_questions),
+            mygpt = myGPT2("select_applicable_question_prompts.txt", self.JobDescriptionText,  str(self.vettedContextForPrompt()),
                           questn_txt, "\n".join(list(answer_choices.keys())), helpTxt, version=1, model=configured_fast_model())
             ans = mygpt.sendAll()
             ans_list = [thing.strip() for thing in ans.split("\n") if len(thing.strip()) > 0 ]
 
-            final_answer = self.ensureQualityOfSelectApplicableAns(mygpt, answer_choices, ans_list)
+            final_answer = self.ensureQualityOfSelectApplicableAns(mygpt, answer_choices, ans_list,
+                                                                    questn_txt=questn_txt)
 
 
         elif type == self.DropDown:
@@ -4946,11 +5534,24 @@ class IndeedHelper(PlaywrightWrap):
             for rec in self.searchRecords:
                 jobNums = (rec["job_nums"] or "").strip()
                 eduNums = (rec["edu_nums"] or "").strip()
+                # Optional: absent on databases that have not had the
+                # add_max_applications_per_search migration run, so read it
+                # defensively. 0 means no cap -- switch searches only when out
+                # of result pages, same as before this column existed.
+                maxApps = rec["max_applications"] if "max_applications" in rec.keys() else 0
+                # Optional too (add_target_position): falls back to the raw
+                # URL so switch-over log lines always name SOMETHING, never a
+                # blank label.
+                label = ((rec["target_position"] if "target_position" in rec.keys() else "")
+                         or rec["url"] or f"search #{len(self.profiles) + 1}")
                 # An empty list means "use every Job/Edu record for this user",
                 # which the rest of the code expresses as None.
                 self.profiles.append({"home": rec["url"],
                                       "eduN": [int(n) for n in eduNums.split(",")] if eduNums else None,
-                                      "jobN": [int(n) for n in jobNums.split(",")] if jobNums else None})
+                                      "jobN": [int(n) for n in jobNums.split(",")] if jobNums else None,
+                                      "maxApps": int(maxApps or 0),
+                                      "label": label,
+                                      "searchId": int(rec["id"])})
 
             if not self.profiles:
                 raise ValueError(
@@ -4959,6 +5560,8 @@ class IndeedHelper(PlaywrightWrap):
                     f"database admin GUI (db_admin.py) before running this user."
                 )
 
+            self.searchAppCounts = [0] * len(self.profiles)
+            self.cur_profile_index = 0
             self.profile_generator = self.getProfileGen()
             self.cur_profile = next(self.profile_generator)
 
@@ -4971,6 +5574,10 @@ class IndeedHelper(PlaywrightWrap):
             self.lastName = info["LastName"]
             self.phone_num = info["PhoneNumber"]
             self.email = info["IndeedEmail"]
+            # Optional: absent on databases that have not had the
+            # add_linkedin_profile migration run, so read it defensively.
+            self.linkedin = (info["LinkedInProfile"]
+                             if "LinkedInProfile" in info.keys() else "") or ""
             self.addr = info["address"]
             self.areaSpec = info["areaSpec"]
             self.country = info["country"]
@@ -5012,6 +5619,8 @@ class IndeedHelper(PlaywrightWrap):
                         "number":self.phone_num, "phone":self.phone_num,
                         "phone number":self.phone_num.replace("(", "").replace(")", "").replace(" ", "").replace("-", ""),
                         "email": self.email,
+                        "linkedin": self.linkedin, "linkedin profile": self.linkedin,
+                        "linkedin url": self.linkedin, "linkedin profile url": self.linkedin,
                         "address":self.addr,
                         "city":c, "state":s.strip(), "country":self.country,
                         "zip":self.zip, "postal code":self.zip}
@@ -5063,8 +5672,20 @@ class IndeedHelper(PlaywrightWrap):
         return None
 
     def getPositionInfo(self):
-        x = "//*[@data-testid='inlineHeader-companyName']"
+        # The newer viewjob template behind the Apply-button anchor variant
+        # (HTMLz/retirement_plan_implementation_Consultant.html, APPLY_BUTTON_
+        # XPATH's //a[@data-testid='viewjob-indeed-apply'] alternative) has no
+        # inlineHeader-companyName at all -- fixing the Apply-button search
+        # without fixing this just traded a silent skip for a hard crash the
+        # very next line, every job, forever (Logs after that fix landed).
+        # This template's company name is the sole role="link" anchor inside
+        # company-info-metadata (a sibling of job-header-actions, not a
+        # descendant of it, so this cannot accidentally match the Apply link).
+        x = ("//*[@data-testid='inlineHeader-companyName']"
+             " | //*[@data-testid='company-info-metadata']//a[@role='link']")
         compNameEle = self.findAndClick(self.WHOLE, self.WHOLE, x, txtCond="dsfdsd324", timeLimit=1)
+        if compNameEle is None:
+            return self._unrecognizedJobPage("company name")
         self.companyName = compNameEle.text
 
 
@@ -5072,13 +5693,55 @@ class IndeedHelper(PlaywrightWrap):
         # "<span>... - job post</span>" wrapper is gone from Indeed's markup, and
         # looking for it burned a 2 second timeout on every single job before
         # falling through to the h1 anyway.
+        #
+        # The newer template's title is an <h5 data-testid="vj-job-title">,
+        # not an <h1> at all.
         titleElement = self.findAndClick(self.WHOLE, self.WHOLE,
-                                         "//h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1",
+                                         "//h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1"
+                                         " | //*[@data-testid='vj-job-title']",
                                          txtCond="adfddfsa", timeLimit=2)
-        self.jobTitle = titleElement.text.split("\n")[0]
+        if titleElement is None:
+            return self._unrecognizedJobPage("job title")
+        self.jobTitle =titleElement.text.split("\n")[0]
 
-        jobDescElement = self.findAndClick(self.ID, self.MATCH, 'jobDescriptionText', txtCond='adsfdasf134')
+        # The newer template has no id="jobDescriptionText" either -- the
+        # description is the simple-job-description-html block. It is NOT
+        # nested inside jobDetailsSection (that wraps the Pay/Job type
+        # summary above it, and closes before this section starts) -- an
+        # ancestor-qualified xpath silently matched nothing.
+        jobDescElement = self.findAndClick(
+            self.WHOLE, self.WHOLE,
+            "//*[@id='jobDescriptionText']"
+            " | //*[contains(@class,'simple-job-description-html')]",
+            txtCond='adsfdasf134')
+        if jobDescElement is None:
+            return self._unrecognizedJobPage("job description")
         self.JobDescriptionText = jobDescElement.text
+        return None
+
+    def _unrecognizedJobPage(self, missing):
+        """getPositionInfo() could not find one of its fields: Indeed is
+        serving yet another viewjob template. This used to be an
+        AttributeError on `None.text`, which killed RunUser, relaunched the
+        browser, reopened the SAME first job card and crashed again, forever
+        (Logs/Log41.txt: 9 restarts on "AI Developer" / "Sr. Database
+        Engineer").
+
+        Saves the page to HTMLz/ so the new template's selectors can be
+        written from a real capture, and returns a reason string -- the
+        caller skips the job instead of crashing."""
+        stamp = datetime.datetime.now().strftime("%Y_%m_%d_%H.%M.%S")
+        dumpPath = f"HTMLz/unrecognized_viewjob_{stamp}.html"
+        try:
+            with open(dumpPath, "w", encoding="utf-8") as f:
+                f.write(self._page.content())
+        except Exception as exc:
+            ct_error("getPositionInfo (saving page)", exc)
+            dumpPath = "(could not save page)"
+        reason = (f"unrecognized job page layout, no {missing} found "
+                  f"({self.driver.current_url[:120]}); page saved to {dumpPath}")
+        ct_print("getPositionInfo", "UNRECOGNIZED TEMPLATE", reason)
+        return reason
 
     def generateHeadline(self):
         mygpt = myGPT2("headline_prompts2.txt", self.JobDescriptionText)
@@ -5294,6 +5957,14 @@ class StateMachine:
         self.transitions = self.load_transitions("StateTransitions.txt")
         self.current_state = self.states[0]
         self.prev_state = None
+        # The page the run loop last read, kept so recovery from an unexpected
+        # error can say where it happened.
+        self.lastEnvironment = ""
+        # Loop detection for pages that revisit the same state repeatedly
+        # without progress (HTMLz/ghost_profile.html) -- see _checkForStuckLoop.
+        self._loopEnvPattern = None
+        self._loopStateVisits = {}
+        self._loopRecoveryAttempts = 0
 
 
     def validate_files(self, states_file, expected_environments_file, state_transitions_file):
@@ -5427,6 +6098,9 @@ class StateMachine:
         envPattern = self.envIsValid(environment)
         if not envPattern:
             self.handleUnknownEnvironment(environment)
+            return
+
+        if self._checkForStuckLoop(envPattern, environment):
             return
 
         next_state = None
@@ -5581,6 +6255,69 @@ class StateMachine:
         """
         url, _, title = str(environment or "").partition("|")
         return f"{url.split('?', 1)[0].rstrip('/')}|{title.strip()}"
+
+    # How many times the same state may recur on the same page before that
+    # counts as "stuck", not merely slow -- see _checkForStuckLoop.
+    STUCK_STATE_REVISIT_LIMIT = 3
+    # How many click/scroll/click recovery cycles to try before giving up and
+    # pausing for a person -- see _checkForStuckLoop.
+    STUCK_RECOVERY_CYCLE_LIMIT = 3
+
+    def _checkForStuckLoop(self, envPattern, environment):
+        """Detect a page that keeps returning to the same state with no
+        progress, and recover from it the way a person does.
+
+        HTMLz/ghost_profile.html: Indeed's resume page sometimes renders with
+        its controls simply inert -- nothing about the DOM marks this, every
+        click just times out -- and nothing here ever raises, so the state
+        machine bounced between startedOnResume and startedEditContactInfo
+        for the rest of the run (Logs/Log42.txt; Logs/Log43.txt lines
+        309-2922 show it 17 times over). The run only moved again once a
+        person clicked the page, scrolled to the bottom, and clicked again.
+        A refresh was tried by hand afterward on this same page and
+        confirmed NOT to help, so there is no refresh fallback here: the
+        click/scroll/click cycle repeats up to STUCK_RECOVERY_CYCLE_LIMIT
+        times before falling back to the normal pause-and-beep for a person.
+
+        Returns True when it consumed this tick with a recovery action (or a
+        pause), meaning transition() should stop and let the next tick retry.
+
+        Reads its tracking attributes with getattr rather than assuming
+        __init__ set them -- several tests build a StateMachine via
+        StateMachine.__new__() and set only the attributes they need.
+        """
+        if envPattern != getattr(self, "_loopEnvPattern", None):
+            self._loopEnvPattern = envPattern
+            self._loopStateVisits = {}
+            self._loopRecoveryAttempts = 0
+            return False
+
+        visits = self._loopStateVisits.get(self.current_state, 0) + 1
+        self._loopStateVisits[self.current_state] = visits
+        if visits < self.STUCK_STATE_REVISIT_LIMIT:
+            return False
+
+        # Reached the limit again -- give the next attempt a fresh run at it
+        # instead of firing on every single tick from here on.
+        self._loopStateVisits = {}
+        self._loopRecoveryAttempts = getattr(self, "_loopRecoveryAttempts", 0) + 1
+
+        if self._loopRecoveryAttempts <= self.STUCK_RECOVERY_CYCLE_LIMIT:
+            self.helper.reportAction(
+                f"Stuck on state '{self.current_state}' -- seen {visits} times on this "
+                f"page with no progress. Clicking, scrolling to the bottom, and clicking "
+                f"again (cycle {self._loopRecoveryAttempts} of "
+                f"{self.STUCK_RECOVERY_CYCLE_LIMIT}), the way a person unsticks it.", False)
+            self.helper.nudgeStuckPage()
+            return True
+
+        self.handleStuck(
+            "stuck cycling on this page", environment,
+            f"State '{self.current_state}' keeps recurring on this page with no progress, "
+            f"even after {self.STUCK_RECOVERY_CYCLE_LIMIT} rounds of clicking, scrolling, "
+            f"and clicking again. Look at the page and press Start applying once it is "
+            f"moving again.")
+        return True
 
     def handleStuck(self, reason, environment, message):
         """Pause and beep when the bot cannot get past a page it does recognise.
@@ -5738,14 +6475,26 @@ class StateMachine:
             t.sleep(1)
             env = self.helper.getCurrentEnv(quiet=True)
             if isResolved(env):
-                ct_print("StateMachine", "ATTENTION CLEARED", f"{reason}: {env[:80]}")
-                self.helper.reportAction(clearedMessage, False)
                 # A bot check stays paused on purpose: a person was at the
                 # keyboard solving it, and pressing Start applying is how they
                 # say they are done looking. A situation that resolved WITHOUT
                 # anyone being needed is different -- staying paused there means
                 # announcing "ATTENTION CLEARED" and then sitting still, waiting
                 # for a human who has no reason to come.
+                #
+                # The trailing "[auto-resume]" is not decorative: dbgui/runner.py
+                # greps for it to also flip the control FILE's mode back to
+                # "running". Without that, clearing selfPaused here does nothing
+                # -- waitWhilePaused() blocks on `self.control.mode() == "paused"`
+                # too, and runner.py wrote that "paused" the moment NEEDS
+                # ATTENTION appeared, with nothing to ever write it back. That
+                # gap is exactly what left a self-resolved ghost-profile page
+                # (Logs/Log44.txt line 1230 on) sitting idle until a person
+                # opened the Run tab and pressed Start applying anyway.
+                autoResumeTag = " [auto-resume]" if resumeWhenResolved else ""
+                ct_print("StateMachine", "ATTENTION CLEARED",
+                        f"{reason}: {env[:80]}{autoResumeTag}")
+                self.helper.reportAction(clearedMessage, False)
                 if resumeWhenResolved:
                     self.selfPaused = False
                 return True
@@ -5773,7 +6522,64 @@ class StateMachine:
             clearedMessage="Bot check cleared. Press Start applying to continue.",
         )
 
+    def recoverInPlace(self):
+        """Get the run back to a known state WITHOUT touching the browser.
+
+        Three things have to be put right after an unexpected error:
+
+        1. The job the bot was on. It has already failed once; the browser is
+           still sitting on the same search, so without this the next pass
+           clicks the same card and fails the same way (Logs/Log41.txt).
+        2. The job-opening generator. An exception raised inside
+           process_job_openings() leaves the generator closed, so the next
+           next() would raise StopIteration out of newApp() -- a second crash
+           caused by the first. A fresh generator re-reads the results page.
+        3. The state machine's idea of where it is, which no longer matches a
+           browser that is about to be sent back to the search page.
+        """
+        helper = self.helper
+        try:
+            if getattr(helper, "currentJobKey", None):
+                helper.crashedJobKeys.add(helper.currentJobKey)
+                ct_print("StateMachine", "will skip the job it failed on",
+                         f"jk={helper.currentJobKey}")
+                helper.currentJobKey = None
+        except Exception as exc:
+            ct_error("recoverInPlace (job key)", exc)
+
+        try:
+            helper.jobOpeningGenerator = helper.process_job_openings()
+        except Exception as exc:
+            ct_error("recoverInPlace (generator)", exc)
+
+        # backToStart() selects the existing search tab; goHome() navigates
+        # there. Try the cheap one first -- it keeps whatever page the search
+        # tab is already on, including how far into the results it had got.
+        for label, action in (("backToStart", helper.backToStart), ("goHome", helper.goHome)):
+            try:
+                action()
+                ct_print("StateMachine", "recovered in place", f"via {label}, browser left open")
+                break
+            except Exception as exc:
+                ct_error(f"recoverInPlace ({label})", exc)
+        else:
+            # Even navigation failed. Say so plainly and carry on: the next
+            # loop re-reads the page, and a person can move the browser by
+            # hand. Still no restart -- see the note in run().
+            ct_print("StateMachine", "could not navigate during recovery",
+                     "leaving the browser where it is")
+
+        self.current_state = self.states[0]
+        self.prev_state = None
+        t.sleep(2)
+
+    # How many unexpected errors in a row are absorbed before a person is
+    # asked to look. Each one already costs a job; past this the run is
+    # failing the same way every time and quietly burning through the search.
+    RECOVER_IN_PLACE_LIMIT = 5
+
     def run(self):
+        consecutive_errors = 0
         while True:
             self.waitWhilePaused()
 
@@ -5782,13 +6588,43 @@ class StateMachine:
                 self.handleCommand(command)
                 continue
 
-            env = self.helper.getCurrentEnv()
-            if env == "exit":
-                break
-            if self.isInterstitial(env):
-                self.waitOutInterstitial()
-                continue
-            self.transition(env)
+            try:
+                env = self.helper.getCurrentEnv()
+                if env == "exit":
+                    break
+                self.lastEnvironment = env
+                if self.isInterstitial(env):
+                    self.waitOutInterstitial()
+                    continue
+                self.transition(env)
+                consecutive_errors = 0
+            except Exception as exc:
+                # Anything unexpected used to travel up to RunUser, which
+                # closed Chrome and relaunched it. That threw away a logged-in
+                # browser and any part-finished application to recover from
+                # problems that were never browser problems in the first place
+                # -- a job title that cp1252 could not print closed the browser
+                # (Logs/Log46.txt), and an unreadable company name closed it
+                # nine times in a row (Logs/Log41.txt). The browser is the
+                # expensive, fragile thing here (sessions, cookies, Cloudflare's
+                # opinion of us); the run state is cheap. So recover the run
+                # state and leave the browser alone.
+                consecutive_errors += 1
+                ct_error("StateMachine (recovering)", exc)
+                traceback.print_exc()
+                if consecutive_errors >= self.RECOVER_IN_PLACE_LIMIT:
+                    # Still failing after several fresh starts: stop guessing
+                    # and fetch a person. Pauses, beeps, keeps the browser open,
+                    # and resumes when the page changes or Start applying is
+                    # pressed -- handleStuck never restarts anything.
+                    self.handleStuck(
+                        f"{consecutive_errors} errors in a row ({type(exc).__name__})",
+                        self.lastEnvironment or "",
+                        f"The bot hit {consecutive_errors} unexpected errors in a row. The last "
+                        f"was: {exc}. The browser has been left open. Fix what it is stuck on, "
+                        f"or press Start applying to have it try again.")
+                    consecutive_errors = 0
+                self.recoverInPlace()
 
 def loadUsersFromDB(userIds=None):
     """Load runnable users.
@@ -5854,11 +6690,16 @@ RESTART_BACKOFF_SECONDS = 15
 def RunUser(user_to_run, masterRecords):
     user_label = f"{user_to_run['mainInfo']['FirstName']} {user_to_run['mainInfo']['LastName']} (id={user_to_run['mainInfo']['id']})"
     consecutive_failures = 0
+    # Jobs (Indeed jk keys) that crashed a run. Kept out here, not on the
+    # helper, because every restart builds a fresh IndeedHelper.
+    crashed_job_keys = set()
     while True:
         sm = None
         try:
             ct_enter("RunUser", user_label)
-            sm = StateMachine(IndeedHelper(user_to_run, masterRecords["milestoneList"]))
+            helper = IndeedHelper(user_to_run, masterRecords["milestoneList"])
+            helper.crashedJobKeys = crashed_job_keys
+            sm = StateMachine(helper)
             masterRecords["sm_ref"] = sm
             # start_up() has opened the browser on the home page and stopped
             # there; sm.run() begins paused and waits for the Run tab.
@@ -5875,6 +6716,10 @@ def RunUser(user_to_run, masterRecords):
                     sm.helper.reportAction(f"An error occurred: {exc}", False)
                 except Exception as report_exc:
                     ct_error("RunUser (reportAction)", report_exc)
+            crashed_key = getattr(sm.helper, "currentJobKey", None) if sm is not None else None
+            if crashed_key:
+                crashed_job_keys.add(crashed_key)
+                ct_print("RunUser", "will skip crashed job after restart", f"jk={crashed_key}")
             if sm is not None:
                 try:
                     sm.helper.close()

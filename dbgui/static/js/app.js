@@ -2,8 +2,9 @@
 
 import { api, toast, el, mount, setTopbar } from './core.js';
 import { renderUsers, renderProfile } from './users.js';
-import { renderSearches } from './searches.js';
+import { renderSearches, stopSearchesPolling } from './searches.js';
 import { renderJobs, renderEdu } from './history.js';
+import { renderVettedQuestions } from './vetted.js';
 import { renderApplications, renderApplicationsOld } from './applications.js';
 import { renderRun, stopPolling } from './run.js';
 import { renderAdmin } from './admin.js';
@@ -17,12 +18,13 @@ const VIEWS = {
   'searches':         renderSearches,
   'jobs':             renderJobs,
   'edu':              renderEdu,
+  'vetted':           renderVettedQuestions,
   'applications':     renderApplications,
   'applications-old': renderApplicationsOld,
   'admin':            renderAdmin,
 };
 
-const NEEDS_USER = new Set(['profile', 'searches', 'jobs', 'edu']);
+const NEEDS_USER = new Set(['profile', 'searches', 'jobs', 'edu', 'vetted']);
 
 /** Display name of the user currently in context, or null if none is selected. */
 function userLabel() {
@@ -56,16 +58,18 @@ async function refreshCounts() {
     state.users = await api.get('/api/users');
     setCount('users', state.users.length);
     if (state.userId != null) {
-      const [searches, jobs, edu] = await Promise.all([
+      const [searches, jobs, edu, vetted] = await Promise.all([
         api.get(`/api/users/${state.userId}/searches`),
         api.get(`/api/users/${state.userId}/jobs`),
         api.get(`/api/users/${state.userId}/edu`),
+        api.get(`/api/users/${state.userId}/vetted-questions`),
       ]);
       setCount('searches', searches.length);
       setCount('jobs', jobs.length);
       setCount('edu', edu.length);
+      setCount('vetted', vetted.length);
     } else {
-      ['searches', 'jobs', 'edu'].forEach((k) => setCount(k, null));
+      ['searches', 'jobs', 'edu', 'vetted'].forEach((k) => setCount(k, null));
     }
   } catch (err) {
     toast(err.message, 'error');
@@ -88,6 +92,8 @@ async function go(view) {
   // Leaving the Run screen must cancel its status poll, or it keeps
   // re-rendering over whatever view replaced it.
   if (state.view === 'run' && view !== 'run') stopPolling();
+  // Same idea for the Searches page's "this session" count poll.
+  if (state.view === 'searches' && view !== 'searches') stopSearchesPolling();
 
   state.view = view;
   syncNav();

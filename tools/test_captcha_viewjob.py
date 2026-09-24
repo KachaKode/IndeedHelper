@@ -177,7 +177,13 @@ def main() -> int:
         loop_src = (ROOT / "main3.py").read_text(encoding="utf-8")
         loop = loop_src[loop_src.index("def process_job_openings"):]
         first_apply_at = loop.find("APPLY_BUTTON_XPATH")
-        clear_at = loop.find("self.clearCaptcha()")
+        # Searched from first_apply_at, not from the top of the function: a
+        # separate, earlier clearCaptcha()/waitOutLoading() pair now runs
+        # before this, giving a still-rendering results PAGE (after a "Next
+        # Page" click) a chance to settle before its job-card count is
+        # trusted -- an unrelated fix for an unrelated symptom (Logs/Log38.txt),
+        # not the retry this section is pinning.
+        clear_at = loop.find("self.clearCaptcha()", first_apply_at) if first_apply_at != -1 else -1
         second_apply_at = loop.find("APPLY_BUTTON_XPATH", clear_at + 1) if clear_at != -1 else -1
         check("clearCaptcha runs inside process_job_openings", clear_at != -1)
         check("the FIRST Apply-button search happens before any captcha check",

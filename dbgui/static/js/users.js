@@ -206,6 +206,8 @@ export async function renderProfile(ctx) {
       field('Last name', text('LastName')),
       field('Phone number', text('PhoneNumber')),
       field('Email', text('email')),
+      field('LinkedIn profile', text('LinkedInProfile'),
+        'Used directly whenever a screener question asks for your LinkedIn profile.'),
       field('Street address', text('address')),
       field('City, State', text('areaSpec'), 'e.g. "Powder Springs, Ga"'),
       field('Country', text('country')),

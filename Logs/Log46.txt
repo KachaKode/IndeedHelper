@@ -1,0 +1,152 @@
+[CT]     0.0ms | RunUser | ENTER | Tommy Orok (id=9)[CT]     0.0ms | __main__ | started worker thread for user id=9
+[CT]     2.2ms | start_up | ENTER | https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198
+[CT]     1.0ms | start_up | launching chrome.exe | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=10220
+[CT]    10.0ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:10220/json/version sees='attempt=0'
+[CT]  4956.8ms | start_up | EXIT |  result=https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198
+[CT]    16.1ms | RunUser | READY | Tommy Orok (id=9) is on the home page and paused
+[CT]     1.6ms | StateMachine | PAUSED | waiting for a command from the Run tab
+[CT] 45452.5ms | StateMachine | RESUMED
+[CT]     0.0ms | getCurrentEnv | ENTER
+[CT]   260.2ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    13.7ms | smartClick | WAIT | for=recovering from Error sees='Page.query_selector_all: Execution context was destroyed, most likely because of a navigation'
+[CT]     0.0ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   477.8ms | smartClick | EXIT |  result=not found
+[CT]   227.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | getCurrentEnv | WAIT | for=page title to load
+[CT]  1012.1ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198|Flexible Python Jobs � Apply Today to Work From Home 
+[CT]  1022.9ms | reportAction | Calling function: newApp() in environment: https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198|Flexible Python Jobs � Apply Today to Work From Home in Remote (September 23, 2026) | Inde
+[CT] ------------------------------------------------------------------------------
+[CT] >>> PAGE: newApp()  (from state initNewApp)
+[CT]     https://www.indeed.com/jobs?q=Python&l=Remote&vjk=5a1ebffdd961f198
+[CT]     "Flexible Python Jobs � Apply Today to Work From Home in Remote (September 23, 2026) | Indeed"
+[CT] ------------------------------------------------------------------------------
+[CT]   522.4ms | process_job_openings | 16 job cards on this page
+[CT]  1544.9ms | smartClick | ENTER | .//a
+[CT]    96.6ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]   547.3ms | smartClick | EXIT |  result=text condition mismatch
+[CT]   352.8ms | smartClick | ENTER
+[CT]  1504.7ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=https://www.indeed.com/viewjob?jk=1e564211fa2ca2d4&tk=1k385ncalgieq800&from=serp
+[CT]   488.7ms | reportAction | clicked <element: full details of Senior Staff Software Engineer | Security Da> successfully!
+[CT]     4.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on https://www.indeed.com/viewjob?jk=1e564211fa2ca2d4&tk=1k385ncalgieq800&from=serp | moved=True
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply']
+[CT]   141.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]   155.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=1'
+[CT]   323.9ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    43.2ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=2'
+[CT]   503.1ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    51.5ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=3'
+[CT]  1112.1ms | reportAction | found element //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on
+[CT]     5.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     2.6ms | smartClick | ENTER | //*[@data-testid='inlineHeader-companyName'] | //*[@data-testid='company-info-metadata']//a[@role='link']
+[CT]  2414.8ms | reportAction | found element //*[@data-testid='inlineHeader-companyName'] | //*[@data-testid='company-info-metadata']//a[@role='link'] but did not click because text did not match: dsfdsd324
+[CT]     3.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    11.8ms | smartClick | ENTER | //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 | //*[@data-testid='vj-job-title']
+[CT]    74.1ms | reportAction | found element //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 | //*[@data-testid='vj-job-title'] but did not click because text did not match: adfddfsa
+[CT]     5.8ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    14.0ms | smartClick | ENTER | //*[@id='jobDescriptionText'] | //*[contains(@class,'simple-job-description-html')]
+[CT]    56.2ms | reportAction | found element //*[@id='jobDescriptionText'] | //*[contains(@class,'simple-job-description-html')] but did not click because text did not match: adsfdasf134
+[CT]     5.6ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    17.7ms | reportAction | Skipping [ServiceNow Senior Staff Software Engineer | Security Data Platform | Expert in Python] -- already marked to avoid: YES Work Personas We approach our distributed world of work with flexibilit
+[CT]   623.1ms | smartClick | ENTER | //*[@aria-label='Next Page']
+[CT]  2062.3ms | reportAction | clicked //*[@aria-label='Next Page'] successfully!
+[CT]     5.2ms | smartClick | EXIT |  result=clicked
+[CT]   489.8ms | process_job_openings | 11 job cards on this page
+[CT]  1886.8ms | smartClick | ENTER | .//a
+[CT]    88.4ms | reportAction | found element .//a but did not click because text did not match: asdf
+[CT]     3.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    17.2ms | smartClick | ENTER
+[CT]   992.9ms | smartClick | SWITCHED TO NEW TAB | tabs=2 url=
+[CT]    79.2ms | reportAction | clicked <element: full details of Forward Deployed Solution Engineer � Applied> successfully!
+[CT]     3.8ms | smartClick | EXIT |  result=clicked
+[CT]     0.0ms | process_job_openings | after opening the card | tabs 1->2 | now on  | moved=True
+[CT]     0.0ms | smartClick | ENTER | //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply']
+[CT]    12.5ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]     9.9ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on Indeed'] | //a[@data-testid='viewjob-indeed-apply'] sees='attempt=1'
+[CT]  1150.3ms | reportAction | found element //*[contains(@class, 'jobsearch-IndeedApplyButton')] | //button[normalize-space(.)='Apply with Indeed'] | //button[normalize-space(.)='Apply now'] | //button[normalize-space(.)='Apply on
+[CT]     4.9ms | smartClick | EXIT |  result=text condition mismatch
+[CT]     2.0ms | smartClick | ENTER | //*[@data-testid='inlineHeader-companyName'] | //*[@data-testid='company-info-metadata']//a[@role='link']
+[CT]    32.4ms | smartClick | ENTER | //*[text()='Solve with 2Captcha']
+[CT]    27.8ms | smartClick | EXIT |  result=not found
+[CT]     0.0ms | smartClick | WAIT | for=element to appear: //*[@data-testid='inlineHeader-companyName'] | //*[@data-testid='company-info-metadata']//a[@role='link'] sees='attempt=1'
+[CT]   718.6ms | reportAction | found element //*[@data-testid='inlineHeader-companyName'] | //*[@data-testid='company-info-metadata']//a[@role='link'] but did not click because text did not match: dsfdsd324
+[CT]     4.7ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    21.7ms | smartClick | ENTER | //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 | //*[@data-testid='vj-job-title']
+[CT]    97.2ms | reportAction | found element //h1[contains(@class,'jobsearch-JobInfoHeader-title')] | //h1 | //*[@data-testid='vj-job-title'] but did not click because text did not match: adfddfsa
+[CT]     4.2ms | smartClick | EXIT |  result=text condition mismatch
+[CT]    32.9ms | smartClick | ENTER | //*[@id='jobDescriptionText'] | //*[contains(@class,'simple-job-description-html')]
+[CT]  1452.0ms | reportAction | found element //*[@id='jobDescriptionText'] | //*[contains(@class,'simple-job-description-html')] but did not click because text did not match: adsfdasf134
+[CT]     5.0ms | smartClick | EXIT |  result=text condition mismatch
+starting: avoid_job_characteristics_prompts2.txt @ 18:22:01 ... (will time out @ 18:23:31)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:22:08
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+starting: job_desc_prompts2.txt @ 18:22:30 ... (will time out @ 18:24:00)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:22:55
+starting: job_desc_prompts2.txt @ 18:22:55 ... (will time out @ 18:24:25)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:23:14
+starting: job_desc_prompts2.txt @ 18:23:14 ... (will time out @ 18:24:44)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:23:36
+starting: job_desc_prompts2.txt @ 18:23:36 ... (will time out @ 18:25:06)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:23:59
+starting: cover_letter_prompts2.txt @ 18:23:59 ... (will time out @ 18:25:29)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:24:46
+starting: skills_prompts2.txt @ 18:24:46 ... (will time out @ 18:26:16)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:25:03
+starting: skills_prompts_cleaning.txt @ 18:25:03 ... (will time out @ 18:26:33)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:26:15
+starting: headline_prompts2.txt @ 18:26:15 ... (will time out @ 18:27:45)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:26:26
+starting: summary_prompts2.txt @ 18:26:26 ... (will time out @ 18:27:56)
+	Attempting the future retreival
+	Attempting Completion (gpt-5-nano)
+done... @ 18:26:49
+[CT] 288553.3ms | reportAction | Transitioning  STATE from initNewApp to start
+[CT]     1.1ms | getCurrentEnv | ENTER
+[CT]     6.1ms | getCurrentEnv | EXIT |  result=https://www.indeed.com/viewjob?jk=4043eff68d6c552c&tk=1k385oqso229u000&from=serp&vjs=3|Forward Deployed Solution Enginee
+[CT]     0.0ms | RunUser | ERROR | UnicodeEncodeError: 'charmap' codec can't encode character '\u202f' in position 216: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 6572, in RunUser
+    sm.run()
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 6492, in run
+    self.transition(env)
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 6081, in transition
+    self.helper.reportAction(f"Calling function: {funcName}() in environment: {environment}", False)
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 1231, in reportAction
+    ct_print("reportAction", actionMsg.replace("\n", " ").strip()[:200])
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 98, in ct_print
+    print(f"[CT] {elapsed:7.1f}ms | {indent}{where} | {what}{suffix}", flush=True)
+  File "C:\Users\PJuJu\AppData\Local\Programs\Python\Python39\lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u202f' in position 216: character maps to <undefined>
+[CT]    60.0ms | reportAction | An error occurred: 'charmap' codec can't encode character '\u202f' in position 216: character maps to <undefined>
+[CT]     0.0ms | RunUser | will skip crashed job after restart | jk=4043eff68d6c552c
+[CT]    79.9ms | RunUser | restarting Tommy Orok (id=9) in 15s | consecutive_failures=1

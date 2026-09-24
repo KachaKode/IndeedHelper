@@ -7,7 +7,7 @@
 import { api, el, mount, reveal, setTopbar, toast, card, emptyState, readonlyTag } from './core.js';
 import { applicationBody } from './appdetail.js';
 
-const COLUMNS = 5;
+const COLUMNS = 6;
 
 const state = { page: 1, search: '', userId: '', selectedId: null };
 
@@ -60,6 +60,7 @@ export async function renderApplications(ctx) {
       el('td', { class: 'table__truncate', text: row.companyName || '' }),
       el('td', { class: 'table__truncate', text: row.jobTitle || '' }),
       el('td', { text: row.fullName || '' }),
+      el('td', { class: 'table__truncate', text: row.searchLabel || '' }),
     ]);
     tr.addEventListener('click', () => toggleRow(row, tr));
     return tr;
@@ -70,6 +71,7 @@ export async function renderApplications(ctx) {
       el('thead', {}, [el('tr', {}, [
         el('th', { text: 'ID' }), el('th', { text: 'Date' }), el('th', { text: 'Company' }),
         el('th', { text: 'Job title' }), el('th', { text: 'Applied as' }),
+        el('th', { text: 'Job search' }),
       ])]),
       el('tbody', {}, rows),
     ]),
