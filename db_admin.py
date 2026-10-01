@@ -22,8 +22,9 @@ sys.path.insert(0, str(ROOT))
 
 from dbgui.data import IndeedDB  # noqa: E402
 from dbgui.migrations import (  # noqa: E402
-    add_avoid_employers, add_linkedin_profile, add_max_applications_per_search,
-    add_search_id_to_applications, add_target_position, schema_exists,
+    add_avoid_employers, add_job_key_to_applications, add_linkedin_profile,
+    add_max_applications_per_search, add_outcome_tracking, add_search_id_to_applications,
+    add_search_snapshot_to_applications, add_search_subrows, add_target_position, schema_exists,
     vetted_questions_schema_exists,
 )
 from dbgui.runner import RunnerManager  # noqa: E402
@@ -98,6 +99,28 @@ def main() -> int:
     added_search_id = add_search_id_to_applications(db)
     if added_search_id["added"]:
         print("Added applications.search_id.")
+
+    added_search_subrows = add_search_subrows(db)
+    if added_search_subrows["added"]:
+        print("Added job_searches.parent_id and .active (alternate-URL sub-rows).")
+
+    added_job_key = add_job_key_to_applications(db)
+    if added_job_key["added"]:
+        print("Added applications.job_key.")
+
+    added_search_snapshot = add_search_snapshot_to_applications(db)
+    if added_search_snapshot["added"]:
+        print("Added applications.search_target_position/.search_url/.search_parent_url.")
+
+    # Both tables start empty and nothing existing reads them, so unlike the two
+    # data-moving migrations checked above these need no manual step.
+    added_outcomes = add_outcome_tracking(db)
+    if added_outcomes["created_events"]:
+        print("Created application_events (outcome log).")
+    if added_outcomes["created_capture"]:
+        print("Created capture_items (ingestion ledger).")
+    if added_outcomes["created_index"]:
+        print("Added index applications(user_id, DateTime).")
 
     port = free_port()
     url = f"http://127.0.0.1:{port}/"

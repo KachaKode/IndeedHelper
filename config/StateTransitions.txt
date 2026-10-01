@@ -66,12 +66,21 @@ https://(((www.)?))(((ca.)?))indeed.com/job/((.*))|((.*))Indeed.com
 	hitApply
 	default -- updateContactInfo() --> didContactInfo
 
-// page to either upload, change, or continue using current resume 
+// page to either upload, change, or continue using current resume
 ((.*))|Upload or (((build|create))) a resume for this application((.*))
 	hitApply
 	didContactInfo -- startResume() --> startedOnResume
 	//didContactInfo -- addResume() --> addedResume
 	finishedResume -- addResume() --> addedResume
+	// Still on this page after addResume() means the Continue click did not
+	// navigate away yet (Logs/Log54.txt line 194 onward: addResume() clicks
+	// Continue, the next read is still this same page, and without this line
+	// the state fell through to default -- backToDidContactInfo() --> didContactInfo,
+	// which matches didContactInfo above and reruns startResume() from scratch --
+	// reopening "Resume options" and "Edit resume details" on a resume that is
+	// already selected and already edited (HTMLz/AddAResume.html). Retry the
+	// click instead of redoing the whole resume build.
+	addedResume -- addResume() --> addedResume
 	default -- backToDidContactInfo() --> didContactInfo
 
 // main resume page 

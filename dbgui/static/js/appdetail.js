@@ -9,6 +9,7 @@
    cover letters written by other people. */
 
 import { el } from './core.js';
+import { summarizeUrlDiff } from './urldiff.js';
 
 /* Keys the bot writes for each work-history entry, in the order a resume reads.
    Several spellings exist across older rows (frmDate vs fromDate), so each
@@ -130,6 +131,34 @@ function section(label, body) {
   ]);
 }
 
+/** What, if anything, made this application's search different from its main
+ *  search -- e.g. a different location/radius/salary filter used through an
+ *  alternate-URL sub-row (see Job Searches). Computed from a permanent
+ *  snapshot taken when the application was submitted (search_url/
+ *  search_parent_url), not from the live job_searches table, so this stays
+ *  accurate even if that search row is later edited or deleted.
+ *  @returns a section Node, or null when there is nothing to show (a
+ *  historical application that predates this snapshot being recorded). */
+function searchVariantSection(record) {
+  if (!String(record.search_url || '').trim()) return null;
+
+  if (!String(record.search_parent_url || '').trim()) {
+    return section('Search variant',
+      el('div', { class: 'muted', text: 'Used the main search directly -- no variant.' }));
+  }
+
+  const diffs = summarizeUrlDiff(record.search_url, record.search_parent_url);
+  if (diffs === null) {
+    return section('Search variant',
+      el('div', { class: 'muted', text: 'Could not compare -- a recorded URL is invalid.' }));
+  }
+  if (!diffs.length) {
+    return section('Search variant',
+      el('div', { class: 'muted', text: 'No difference from the main search.' }));
+  }
+  return section('Search variant', el('ul', { class: 'bullets' }, diffs.map((d) => el('li', { text: d }))));
+}
+
 /* Long fields in the order they make sense to read: who we said we were, then
    what we said, then what the employer asked, then the posting itself. */
 const PLAIN_FIELDS = [
@@ -157,6 +186,9 @@ export function applicationBody(record) {
     el('dt', { text: k }),
     el('dd', { text: String(v) }),
   ])));
+
+  const variantSection = searchVariantSection(record);
+  if (variantSection) nodes.push(variantSection);
 
   if (String(record.headline || '').trim()) {
     nodes.push(section('Headline', el('div', { class: 'lede', text: record.headline })));

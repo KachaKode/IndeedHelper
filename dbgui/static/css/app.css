@@ -524,6 +524,54 @@ html, body {
 tr.is-dragging { opacity: .4; }
 tr.is-drop-target td { border-top: 2px solid var(--accent); }
 
+/* Wrapping div for a <td>'s content, never a class on the <td> itself --
+   display:flex directly on a table-cell element breaks vertical-align and
+   row-height sync across browsers, which is what caused the Active/Delete
+   column's row heights to go ragged. */
+.table__row-lead { display: flex; align-items: center; gap: 2px; }
+.row-toggle {
+  width: 16px; height: 16px; flex: none; padding: 0; border: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; color: var(--text-faint); font-size: 10px; cursor: pointer;
+}
+.row-toggle:hover { color: var(--text); }
+.row-toggle--empty { visibility: hidden; cursor: default; }
+
+/* Alternate-URL sub-rows nested under a Job Searches main row. */
+tr.is-subrow { background: var(--surface-2); }
+tr.is-subrow:hover { background: var(--surface-2); }
+tr.is-subrow.is-inactive { opacity: .55; }
+.subrow-marker { color: var(--text-faint); padding: 0 var(--sp-1); }
+.table__muted { color: var(--text-faint); font-style: italic; }
+.table__actions { display: flex; align-items: center; gap: var(--sp-2); white-space: nowrap; }
+.checkbox-label {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12.5px; color: var(--text-muted); white-space: nowrap;
+}
+.checkbox-label input[type="checkbox"] { margin: 0; }
+
+.diff-list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 2px;
+  font-size: 12px; line-height: 1.4; min-width: 180px; max-width: 280px;
+}
+.diff-list li { word-break: break-word; }
+
+/* "+ Copy variation" picker, shown inside a confirmModal body. */
+.variation-picker { max-height: 50vh; overflow-y: auto; margin: 0 calc(var(--sp-5) * -1); padding: 0 var(--sp-5); }
+.variation-list__group {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--text-faint); margin: var(--sp-3) 0 var(--sp-1);
+}
+.variation-list__group:first-child { margin-top: 0; }
+.variation-list { display: flex; flex-direction: column; }
+.variation-option {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  padding: 6px 0; font-size: 13px; color: var(--text); cursor: pointer;
+}
+.variation-option input[type="checkbox"] { margin-top: 3px; flex: none; }
+.variation-option--disabled { color: var(--text-faint); cursor: default; }
+
 /* ----------------------------------------------------------------- toasts */
 
 .toasts {
@@ -687,3 +735,118 @@ tr.is-drop-target td { border-top: 2px solid var(--accent); }
 
 .grant-row { display: flex; align-items: flex-end; gap: var(--sp-3); }
 .grant-row .field { margin: 0; max-width: 160px; }
+
+/* ---------------------------------------------------------------- stats --- */
+
+/* A row of headline numbers. Wraps rather than scrolls at phone width. */
+.stat-grid {
+  display: grid; gap: var(--sp-3);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.stat {
+  background: var(--surface-sunk); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: var(--sp-3) var(--sp-4);
+}
+.stat__value {
+  font-size: 22px; font-weight: 680; line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+.stat__value--muted { color: var(--text-faint); }
+.stat__label { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.stat__sub {
+  font-size: 11.5px; color: var(--text-faint); margin-top: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Generalised from .spend-chart: any labelled series, tallest bar sets scale.
+   Hover shows the exact figure via the title attribute, no tooltip widget. */
+.bar-chart {
+  display: flex; align-items: flex-end; gap: 3px;
+  height: 96px; margin-top: var(--sp-2);
+}
+.bar-chart__bar {
+  flex: 1 1 0; min-width: 3px;
+  background: var(--accent-soft);
+  border-radius: 2px 2px 0 0;
+  transition: background .12s ease;
+}
+.bar-chart__bar:hover { background: var(--accent); }
+.bar-chart__bar--empty { background: var(--border); }
+.bar-chart-axis {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--text-faint); margin-top: var(--sp-1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The funnel. One row per stage, width proportional to the top of the funnel. */
+.funnel { display: flex; flex-direction: column; gap: 6px; }
+.funnel__row { display: grid; grid-template-columns: 150px 1fr auto; gap: var(--sp-3); align-items: center; }
+.funnel__label { font-size: 13px; }
+.funnel__track {
+  background: var(--surface-sunk); border-radius: var(--radius-sm);
+  height: 20px; overflow: hidden;
+}
+.funnel__fill {
+  height: 100%; background: var(--accent-soft);
+  border-right: 2px solid var(--accent);
+  min-width: 0;
+  transition: width .15s ease;
+}
+.funnel__fill--zero { border-right-color: var(--border); }
+.funnel__count {
+  font-size: 12.5px; color: var(--text-muted);
+  font-variant-numeric: tabular-nums; white-space: nowrap; min-width: 92px;
+  text-align: right;
+}
+
+/* A rate plus its 95% Wilson interval, inside a table cell.
+   The track is scaled to the largest rate in its own table, not to 100% --
+   these rates are single-digit percentages and a 0-100% track would render
+   every one of them as an invisible sliver. */
+.rate { display: flex; align-items: center; gap: var(--sp-2); }
+.rate__pct {
+  font-size: 12.5px; font-variant-numeric: tabular-nums;
+  min-width: 46px; text-align: right;
+}
+.rate__track {
+  position: relative; flex: 1 1 auto; min-width: 54px;
+  height: 8px; background: var(--surface-sunk); border-radius: 999px;
+}
+/* Opacity rather than a soft token: --accent-soft sits too close to the track's
+   own --surface-sunk to read as a distinct band in either theme. */
+.rate__ci {
+  position: absolute; top: 0; bottom: 0;
+  background: var(--accent); opacity: .30;
+  border-radius: 999px;
+}
+.rate__dot {
+  position: absolute; top: -2px; width: 2px; height: 12px;
+  background: var(--accent); border-radius: 1px;
+}
+/* Below the minimum sample size: show the count, never a percentage. */
+.rate--thin .rate__pct { color: var(--text-faint); }
+
+.stats-note {
+  font-size: 12.5px; color: var(--text-muted);
+  background: var(--info-soft); border: 1px solid var(--border);
+  border-left: 3px solid var(--info);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-2) var(--sp-3); margin-bottom: var(--sp-3);
+  line-height: 1.5;
+}
+.stats-note strong { color: var(--text); }
+
+/* 460px, not the 340px the other grids use: each of these cards holds a
+   four-column table with a rate bar in it, and at 340px the rate and interview
+   columns fall off the edge into a horizontal scrollbar. */
+/* min(460px, 100%) rather than a bare 460px: auto-fit would otherwise hold a
+   460px track on a narrower screen and push the whole page sideways. */
+.stats-grid {
+  display: grid; gap: var(--sp-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+}
+
+.coverage-tag {
+  font-size: 11px; color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}

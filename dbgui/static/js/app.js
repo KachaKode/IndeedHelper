@@ -8,6 +8,8 @@ import { renderVettedQuestions } from './vetted.js';
 import { renderApplications, renderApplicationsOld } from './applications.js';
 import { renderRun, stopPolling } from './run.js';
 import { renderAdmin } from './admin.js';
+import { renderStats } from './stats.js';
+import { renderOutcomes } from './outcomes.js';
 
 const state = { view: 'run', userId: null, users: [] };
 
@@ -22,9 +24,11 @@ const VIEWS = {
   'applications':     renderApplications,
   'applications-old': renderApplicationsOld,
   'admin':            renderAdmin,
+  'stats':            renderStats,
+  'outcomes':         renderOutcomes,
 };
 
-const NEEDS_USER = new Set(['profile', 'searches', 'jobs', 'edu', 'vetted']);
+const NEEDS_USER = new Set(['profile', 'searches', 'jobs', 'edu', 'vetted', 'stats', 'outcomes']);
 
 /** Display name of the user currently in context, or null if none is selected. */
 function userLabel() {
@@ -64,7 +68,9 @@ async function refreshCounts() {
         api.get(`/api/users/${state.userId}/edu`),
         api.get(`/api/users/${state.userId}/vetted-questions`),
       ]);
-      setCount('searches', searches.length);
+      // Alternate-URL sub-rows (parent_id set) are not separate searches --
+      // count only main rows, matching what the Job Searches view itself counts.
+      setCount('searches', searches.filter((s) => s.parent_id == null).length);
       setCount('jobs', jobs.length);
       setCount('edu', edu.length);
       setCount('vetted', vetted.length);

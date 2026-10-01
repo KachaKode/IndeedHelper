@@ -56,7 +56,7 @@ from myGPT2 import configured_fast_model
 # instance, which backs up the whole database file on its first write of a
 # session -- appropriate for a GUI edit, not for a runtime hook in a tight
 # per-question loop.
-from dbgui.data import normalize_question_text
+from dbgui.data import list_searches_for_bot, normalize_question_text
 
 log = None
 
@@ -1956,6 +1956,20 @@ class IndeedHelper(PlaywrightWrap):
         pass
     def doQuestions(self):
         return self.analyzeAndAnsQuestions()
+
+    def _pauseRequested(self):
+        """True once the Run tab's Pause button (or a self-pause, e.g. a bot
+        check) wants this run stopped.
+
+        `self.control` is set by StateMachine.__init__ onto this same helper
+        instance. It is missing in the handful of unit tests that build an
+        IndeedHelper without going through StateMachine, and in that case
+        there is nothing to pause for, so this reads as "keep going".
+        """
+        control = getattr(self, "control", None)
+        if control is None:
+            return False
+        return control.mode() == "paused"
     # The apply flow renders several hidden placeholder Continue buttons
     # (data-testid="hp-continue-button-0..5") alongside the working one. Matching
     # on the text "Continue" finds all of them and takes the first in DOCUMENT
@@ -2171,20 +2185,52 @@ class IndeedHelper(PlaywrightWrap):
                           companyName TEXT, jobTitle TEXT, JobDescriptionText TEXT,
                           fullName TEXT, headline TEXT, jobHist TEXT, eduHist TEXT,
                           skills TEXT, resumeSummary TEXT, QsAndAs TEXT, cover_letter TEXT,
-                          search_id INTEGER,
+                          search_id INTEGER, job_key TEXT DEFAULT '',
                           FOREIGN KEY(user_id) REFERENCES users(id))''')
+
+        # Self-heal the same way the CREATE above does. db_admin.py normally adds
+        # these columns at startup, but the bot also runs standalone, and an INSERT
+        # naming a column this database does not have would fail EVERY application.
+        existing_cols = {row[1] for row in cursor.execute('PRAGMA table_info("applications")')}
+        if "job_key" not in existing_cols:
+            cursor.execute("ALTER TABLE applications ADD COLUMN job_key TEXT DEFAULT ''")
+        for snapshot_col in ("search_target_position", "search_url", "search_parent_url"):
+            if snapshot_col not in existing_cols:
+                cursor.execute(f"ALTER TABLE applications ADD COLUMN {snapshot_col} TEXT")
 
         # Insert a new application record with the user ID. search_id records
         # which job_searches row this came from, so the GUI can show a live
         # per-search "applications this session" count straight from this
         # table (RunnerManager.applications_by_search) instead of parsing it
         # out of the bot's log.
+        #
+        # job_key is Indeed's own jk= id for this opening, already in hand as
+        # self.currentJobKey (the same value crashedJobKeys is built from). Storing
+        # it lets an entry read back off Indeed's application tracker be matched to
+        # THIS row exactly, instead of by company name -- which is ambiguous,
+        # because hundreds of these are repeat applications to a company already
+        # applied to. Empty when unknown; historical rows have nothing to backfill.
+        #
+        # search_target_position/search_url/search_parent_url snapshot exactly
+        # what search produced this application -- job_searches is live, editable
+        # config, not history, so search_id alone is not enough: a later rename or
+        # deletion of that row must never change what a past application shows.
+        # search_parent_url is None for a main-row application (nothing to vary
+        # from) and set for a sub-row one, which is exactly the "what's different"
+        # comparison the GUI already knows how to render (see searches.js:
+        # summarizeUrlDiff), just fed from a permanent snapshot instead of the
+        # live table.
         cursor.execute("""INSERT INTO applications (user_id, DateTime, Platform, companyName, jobTitle, JobDescriptionText,
-                          fullName, headline, jobHist, eduHist, skills, resumeSummary, QsAndAs, cover_letter, search_id)
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                          fullName, headline, jobHist, eduHist, skills, resumeSummary, QsAndAs, cover_letter, search_id,
+                          job_key, search_target_position, search_url, search_parent_url)
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                        (self.user_id, current_date, "Indeed", companyName, jobTitle, JobDescriptionText, fullName,
                         headline, jobHist, eduHist, skills, resumeSummary, prevQsAs, coverLetter,
-                        self.cur_profile.get("searchId")))
+                        self.cur_profile.get("searchId"),
+                        getattr(self, "currentJobKey", None) or "",
+                        self.cur_profile.get("label"),
+                        self.cur_profile.get("home"),
+                        self.cur_profile.get("parentUrl")))
 
         # update the fact that we've sent another application
         cursor.execute("""SELECT * FROM users WHERE id = ? """, (self.user_id,))
@@ -2960,6 +3006,18 @@ class IndeedHelper(PlaywrightWrap):
             self.reportAction(
                 f"The {label} field did not take its value: expected {str(value)[:40]!r}, "
                 f"it holds {written[:40]!r}.", False)
+            # This used to return the element anyway, so a field the page
+            # FOUND but silently refused to accept looked identical to a
+            # genuine fill to every caller that checks for None -- do_skills'
+            # own "back out rather than save a blank" guard, and
+            # verifyTextFields, both only ever saw the not-found case.
+            # HTMLz/skill_stuck.html is exactly this: skill-name-input was
+            # found on every attempt (never logged as missing), but the
+            # value did not stick, do_skills() proceeded to click Save
+            # anyway, and the still-open, still-empty "Add skill" form sat
+            # there blocking every later skill's own Add button
+            # (Logs/Log49.txt line 8258 on).
+            return None
         return element
 
     DROPDOWN_ATTEMPTS = 3
@@ -3042,6 +3100,11 @@ class IndeedHelper(PlaywrightWrap):
     # to mean "a form is covering the list", which these would wrongly trigger.
     WORK_INLINE_DELETE_XPATH = "//*[@aria-label='Delete work experience']"
     EDU_INLINE_DELETE_XPATH = "//*[@aria-label='Delete education']"
+    # Proof that an entry's own form is on screen that does NOT depend on its
+    # Delete button, because the delete button being missing is exactly the
+    # case that has to be told apart from "no form is open" -- see _formIsOpen.
+    WORK_FORM_OPEN_XPATH = "//*[@aria-label='Save this work experience']"
+    EDU_FORM_OPEN_XPATH = "//*[@aria-label='Save this education']"
     # The confirmation dialog's buttons have no test id and no aria-label -- only
     # the text "Delete", which the form behind it uses too. Scoping to the dialog
     # is what keeps the two apart.
@@ -3051,15 +3114,33 @@ class IndeedHelper(PlaywrightWrap):
     )
     MAX_ENTRIES_TO_DELETE = 25
 
-    def _formIsOpen(self, deleteXpath):
-        """True while an entry form or a confirmation dialog is on screen."""
-        try:
-            if self._visible_only(self.driver.find_elements('xpath', deleteXpath)):
-                return True
-            return bool(self._visible_only(
-                self.driver.find_elements('xpath', "//*[@role='dialog' or @role='alertdialog']")))
-        except PlaywrightError:
-            return False
+    def _formIsOpen(self, deleteXpath, formOpenXpath=None):
+        """True while an entry form or a confirmation dialog is on screen.
+
+        `formOpenXpath` (the form's own Save button) is what makes this
+        trustworthy. Judging by the DELETE button alone means the one case that
+        matters most reads as "no form is open": the delete button not being
+        there is precisely why _deleteOneEntry gives up, and it then asked this
+        whether it had a form to back out of. The answer was no, so nothing was
+        backed out of, and the run was left sitting inside a wide-open edit form
+        (Logs/Log51.txt line 3238 -- the delete button lost a render race,
+        15.6s of wall time inside one 8s wait -- and HTMLz/work_stuck2.html,
+        the form still open on "Software Developer" with its Save button right
+        there). With the list hidden behind it, every later read of the section
+        came back empty, which was taken for "already clear", and "Add work
+        experience" was hidden too, so the run cycled on a page whose only
+        configured action looks for a button that page does not have.
+        """
+        for xpath in (deleteXpath, formOpenXpath,
+                      "//*[@role='dialog' or @role='alertdialog']"):
+            if not xpath:
+                continue
+            try:
+                if self._visible_only(self.driver.find_elements('xpath', xpath)):
+                    return True
+            except PlaywrightError:
+                continue
+        return False
 
     # How long an empty entry list has to stay empty before it is believed.
     ENTRY_LIST_SETTLE = 4
@@ -3123,13 +3204,25 @@ class IndeedHelper(PlaywrightWrap):
                                  timeLimit=5, expectingPopUp=True)
 
     # Ways out of an entry form that will not close on its own.
+    #
+    # The test id is the one that actually works. These forms offer NONE of
+    # Close/Back/Cancel: on HTMLz/work_stuck_again.html the old selector
+    # matched a single hidden element and nothing else, which is why
+    # _leaveEntryForm could never dismiss one ("1 element(s) matched ... but
+    # none are visible", Logs/Log52.txt line 794). The page header's "Go back"
+    # is no better -- it is in the DOM but not visible either. The form's own
+    # modal back button is visible on every capture of this going wrong
+    # (work_stuck.html, work_stuck2.html, work_stuck_again.html,
+    # work_history_stuck.html, skill_stuck.html), and is the same control
+    # do_skills already backs out of its form with.
     FORM_DISMISS_XPATH = (
-        "//*[@aria-label='Close']"
+        '//*[@data-testid="modal-back-button"]'
+        " | //*[@aria-label='Close']"
         " | //*[@aria-label='Back']"
         " | //button[normalize-space(.)='Cancel']"
     )
 
-    def _leaveEntryForm(self, deleteXpath, returnUrl=None):
+    def _leaveEntryForm(self, deleteXpath, returnUrl=None, formOpenXpath=None):
         """Get back to the entry list after a deletion that did not go through.
 
         Without this a failed attempt strands the run inside the form: the list
@@ -3142,13 +3235,13 @@ class IndeedHelper(PlaywrightWrap):
         Returning to a URL we recorded ourselves can only land where we started.
         """
         for attempt in range(3):
-            if not self._formIsOpen(deleteXpath):
+            if not self._formIsOpen(deleteXpath, formOpenXpath):
                 return True
             try:
                 self._page.keyboard.press("Escape")
             except PlaywrightError:
                 pass
-            if self._wait_until(lambda: not self._formIsOpen(deleteXpath), 3):
+            if self._wait_until(lambda: not self._formIsOpen(deleteXpath, formOpenXpath), 3):
                 return True
 
             if attempt == 0:
@@ -3159,9 +3252,9 @@ class IndeedHelper(PlaywrightWrap):
                     self._page.goto(returnUrl)
                 except PlaywrightError:
                     pass
-        return not self._formIsOpen(deleteXpath)
+        return not self._formIsOpen(deleteXpath, formOpenXpath)
 
-    def _deleteOneEntry(self, entry, deleteXpath, inlineDeleteXpath):
+    def _deleteOneEntry(self, entry, deleteXpath, inlineDeleteXpath, formOpenXpath=None):
         """Remove a single listed entry. True if the page accepted the deletion."""
         # Incomplete entries carry their own Delete button in the list. Use it
         # rather than opening a form that may refuse to close while invalid.
@@ -3176,10 +3269,11 @@ class IndeedHelper(PlaywrightWrap):
             if inline:
                 self.smartClick(element=inline[0], expectingPopUp=True)
                 self._confirmDelete()
-                if self._wait_until(lambda: not self._formIsOpen(deleteXpath), 8):
+                if self._wait_until(
+                        lambda: not self._formIsOpen(deleteXpath, formOpenXpath), 8):
                     t.sleep(self.RERENDER_SETTLE)   # as below: let the swap finish
                     return True
-                self._leaveEntryForm(deleteXpath, listUrl)
+                self._leaveEntryForm(deleteXpath, listUrl, formOpenXpath)
                 return False
 
         self.smartClick(element=entry, checkNewPage=True)
@@ -3188,20 +3282,27 @@ class IndeedHelper(PlaywrightWrap):
         # this smartClick would run closeDialogBox against it first.
         deleteButton = self.findAndClick(self.WHOLE, self.WHOLE, deleteXpath,
                                          timeLimit=8, expectingPopUp=True)
+        if deleteButton is None and self._formIsOpen(deleteXpath, formOpenXpath):
+            # The form IS open, so the delete button is coming -- it just was not
+            # there within the first look's budget. Same late-render race the
+            # form's fields hit, and worth one more look before giving up on an
+            # entry that would otherwise have to be deleted by hand.
+            deleteButton = self.findAndClick(self.WHOLE, self.WHOLE, deleteXpath,
+                                             timeLimit=8, expectingPopUp=True)
         if deleteButton is None:
-            self._leaveEntryForm(deleteXpath, listUrl)
+            self._leaveEntryForm(deleteXpath, listUrl, formOpenXpath)
             return False
 
         self._confirmDelete()
         # Wait for the form and dialog to close before judging the result. While
         # either is open the entry list is hidden, so counting entries straight
         # away would read "none left" and mistake a failure for a success.
-        if self._wait_until(lambda: not self._formIsOpen(deleteXpath), 8):
+        if self._wait_until(lambda: not self._formIsOpen(deleteXpath, formOpenXpath), 8):
             # The form closing is not the end of it: the section re-renders
             # afterwards, and a handle taken during that swap is born detached.
             t.sleep(self.RERENDER_SETTLE)
             return True
-        self._leaveEntryForm(deleteXpath, listUrl)
+        self._leaveEntryForm(deleteXpath, listUrl, formOpenXpath)
         return False
 
     def _entryTexts(self, entryXpath):
@@ -3270,7 +3371,7 @@ class IndeedHelper(PlaywrightWrap):
         return [eduLvl, fieldOS, schoolName, cityState, fromDate]
 
     def deleteExistingEntries(self, entryXpath, deleteXpath, label, inlineDeleteXpath=None,
-                              stopIfNotCleared=True):
+                              stopIfNotCleared=True, formOpenXpath=None):
         """Clear a resume section completely before writing this user's entries.
 
         Anything left behind is submitted alongside ours, so this has to empty
@@ -3290,6 +3391,7 @@ class IndeedHelper(PlaywrightWrap):
           one and comes back to the rest, giving up only when a whole pass
           removes nothing.
         """
+        listUrl = self._page.url
         removed = 0
         skipped = 0            # entries already tried and failed; not retried forever
         stale = 0              # handles that went stale under a re-render
@@ -3318,7 +3420,7 @@ class IndeedHelper(PlaywrightWrap):
                     f"on it, so it stopped rather than thrashing.", False)
                 break
 
-            if self._deleteOneEntry(target, deleteXpath, inlineDeleteXpath):
+            if self._deleteOneEntry(target, deleteXpath, inlineDeleteXpath, formOpenXpath):
                 after = len(self._settledEntries(entryXpath))
                 if after < before:
                     removed += 1
@@ -3333,6 +3435,20 @@ class IndeedHelper(PlaywrightWrap):
         if removed:
             self.reportAction(f"Removed {removed} pre-existing {label} entr"
                               f"{'y' if removed == 1 else 'ies'} before adding this user's.", False)
+
+        # Nothing below can be read while a form covers the list: the entries
+        # are all still there, just invisible, so both the leftover check and
+        # the caller's "Add ..." button would see an empty, unreachable section
+        # and believe the section was already clear (Logs/Log51.txt,
+        # HTMLz/work_stuck2.html).
+        if self._formIsOpen(deleteXpath, formOpenXpath):
+            self._leaveEntryForm(deleteXpath, listUrl, formOpenXpath)
+        if self._formIsOpen(deleteXpath, formOpenXpath):
+            raise NeedsHumanError(
+                f"An existing {label} entry's form is open and will not close, so the {label} "
+                f"section cannot be read or added to. Nothing new has been added, so the "
+                f"resume is not duplicated. Close the form in the browser, then press Start "
+                f"applying.")
 
         leftover = [self._labelOf(e) for e in self._settledEntries(entryXpath)]
         if leftover and not stopIfNotCleared:
@@ -3467,6 +3583,70 @@ class IndeedHelper(PlaywrightWrap):
                       " | //button[normalize-space(.)='Save']")
     EDU_CURRENT_TOGGLE = '//*[@data-testid="is-current-toggle"]'
 
+    def _fieldHolds(self, testid, value):
+        """True when the field is on screen AND already holds `value`."""
+        matches = self._visible_only(self.driver.find_elements(
+            By.CSS_SELECTOR, f'[data-testid="{testid}"]'))
+        if not matches:
+            return False
+        try:
+            return matches[0]._handle.input_value().strip() == str(value).strip()
+        except (PlaywrightError, PlaywrightTimeoutError):
+            return False
+
+    def verifyTextFields(self, fields, required=()):
+        """Last look at a form's text fields before its Save button is clicked.
+
+        `fields` is (testid, value, label) triples; `required` lists the testids
+        Indeed's own form will not save without.
+
+        This exists because filling a field and the field HOLDING the value are
+        different things, and the gap between them is where every one of these
+        forms has got stuck:
+
+        * The fields render a moment after the "Add ..." button is clicked, and
+          not always within the wait fillByTestId gives them. Twice now the job
+          title field was still not there after 8s (Logs/Log48.txt line 7560,
+          Logs/Log50.txt line 1827 -- the latter spent 30s of wall time inside
+          one wait, the page being mid-save), while the fields checked moments
+          later were all present. By the time the rest of the form is filled in,
+          a field that was late is there -- so re-checking HERE, rather than
+          giving up at the first miss, is usually all the recovery needed.
+        * An autocomplete that silently refuses its text leaves the field on
+          screen and empty (HTMLz/skill_stuck.html).
+
+        Whatever is still empty gets one more attempt. Only a REQUIRED field
+        that is still empty after that stops the run -- and it stops BEFORE
+        Save, so Indeed is never asked to save an entry it will reject and
+        there is no half-saved form left open blocking the next entry's own
+        "Add" button. Everything else on the form is filled in by then, so the
+        person called in has one field to type, not a blank form
+        (which is what aborting at the first miss left them: Logs/Log50.txt,
+        HTMLz/work_stuck.html -- every field empty).
+
+        Returns True when every field ended up holding its value.
+        """
+        allFilled = True
+        for testid, value, label in fields:
+            wanted = str(value or "").strip()
+            if not wanted or self._fieldHolds(testid, wanted):
+                continue
+
+            self.reportAction(
+                f"The {label} field is still empty now that the rest of the form is filled "
+                f"in, so filling it again before saving.", False)
+            if self.fillByTestId(testid, value, label) is not None:
+                continue
+
+            allFilled = False
+            if testid in required:
+                raise NeedsHumanError(
+                    f"The {label} field will not take {wanted[:60]!r}, and Indeed will not "
+                    f"save this entry without it. Nothing has been saved and the rest of the "
+                    f"form is filled in -- type the {label} in yourself, then press Start "
+                    f"applying.")
+        return allFilled
+
     def _formStillOpen(self, markerTestId):
         """True while a field unique to an open add/edit form is still on
         screen. Used right after clicking a form's Save button: smartClick's
@@ -3485,10 +3665,12 @@ class IndeedHelper(PlaywrightWrap):
         eduLvl, fieldOS, schoolName, cityState, current, fromDate, toDate, country = tuple(edu.values())
         current = "y" in current.lower()
 
-        self.fillByTestId(self.EDU_LEVEL_TESTID, eduLvl, "education level")
-        self.fillByTestId(self.EDU_FIELD_TESTID, fieldOS, "field of study")
-        self.fillByTestId(self.EDU_SCHOOL_TESTID, schoolName, "school")
-        self.fillByTestId(self.EDU_LOCATION_TESTID, cityState, "school location")
+        textFields = ((self.EDU_LEVEL_TESTID, eduLvl, "education level"),
+                      (self.EDU_FIELD_TESTID, fieldOS, "field of study"),
+                      (self.EDU_SCHOOL_TESTID, schoolName, "school"),
+                      (self.EDU_LOCATION_TESTID, cityState, "school location"))
+        for testid, value, label in textFields:
+            self.fillByTestId(testid, value, label)
 
         # The toggle's ACTUAL resulting state, not the value asked for --
         # see setToggle's docstring for why trusting the request blindly is
@@ -3497,6 +3679,9 @@ class IndeedHelper(PlaywrightWrap):
         if actualCurrent is None:
             actualCurrent = current
         self.setDateRange(fromDate, toDate, actualCurrent, prefix="education ")
+
+        # Level of education is the one field this form carries `required` on.
+        self.verifyTextFields(textFields, required=(self.EDU_LEVEL_TESTID,))
 
         saveResult = self.findAndClick(self.WHOLE, self.WHOLE, self.EDU_SAVE_XPATH,
                                        waitBeforeClicking=1, checkNewPage=True)
@@ -3721,6 +3906,38 @@ class IndeedHelper(PlaywrightWrap):
                               f"{'' if removed == 1 else 's'} before adding this user's.", False)
         return removed
 
+    def _skillsPanelVisible(self):
+        return bool(self._visible_only(
+            self.driver.find_elements('xpath', self.ADD_SKILL_XPATH)))
+
+    def _reopenSkillsPanel(self):
+        """Reload the editor when the 'Add skill' button is present but hidden.
+
+        On Log47.txt, adding the 3rd skill of a run: the click on "Add skill"
+        itself went through (Playwright's own log shows visible/enabled/stable,
+        click action done) but the wait for it to settle afterward timed out.
+        From then on the button matched in the DOM on every single retry --
+        //*[@aria-label="Add skill"] found exactly 1 element every time -- but
+        was never visible, because the whole "Edit your resume" panel had gone
+        display:none underneath it (HTMLz/Stuck_skill.html: the panel holding
+        Contact info/Summary/Work experience/Skills together sits behind
+        style="display: none" with an aria-hidden, visibility:hidden child).
+        Nothing brings a closed panel back on its own, so the state machine
+        cycled on this forever -- 95 STUCK events, including one manual
+        override that hit the identical wall again immediately. A reload
+        re-renders the panel from scratch.
+        """
+        self.reportAction(
+            "The 'Add skill' button is in the page but not visible, which means the "
+            "resume editor panel has closed. Reloading it.", False)
+        try:
+            self._page.reload()
+        except PlaywrightError as exc:
+            ct_error("_reopenSkillsPanel", exc)
+            return False
+        self.waitOutLoading()
+        return self._wait_until(self._skillsPanelVisible, self.PAGE_LOAD_LIMIT)
+
     def do_skills(self):
         """Replace the skills on the resume with this user's.
 
@@ -3745,11 +3962,20 @@ class IndeedHelper(PlaywrightWrap):
             addSkillBut = self.findAndClick(self.WHOLE, self.WHOLE, self.ADD_SKILL_XPATH,
                                             waitBeforeClicking=.5, checkNewPage=True,
                                             timeLimit=8)
+            if addSkillBut is None and self._reopenSkillsPanel():
+                addSkillBut = self.findAndClick(self.WHOLE, self.WHOLE, self.ADD_SKILL_XPATH,
+                                                waitBeforeClicking=.5, checkNewPage=True,
+                                                timeLimit=8)
             if addSkillBut is None:
                 self.reportAction("Could not find the 'Add skill' button.", False)
                 return None
 
-            if self.fillByTestId(self.SKILL_NAME_TESTID, skill, "skill name") is None:
+            self.fillByTestId(self.SKILL_NAME_TESTID, skill, "skill name")
+            # No `required` here: one skill is worth skipping over, not worth
+            # stopping the whole run for, so this asks verifyTextFields for its
+            # second attempt and then backs out if the name still will not take.
+            if not self.verifyTextFields(
+                    ((self.SKILL_NAME_TESTID, skill, "skill name"),)):
                 # The form is open with nothing in it; back out rather than
                 # saving a blank skill or stacking another form on top.
                 self.findAndClick(self.WHOLE, self.WHOLE, self.SKILL_MODAL_BACK_XPATH,
@@ -3758,9 +3984,48 @@ class IndeedHelper(PlaywrightWrap):
 
             self.findAndClick(self.WHOLE, self.WHOLE, self.SKILL_SAVE_XPATH,
                               waitBeforeClicking=.5, checkNewPage=True, timeLimit=8)
+            # Belt and suspenders alongside the check above: that one only
+            # catches a skill name Indeed never accepted in the first place.
+            # If Save is blocked for some OTHER reason (a duplicate skill,
+            # say) the form stays open exactly the same way a bad work
+            # experience or education entry does, and every later skill's
+            # own "Add skill" button stays hidden behind it forever
+            # (HTMLz/skill_stuck.html, Logs/Log49.txt).
+            if self._formStillOpen(self.SKILL_NAME_TESTID):
+                raise NeedsHumanError(
+                    "Clicked 'Save this skill' but the form is still open -- Indeed is "
+                    "likely blocking the save on a validation error (often a duplicate "
+                    "skill). Fix it in the browser, then press Start applying.")
 
     ADD_WORK_XPATH = "//*[@aria-label='Add work experience']"
     ADD_EDU_XPATH = "//*[@aria-label='Add education']"
+
+    def _openFormToFill(self, markerTestId, label):
+        """True when an empty entry form is sitting open, ready to be filled.
+
+        Checked when the "Add ..." click reports failure, because a click that
+        WORKED reports failure too. Playwright's click does not stop at the
+        click: it then waits for any navigation the click scheduled, and on
+        these pages that wait can outlast its timeout even though the button
+        was pressed. Its own log says so plainly (Logs/Log52.txt line 772):
+
+            - performing click action
+            - click action done
+            - waiting for scheduled navigations to finish
+            TimeoutError: ElementHandle.click: Timeout 5000ms exceeded
+
+        The click landed and the form opened. Reading that as "could not find
+        the button" abandoned the 4th of four jobs with its form open and
+        waiting, and left the run cycling on a page whose entry list was
+        hidden behind that very form (HTMLz/work_stuck_again.html: three jobs
+        saved, an empty form open, nothing able to read the list past it).
+        """
+        if not self._formStillOpen(markerTestId):
+            return False
+        self.reportAction(
+            f"The 'Add {label}' click reported a timeout, but its form is open -- the click "
+            f"did land, so filling the form in rather than starting over.", False)
+        return True
 
     def do_work_exp(self):
         if self.sectionAlreadyCorrect(self.WORK_ENTRY_XPATH,
@@ -3774,12 +4039,14 @@ class IndeedHelper(PlaywrightWrap):
         # applicant never listed were submitted alongside ours.
         self.deleteExistingEntries(self.WORK_ENTRY_XPATH, self.WORK_DELETE_XPATH,
                                    "work experience",
-                                   inlineDeleteXpath=self.WORK_INLINE_DELETE_XPATH)
+                                   inlineDeleteXpath=self.WORK_INLINE_DELETE_XPATH,
+                                   formOpenXpath=self.WORK_FORM_OPEN_XPATH)
 
         for job in self.jobs:
             addWorkBut = self.findAndClick(self.WHOLE, self.WHOLE, self.ADD_WORK_XPATH,
                                            waitBeforeClicking=.5, checkNewPage=True, timeLimit=8)
-            if addWorkBut is None:
+            if addWorkBut is None and not self._openFormToFill(self.WORK_TITLE_TESTID,
+                                                              "work experience"):
                 self.reportAction("Could not find the 'Add work experience' button.", False)
                 return None
             possExp = self.handleJob(job)
@@ -3793,12 +4060,14 @@ class IndeedHelper(PlaywrightWrap):
             return None
 
         self.deleteExistingEntries(self.EDU_ENTRY_XPATH, self.EDU_DELETE_XPATH, "education",
-                                   inlineDeleteXpath=self.EDU_INLINE_DELETE_XPATH)
+                                   inlineDeleteXpath=self.EDU_INLINE_DELETE_XPATH,
+                                   formOpenXpath=self.EDU_FORM_OPEN_XPATH)
 
         for edu in self.edus:
             addEduBut = self.findAndClick(self.WHOLE, self.WHOLE, self.ADD_EDU_XPATH,
                                           waitBeforeClicking=.5, checkNewPage=True, timeLimit=8)
-            if addEduBut is None:
+            if addEduBut is None and not self._openFormToFill(self.EDU_LEVEL_TESTID,
+                                                              "education"):
                 self.reportAction("Could not find the 'Add education' button.", False)
                 return None
             possExp = self.handleEdu(edu)
@@ -3955,9 +4224,14 @@ class IndeedHelper(PlaywrightWrap):
         title, comp, _, cityState, current, fromDate, toDate, country, desc = tuple(job.values())
         current = "y" in current.lower()
 
-        self.fillByTestId(self.WORK_TITLE_TESTID, title, "job title")
-        self.fillByTestId(self.WORK_COMPANY_TESTID, comp, "company")
-        self.fillByTestId(self.WORK_LOCATION_TESTID, cityState, "job location")
+        # A field that misses here is not given up on -- verifyTextFields below
+        # looks again once the whole form is filled, which is when a field that
+        # was merely late has arrived.
+        textFields = ((self.WORK_TITLE_TESTID, title, "job title"),
+                      (self.WORK_COMPANY_TESTID, comp, "company"),
+                      (self.WORK_LOCATION_TESTID, cityState, "job location"))
+        for testid, value, label in textFields:
+            self.fillByTestId(testid, value, label)
 
         # Set this before the dates: ticking it removes the "To" pair entirely.
         # The toggle's ACTUAL resulting state, not the value asked for --
@@ -3975,6 +4249,9 @@ class IndeedHelper(PlaywrightWrap):
             descEle.send_keys(Keys.CONTROL, "a")
             self.findAndClick(self.WHOLE, self.WHOLE, self.BULLET_LIST_XPATH,
                               timeLimit=3, nohang=True)
+
+        # Job title is the one field this form carries `required` on.
+        self.verifyTextFields(textFields, required=(self.WORK_TITLE_TESTID,))
 
         saveResult = self.findAndClick(self.WHOLE, self.WHOLE, self.WORK_SAVE_XPATH,
                                        waitBeforeClicking=1, checkNewPage=True)
@@ -4040,6 +4317,9 @@ class IndeedHelper(PlaywrightWrap):
     MAX_QUESTIONS_PER_PAGE = 40
 
     def analyzeAndAnsQuestions(self):
+        if self._pauseRequested():
+            return None
+
         allPageQuestions = self.findAndClick(self.CLASS, self.CONTAINS, 'Questions-item',
                                              indInList=self.ALL, txtCond="#$%^&*(KJH")
 
@@ -4060,6 +4340,19 @@ class IndeedHelper(PlaywrightWrap):
             failed = []
             processed = 0
             for questn in allPageQuestions:
+                # Checked between questions, not just once at the top, so
+                # pausing mid-page (the Run tab's Pause button) takes effect
+                # after the question in progress rather than after the whole
+                # page -- a page of ten questions used to keep answering (and
+                # then click Continue) regardless of a pause requested while
+                # question three was still being worked on.
+                if self._pauseRequested():
+                    self.reportAction(
+                        f"Pausing on the screener questions page: {answered} of "
+                        f"{len(allPageQuestions)} question(s) answered so far. The rest "
+                        f"will be picked up once applying resumes.", False)
+                    return None
+
                 # allPageQuestions is appended to inside this loop, which is how
                 # follow-up questions get picked up -- and also how a bad
                 # "is this new?" test turned six questions into an endless
@@ -5551,7 +5844,14 @@ class IndeedHelper(PlaywrightWrap):
                                       "jobN": [int(n) for n in jobNums.split(",")] if jobNums else None,
                                       "maxApps": int(maxApps or 0),
                                       "label": label,
-                                      "searchId": int(rec["id"])})
+                                      "searchId": int(rec["id"]),
+                                      # NULL when this is a main row (nothing to vary
+                                      # from); set when it's a sub-row -- saveAppInDB
+                                      # snapshots both onto every application this
+                                      # search produces, so "what's different" stays
+                                      # correct even if the sub-row is later edited
+                                      # or deleted.
+                                      "parentUrl": rec["parent_url"]})
 
             if not self.profiles:
                 raise ValueError(
@@ -5948,6 +6248,11 @@ class StateMachine:
     def __init__(self, helper : PlaywrightWrap, control=None ):
         self.helper = helper
         self.control = control if control is not None else RunControl(getattr(helper, "user_id", "unknown"))
+        # Shared with the helper so a long-running page function (several
+        # screener questions answered in one analyzeAndAnsQuestions() call)
+        # can notice a pause request itself, rather than only between whole
+        # pages -- see IndeedHelper._pauseRequested.
+        self.helper.control = self.control
         # Set when the bot pauses itself (currently only for a bot check), as
         # opposed to being paused from the Run tab.
         self.selfPaused = False
@@ -6132,7 +6437,37 @@ class StateMachine:
             try:
                 funcResult = self.executeFunc(funcName)
             except NeedsHumanError as exc:
-                self.handleStuck(f"{funcName}() could not continue", environment, str(exc))
+                # `environment` is a snapshot from BEFORE executeFunc ran, but
+                # funcName can navigate through several pages on its own --
+                # doWorkExp()/doEdu() add one entry after another, each
+                # behind its own "Add" button -- before the error actually
+                # surfaces. handleStuck's auto-resume treats "the current
+                # page differs from the one passed in" as proof the problem
+                # resolved itself, so passing this stale value made it
+                # compare against a page we had already left, and it
+                # declared victory about a second later with nobody having
+                # looked at anything. Re-reading the environment right here
+                # means the comparison is against the page the error is
+                # ACTUALLY sitting on (Logs/Log48.txt line 7611 onward: a
+                # work-experience form stuck open on a blank required job
+                # title field, "STUCK" to "ATTENTION CLEARED" in 1.3s, then
+                # 38 fruitless retries waiting for a button that could never
+                # appear because that same broken form was still open).
+                current_environment = self.helper.getCurrentEnv(quiet=True)
+                if funcName == "submitApp":
+                    # submitApp() stops here deliberately every time, right
+                    # before the irreversible Submit click, so a person can
+                    # look the review page over first. handleStuck's "the page
+                    # changed, so it must be resolved" does not fit this one:
+                    # reviewing often means clicking back to the screener
+                    # questions to check an answer, and that page change is
+                    # not a submission. Treating it as one both silenced the
+                    # alert AND matched the questions page's own default rule,
+                    # which re-ran doQuestions() -- re-answering and clicking
+                    # Continue on an application already sitting at review.
+                    self.handleReviewStop(current_environment, str(exc))
+                else:
+                    self.handleStuck(f"{funcName}() could not continue", current_environment, str(exc))
                 return
             # need to check that we accomplished what we wanted to accomplish with this function
             if isinstance(funcResult, StartFromTop):
@@ -6358,6 +6693,55 @@ class StateMachine:
         if not resolved:
             # Waved through by hand while still on the same page. Don't nag
             # about it again, and let the next loop re-read the page.
+            self.waiveAttention(environment)
+
+    # The two pages StateTransitions.txt recognises as "the application
+    # actually went through" -- see the `doDbThenbackToStart()` rules for
+    # "your application has been submitted" and the u.indeed.com dashboard
+    # redirect. Kept here too (rather than only reachable through envIsValid)
+    # because handleReviewStop needs to test arbitrary in-between pages a
+    # person might click through on the way, not just the one submitApp()
+    # stopped on.
+    SUBMITTED_TITLE_MARKER = "your application has been submitted"
+    SUBMITTED_URL_PREFIX = "https://u.indeed.com/o/dashboard?workflowexecutionid="
+
+    def isSubmittedConfirmation(self, environment):
+        url, _, title = str(environment or "").partition("|")
+        if self.SUBMITTED_TITLE_MARKER in title.strip().lower():
+            return True
+        return url.strip().lower().startswith(self.SUBMITTED_URL_PREFIX)
+
+    def handleReviewStop(self, environment, message):
+        """Pause for a person to look over the application before it submits.
+
+        submitApp() raises NeedsHumanError here deliberately, every time,
+        right before the irreversible Submit click. handleStuck's usual
+        "resolved once the page changes" does not fit this stop: looking the
+        application over often means clicking back to the screener questions
+        to check an answer, and that is not a submission. Treating it as one
+        used to clear the alert AND flip the run back to 'running' the moment
+        the questions page came up -- which matched that page's own default
+        rule and re-ran doQuestions(), re-answering questions and clicking
+        Continue on an application that was already sitting at review.
+        """
+        ct_print("StateMachine", "STUCK", f"ready to review -- {environment[:90]}")
+
+        if self.attentionWaived(environment):
+            t.sleep(5)
+            return
+
+        resolved = self.pauseAndAlert(
+            reason="STUCK: ready to review",
+            isResolved=self.isSubmittedConfirmation,
+            # Only an actual submission counts as resolved -- see the
+            # docstring. Short of that, a person pressing Start applying by
+            # hand is still the other way out of pauseAndAlert, unaffected by
+            # resumeWhenResolved.
+            resumeWhenResolved=True,
+            message=f"{message}\n  {environment}",
+            clearedMessage="The application was submitted. Press Start applying to continue.",
+        )
+        if not resolved:
             self.waiveAttention(environment)
 
     # waitForever() is gone. Every place that parked the run in an unbreakable
@@ -6660,11 +7044,11 @@ def loadUsersFromDB(userIds=None):
         cursor.execute(edu_query, (userID,))
         edu_records = cursor.fetchall()
 
-        # Task 3: Get this user's job searches, in run order. `position` decides
-        # which search the bot starts on, so the ORDER BY is load-bearing.
-        search_query = """SELECT * FROM job_searches WHERE user_id = ? ORDER BY position"""
-        cursor.execute(search_query, (userID,))
-        search_records = cursor.fetchall()
+        # Task 3: Get this user's job searches, in run order -- every main row
+        # followed immediately by its own active alternate-URL sub-rows
+        # before the next main row. See list_searches_for_bot for how a
+        # sub-row's job/edu/target/cap columns are resolved from its parent.
+        search_records = list_searches_for_bot(conn, userID)
 
         # Task 4: Construct the data structure
         user_data.append({"mainInfo":record, "edus":edu_records, "jobs":job_records,

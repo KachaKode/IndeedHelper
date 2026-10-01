@@ -205,6 +205,43 @@ def add_max_applications_per_search(db: IndeedDB) -> dict[str, Any]:
     return report
 
 
+def add_search_subrows(db: IndeedDB) -> dict[str, Any]:
+    """Add job_searches.parent_id and .active -- alternate-URL sub-rows nested
+    under a main search row.
+
+    A sub-row stands for the same target position as its parent: job_nums,
+    edu_nums, target_position and max_applications are always resolved from
+    the parent at run time (see list_searches_for_bot) and are never read off
+    the sub-row itself, no matter what those columns happen to hold on it.
+    Only `url` and `active` are ever a sub-row's own.
+
+    parent_id NULL means "this is a main row" -- the shape every existing row
+    already has. `active` lets a sub-row be turned off without deleting it;
+    main rows are always active=1 (there is no UI to change it for them).
+
+    Idempotent -- does nothing once both columns exist.
+    """
+    report = {"added": False}
+    with db._connect() as conn:
+        if not schema_exists(conn):
+            raise RuntimeError("job_searches does not exist; run migrate() first.")
+        cols = _column_names(conn, "job_searches")
+        if "parent_id" in cols and "active" in cols:
+            return report
+
+        db._ensure_backup()
+        if "parent_id" not in cols:
+            conn.execute("ALTER TABLE job_searches ADD COLUMN parent_id INTEGER")
+        if "active" not in cols:
+            conn.execute("ALTER TABLE job_searches ADD COLUMN active INTEGER NOT NULL DEFAULT 1")
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_job_searches_parent "
+            "ON job_searches (parent_id, position)"
+        )
+        report["added"] = True
+    return report
+
+
 def add_search_id_to_applications(db: IndeedDB) -> dict[str, Any]:
     """Add applications.search_id -- which job_searches row produced this
     application, so a per-search "applications this session" count can be
@@ -479,3 +516,223 @@ def profiles_from_searches(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             }
         )
     return profiles
+
+
+# --------------------------------------------------------------------------
+# Outcome tracking: what happened AFTER an application was submitted.
+#
+# applications is append-only and records only that something was sent. These
+# two tables add the other half without touching it:
+#
+#   application_events -- the outcome log (one row per thing that happened)
+#   capture_items      -- the ingestion ledger (one row per observed source
+#                         item: an Indeed tracker entry or an email)
+#
+# Both start empty and nothing existing reads them, so unlike migrate() and
+# seed_vetted_questions() -- which move real data and therefore stay manual --
+# these are safe to self-heal on startup alongside the ALTER TABLE migrations.
+# --------------------------------------------------------------------------
+
+CREATE_APPLICATION_EVENTS = """
+CREATE TABLE IF NOT EXISTS application_events (
+    id             INTEGER PRIMARY KEY,
+    user_id        INTEGER NOT NULL,
+    application_id INTEGER,
+    event_type     TEXT NOT NULL,
+    occurred_at    TEXT NOT NULL,
+    source         TEXT NOT NULL,
+    confidence     REAL NOT NULL DEFAULT 1.0,
+    external_id    TEXT,
+    note           TEXT NOT NULL DEFAULT '',
+    created_at     TEXT NOT NULL
+)
+"""
+
+# application_id is deliberately nullable: an outcome we are sure happened but
+# could not attribute to a specific application is still worth keeping, and is
+# surfaced in the review queue rather than silently dropped.
+
+CREATE_APPLICATION_EVENTS_APP_INDEX = """
+CREATE INDEX IF NOT EXISTS idx_app_events_app
+    ON application_events (application_id, occurred_at)
+"""
+
+CREATE_APPLICATION_EVENTS_USER_INDEX = """
+CREATE INDEX IF NOT EXISTS idx_app_events_user
+    ON application_events (user_id, event_type, occurred_at)
+"""
+
+# The partial unique index is what makes re-syncing safe: re-reading the same
+# Indeed tracker row or the same email cannot insert the same event twice.
+# Manual events carry external_id NULL and are intentionally unconstrained,
+# so a human can record the same stage twice if that is what really happened.
+CREATE_APPLICATION_EVENTS_EXT_INDEX = """
+CREATE UNIQUE INDEX IF NOT EXISTS idx_app_events_ext
+    ON application_events (external_id, event_type) WHERE external_id IS NOT NULL
+"""
+
+CREATE_CAPTURE_ITEMS = """
+CREATE TABLE IF NOT EXISTS capture_items (
+    id              INTEGER PRIMARY KEY,
+    user_id         INTEGER NOT NULL,
+    source          TEXT NOT NULL,
+    external_id     TEXT NOT NULL,
+    observed_at     TEXT NOT NULL,
+    company         TEXT NOT NULL DEFAULT '',
+    title           TEXT NOT NULL DEFAULT '',
+    job_key         TEXT NOT NULL DEFAULT '',
+    sender          TEXT NOT NULL DEFAULT '',
+    subject         TEXT NOT NULL DEFAULT '',
+    body_excerpt    TEXT NOT NULL DEFAULT '',
+    classified_type TEXT,
+    classifier      TEXT,
+    confidence      REAL NOT NULL DEFAULT 0.0,
+    match_state     TEXT NOT NULL DEFAULT 'pending',
+    application_id  INTEGER,
+    created_at      TEXT NOT NULL
+)
+"""
+
+CREATE_CAPTURE_ITEMS_EXT_INDEX = """
+CREATE UNIQUE INDEX IF NOT EXISTS idx_capture_user_ext
+    ON capture_items (user_id, source, external_id)
+"""
+
+CREATE_CAPTURE_ITEMS_STATE_INDEX = """
+CREATE INDEX IF NOT EXISTS idx_capture_state
+    ON capture_items (user_id, match_state, observed_at)
+"""
+
+# applications has no indexes at all -- not even on user_id. Every stats query
+# and every matcher candidate lookup filters on exactly this pair, so this is
+# the one index that pays for itself immediately.
+CREATE_APPLICATIONS_USER_DT_INDEX = """
+CREATE INDEX IF NOT EXISTS idx_applications_user_dt
+    ON applications (user_id, DateTime)
+"""
+
+
+def application_events_schema_exists(conn: sqlite3.Connection) -> bool:
+    row = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='application_events'"
+    ).fetchone()
+    return row is not None
+
+
+def capture_items_schema_exists(conn: sqlite3.Connection) -> bool:
+    row = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='capture_items'"
+    ).fetchone()
+    return row is not None
+
+
+def ensure_outcome_schema(conn: sqlite3.Connection) -> None:
+    conn.execute(CREATE_APPLICATION_EVENTS)
+    conn.execute(CREATE_APPLICATION_EVENTS_APP_INDEX)
+    conn.execute(CREATE_APPLICATION_EVENTS_USER_INDEX)
+    conn.execute(CREATE_APPLICATION_EVENTS_EXT_INDEX)
+    conn.execute(CREATE_CAPTURE_ITEMS)
+    conn.execute(CREATE_CAPTURE_ITEMS_EXT_INDEX)
+    conn.execute(CREATE_CAPTURE_ITEMS_STATE_INDEX)
+
+
+def add_job_key_to_applications(db: IndeedDB) -> dict[str, Any]:
+    """Add applications.job_key -- Indeed's own `jk=` identifier for the job
+    this application was submitted against.
+
+    The bot already knows this value at submit time (self.currentJobKey, the
+    same key crashed_job_keys is built from) but has never persisted it. With
+    it stored, an entry read back off Indeed's application tracker links to
+    its applications row EXACTLY, instead of being matched by company name --
+    which is ambiguous here, because 584 of user 9's applications are repeat
+    applications to a company already applied to.
+
+    Empty on every historical row: nothing recorded it before, so there is
+    nothing to backfill from -- the same situation as search_id. Those rows
+    fall back to fuzzy company+title matching.
+
+    Idempotent -- does nothing if the column already exists.
+    """
+    report = {"added": False}
+    with db._connect() as conn:
+        if "job_key" in _column_names(conn, "applications"):
+            return report
+        db._ensure_backup()
+        conn.execute("ALTER TABLE applications ADD COLUMN job_key TEXT DEFAULT ''")
+        report["added"] = True
+    return report
+
+
+def add_search_snapshot_to_applications(db: IndeedDB) -> dict[str, Any]:
+    """Add applications.search_target_position/.search_url/.search_parent_url --
+    a permanent snapshot of what search actually produced this application, and
+    (when it came from an alternate-URL sub-row) what made that sub-row's URL
+    different from its parent's.
+
+    search_id already records WHICH job_searches row produced an application,
+    but that row can be edited or deleted later -- job_searches is a live,
+    editable config table, not history. Without a snapshot, renaming a search's
+    target position or deleting a sub-row would silently rewrite or erase what
+    a past application shows for it. These three columns make that display
+    independent of the live job_searches table, matching applications' own
+    long-standing principle of being "the permanent record of what was
+    actually sent" (see IndeedDB.get_application).
+
+    search_parent_url is NULL when the application came directly from a main
+    row (there is no parent to vary from, i.e. no variance at all) and is only
+    set when it came from a sub-row -- the two cases the GUI needs to tell
+    apart ("used the main search directly" vs. "used this variant").
+
+    Empty/NULL on every historical row: nothing recorded this before, so there
+    is nothing to backfill from -- the same situation as search_id and job_key.
+    Only rows saved by a bot new enough to set it (main3.py saveAppInDB) get it
+    filled in.
+
+    Idempotent -- does nothing once all three columns exist.
+    """
+    report = {"added": False}
+    with db._connect() as conn:
+        cols = _column_names(conn, "applications")
+        needed = {"search_target_position", "search_url", "search_parent_url"} - cols
+        if not needed:
+            return report
+
+        db._ensure_backup()
+        if "search_target_position" in needed:
+            conn.execute("ALTER TABLE applications ADD COLUMN search_target_position TEXT")
+        if "search_url" in needed:
+            conn.execute("ALTER TABLE applications ADD COLUMN search_url TEXT")
+        if "search_parent_url" in needed:
+            conn.execute("ALTER TABLE applications ADD COLUMN search_parent_url TEXT")
+        report["added"] = True
+    return report
+
+
+def add_outcome_tracking(db: IndeedDB) -> dict[str, Any]:
+    """Create application_events, capture_items, and the applications index.
+
+    Purely additive: both tables start empty, nothing existing reads them, and
+    applications itself is not modified. Safe to call on every startup.
+
+    Idempotent -- every statement is CREATE ... IF NOT EXISTS, and the backup
+    is only taken when something is actually missing.
+    """
+    report = {"created_events": False, "created_capture": False, "created_index": False}
+    with db._connect() as conn:
+        needs_events = not application_events_schema_exists(conn)
+        needs_capture = not capture_items_schema_exists(conn)
+        has_index = conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='index' "
+            "AND name='idx_applications_user_dt'"
+        ).fetchone() is not None
+
+        if not needs_events and not needs_capture and has_index:
+            return report
+
+        db._ensure_backup()
+        ensure_outcome_schema(conn)
+        conn.execute(CREATE_APPLICATIONS_USER_DT_INDEX)
+        report["created_events"] = needs_events
+        report["created_capture"] = needs_capture
+        report["created_index"] = not has_index
+    return report

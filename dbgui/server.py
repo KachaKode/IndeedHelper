@@ -17,6 +17,8 @@ from typing import Any
 from flask import Flask, jsonify, request
 
 from . import billing
+from . import outcomes
+from . import stats
 from .data import (
     ACTIVE_CHOICES,
     APPLICATION_FIELDS,
@@ -200,6 +202,21 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
         db.reorder_searches(user_id, [int(i) for i in ids])
         return jsonify({"ok": True})
 
+    @app.post("/api/searches/<int:parent_id>/subsearches")
+    def create_subsearch(parent_id: int):
+        body = _json_body()
+        try:
+            new_id = db.add_subsearch(parent_id, body.get("url", ""))
+        except ValueError as exc:
+            return jsonify({"error": str(exc)}), 404
+        return jsonify({"id": new_id}), 201
+
+    @app.post("/api/searches/<int:parent_id>/subsearches/reorder")
+    def reorder_subsearches(parent_id: int):
+        ids = _json_body().get("ids") or []
+        db.reorder_subsearches(parent_id, [int(i) for i in ids])
+        return jsonify({"ok": True})
+
     # ----------------------------------------------------- vetted questions --
     # No create route: rows only ever come from the seed script or the live
     # bot's own runtime hook, never a manual "add a vetted question" action.
@@ -300,6 +317,87 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
     @app.get("/api/applications-old")
     def list_applications_old():
         return jsonify(db.list_applications_old())
+
+    # ------------------------------------------------------------------- stats --
+
+    @app.get("/api/users/<int:user_id>/stats")
+    def get_stats(user_id: int):
+        """The funnel, computed fresh. Nothing here is stored or cached between
+        requests except the derived-dimension memo inside stats.py, which is keyed
+        by application id and safe because applications are write-once."""
+        def _int_arg(name: str, default: int) -> int:
+            raw = (request.args.get(name) or "").strip()
+            return int(raw) if raw.lstrip("-").isdigit() else default
+
+        maturity = _int_arg("maturity", stats.DEFAULT_MATURITY_DAYS)
+        min_n = _int_arg("minN", stats.DEFAULT_MIN_N)
+        if maturity < 0:
+            return jsonify({"error": "maturity must be zero or more days"}), 400
+        if min_n < 1:
+            return jsonify({"error": "minN must be at least 1"}), 400
+
+        return jsonify(stats.compute(
+            db, user_id,
+            since=(request.args.get("since") or "").strip() or None,
+            until=(request.args.get("until") or "").strip() or None,
+            maturity_days=maturity,
+            min_n=min_n,
+        ))
+
+    # ---------------------------------------------------------------- outcomes --
+    #
+    # applications itself stays read-only: these write application_events, a
+    # separate log, and never modify the historical record.
+
+    @app.get("/api/outcome-types")
+    def outcome_types():
+        return jsonify(outcomes.event_choices())
+
+    @app.get("/api/users/<int:user_id>/outcomes")
+    def list_outcomes(user_id: int):
+        return jsonify({
+            "events": outcomes.recent_events(db, user_id, limit=100),
+            "review": outcomes.review_queue(db, user_id),
+            "counts": outcomes.review_counts(db, user_id),
+        })
+
+    @app.get("/api/applications/<int:app_id>/events")
+    def application_events(app_id: int):
+        return jsonify(outcomes.list_events_for_application(db, app_id))
+
+    @app.post("/api/applications/<int:app_id>/events")
+    def add_application_event(app_id: int):
+        body = _json_body()
+        try:
+            record = outcomes.add_manual_event(
+                db, app_id, (body.get("event_type") or "").strip(),
+                occurred_at=body.get("occurred_at"),
+                note=(body.get("note") or "").strip(),
+            )
+        except ValueError as exc:
+            return jsonify({"error": str(exc)}), 400
+        return jsonify(record), 201
+
+    @app.delete("/api/application-events/<int:event_id>")
+    def remove_application_event(event_id: int):
+        if not outcomes.delete_event(db, event_id):
+            return jsonify({"error": "No such outcome"}), 404
+        return jsonify({"deleted": event_id})
+
+    @app.post("/api/capture-items/<int:item_id>/resolve")
+    def resolve_capture_item(item_id: int):
+        body = _json_body()
+        raw_app = body.get("application_id")
+        try:
+            record = outcomes.resolve_item(
+                db, item_id,
+                application_id=int(raw_app) if raw_app not in (None, "") else None,
+                event_type=(body.get("event_type") or "").strip() or None,
+                ignore=bool(body.get("ignore")),
+            )
+        except ValueError as exc:
+            return jsonify({"error": str(exc)}), 400
+        return jsonify(record)
 
     # ------------------------------------------------------------- run control --
 

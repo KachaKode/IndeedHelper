@@ -189,6 +189,43 @@ def format_home_page(rows: list[SearchRow]) -> str:
     return "\r\n".join(lines)
 
 
+def list_searches_for_bot(conn: sqlite3.Connection, user_id: int) -> list[sqlite3.Row]:
+    """This user's job searches in the exact order the bot should run them:
+    every main row (parent_id IS NULL) followed immediately by its own
+    active alternate-URL sub-rows, before moving to the next main row.
+
+    A sub-row's job_nums/edu_nums/target_position/max_applications are always
+    resolved from its parent here -- those columns are never read off the
+    sub-row itself, no matter what they happen to hold on it. Only `url` and
+    `id` (for search_id on the applications it produces) are ever a sub-row's
+    own. An inactive sub-row is left out entirely; a main row has no such
+    switch and is always included.
+
+    `parent_url` is the parent's own url (NULL for a main row, which has no
+    parent) -- carried through so main3.py can snapshot it onto every
+    application this search produces (applications.search_parent_url), which
+    is what lets a past application's "what's different" still be computed
+    later even if the sub-row itself is since edited or deleted.
+
+    Takes a plain sqlite3.Connection (not an IndeedDB) so main3.py's own
+    connection can be passed straight through.
+    """
+    return conn.execute(
+        "SELECT js.id, js.user_id, js.url, js.parent_id, p.url AS parent_url, "
+        "       CASE WHEN js.parent_id IS NULL THEN js.job_nums ELSE p.job_nums END AS job_nums, "
+        "       CASE WHEN js.parent_id IS NULL THEN js.edu_nums ELSE p.edu_nums END AS edu_nums, "
+        "       CASE WHEN js.parent_id IS NULL THEN js.target_position "
+        "            ELSE p.target_position END AS target_position, "
+        "       CASE WHEN js.parent_id IS NULL THEN js.max_applications "
+        "            ELSE p.max_applications END AS max_applications "
+        "FROM job_searches js "
+        "LEFT JOIN job_searches p ON p.id = js.parent_id "
+        "WHERE js.user_id = ? AND (js.parent_id IS NULL OR js.active = 1) "
+        "ORDER BY COALESCE(p.position, js.position), (js.parent_id IS NULL) DESC, js.position",
+        (user_id,),
+    ).fetchall()
+
+
 @dataclass
 class ValidationIssue:
     """A data-quality problem worth showing the user but not worth blocking on.
@@ -359,13 +396,24 @@ class IndeedDB:
         return counts
 
     # -------------------------------------------------------- job searches --
+    # A row with parent_id NULL is a main search; a row with parent_id set is
+    # one of that main row's alternate-URL sub-rows (same target position,
+    # different search URL). Position is scoped to siblings: main rows are
+    # ordered among themselves by `position` with parent_id IS NULL, and each
+    # main row's sub-rows are ordered among themselves by `position` within
+    # that parent_id -- the two sequences don't share numbering. See
+    # list_searches_for_bot for how the two are woven into the bot's actual
+    # run order (every main row followed immediately by its own sub-rows).
 
     def list_searches(self, user_id: int) -> list[dict[str, Any]]:
         with self._connect() as conn:
             rows = conn.execute(
-                "SELECT id, user_id, position, url, job_nums, edu_nums, target_position, "
-                "max_applications "
-                "FROM job_searches WHERE user_id = ? ORDER BY position",
+                "SELECT js.id, js.user_id, js.position, js.url, js.job_nums, js.edu_nums, "
+                "js.target_position, js.max_applications, js.parent_id, js.active "
+                "FROM job_searches js "
+                "LEFT JOIN job_searches p ON p.id = js.parent_id "
+                "WHERE js.user_id = ? "
+                "ORDER BY COALESCE(p.position, js.position), (js.parent_id IS NULL) DESC, js.position",
                 (user_id,),
             ).fetchall()
         return [dict(r) for r in rows]
@@ -375,15 +423,42 @@ class IndeedDB:
         self._ensure_backup()
         with self._connect() as conn:
             row = conn.execute(
-                "SELECT MAX(position) FROM job_searches WHERE user_id = ?", (user_id,)
+                "SELECT MAX(position) FROM job_searches WHERE user_id = ? AND parent_id IS NULL",
+                (user_id,),
             ).fetchone()
             position = 0 if row[0] is None else int(row[0]) + 1
             cur = conn.execute(
                 "INSERT INTO job_searches "
-                "(user_id, position, url, job_nums, edu_nums, target_position, max_applications) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "(user_id, position, url, job_nums, edu_nums, target_position, max_applications, "
+                " parent_id, active) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, NULL, 1)",
                 (user_id, position, url, job_nums, edu_nums, target_position,
                  int(max_applications or 0)),
+            )
+            return int(cur.lastrowid)
+
+    def add_subsearch(self, parent_id: int, url: str = "") -> int:
+        """Add an alternate-URL sub-row under an existing main search row.
+
+        job_nums/edu_nums/target_position/max_applications are deliberately
+        left at their column defaults and never read back for a sub-row --
+        list_searches_for_bot always resolves those four from the parent.
+        """
+        self._ensure_backup()
+        with self._connect() as conn:
+            parent = conn.execute(
+                "SELECT user_id FROM job_searches WHERE id = ? AND parent_id IS NULL", (parent_id,)
+            ).fetchone()
+            if parent is None:
+                raise ValueError(f"No main job search with id {parent_id}")
+            row = conn.execute(
+                "SELECT MAX(position) FROM job_searches WHERE parent_id = ?", (parent_id,)
+            ).fetchone()
+            position = 0 if row[0] is None else int(row[0]) + 1
+            cur = conn.execute(
+                "INSERT INTO job_searches (user_id, position, url, parent_id, active) "
+                "VALUES (?, ?, ?, ?, 1)",
+                (parent["user_id"], position, url, parent_id),
             )
             return int(cur.lastrowid)
 
@@ -392,6 +467,8 @@ class IndeedDB:
         for key, value in values.items():
             if key == "max_applications":
                 payload[key] = int(value or 0)
+            elif key == "active":
+                payload[key] = 1 if value else 0
             elif key in ("url", "job_nums", "edu_nums", "target_position"):
                 payload[key] = value
         if not payload:
@@ -406,32 +483,62 @@ class IndeedDB:
         return backup
 
     def delete_search(self, search_id: int) -> Path | None:
+        """Deleting a main row takes its sub-rows with it -- a sub-row without
+        a parent has nothing to resolve job_nums/edu_nums/target_position/
+        max_applications from, so an orphan is never a valid state."""
         backup = self._ensure_backup()
         with self._connect() as conn:
             row = conn.execute(
-                "SELECT user_id FROM job_searches WHERE id = ?", (search_id,)
+                "SELECT user_id, parent_id FROM job_searches WHERE id = ?", (search_id,)
             ).fetchone()
+            if row is None:
+                return backup
+            conn.execute("DELETE FROM job_searches WHERE parent_id = ?", (search_id,))
             conn.execute("DELETE FROM job_searches WHERE id = ?", (search_id,))
-            if row:
+            if row["parent_id"] is None:
                 self._compact_positions(conn, row["user_id"])
+            else:
+                self._compact_subrow_positions(conn, row["parent_id"])
         return backup
 
     def reorder_searches(self, user_id: int, ordered_ids: list[int]) -> Path | None:
         """Order is behavioural: the bot starts on position 0 and cycles from
-        there, so this is a functional edit, not a cosmetic one."""
+        there, so this is a functional edit, not a cosmetic one. Scoped to
+        main rows -- a sub-row's position lives in its own parent_id-scoped
+        sequence and is reordered through reorder_subsearches instead."""
         backup = self._ensure_backup()
         with self._connect() as conn:
             for position, search_id in enumerate(ordered_ids):
                 conn.execute(
-                    "UPDATE job_searches SET position = ? WHERE id = ? AND user_id = ?",
+                    "UPDATE job_searches SET position = ? "
+                    "WHERE id = ? AND user_id = ? AND parent_id IS NULL",
                     (position, search_id, user_id),
                 )
         return backup
 
+    def reorder_subsearches(self, parent_id: int, ordered_ids: list[int]) -> Path | None:
+        backup = self._ensure_backup()
+        with self._connect() as conn:
+            for position, search_id in enumerate(ordered_ids):
+                conn.execute(
+                    "UPDATE job_searches SET position = ? WHERE id = ? AND parent_id = ?",
+                    (position, search_id, parent_id),
+                )
+        return backup
+
     def _compact_positions(self, conn: sqlite3.Connection, user_id: int) -> None:
-        """Close gaps left by a delete so positions stay 0..n-1."""
+        """Close gaps left by a delete so main-row positions stay 0..n-1."""
         rows = conn.execute(
-            "SELECT id FROM job_searches WHERE user_id = ? ORDER BY position", (user_id,)
+            "SELECT id FROM job_searches WHERE user_id = ? AND parent_id IS NULL ORDER BY position",
+            (user_id,),
+        ).fetchall()
+        for position, row in enumerate(rows):
+            conn.execute("UPDATE job_searches SET position = ? WHERE id = ?", (position, row["id"]))
+
+    def _compact_subrow_positions(self, conn: sqlite3.Connection, parent_id: int) -> None:
+        """Close gaps left by a delete so one parent's sub-row positions stay 0..n-1."""
+        rows = conn.execute(
+            "SELECT id FROM job_searches WHERE parent_id = ? ORDER BY position", (parent_id,)
         ).fetchall()
         for position, row in enumerate(rows):
             conn.execute("UPDATE job_searches SET position = ? WHERE id = ?", (position, row["id"]))
@@ -694,7 +801,11 @@ class IndeedDB:
                 "SELECT applications.id, applications.user_id, applications.DateTime, "
                 "applications.Platform, applications.companyName, applications.jobTitle, "
                 "applications.fullName, applications.headline, "
-                "job_searches.target_position AS searchLabel "
+                # Prefer the permanent snapshot taken at submit time; only a
+                # historical row saved before that column existed falls back to
+                # the live join, which can drift if the search is edited/deleted.
+                "COALESCE(applications.search_target_position, job_searches.target_position) "
+                "AS searchLabel "
                 "FROM applications "
                 "LEFT JOIN job_searches ON job_searches.id = applications.search_id "
                 f"{where} ORDER BY applications.id DESC LIMIT ? OFFSET ?",
@@ -750,7 +861,13 @@ class IndeedDB:
             # job_searches' own id/user_id columns under those same names and
             # silently overwrite the application's.
             row = conn.execute(
-                "SELECT applications.*, job_searches.target_position AS searchLabel "
+                # applications.* already carries search_target_position/search_url/
+                # search_parent_url -- the permanent snapshot the GUI computes
+                # "what's different" from. The live join is only a fallback for
+                # rows saved before that snapshot existed.
+                "SELECT applications.*, "
+                "COALESCE(applications.search_target_position, job_searches.target_position) "
+                "AS searchLabel "
                 "FROM applications "
                 "LEFT JOIN job_searches ON job_searches.id = applications.search_id "
                 "WHERE applications.id = ?",
@@ -820,14 +937,34 @@ class IndeedDB:
                         f"'{label}' still contains template placeholder text: {str(value)[:60]}",
                     ))
 
+        # Sub-rows never own job_nums/edu_nums (list_searches_for_bot always
+        # resolves those from the parent), so only main rows are checked
+        # against valid_job_nums/valid_edu_nums -- a sub-row is only ever
+        # checked for having a real-looking URL.
         searches = self.list_searches(user_id)
-        for index, row in enumerate(searches, start=1):
+        main_index = {row["id"]: i for i, row in enumerate(
+            (r for r in searches if r["parent_id"] is None), start=1
+        )}
+        sub_counts: dict[int, int] = {}   # parent_id -> how many siblings seen so far
+        sub_index: dict[int, int] = {}    # sub-row id -> its 1-based ordinal among siblings
+        for row in searches:
+            parent = row["parent_id"]
+            if parent is not None:
+                sub_counts[parent] = sub_counts.get(parent, 0) + 1
+                sub_index[row["id"]] = sub_counts[parent]
+
+        for row in searches:
+            is_sub = row["parent_id"] is not None
+            label = (f"Job Search #{main_index.get(row['parent_id'], '?')} alt URL "
+                     f"#{sub_index.get(row['id'], '?')}") if is_sub else f"Job Search #{main_index.get(row['id'], '?')}"
+
             if not (row["url"] or "").strip().lower().startswith("http"):
                 issues.append(ValidationIssue(
-                    f"Job Search #{index}",
-                    f"URL does not look like a web address: {row['url']!r}",
+                    label, f"URL does not look like a web address: {row['url']!r}",
                 ))
-            for label, raw, valid in (
+            if is_sub:
+                continue
+            for kind, raw, valid in (
                 ("job", row["job_nums"], valid_job_nums),
                 ("edu", row["edu_nums"], valid_edu_nums),
             ):
@@ -839,16 +976,14 @@ class IndeedDB:
                         continue
                     if not piece.isdigit():
                         issues.append(ValidationIssue(
-                            f"Job Search #{index}",
-                            f"{label} numbers should be digits separated by commas, got {piece!r}.",
+                            label, f"{kind} numbers should be digits separated by commas, got {piece!r}.",
                         ))
                     elif int(piece) not in valid:
                         issues.append(ValidationIssue(
-                            f"Job Search #{index}",
-                            f"References {label} #{piece}, but this user has no such record.",
+                            label, f"References {kind} #{piece}, but this user has no such record.",
                         ))
 
-        if not searches:
+        if not main_index:
             issues.append(ValidationIssue(
                 "Job Searches",
                 "No job searches configured; the bot has nowhere to start and will refuse to run this user.",
