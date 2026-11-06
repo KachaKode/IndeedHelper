@@ -27,11 +27,13 @@ function positionFromUrl(url) {
 
 let poller = null;
 
-// Which main rows have their alternate-URL sub-rows collapsed. Module-level
-// (not per-render state) so a collapse choice survives the re-renders that
-// follow every save/add/delete in this view, and is keyed by search id so it
-// also survives switching away to another tab and back.
-const collapsedMainRows = new Set();
+// Which main rows have been explicitly EXPANDED -- sub-rows are collapsed by
+// default, so absence from this set means collapsed, not the other way
+// around. Module-level (not per-render state) so an expand choice survives
+// the re-renders that follow every save/add/delete in this view, and is
+// keyed by search id so it also survives switching away to another tab and
+// back.
+const expandedMainRows = new Set();
 
 export function stopSearchesPolling() {
   if (poller) { clearInterval(poller); poller = null; }
@@ -324,7 +326,7 @@ export async function renderSearches(ctx) {
     // these <tr>s' visibility directly -- no re-render needed, which would
     // otherwise blow away in-progress edits elsewhere in the table.
     const subTrs = (subRowsByParent.get(row.id) || []).map((sub) => buildSubRow(sub, row));
-    let collapsed = collapsedMainRows.has(row.id);
+    let collapsed = !expandedMainRows.has(row.id);
     if (collapsed) subTrs.forEach((subTr) => { subTr.style.display = 'none'; });
 
     const toggleBtn = subTrs.length
@@ -335,7 +337,7 @@ export async function renderSearches(ctx) {
             : 'Hide alternate URLs',
           onclick: () => {
             collapsed = !collapsed;
-            if (collapsed) collapsedMainRows.add(row.id); else collapsedMainRows.delete(row.id);
+            if (collapsed) expandedMainRows.delete(row.id); else expandedMainRows.add(row.id);
             toggleBtn.textContent = collapsed ? '▸' : '▾';
             toggleBtn.title = collapsed
               ? `Show ${subTrs.length} alternate URL${subTrs.length === 1 ? '' : 's'}`

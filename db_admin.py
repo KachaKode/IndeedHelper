@@ -22,7 +22,7 @@ sys.path.insert(0, str(ROOT))
 
 from dbgui.data import IndeedDB  # noqa: E402
 from dbgui.migrations import (  # noqa: E402
-    add_avoid_employers, add_job_key_to_applications, add_linkedin_profile,
+    add_avoid_employers, add_job_key_to_applications, add_keyword_info, add_linkedin_profile,
     add_max_applications_per_search, add_outcome_tracking, add_search_id_to_applications,
     add_search_snapshot_to_applications, add_search_subrows, add_target_position, schema_exists,
     vetted_questions_schema_exists,
@@ -121,6 +121,10 @@ def main() -> int:
         print("Created capture_items (ingestion ledger).")
     if added_outcomes["created_index"]:
         print("Added index applications(user_id, DateTime).")
+
+    # Starts empty and nothing existing reads it, so no manual step either.
+    if add_keyword_info(db)["created"]:
+        print("Created keyword_info (keyword based information).")
 
     port = free_port()
     url = f"http://127.0.0.1:{port}/"

@@ -37,6 +37,11 @@ function todayISO() {
 
 async function loadSelection(ctx, row) {
   state.selected = row;
+  // The date is deliberately sticky across saves so several outcomes can be
+  // logged on one day. But it must not survive onto an application submitted
+  // AFTER it -- that date is out of range for the picker and the server would
+  // reject it. Fall back to today, which is always valid.
+  if (state.date && state.date < dateOnly(row.DateTime)) state.date = '';
   state.selectedEvents = await api.get(`/api/applications/${row.id}/events`);
   // The results list is long; without this the stage buttons are off-screen.
   state.revealRecorder = true;
@@ -124,9 +129,16 @@ function recorderCard(ctx) {
   }
 
   const chosen = state.selected;
+  // A native date input: it opens the browser's own calendar, and its value is
+  // already YYYY-MM-DD, which is exactly what the API accepts.
+  //
+  // `min` is the application's own date. The server refuses an outcome dated
+  // before its application (it would compute a negative time-to-response), so
+  // greying those out in the picker beats letting one be chosen and bounced.
   const dateInput = el('input', {
-    class: 'input', type: 'text', style: 'max-width:140px',
-    value: state.date || todayISO(), placeholder: 'YYYY-MM-DD',
+    class: 'input', type: 'date', style: 'max-width:170px',
+    value: state.date || todayISO(),
+    min: dateOnly(chosen.DateTime),
     onchange: (e) => { state.date = e.target.value.trim(); },
   });
   const noteInput = el('input', {

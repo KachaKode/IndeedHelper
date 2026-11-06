@@ -8,9 +8,17 @@
 </head>
 <body>
   <div class="shell">
-    <div class="credit-alert" id="credit-alert" hidden>
+    <div class="credit-alert" id="credit-alert" data-state="exhausted" hidden>
       <span class="credit-alert__text" id="credit-alert-text"></span>
-      <button class="btn btn--sm" id="credit-alert-goto">Open OpenAI billing</button>
+      <label class="credit-alert__amount">
+        <span>Added $</span>
+        <input class="input" id="credit-alert-amount" type="number" min="0" step="0.01"
+               placeholder="optional" />
+      </label>
+      <button class="btn btn--sm credit-alert__when-exhausted" id="credit-alert-goto">Open OpenAI billing</button>
+      <button class="btn btn--sm btn--primary credit-alert__when-exhausted" id="credit-alert-refilled">I've refilled</button>
+      <button class="btn btn--sm btn--primary credit-alert__when-restored" id="credit-alert-save">Save</button>
+      <button class="btn btn--sm credit-alert__when-restored" id="credit-alert-dismiss">Dismiss</button>
     </div>
     <div class="app">
     <aside class="sidebar">
@@ -44,6 +52,9 @@
       </button>
       <button class="nav-item" data-view="vetted" data-needs-user>
         <span>Vetted Questions</span><span class="nav-item__count" id="count-vetted">-</span>
+      </button>
+      <button class="nav-item" data-view="keywords" data-needs-user>
+        <span>Keyword Info</span><span class="nav-item__count" id="count-keywords">-</span>
       </button>
       <button class="nav-item" data-view="outcomes" data-needs-user>
         <span>Outcomes</span><span class="nav-item__count" id="count-outcomes">-</span>

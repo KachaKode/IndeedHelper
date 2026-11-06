@@ -26,6 +26,7 @@ Job Description:PLACE&&HOLDER&&
 Here are the applicant's details...
 Applicant Name: PLACE&&HOLDER&& PLACE&&HOLDER&& 
 These are the applicant's life details: PLACE&&HOLDER&&
+KEYWORD&&INFO&&
 **END**ALL**TOGETHER**
 
 **KEEP**ALL**TOGETHER**

@@ -78,12 +78,17 @@ def build(tmpdir: Path) -> tuple[IndeedDB, list[int], int]:
     conn = sqlite3.connect(copy)
     conn.row_factory = sqlite3.Row
     try:
+        # The copy may already carry real events -- outcomes recorded by hand in
+        # the app. Everything below is asserted as a DELTA from this baseline;
+        # hardcoding absolute counts breaks the moment one more is recorded.
+        baseline_events = int(conn.execute(
+            "SELECT COUNT(*) FROM application_events").fetchone()[0])
         # Six old (definitely mature) applications to attach outcomes to.
         rows = conn.execute(
             "SELECT id FROM applications WHERE user_id = ? AND DateTime < '2024-06-01' "
-            "ORDER BY id LIMIT 6", (USER_ID,)).fetchall()
+            "ORDER BY id LIMIT 7", (USER_ID,)).fetchall()
         ids = [int(r["id"]) for r in rows]
-        assert len(ids) == 6, "need six historical applications to seed"
+        assert len(ids) == 7, "need seven historical applications to seed"
 
         # One acknowledgement, one "viewed" -- neither is a response.
         add_event(conn, ids[0], "acked", "2024-04-02 09:00:00", external_id="e-ack")
@@ -101,6 +106,9 @@ def build(tmpdir: Path) -> tuple[IndeedDB, list[int], int]:
         add_event(conn, ids[4], "rejected", "2024-05-03 09:00:00", external_id="e-rej")
         # An offer, the top of the ladder.
         add_event(conn, ids[5], "offer", "2024-05-04 09:00:00", external_id="e-off")
+        # An online assessment and nothing else: an optional stage, and the only
+        # application that actually sat one.
+        add_event(conn, ids[6], "assessment", "2024-05-06 09:00:00", external_id="e-assess")
         # An outcome we could not attribute to any application.
         add_event(conn, None, "responded", "2024-05-05 09:00:00", external_id="e-orphan")
 
@@ -117,43 +125,65 @@ def build(tmpdir: Path) -> tuple[IndeedDB, list[int], int]:
         conn.close()
 
     stats.clear_cache()
-    return db, ids, recent_id
+    return db, ids, recent_id, baseline_events
 
 
-def test_response_definition(db, ids) -> None:
+def test_response_definition(db, ids, baseline_events) -> None:
     print("\nan acknowledgement is not a response")
     out = stats.compute(db, USER_ID, now=NOW)
     f = out["funnel"]
 
-    # ids[2] responded, ids[3] interviewed, ids[5] offer -> three responses.
+    # ids[2] responded, ids[3] interviewed, ids[5] offer, and ids[6] assessment.
+    # An assessment counts: someone actively put work in front of you, which is a
+    # real response in a way an automated acknowledgement is not.
     # ids[0] acked and ids[1] viewed must NOT count.
-    eq("exactly the three real responses count", f["responded"], 3)
+    eq("acknowledgements and views are excluded, assessments included",
+       f["responded"], 4)
     stage = {s["key"]: s["count"] for s in f["stages"]}
     # Five, not six: `rejected` is OFF the ladder, so the application that only
     # ever got a rejection has no ladder rank at all. It is counted under
     # `rejected` instead -- a rejection is not evidence of an acknowledgement.
-    eq("acked counts everything at rank 1 and above", stage["acked"], 5)
-    eq("viewed counts rank 2 and above", stage["viewed"], 4)
-    eq("responded counts rank 3 and above", stage["responded"], 3)
-    eq("interviewed counts rank 5 and above", stage["interviewed"], 2)
+    eq("acked counts everything at rank 1 and above", stage["acked"], 6)
+    eq("viewed counts rank 2 and above", stage["viewed"], 5)
+    eq("responded counts rank 3 and above", stage["responded"], 4)
+    eq("screened counts only the two that got that far", stage["screened"], 2)
+    eq("interviewed counts the interview and the offer", stage["interviewed"], 2)
     eq("offer counts only the offer", stage["offer"], 1)
-    check("the ladder is monotonically non-increasing",
-          all(stage[a] >= stage[b] for a, b in
-              zip(["acked", "viewed", "responded", "screened", "interviewed", "final"],
-                  ["viewed", "responded", "screened", "interviewed", "final", "offer"])),
+    # Built from the live ladder so adding a stage does not silently skip this.
+    required = [name for name in
+                sorted(stats.STAGE_RANK, key=lambda k: stats.STAGE_RANK[k])
+                if name not in stats.OPTIONAL_STAGES]
+    check("the required ladder is monotonically non-increasing",
+          all(stage[a] >= stage[b] for a, b in zip(required, required[1:])),
           str(stage))
+
+    print("\noptional stages are counted from what actually happened")
+    # Nothing seeded an assessment or a one-way interview, yet two applications
+    # reached interview and offer. Counting cumulatively would wrongly report
+    # that those candidates sat an assessment.
+    by_key = {s["key"]: s for s in f["stages"]}
+    for name in sorted(stats.OPTIONAL_STAGES):
+        check(f"{name} is flagged optional", by_key[name]["optional"] is True)
+        check(f"{name} reports no conversion from the previous rung",
+              by_key[name]["fromPrevious"] is None)
+    eq("the one seeded assessment is counted", by_key["assessment"]["count"], 1)
+    # Two applications reached interview and offer, which are ranked ABOVE the
+    # assessment. Cumulative counting would report 3 here.
+    eq("a one-way interview nobody sat stays at zero", by_key["one_way"]["count"], 0)
+    check("required stages still report a conversion",
+          by_key["screened"]["fromPrevious"] is not None)
 
     print("\nrejections and ghosting are distinguished")
     eq("the explicit rejection is counted", f["rejected"], 1)
     # Ghosted = mature, no response, and no explicit rejection. The rejected one
     # and the three responders are all excluded.
     eq("ghosted excludes both responders and explicit rejections",
-       f["ghosted"], f["applied"] - 3 - 1)
+       f["ghosted"], f["applied"] - 4 - 1)
 
     print("\nunattributed outcomes are reported, not dropped")
     eq("the orphan event is surfaced in meta", out["meta"]["unattributedEvents"], 1)
-    check("total event count includes the orphan", out["meta"]["eventCount"] == 7,
-          str(out["meta"]["eventCount"]))
+    eq("the eight seeded events are all counted",
+       out["meta"]["eventCount"] - baseline_events, 8)
 
 
 def test_maturity_window(db, recent_id) -> None:
@@ -277,8 +307,8 @@ def main() -> int:
 
     test_wilson()
     with tempfile.TemporaryDirectory() as tmpdir:
-        db, ids, recent_id = build(Path(tmpdir))
-        test_response_definition(db, ids)
+        db, ids, recent_id, baseline_events = build(Path(tmpdir))
+        test_response_definition(db, ids, baseline_events)
         test_maturity_window(db, recent_id)
         test_timing(db, ids)
         test_small_samples(db)

@@ -28,6 +28,7 @@ project, job or topic that the cover letter left out. Use this list only to get 
 detail right, the actual thing built or run and the skill it shows, where the cover letter was
 vague. Lead with those concrete skills rather than generic professional qualities:
 PLACE&&HOLDER&&
+KEYWORD&&INFO&&
 "**END**ALL**TOGETHER**"
 
 **KEEP**ALL**TOGETHER**

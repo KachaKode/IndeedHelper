@@ -48,6 +48,16 @@ CASES = [
     ("resume SELECTION (add a resume)",
      "https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection|Upload or create a resume for this application | Indeed",
      "a resume for this application"),
+    # Indeed rebuilt this page (HTMLz/review_resume4.html): same URL, new title.
+    # It was an UNKNOWN PAGE that beeped (Logs/Log53.txt), at both addresses.
+    ("resume SELECTION, rebuilt (\"Review your resume\")",
+     "https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module"
+     "|Review your resume for this application | Indeed",
+     "Review your resume for this application"),
+    ("resume SELECTION, rebuilt, sub-address",
+     "https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection"
+     "|Review your resume for this application | Indeed",
+     "Review your resume for this application"),
     ("resume EDITOR",
      "https://profile.indeed.com/resume?co=US&hl=en_US|Profile - Indeed",
      "resume((([/?]"),
@@ -158,6 +168,14 @@ def main() -> int:
                 "b546-c35bf355c280-Y21o|Upload or create a resume for this application | Indeed")
     won = winner(envs, tailored) or ""
     check("the tailored-resume rule wins even with the stale resume-upload title",
+          "tailored-resume/resume" in won, f"got {won!r}")
+
+    # The same trap with the rebuilt page's title: the tailored-resume route never
+    # sets its own, so after the new "Review your resume" page it carries THAT.
+    tailored_new = ("https://profile.indeed.com/tailored-resume/resume?draft_id=be79ee12-6f3e-4e5f-"
+                    "b546-c35bf355c280-Y21o|Review your resume for this application | Indeed")
+    won = winner(envs, tailored_new) or ""
+    check("the tailored-resume rule wins even with the REBUILT resume page's stale title",
           "tailored-resume/resume" in won, f"got {won!r}")
 
     print()

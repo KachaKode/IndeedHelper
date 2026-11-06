@@ -48,6 +48,11 @@ from playwright.sync_api import (
 from myGPT import myGPT
 from myGPT2 import myGPT as myGPT2
 from myGPT2 import configured_fast_model
+import myGPT2 as _gpt2_module
+from keyword_info import load_keyword_info, match_keyword_info, format_keyword_info_block
+from keyword_report import KeywordUsageLog, SCREENER_PROMPTS
+from page_title import recover_title
+from resume_repeat import same_summary, last_application_summary
 # main3.py's one and only import from the dbgui package: a pure, side-
 # effect-free function so both the bot and the GUI agree on what counts as
 # "the same question" for the vetted-questions system. Everything else
@@ -271,6 +276,14 @@ class StartFromTop(Exception):
     def __init__(self, message="An error occurred in my application"):
         self.message = message
         super().__init__(self.message)
+
+
+class GoToState:
+    """Returned (not raised) by a transition function that has to pick its own
+    next state, overriding the one StateTransitions.txt names for it."""
+
+    def __init__(self, state):
+        self.state = state
 
 
 # =====================================================================================
@@ -1306,6 +1319,10 @@ class PlaywrightWrap:
             if not quiet:
                 ct_wait("getCurrentEnv", "page title to load")
             t.sleep(1)
+        # Indeed replaces the title of a hidden tab with "New message | Indeed"
+        # while a message is unread, which no rule that wants "Indeed.com" in the
+        # title can match (Logs/Log56.txt). Report the page's own title instead.
+        title = recover_title(self._page, title)
         currentEnv = f"{url}|{title}"
         if not quiet:
             ct_exit("getCurrentEnv", currentEnv[:120])
@@ -1715,6 +1732,16 @@ class IndeedHelper(PlaywrightWrap):
                                        txtCond="@#$ never matches %^&", timeLimit=4)
 
         if editButton is None:
+            # The page's own search never reaches into an iframe, and this
+            # review page keeps its sections -- resume Edit included -- inside
+            # <iframe data-testid="application-preview"> (see _findInFrames).
+            # Skipping this is how a run read "no resume edit step" off a page
+            # that has one and went on to submit last time's resume
+            # (Logs/Log55.txt, "has no resume edit step" straight after hitApply).
+            inFrame = self._visibleInFrames(self.REVIEW_RESUME_EDIT_XPATH, 4)
+            editButton = inFrame[0] if inFrame else None
+
+        if editButton is None:
             # Fall back to "find the resume heading, then the nearest Edit".
             # translate() is the XPath 1.0 way to lower-case; normalize-space
             # makes it survive the surrounding whitespace that an exact
@@ -1756,6 +1783,105 @@ class IndeedHelper(PlaywrightWrap):
                 "then press Start applying to carry on.")
 
         return self.smartClick(element=editButton)
+
+    # The summary as the review page's resume preview renders it. The id is the
+    # resume renderer's own, so it is the same wherever the preview is mounted.
+    REVIEW_SUMMARY_XPATH = "//*[@id='res_summary' or @data-shield-id='res_summary']"
+    SUMMARY_READ_LIMIT = 10
+    # How many times, per application, the review page may send the bot back to
+    # rewrite a resume that still repeats the last application's.
+    RESUME_REEDIT_LIMIT = 2
+
+    def _visibleInFrames(self, xpath, limit=0):
+        """Visible matches for xpath inside the page's iframes, waiting up to
+        `limit` seconds for one to show up. Costs nothing on a page with no
+        iframe, which is every page but a review page."""
+        if len(self._page.frames) < 2:
+            return []
+        self._wait_until(lambda: bool(self._visible_only(self._findInFrames(xpath))), limit)
+        return self._visible_only(self._findInFrames(xpath))
+
+    def reviewPageSummary(self):
+        """The resume summary the review page is showing, or None if it never
+        shows one. The preview is an iframe that fills in after the page's own
+        controls do, so this waits for it."""
+        def matches():
+            return (self.driver.find_elements('xpath', self.REVIEW_SUMMARY_XPATH)
+                    or self._findInFrames(self.REVIEW_SUMMARY_XPATH))
+
+        if not self._wait_until(lambda: bool(matches()), self.SUMMARY_READ_LIMIT):
+            return None
+        try:
+            # textContent, not innerText: a preview scrolled out of view is
+            # not "rendered", and innerText would read it as empty.
+            return matches()[0]._handle.text_content() or None
+        except PlaywrightError:
+            return None
+
+    def verifyResumeEdited(self):
+        """On the review page, make sure the resume was rewritten for THIS job.
+
+        Compares the summary the page shows with the one in the user's most
+        recent application. They match only when the resume was never edited
+        (or the edit did not take), because every application rewrites it; in
+        that case, click the resume's Edit so the resume pages run again.
+        Otherwise it does nothing and the flow carries on to supporting
+        documents.
+
+        Returns GoToState("didContactInfo") after clicking Edit -- the state the
+        resume-selection page picks up, same as hitEditFromReviewPage() -- and
+        None when there is nothing to do or nothing that can be done.
+        """
+        self.waitForReviewPage()
+
+        user_id = getattr(self, "user_id", -1)
+        if user_id is None or user_id < 0:
+            return None
+        shown = self.reviewPageSummary()
+        if shown is None:
+            self.reportAction("The review page shows no resume summary, so it cannot be "
+                              "compared with the last application's. Carrying on.", False)
+            return None
+        last = last_application_summary(user_id)
+        if last is None or not same_summary(shown, last[1]):
+            return None
+
+        lastId = last[0]
+        edit = (self._visible_only(self.driver.find_elements('xpath', self.REVIEW_RESUME_EDIT_XPATH))
+                or self._visibleInFrames(self.REVIEW_RESUME_EDIT_XPATH))
+        if not edit:
+            # Some applications offer no resume edit at all -- see
+            # hitEditFromReviewPage(). Nothing to click, and not a fault.
+            self.reportAction(
+                f"The resume summary on this review page is identical to the one in application "
+                f"#{lastId}, but the page has no Edit control for the resume. Carrying on.", False)
+            return None
+
+        used = getattr(self, "_resumeReeditAttempts", 0)
+        if used >= self.RESUME_REEDIT_LIMIT:
+            if getattr(self, "_resumeRepeatEscalated", False):
+                # A person has already been told and pressed Start applying.
+                self.reportAction(
+                    f"Resume summary still matches application #{lastId}; a person has "
+                    f"already been told, so carrying on.", False)
+                return None
+            self._resumeRepeatEscalated = True
+            raise NeedsHumanError(
+                f"The resume summary on the review page is still identical to the one in this "
+                f"user's last application (#{lastId}), after {used} attempt(s) to edit it. "
+                f"Edit the resume by hand, then press Start applying. Pressing Start applying "
+                f"without editing carries on with the resume as it is.")
+
+        self._resumeReeditAttempts = used + 1
+        self.reportAction(
+            f"The resume summary on this review page is identical to the one in application "
+            f"#{lastId} -- it was not rewritten for this job. Clicking Edit "
+            f"(attempt {used + 1} of {self.RESUME_REEDIT_LIMIT}).", False)
+        self.smartClick(element=edit[0])
+        # Whether or not the click navigated, the attempt is spent; if the page
+        # did not move, the next pass re-checks and either tries again or stops.
+        return GoToState("didContactInfo")
+
     def addResume(self):
         """Continue past the resume selection page.
 
@@ -2098,7 +2224,9 @@ class IndeedHelper(PlaywrightWrap):
         return self.smartClick(element=addButton, checkNewPage=True)
 
     def prepDBCommit(self):
-        companyInfo = f"{self.companyName}~+~{self.jobTitle}~+~{self.JobDescriptionText}"
+        # The application is done: say once what Keyword Info did for it.
+        self.logKeywordSummary()
+        companyInfo =f"{self.companyName}~+~{self.jobTitle}~+~{self.JobDescriptionText}"
 
         # full name
         fullName = f"{self.firstName} {self.lastName}"
@@ -2742,6 +2870,8 @@ class IndeedHelper(PlaywrightWrap):
                 # runs a long session, and this picks that up within one
                 # application rather than only after a full restart.
                 self.loadVettedQuestions()
+                # Same reasoning for the Keyword Info tab.
+                self.loadKeywordInfo()
 
                 # extract job info
                 positionInfoProblem = self.getPositionInfo()
@@ -2787,6 +2917,10 @@ class IndeedHelper(PlaywrightWrap):
                     self._recordSkippedJob(jobId, forbiddenReason)
                     self.backToStart()
                     continue
+
+                # Past every skip check, so this listing really will be written
+                # up: say which Keyword Info entries apply to it and why.
+                self.logKeywordMatches()
 
                 # load jobs and change job description based on the details of current job
                 self.load_jobs(), self.MML.append(datetime.datetime.now() )
@@ -2854,7 +2988,31 @@ class IndeedHelper(PlaywrightWrap):
         " | //a[contains(normalize-space(.), 'Edit resume')]"
     )
 
+    # The same step, rebuilt again (HTMLz/review_resume4.html, titled "Review your
+    # resume for this application"). There are no radio cards: the one resume is
+    # shown as a preview, and its three-dots button opens a menu holding Edit.
+    # The menu is not a modal dialog (no role, no aria-modal), so the
+    # closeDialogBox() that runs after every click leaves it alone.
+    RESUME_PREVIEW_OPTIONS_XPATH = (
+        '//*[@data-testid="resume-selection-resume-preview-options"]')
+    RESUME_PREVIEW_EDIT_XPATH = (
+        '//*[@data-testid="resume-selection-resume-preview-options-edit"]')
+
     def chooseToBuildIndeedResume(self):
+        # This page paints after its title is set, so whichever layout it is has
+        # to be told from its own controls. Going straight for the old radio
+        # card would sit out its whole 8s timeout on the new page first.
+        # Presence, not visibility: this only has to tell the layouts apart, and
+        # a card whose label happens to be zero-sized must not cost the full wait.
+        def present(xpath):
+            return bool(self.driver.find_elements('xpath', xpath))
+
+        self.waitOutLoading()
+        self._wait_until(lambda: present(self.RESUME_PREVIEW_OPTIONS_XPATH)
+                         or present(self.RESUME_CARD_XPATH), self.PAGE_LOAD_LIMIT)
+        if present(self.RESUME_PREVIEW_OPTIONS_XPATH):
+            return self.editFromResumePreview()
+
         # 1. Pick "Use your Indeed Resume" rather than uploading a file.
         self.findAndClick(self.WHOLE, self.WHOLE, self.RESUME_CARD_XPATH, timeLimit=8)
 
@@ -2868,6 +3026,32 @@ class IndeedHelper(PlaywrightWrap):
         if editButton is None:
             self.reportAction(
                 "Could not find 'Edit resume details' on the resume selection page. "
+                "Indeed may have changed this screen again.", False)
+        return editButton
+
+    def editFromResumePreview(self):
+        """Open the resume editor from the "Review your resume" page.
+
+        Three-dots button -> menu -> Edit. The button is a TOGGLE, and the
+        menu's own state cannot be read back from the page (aria-expanded stays
+        "false" even in a capture taken with the menu open,
+        HTMLz/review_resume4_menu_open.html). So rather than guess whether it is
+        already open, click it and look for Edit; if Edit is not there the click
+        closed a menu that was already open (or the menu was slow), and one more
+        click puts it right.
+        """
+        for _ in range(2):
+            self.findAndClick(self.WHOLE, self.WHOLE, self.RESUME_PREVIEW_OPTIONS_XPATH,
+                              timeLimit=8)
+            if self._wait_until(lambda: bool(self._visible_only(self.driver.find_elements(
+                    'xpath', self.RESUME_PREVIEW_EDIT_XPATH))), 3):
+                break
+
+        editButton = self.findAndClick(self.WHOLE, self.WHOLE, self.RESUME_PREVIEW_EDIT_XPATH,
+                                       timeLimit=5)
+        if editButton is None:
+            self.reportAction(
+                "Opened 'Resume options' on the resume page but found no 'Edit' in the menu. "
                 "Indeed may have changed this screen again.", False)
         return editButton
 
@@ -4097,9 +4281,14 @@ class IndeedHelper(PlaywrightWrap):
                       rawDesc, self.JobDescriptionText, infoDict['title'])
         infoDict['desc'] = mygpt.sendAll()'''
 
+        # Six placeholders in the prompt file, so six values, in file order.
+        # This used to pass eight: the prompt was rewritten and lost two
+        # placeholders, the call was not trimmed, and the style guide ended up
+        # as the 8th value that nothing consumed while the job title took its
+        # slot -- so work history was rewritten without the style guide.
         mygpt = myGPT2("job_desc_prompts2.txt", self.jobTitle, self.JobDescriptionText, infoDict['title'],
-                      infoDict['compType'],  rawDesc, infoDict['title'], infoDict['compType'],
-                      self.styleGuide())
+                       infoDict['compType'], rawDesc, self.styleGuide(),
+                       keyword_info=self.keywordInfoBlock())
 
         doAgain = True
         attempts = 0
@@ -4127,9 +4316,14 @@ class IndeedHelper(PlaywrightWrap):
                       rawDesc, self.JobDescriptionText, infoDict['title'])
         infoDict['desc'] = mygpt.sendAll()'''
 
+        # Six placeholders in the prompt file, so six values, in file order.
+        # This used to pass eight: the prompt was rewritten and lost two
+        # placeholders, the call was not trimmed, and the style guide ended up
+        # as the 8th value that nothing consumed while the job title took its
+        # slot -- so work history was rewritten without the style guide.
         mygpt = myGPT2("job_desc_prompts2.txt", self.jobTitle, self.JobDescriptionText, infoDict['title'],
-                      infoDict['compType'],  rawDesc, infoDict['title'], infoDict['compType'],
-                      self.styleGuide())
+                       infoDict['compType'], rawDesc, self.styleGuide(),
+                       keyword_info=self.keywordInfoBlock())
 
         doAgain = True
         attempts = 0
@@ -4141,6 +4335,11 @@ class IndeedHelper(PlaywrightWrap):
                 mygpt.sendAll().split("Here are the 3 points:")[-1].strip())
             doAgain = mygpt.need_redo
         infoDict['desc'] = jobDesc
+        # rawDesc is context the model had anyway, so terms from it are not
+        # evidence the keyword info did anything.
+        self.logKeywordEffect(
+            f"work history description ({infoDict['title']} at {infoDict['comp']})", jobDesc,
+            ("job_desc_prompts2.txt",), extra_context=str(rawDesc), expect_send=True)
 
         return infoDict
 
@@ -4494,7 +4693,11 @@ class IndeedHelper(PlaywrightWrap):
 
         # A choice quoted in the answer is a direct hit. When more than one is
         # quoted ("No, but yes if sponsored") the earliest wins, which is the
-        # one being answered with.
+        # one being answered with. Two choices starting at the same place are
+        # one nested in the other -- "Active Top Secret" inside "Active Top
+        # Secret with SCI eligibility (TS/SCI)" -- and the longer one is the
+        # one that was actually said. Sorting on the choice text instead picked
+        # the shorter, so a TS/SCI answer ticked plain Top Secret.
         hits = []
         for choice in answer_choices:
             normChoice = self._normaliseChoice(choice)
@@ -4502,10 +4705,22 @@ class IndeedHelper(PlaywrightWrap):
                 continue
             found = re.search(rf"(?:^|\s){re.escape(normChoice)}(?:$|\s)", normAns)
             if found:
-                hits.append((found.start(), choice))
+                hits.append((found.start(), -len(normChoice), choice))
         if hits:
             hits.sort()
-            return hits[0][1], 1.0, self.CHOICE_MATCH_FLOOR
+            return hits[0][2], 1.0, self.CHOICE_MATCH_FLOOR
+
+        # A bare "Yes" / "No" against choices written as sentences ("Yes, I am
+        # a U.S. Citizen" / "No, I am not a U.S. Citizen"). Word overlap scores
+        # that 0.14, under the floor, so every such question burned all of its
+        # retries before ticking the right card by luck. It is unambiguous when
+        # exactly one choice opens with the word that was said.
+        lead = normAns.split(" ", 1)[0]
+        if lead in ("yes", "no"):
+            leading = [c for c in answer_choices
+                       if self._normaliseChoice(c).split(" ", 1)[0] == lead]
+            if len(leading) == 1:
+                return leading[0], 1.0, self.CHOICE_MATCH_FLOOR
 
         best, bestScore = None, -1.0
         for choice in answer_choices:
@@ -4766,7 +4981,8 @@ class IndeedHelper(PlaywrightWrap):
                 mygpt = myGPT2("drop_down_question_prompts.txt", self.JobDescriptionText,
                                str(self.vettedContextForPrompt()), questn_txt, str(self.details),
                                self.lifeSummary, "\n".join(options.keys()), helpTxt,
-                               version=1, model=configured_fast_model())
+                               version=1, model=configured_fast_model(),
+                               keyword_info=self.keywordInfoBlock())
                 reply = mygpt.sendAll()
                 choice, score, floor = self.getTopChoiceScore(reply, options)
                 source = f"the model (match {score:.2f})"
@@ -4867,7 +5083,8 @@ class IndeedHelper(PlaywrightWrap):
             mygpt = myGPT2("drop_down_question_prompts.txt", self.JobDescriptionText,
                            str(self.vettedContextForPrompt()), questn_txt, str(self.details),
                            self.lifeSummary, "\n".join(options.keys()), helpTxt,
-                           version=1, model=configured_fast_model())
+                           version=1, model=configured_fast_model(),
+                           keyword_info=self.keywordInfoBlock())
             reply = mygpt.sendAll()
             modelChoice, score, floor = self.getTopChoiceScore(reply, options)
             if modelChoice is not None and score >= floor:
@@ -4968,7 +5185,8 @@ class IndeedHelper(PlaywrightWrap):
 
         mygpt = myGPT2("select_applicable_question_prompts.txt", self.JobDescriptionText,
                        str(self.vettedContextForPrompt()), questn_txt, "\n".join(options.keys()),
-                       helpTxt, version=1, model=configured_fast_model())
+                       helpTxt, version=1, model=configured_fast_model(),
+                       keyword_info=self.keywordInfoBlock())
         ans = mygpt.sendAll()
         answers = [thing.strip() for thing in ans.split("\n") if thing.strip()]
         topChoiceScoreThresh = [self.getTopChoiceScore(answer, options) for answer in answers]
@@ -5046,6 +5264,75 @@ class IndeedHelper(PlaywrightWrap):
             }
             self.vetted_questions[row["normalized_question"]] = entry
             self.vetted_questions_list.append(entry)
+
+    def loadKeywordInfo(self):
+        """(Re)load this user's Keyword Info entries. Matching against the job
+        description happens later, in keywordInfoBlock(), so what is used
+        always reflects the listing currently open."""
+        self.keywordRows = []
+        # A new listing starts a new story, and myGPT2 reports every prompt it
+        # builds with keyword info to this log.
+        self._keywordLog().reset()
+        _gpt2_module.keyword_info_listener = self._keywordLog().note_send
+        if getattr(self, "user_id", -1) is None or getattr(self, "user_id", -1) < 0:
+            return
+        # Missing table or database degrades to "no entries" inside the loader.
+        self.keywordRows = load_keyword_info('IndHelperDB.db', self.user_id)
+
+    # ---- the run log's account of what Keyword Info did for each application.
+    # Everything here is reporting: it must never be able to end the run, so
+    # each entry point swallows its own errors (same rule as reportAction).
+
+    def _keywordLog(self):
+        if getattr(self, "kwlog", None) is None:
+            self.kwlog = KeywordUsageLog()
+        return self.kwlog
+
+    def _keywordIdentity(self):
+        """Who this application is, so every line can be found by company, title
+        or Indeed job key."""
+        def short(value, n):
+            return " ".join(str(value or "?").split())[:n]
+        return (f"{short(getattr(self, 'companyName', ''), 40)} | "
+                f"{short(getattr(self, 'jobTitle', ''), 50)} | "
+                f"jk={getattr(self, 'currentJobKey', None) or 'n/a'}")
+
+    def _emitKeywordLog(self, build):
+        try:
+            message = build(self._keywordLog())
+            if message:
+                self.reportAction(message, False)
+        except Exception as exc:
+            ct_error("keyword info log", exc)
+
+    def logKeywordMatches(self):
+        """Once per application, before anything is generated."""
+        rows = getattr(self, "keywordRows", [])
+        text = getattr(self, "JobDescriptionText", "")
+        self._emitKeywordLog(lambda log: log.begin(
+            self._keywordIdentity(), rows, match_keyword_info(rows, text), text,
+            getattr(self, "lifeSummary", "")))
+
+    def logKeywordEffect(self, label, output, prompts, extra_context="", expect_send=False):
+        """After a result exists. Says nothing unless a prompt really took the info."""
+        self._emitKeywordLog(lambda log: log.record_use(
+            label, output, prompts, extra_context, expect_send))
+
+    def logKeywordSummary(self):
+        """When the application ends: the one-glance answer."""
+        self._emitKeywordLog(lambda log: log.summary())
+
+    def keywordInfoBlock(self):
+        """The Keyword Info text for the listing now open, or "" when no entry
+        matched. Passed as keyword_info= to every generator whose prompt file
+        carries the KEYWORD&&INFO&& marker; myGPT2 does the substitution.
+
+        getattr, not self.keywordRows: helpers built with __new__ in the test
+        scripts never ran loadKeywordInfo() and must simply get "".
+        """
+        matches = match_keyword_info(
+            getattr(self, "keywordRows", []), getattr(self, "JobDescriptionText", ""))
+        return format_keyword_info_block(matches)
 
     def recordUnvettedQuestion(self, question_type, question_text, answer, answer_bank=None):
         """Record an answer the bot just gave on its own -- Level 2's
@@ -5321,6 +5608,10 @@ class IndeedHelper(PlaywrightWrap):
         if self.checkIfQuestionAlreadyAnswered(questn, type, answer_choices):
             return
 
+        # Anything still pending belongs to some earlier question that never
+        # reached its answer (an error part way through), not to this one.
+        self._keywordLog().drop_pending()
+
         if self.checkIfAPreMadeAnswerFits(questn_txt, type, answer_choices):
             return
 
@@ -5356,7 +5647,8 @@ class IndeedHelper(PlaywrightWrap):
             mygpt = myGPT2("free_response_question_prompts.txt", self.JobDescriptionText,
                           str(self.vettedContextForPrompt()), str(self.details), self.lifeSummary,
                           self.realExperienceBlock(), questn_txt, self.styleGuide(), helpTxt,
-                          self.zip, self.phone_num, self.email, version=1)
+                          self.zip, self.phone_num, self.email, version=1,
+                          keyword_info=self.keywordInfoBlock())
             ans = self.stripDashes(mygpt.sendAll())
             self.fillMoveOn(answer_choices['inputBox'], ans)
 
@@ -5417,7 +5709,8 @@ class IndeedHelper(PlaywrightWrap):
         elif type == self.MultChoice:
             #get chat GPT help
             mygpt = myGPT2("mult_choice_question_prompts.txt", self.JobDescriptionText,  str(self.vettedContextForPrompt()),
-                          questn_txt, "\n".join(list(answer_choices.keys())), helpTxt, version=1, model=configured_fast_model())
+                          questn_txt, "\n".join(list(answer_choices.keys())), helpTxt, version=1, model=configured_fast_model(),
+                          keyword_info=self.keywordInfoBlock())
             # [-1], not [1]: when GPT answers without the "The answer is:"
             # preamble, [1] is an IndexError that kills the whole question.
             # [-1] gives the reply itself, which then gets scored against the
@@ -5431,7 +5724,8 @@ class IndeedHelper(PlaywrightWrap):
         elif type == self.SelectApplicable:
             #get chat GPT help
             mygpt = myGPT2("select_applicable_question_prompts.txt", self.JobDescriptionText,  str(self.vettedContextForPrompt()),
-                          questn_txt, "\n".join(list(answer_choices.keys())), helpTxt, version=1, model=configured_fast_model())
+                          questn_txt, "\n".join(list(answer_choices.keys())), helpTxt, version=1, model=configured_fast_model(),
+                          keyword_info=self.keywordInfoBlock())
             ans = mygpt.sendAll()
             ans_list = [thing.strip() for thing in ans.split("\n") if len(thing.strip()) > 0 ]
 
@@ -5453,6 +5747,11 @@ class IndeedHelper(PlaywrightWrap):
                 questn, answer_choices, required=errorTxt is not None,
                 questn_txt=questn_txt, helpTxt=helpTxt)
 
+        # Logged only if a screener prompt really took keyword info for THIS
+        # question: answers from the profile or the vetted bank never reach the
+        # model, so they are correctly absent from the keyword log.
+        self.logKeywordEffect(f"screener question {questn_txt.strip()[:90]!r}", final_answer,
+                              SCREENER_PROMPTS, extra_context=questn_txt)
         self.prev_questions.append({"Question":questn_txt, "Answer":final_answer})
 
 
@@ -6044,7 +6343,8 @@ class IndeedHelper(PlaywrightWrap):
         return reason
 
     def generateHeadline(self):
-        mygpt = myGPT2("headline_prompts2.txt", self.JobDescriptionText)
+        mygpt = myGPT2("headline_prompts2.txt", self.JobDescriptionText,
+                       keyword_info=self.keywordInfoBlock())
 
         doAgain = True
         attempts = 0
@@ -6055,6 +6355,8 @@ class IndeedHelper(PlaywrightWrap):
             # forever, and [1] on that reply was an IndexError.
             self.headline = mygpt.sendAll().split("The headline is:")[-1].strip().strip(".")
             doAgain = mygpt.need_redo
+        self.logKeywordEffect("resume headline", self.headline,
+                              ("headline_prompts2.txt",), expect_send=True)
 
     @staticmethod
     def stripDashes(text):
@@ -6159,6 +6461,10 @@ class IndeedHelper(PlaywrightWrap):
         # cover letter -- otherwise a prior job that exhausted its 5 attempts
         # would leave this one unable to try at all.
         self._addDocsAttempts = 0
+        # Likewise for sending the resume back to be rewritten -- see
+        # verifyResumeEdited().
+        self._resumeReeditAttempts = 0
+        self._resumeRepeatEscalated = False
 
         '''mygpt = myGPT("cover_letter_prompts.txt", self.jobTitle, self.companyName,
                       self.JobDescriptionText, self.firstName, self.lastName,
@@ -6173,7 +6479,8 @@ class IndeedHelper(PlaywrightWrap):
         mygpt = myGPT2("cover_letter_prompts2.txt", self.jobTitle, self.companyName,
                        self.JobDescriptionText, self.firstName, self.lastName,
                        self.lifeSummary, self.firstName, self.lastName, self.phone_num,
-                       self.email, self.areaSpec, self.today(), self.styleGuide())
+                       self.email, self.areaSpec, self.today(), self.styleGuide(),
+                       keyword_info=self.keywordInfoBlock())
 
         doAgain = True
         attempts = 0
@@ -6181,6 +6488,8 @@ class IndeedHelper(PlaywrightWrap):
             attempts += 1
             self.coverLetter = self.stripDashes(mygpt.sendAll())
             doAgain = mygpt.need_redo
+        self.logKeywordEffect("cover letter", self.coverLetter,
+                              ("cover_letter_prompts2.txt",), expect_send=True)
 
 
     def generateSummary(self):
@@ -6196,7 +6505,7 @@ class IndeedHelper(PlaywrightWrap):
         # (firstName was passed before and never consumed; the only placeholder
         # that used it is commented out in the prompt file.)
         mygpt = myGPT2("summary_prompts2.txt", self.coverLetter, self.lifeSummary,
-                       self.styleGuide())
+                       self.styleGuide(), keyword_info=self.keywordInfoBlock())
 
         doAgain = True
         attempts = 0
@@ -6204,6 +6513,8 @@ class IndeedHelper(PlaywrightWrap):
             attempts += 1
             self.resumeSummary = self.stripDashes(mygpt.sendAll())
             doAgain = mygpt.need_redo
+        self.logKeywordEffect("resume summary", self.resumeSummary,
+                              ("summary_prompts2.txt",), expect_send=True)
 
     def generateSkills(self):
         '''mygpt = myGPT("skills_prompts.txt", self.JobDescriptionText, self.lifeSummary)
@@ -6211,7 +6522,8 @@ class IndeedHelper(PlaywrightWrap):
         self.skills2 = skillsStrList.split(",")'''
 
         # initial skill list generation
-        mygpt = myGPT2("skills_prompts2.txt", self.jobTitle, self.JobDescriptionText, self.lifeSummary)
+        mygpt = myGPT2("skills_prompts2.txt", self.jobTitle, self.JobDescriptionText, self.lifeSummary,
+                       keyword_info=self.keywordInfoBlock())
 
         doAgain = True
         attempts = 0
@@ -6234,6 +6546,10 @@ class IndeedHelper(PlaywrightWrap):
         skillsStrList2 = skillsStrList2.replace("Here is the revised list:", "").strip().strip(".").strip("\"").strip()
         self.skills = skillsStrList2.split(";;")
         self.tries.append({"1":firstTry, "2":secTry})
+        # The skills prompt took the info; the cleaning pass after it did not,
+        # so what is judged here is the FINAL list.
+        self.logKeywordEffect("skills list", "; ".join(self.skills),
+                              ("skills_prompts2.txt",), expect_send=True)
 
     def run(self):
         self.start_up()
@@ -6473,6 +6789,12 @@ class StateMachine:
             if isinstance(funcResult, StartFromTop):
                 self.helper.reportAction(f"Transitioning  STATE from {self.current_state} BACK TO {self.prev_state}", False)
                 self.current_state = self.prev_state
+            elif isinstance(funcResult, GoToState):
+                self.helper.reportAction(
+                    f"Transitioning  STATE from {self.current_state} to {funcResult.state} "
+                    f"(chosen by {funcName}(), not by the config)", False)
+                self.prev_state = self.current_state
+                self.current_state = funcResult.state
             elif not isinstance(funcResult, ElementClickInterceptedException):
                 self.helper.reportAction(f"Transitioning  STATE from {self.current_state} to {next_state}", False)
                 self.prev_state = self.current_state
@@ -6526,7 +6848,10 @@ class StateMachine:
         there having already solved itself, waiting for a human with no reason
         to come.
         """
-        ct_print("StateMachine", "UNKNOWN PAGE", environment[:110])
+        # A long viewjob URL used to eat the whole 110 characters, hiding the
+        # title -- the one thing that says why no rule matched (Logs/Log56.txt).
+        unknown_url, _, unknown_title = environment.partition("|")
+        ct_print("StateMachine", "UNKNOWN PAGE", f"{unknown_url[:80]} | title={unknown_title!r}")
 
         # Pages often report a transitional title while still loading, so give
         # it a moment before raising the alarm.

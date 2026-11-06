@@ -83,7 +83,19 @@ https://(((www.)?))(((ca.)?))indeed.com/job/((.*))|((.*))Indeed.com
 	addedResume -- addResume() --> addedResume
 	default -- backToDidContactInfo() --> didContactInfo
 
-// main resume page 
+// The same step after Indeed rebuilt it (HTMLz/review_resume4.html): same URL
+// (.../resume-selection-module[/resume-selection]), new title, and a single
+// resume preview in place of the radio cards. It sat in "UNKNOWN PAGE" and beeped
+// because only the old title was configured (Logs/Log53.txt). The rules are the
+// old page's, line for line -- startResume() knows both layouts.
+((.*))|Review your resume for this application((.*))
+	hitApply
+	didContactInfo -- startResume() --> startedOnResume
+	finishedResume -- addResume() --> addedResume
+	addedResume -- addResume() --> addedResume
+	default -- backToDidContactInfo() --> didContactInfo
+
+// main resume page
 https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))(((apply-)?))resume((([/?].*)?))|((.*))
 	startedOnResume -- startContactInfo() --> startedEditContactInfo
 	// The summary is edited inline on this page, so startSummary() opens,
@@ -199,7 +211,13 @@ https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/beta/indeedapply/
 	// the review page offers no resume edit at all -- some applications don't --
 	// we are still here, so didContactInfo has to carry on rather than stall.
 	didContactInfo
-	finishedEditSkills -- clickAddDocs() -- clickedAddDocs
+	// Before moving on to documents, make sure the resume was actually rewritten
+	// for this job: verifyResumeEdited() compares the summary on this page with
+	// the user's last application's and, if they are identical, clicks the
+	// resume's Edit (returning to didContactInfo, which the resume-selection
+	// page picks up). Otherwise it passes through to verifiedResume.
+	finishedEditSkills -- verifyResumeEdited() -- verifiedResume
+	verifiedResume -- clickAddDocs() -- clickedAddDocs
 	clickedAddDocs -- addDocs() -- finishedAddingDocs
 	submittedApplication
 	finishedAddingDocs -- submitApp() -- submittedApplication

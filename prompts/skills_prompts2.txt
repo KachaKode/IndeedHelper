@@ -27,6 +27,7 @@ Come up with the 5 most important skills that a person doing this job would need
 These are your life details:
 
 PLACE&&HOLDER&&
+KEYWORD&&INFO&&
 "**END**ALL**TOGETHER**
 
 Based on your life details, come up with the 3 most relevant skills you have that would make you look attractive to the employer that posted the aforementioned job description.  Call this listB.  Make sure none of the skills from listA appear in listB. 

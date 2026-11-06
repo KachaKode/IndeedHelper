@@ -159,7 +159,13 @@ def test_source_contract() -> None:
     # against which every check below passes vacuously.
     start = src.index("\n    def saveAppInDB(") + 1
     body = src[start:src.index("\n    def ", start + 10)]
-    check("the INSERT names job_key", "job_key)" in body and "INSERT INTO applications" in body)
+    # Matched against the parsed column list, not the literal text "job_key)":
+    # columns get appended over time, and anchoring on the closing paren made
+    # this fail the moment search_target_position was added after it.
+    insert_at = body.index("INSERT INTO applications")
+    columns = body[body.index("(", insert_at) + 1:body.index(")", insert_at)]
+    named = {name.strip() for name in columns.split(",")}
+    check("the INSERT names job_key", "job_key" in named, f"columns were {sorted(named)}")
     check("the value comes from currentJobKey", "currentJobKey" in body)
     check("a missing key falls back to empty rather than NULL",
           'or ""' in body or "or ''" in body)

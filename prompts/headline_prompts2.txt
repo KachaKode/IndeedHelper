@@ -16,6 +16,7 @@ You are an expert resume builder who specializes in crafting effective resume he
 Here is the job description:
 
 PLACE&&HOLDER&&
+KEYWORD&&INFO&&
 
 What should the headline of a resume be for a person applying to that position?  Reply back in this format:
 The headline is: your_new_headline

@@ -117,7 +117,10 @@ def main() -> int:
         # prompt file: how many values main3 passes to it
         "cover_letter_prompts2.txt": 13,
         "summary_prompts2.txt": 3,
-        "job_desc_prompts2.txt": 8,
+        # Six, not eight: 85525c4 rewrote the prompt and dropped two
+        # placeholders without trimming the call, which left the style guide
+        # as an eighth value nothing consumed (and the job title in its slot).
+        "job_desc_prompts2.txt": 6,
         "headline_prompts2.txt": 1,
         "skills_prompts2.txt": 3,
     }
@@ -152,7 +155,7 @@ def main() -> int:
     check("and uses the life details only for concrete detail",
           "only to get the concrete" in summary)
     check("both job-description call sites receive the style guide",
-          source.count("infoDict['compType'],\n                      self.styleGuide())") == 2,
+          source.count("infoDict['compType'], rawDesc, self.styleGuide(),\n") == 2,
           "one of the two was missed")
 
     print()

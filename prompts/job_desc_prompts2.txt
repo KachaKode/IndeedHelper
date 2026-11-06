@@ -33,6 +33,7 @@ Now, come up with 3 duties/responsibilities for the resume.  All 3 must be groun
 The key rule: every point must be traceable to something in DESC2.  You may reword, emphasize, and reframe to make the connection to DESC1 clear, but you may not invent duties, industries, or domains that are not present in DESC2.  If DESC1 requires specific experience that DESC2 does not cover, find the closest transferable skill from DESC2 and frame it toward that requirement rather than fabricating the missing experience.
 
 PLACE&&HOLDER&&
+KEYWORD&&INFO&&
 
 Give me a list containing POINT1, POINT2, and POINT3.  Don't mention what the points are relevant to, just articulate them in the past tense in such a way that someone would add to their resume when describing what they did in a previous job.
 

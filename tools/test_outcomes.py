@@ -218,7 +218,9 @@ def test_feeds_the_funnel(db, old) -> None:
     out = stats.compute(db, USER_ID, now=now)
     check("the funnel counts the recorded response", out["funnel"]["responded"] >= 1,
           str(out["funnel"]["responded"]))
-    check("interviews are counted", out["funnel"]["stages"][4]["count"] >= 1)
+    # Keyed, not indexed: adding a stage to the ladder shifts every position.
+    by_key = {s["key"]: s for s in out["funnel"]["stages"]}
+    check("interviews are counted", by_key["interviewed"]["count"] >= 1)
     check("time-to-response has a sample", out["timing"]["response"]["n"] >= 1)
     check("meta reports the events", out["meta"]["eventCount"] >= 1)
 

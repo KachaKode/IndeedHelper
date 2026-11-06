@@ -24,6 +24,7 @@ PLACE&&HOLDER&&
 Okay now this is the current question you need to answer:
 
 PLACE&&HOLDER&&
+KEYWORD&&INFO&&
 
 And these are the answer choices:
 

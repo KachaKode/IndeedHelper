@@ -25,7 +25,8 @@ import datetime
 from typing import Any
 
 from .data import IndeedDB
-from .stats import STAGE_LABELS, STAGE_RANK, TIMESTAMP_FORMAT, parse_timestamp
+from .stats import (
+    OPTIONAL_STAGES, STAGE_LABELS, STAGE_RANK, TIMESTAMP_FORMAT, parse_timestamp)
 
 MANUAL_SOURCE = "manual"
 
@@ -52,9 +53,9 @@ def event_choices() -> list[dict[str, Any]]:
     ladder = sorted(STAGE_RANK, key=lambda key: STAGE_RANK[key])
     return (
         [{"value": key, "label": STAGE_LABELS[key], "rank": STAGE_RANK[key],
-          "terminal": False} for key in ladder]
-        + [{"value": key, "label": label, "rank": 0, "terminal": True}
-           for key, label in TERMINAL_LABELS.items()]
+          "terminal": False, "optional": key in OPTIONAL_STAGES} for key in ladder]
+        + [{"value": key, "label": label, "rank": 0, "terminal": True,
+            "optional": False} for key, label in TERMINAL_LABELS.items()]
     )
 
 

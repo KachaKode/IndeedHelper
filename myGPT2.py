@@ -5,6 +5,14 @@ import time as t
 import concurrent.futures
 from pathlib import Path
 
+from keyword_info import KEYWORD_MARKER
+
+# Called as keyword_info_listener(prompt_file, text) each time a prompt was
+# really built with keyword info in it. main3.py points this at the run log so
+# it can say which prompts took the info, rather than guessing from which
+# generators ran. Left None everywhere else.
+keyword_info_listener = None
+
 
 # Which model writes the cover letters, summaries and job descriptions.
 #
@@ -54,12 +62,18 @@ def configured_fast_model():
 
 class myGPT:
     def __init__(self, setupInfo, *args, inputPath=".//input", promptsPath=".//prompts",
-                 chatTimeOut=90, version=2, model=None):
+                 chatTimeOut=90, version=2, model=None, keyword_info=""):
         # chatTimeOut was 300s. With three retries and a 60s pause between them
         # that is 17 minutes before one stuck completion gives up, and each
         # prompt file makes several completions. 90s is well past the slowest
         # call actually observed (96s was the outlier; the median is 29s).
         self.model = model
+        # Text for the KEYWORD&&INFO&& marker in the prompt file, if it has one.
+        # Unlike PLACE&&HOLDER&& it is not positional, so a prompt can gain or
+        # lose it without shifting any other value. Empty means "nothing
+        # matched", and the marker then disappears.
+        self.keyword_info = keyword_info or ""
+        self.keyword_info_placed = False
         self.nextMessages = []
         self.checks = {}
         self.checkNOTs = {}
@@ -95,6 +109,15 @@ class myGPT:
             else:
                 self.processMsgFile(setupInfo, *args)
 
+        # Report only what really happened: the marker was in this prompt AND
+        # there was text to put there. A reporting failure must never be able
+        # to stop a prompt from being sent.
+        if self.keyword_info_placed and keyword_info_listener is not None:
+            try:
+                keyword_info_listener(setupInfo, self.keyword_info)
+            except Exception:
+                pass
+
     def log(self, msg):
         self.logFile.write(msg)
         self.logFile.flush()
@@ -103,6 +126,15 @@ class myGPT:
         while self.placeHoldMarker in string:
             placeVal = self.place_vals.pop(0)
             string = string.replace(self.placeHoldMarker, placeVal, 1)
+        # After the positional loop on purpose: text substituted here is never
+        # re-scanned for PLACE&&HOLDER&&, so the applicant's own words cannot
+        # pull a value off the list. The newline puts the block on its own
+        # paragraph; contPlusAction drops a marker-only line when there is
+        # nothing to substitute, so an empty value leaves no trace.
+        keyword_info = getattr(self, "keyword_info", "")
+        if keyword_info and KEYWORD_MARKER in string:
+            self.keyword_info_placed = True
+        string = string.replace(KEYWORD_MARKER, "\n" + keyword_info if keyword_info else "")
         return string.replace("&&nu_line&&", "\n")
 
     def processMsgFile2(self, file, *args):
@@ -168,6 +200,13 @@ class myGPT:
             self.checkerLinesToProcess -= 1
             return True
         if "//" == lineContainer[0][:2]:
+            return True
+
+        # A line that is only the keyword-info marker, with nothing to put
+        # there, is skipped outright rather than left as a blank line: with no
+        # match (the usual case) the prompt is then exactly what it was before
+        # the marker existed.
+        if lineContainer[0] == KEYWORD_MARKER and not getattr(self, "keyword_info", ""):
             return True
 
         #replace the placeholders, if any

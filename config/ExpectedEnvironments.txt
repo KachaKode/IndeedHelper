@@ -8,6 +8,9 @@
 ((.*))|((.*))Jobs, Employment((.*))
 ((.*))|Add or update your contact information((.*))
 ((.*))|Upload or (((build|create))) a resume for this application((.*))
+// Indeed's rebuilt resume page: one resume preview with a "Resume options" menu
+// instead of radio cards. Same URL as the page above, different title.
+((.*))|Review your resume for this application((.*))
 
 //'https://(((m5.apply|profile|smartapply))).(((ca.)?))indeed.com/(((beta/indeedapply/form/)?))resume'      should match BOTH:
 // 'https://profile.(((ca.)?))indeed.com/resume'    AND 

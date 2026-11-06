@@ -19,7 +19,8 @@ questions:
   spend from that moment instead of a fixed rolling window. "grant minus
   spend-since-that-moment" is still an ESTIMATE, labelled as one, but it is
   one number on one clock rather than something that has to be kept in sync
-  by hand.
+  by hand. A later top-up is ADDED to the estimated leftover (record_refill),
+  not swapped in for it.
 """
 
 from __future__ import annotations
@@ -172,25 +173,91 @@ def fetch_costs(project_root: Path, start_time: datetime.datetime | None = None)
 
 
 def get_credit_grant(project_root: Path) -> dict[str, Any] | None:
-    """The last top-up on file: {"amount": ..., "at": <ISO timestamp>}.
+    """The balance baseline on file: {"amount": ..., "at": <ISO timestamp>}.
 
-    `at` is when this was SAVED, not necessarily the real purchase moment --
-    the Admin tab's copy says to enter it right after topping up, and spend
-    is only ever counted from here, so a stale entry undercounts rather than
-    silently drifting the other way.
+    `amount` is the estimated balance as of `at`; spend is counted from `at`
+    onward. `at` is when this was SAVED, not necessarily the real purchase
+    moment -- the GUI asks for it right after topping up, and a stale entry
+    undercounts rather than silently drifting the other way.
+
+    A baseline written by record_refill() also carries `added` (the top-up the
+    person typed) and `carried` (the estimated leftover folded in before it),
+    so the Admin tab can show where `amount` came from. A baseline set
+    directly, or written before those existed, simply has neither.
     """
     text = _read_text(_input_path(project_root, GRANT_FILE))
     if not text:
         return None
     try:
         data = json.loads(text)
-        return {"amount": float(data["amount"]), "at": str(data["at"])}
+        grant = {"amount": float(data["amount"]), "at": str(data["at"])}
+        for key in ("added", "carried"):
+            if key in data:
+                grant[key] = float(data[key])
+        return grant
     except (ValueError, KeyError, TypeError):
         return None
 
 
-def set_credit_grant(project_root: Path, amount: float) -> dict[str, Any]:
-    record = {"amount": round(float(amount), 2),
-              "at": datetime.datetime.now(datetime.timezone.utc).isoformat()}
+def _write_grant(project_root: Path, record: dict[str, Any]) -> None:
     _input_path(project_root, GRANT_FILE).write_text(json.dumps(record), encoding="utf-8")
+
+
+def _utc_now_iso() -> str:
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+
+def set_credit_grant(project_root: Path, amount: float) -> dict[str, Any]:
+    """Replace the baseline outright with a balance the person read off
+    OpenAI's billing page. For a top-up, use record_refill instead -- this
+    discards whatever was left."""
+    record = {"amount": round(float(amount), 2), "at": _utc_now_iso()}
+    _write_grant(project_root, record)
     return record
+
+
+def estimate_remaining(project_root: Path, grant: dict[str, Any]) -> float | None:
+    """Baseline minus spend since it was saved, floored at zero; None when
+    spend cannot be fetched (no admin key, or the Costs API refused)."""
+    try:
+        since = datetime.datetime.fromisoformat(grant["at"])
+    except (KeyError, ValueError):
+        return None
+    costs = fetch_costs(project_root, start_time=since)
+    if not costs.get("configured") or "error" in costs:
+        return None
+    return max(0.0, grant["amount"] - costs["totalSpend"])
+
+
+def record_refill(project_root: Path, added: float, was_exhausted: bool = False) -> dict[str, Any]:
+    """Fold a top-up into the running estimate and restart the spend clock.
+
+    The new baseline is what was left PLUS what was just added -- replacing
+    it with just the top-up (what set_credit_grant does) would silently throw
+    away whatever remained, and the estimate would read low from then on.
+
+    `was_exhausted` means the caller already saw the account run dry, so the
+    leftover is exactly zero and nothing needs estimating; that is the usual
+    case (the banner only offers a refill once credits ran out), and the one
+    where an estimate would be least trustworthy, since its error is the
+    thing that let the account hit zero unnoticed.
+
+    Otherwise the leftover is estimated from the previous baseline. With no
+    previous baseline there is nothing to carry. If there is one but its spend
+    cannot be fetched (no admin key, or a Costs API error), the top-up is
+    saved on its own and `carriedKnown` comes back False, so the UI can say
+    the previous balance was not carried over.
+    """
+    carried, carried_known = 0.0, True
+    previous = get_credit_grant(project_root)
+    if previous is not None and not was_exhausted:
+        remaining = estimate_remaining(project_root, previous)
+        if remaining is None:
+            carried_known = False
+        else:
+            carried = remaining
+
+    record = {"amount": round(carried + added, 2), "at": _utc_now_iso(),
+              "added": round(added, 2), "carried": round(carried, 2)}
+    _write_grant(project_root, record)
+    return {**record, "carriedKnown": carried_known}

@@ -7,6 +7,12 @@
    ========================================================================== */
 
 :root {
+  /* Tells the browser how to paint controls it draws itself -- the date
+     picker's calendar icon, select arrows, scrollbars, autofill. Without it a
+     native date input renders a dark glyph on our dark surface in dark mode and
+     all but disappears. */
+  color-scheme: light;
+
   --bg:            #f4f5f7;
   --surface:       #ffffff;
   --surface-2:     #fafbfc;
@@ -55,6 +61,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    color-scheme: dark;
+
     --bg:            #12151c;
     --surface:       #1a1f28;
     --surface-2:     #1e242e;
@@ -119,6 +127,19 @@ html, body {
 }
 .credit-alert__text { flex: 1; }
 .credit-alert[hidden] { display: none; }
+/* Credits are back and the banner is only waiting to hear how much was added. */
+.credit-alert[data-state="restored"] {
+  background: var(--success-soft);
+  border-bottom-color: var(--success);
+  color: var(--success);
+}
+.credit-alert[data-state="exhausted"] .credit-alert__when-restored,
+.credit-alert[data-state="restored"] .credit-alert__when-exhausted { display: none; }
+.credit-alert__amount {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: 12px; font-weight: 600;
+}
+.credit-alert__amount .input { width: 110px; padding: 3px 8px; font-size: 12.5px; }
 
 .sidebar {
   width: var(--sidebar-w);
@@ -408,6 +429,26 @@ html, body {
   display: flex; align-items: center; gap: 6px;
   font-size: 12.5px; cursor: pointer;
 }
+
+/* ---------------------------------------------------- keyword information */
+
+.kw-editor { display: flex; flex-direction: column; gap: var(--sp-2, 8px); }
+.kw-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.kw-chips:empty { display: none; }
+.kw-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 4px 2px 10px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent);
+  font-size: 12.5px; font-weight: 600;
+}
+.kw-chip__remove {
+  border: 0; background: transparent; color: inherit; cursor: pointer;
+  width: 20px; height: 20px; border-radius: 999px;
+  font-size: 15px; line-height: 1; padding: 0;
+}
+.kw-chip__remove:hover { background: var(--accent); color: var(--accent-text); }
+.kw-add { display: flex; gap: 8px; align-items: center; }
+.kw-add__input { flex: 1; min-width: 0; }
 
 .readonly-tag {
   display: inline-flex; align-items: center; gap: 5px;
@@ -733,8 +774,6 @@ tr.is-subrow.is-inactive { opacity: .55; }
 }
 .spend-chart__bar:hover { background: var(--accent); }
 
-.grant-row { display: flex; align-items: flex-end; gap: var(--sp-3); }
-.grant-row .field { margin: 0; max-width: 160px; }
 
 /* ---------------------------------------------------------------- stats --- */
 

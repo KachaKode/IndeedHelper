@@ -61,9 +61,13 @@ function funnel(data) {
   const rows = [
     { label: 'Applied', count: data.applied, note: '' },
     ...data.stages.map((s) => ({
-      label: s.label,
+      label: s.optional ? `${s.label} *` : s.label,
       count: s.count,
-      note: s.count ? `${pct(s.ofApplied)} of applied` : '',
+      // Optional stages are counted from what actually happened, so say
+      // "recorded" rather than implying everyone above them went through one.
+      note: s.count
+        ? (s.optional ? `${pct(s.ofApplied)} recorded` : `${pct(s.ofApplied)} of applied`)
+        : '',
     })),
   ];
   return el('div', { class: 'funnel' }, rows.map((row) => el('div', { class: 'funnel__row' }, [
@@ -249,8 +253,9 @@ export async function renderStats(ctx) {
   ]);
 
   const funnelHint = meta.eventCount
-    ? 'Acknowledgements and "viewed" are shown but do NOT count as a response — a real response starts at "Real response".'
-    : 'Stages past "Applied" fill in once outcome capture is running. Acknowledgements and "viewed" will never count as a response.';
+    ? 'Acknowledgements and "viewed" are shown but do NOT count as a response — a real response starts at "Real response". '
+      + 'Starred stages are optional steps many employers skip, so they show what was actually recorded rather than what a later stage implies.'
+    : 'Stages past "Applied" fill in as you record outcomes. Acknowledgements and "viewed" will never count as a response.';
 
   const funnelCard = card('Funnel', funnelHint, [
     funnel(f),

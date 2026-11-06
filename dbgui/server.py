@@ -9,6 +9,7 @@ Bound to 127.0.0.1 only -- this serves a local desktop window, never a network.
 
 from __future__ import annotations
 
+import math
 from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
@@ -17,6 +18,7 @@ from typing import Any
 from flask import Flask, jsonify, request
 
 from . import billing
+from . import keywords
 from . import outcomes
 from . import stats
 from .data import (
@@ -42,6 +44,20 @@ PAGE_SIZE = 50
 
 def _json_body() -> dict[str, Any]:
     return request.get_json(silent=True) or {}
+
+
+def _parse_amount(raw: Any, allow_zero: bool = True) -> float:
+    """A dollar amount from a request body. float() alone accepts "nan" and
+    "inf", which would be written straight into credit_grant.json."""
+    try:
+        amount = float(raw)
+    except (TypeError, ValueError):
+        raise ValueError("amount must be a number") from None
+    if not math.isfinite(amount):
+        raise ValueError("amount must be a number")
+    if amount < 0 or (amount == 0 and not allow_zero):
+        raise ValueError("amount cannot be negative" if allow_zero else "amount must be more than 0")
+    return amount
 
 
 def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
@@ -246,6 +262,40 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
     def clear_vetted_questions(user_id: int):
         status = request.args.get("status") or None
         db.delete_vetted_questions(user_id, status)
+        return jsonify({"ok": True})
+
+    # --------------------------------------------- keyword based information --
+    # Entries are created blank and filled in by PUT, like work history: a
+    # blank entry has no keywords, so it can never match anything.
+
+    @app.get("/api/users/<int:user_id>/keyword-info")
+    def list_keyword_info(user_id: int):
+        return jsonify(keywords.list_entries(db, user_id))
+
+    @app.post("/api/users/<int:user_id>/keyword-info")
+    def create_keyword_info(user_id: int):
+        body = _json_body()
+        try:
+            entry_id = keywords.create_entry(
+                db, user_id, body.get("keywords"), body.get("info", ""))
+        except ValueError as exc:
+            return jsonify({"error": str(exc)}), 400
+        return jsonify({"id": entry_id}), 201
+
+    @app.put("/api/keyword-info/<int:entry_id>")
+    def update_keyword_info(entry_id: int):
+        try:
+            found = keywords.save_entry(db, entry_id, _json_body())
+        except ValueError as exc:
+            return jsonify({"error": str(exc)}), 400
+        if not found:
+            return jsonify({"error": f"No keyword entry with id {entry_id}"}), 404
+        return jsonify({"ok": True})
+
+    @app.delete("/api/keyword-info/<int:entry_id>")
+    def remove_keyword_info(entry_id: int):
+        if not keywords.delete_entry(db, entry_id):
+            return jsonify({"error": f"No keyword entry with id {entry_id}"}), 404
         return jsonify({"ok": True})
 
     # ------------------------------------------------------ work history/edu --
@@ -499,14 +549,31 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
 
     @app.put("/api/admin/grant")
     def admin_set_grant():
-        body = _json_body()
+        """Replace the balance baseline outright (a correction, e.g. copied
+        from OpenAI's billing page). For a top-up use /api/admin/refill."""
         try:
-            amount = float(body.get("amount"))
-        except (TypeError, ValueError):
-            return jsonify({"error": "amount must be a number"}), 400
-        if amount < 0:
-            return jsonify({"error": "amount cannot be negative"}), 400
+            amount = _parse_amount(_json_body().get("amount"))
+        except ValueError as exc:
+            return jsonify({"error": str(exc)}), 400
         grant = billing.set_credit_grant(db.project_root, amount)
+        return jsonify({"ok": True, "grant": grant})
+
+    @app.post("/api/admin/refill")
+    def admin_refill():
+        """The person topped up. `amount` is optional: without it there is
+        nothing to track and nothing is written. With it, the top-up is added
+        to whatever was left (see billing.record_refill). `wasExhausted` says
+        the GUI saw the account run dry, so the leftover is exactly zero."""
+        body = _json_body()
+        raw = body.get("amount")
+        if raw is None or raw == "":
+            return jsonify({"ok": True, "grant": None})
+        try:
+            amount = _parse_amount(raw, allow_zero=False)
+        except ValueError as exc:
+            return jsonify({"error": str(exc)}), 400
+        grant = billing.record_refill(
+            db.project_root, amount, was_exhausted=bool(body.get("wasExhausted")))
         return jsonify({"ok": True, "grant": grant})
 
     return app

@@ -23,6 +23,7 @@ finishedEditEdu
 startedEditSkills
 finishedEditSkills
 finishedResume
+verifiedResume
 addedResume
 passedQuestions
 passedWorkHighlight

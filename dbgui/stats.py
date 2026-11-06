@@ -49,29 +49,48 @@ STAGE_RANK: dict[str, int] = {
     "acked": 1,
     "viewed": 2,
     "responded": 3,
-    "screened": 4,
-    "interviewed": 5,
-    "final": 6,
-    "offer": 7,
+    "assessment": 4,
+    "one_way": 5,
+    "screened": 6,
+    "interviewed": 7,
+    "final": 8,
+    "offer": 9,
 }
 
 STAGE_LABELS: dict[str, str] = {
     "acked": "Acknowledged",
     "viewed": "Viewed by employer",
     "responded": "Real response",
+    "assessment": "Online assessment",
+    "one_way": "One-way / AI interview",
     "screened": "Screening call",
     "interviewed": "Interview",
     "final": "Final round",
     "offer": "Offer",
 }
 
+# Stages that only SOME employers use.
+#
+# This distinction is load-bearing. Every other stage is counted cumulatively --
+# reaching an interview means you necessarily got at least as far as a screening
+# call, whether or not a separate event was recorded for it. That reasoning is
+# false for these two: plenty of employers never send an assessment or a one-way
+# interview at all, so counting "reached interview" as "reached assessment" would
+# claim you sat an assessment you never took.
+#
+# They still carry a rank, so an application whose furthest point was an
+# assessment is correctly scored as having got past a mere reply. But in the
+# funnel they are counted by ACTUAL OCCURRENCE, and they do not form a link in
+# the conversion chain.
+OPTIONAL_STAGES = frozenset({"assessment", "one_way"})
+
 # Off-ladder outcomes: they can arrive from any stage and do not imply progress.
 TERMINAL_EVENTS = {"rejected", "withdrawn"}
 
 # The line between "they sent a template" and "a human wants something".
 RESPONSE_RANK = 3
-SCREEN_RANK = 4
-INTERVIEW_RANK = 5
+SCREEN_RANK = STAGE_RANK["screened"]
+INTERVIEW_RANK = STAGE_RANK["interviewed"]
 
 UNSPECIFIED = "Unspecified"
 UNATTRIBUTED = "Unattributed"
@@ -289,6 +308,9 @@ def _enrich(
         own = events.get(int(app["id"]), [])
         ranks = [STAGE_RANK[e["type"]] for e in own if e["type"] in STAGE_RANK]
         app["_maxRank"] = max(ranks) if ranks else 0
+        # What actually happened, as opposed to what is implied by how far the
+        # application got. Optional stages are counted from this.
+        app["_types"] = {e["type"] for e in own}
         app["_rejected"] = any(e["type"] == "rejected" for e in own)
         app["_withdrawn"] = any(e["type"] == "withdrawn" for e in own)
 
@@ -402,16 +424,27 @@ def _funnel(mature: list[dict[str, Any]], min_n: int) -> dict[str, Any]:
     previous = total
     for name in sorted(STAGE_RANK, key=lambda k: STAGE_RANK[k]):
         rank = STAGE_RANK[name]
-        reached = sum(1 for a in mature if a["_maxRank"] >= rank)
+        optional = name in OPTIONAL_STAGES
+        if optional:
+            # Counted from what was actually recorded, never inferred from a
+            # later stage -- see OPTIONAL_STAGES.
+            reached = sum(1 for a in mature if name in a["_types"])
+        else:
+            reached = sum(1 for a in mature if a["_maxRank"] >= rank)
         stages.append({
             "key": name,
             "label": STAGE_LABELS[name],
             "rank": rank,
+            "optional": optional,
             "count": reached,
             "ofApplied": (reached / total) if total else 0.0,
-            "fromPrevious": (reached / previous) if previous else 0.0,
+            # A conversion rate from the previous rung is meaningless for a step
+            # most employers skip, so optional stages report none and do not
+            # become the baseline for the next stage either.
+            "fromPrevious": None if optional else ((reached / previous) if previous else 0.0),
         })
-        previous = reached or previous
+        if not optional:
+            previous = reached or previous
 
     rejected = sum(1 for a in mature if a["_rejected"])
     withdrawn = sum(1 for a in mature if a["_withdrawn"])

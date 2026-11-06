@@ -736,3 +736,63 @@ def add_outcome_tracking(db: IndeedDB) -> dict[str, Any]:
         report["created_capture"] = needs_capture
         report["created_index"] = not has_index
     return report
+
+
+# --------------------------------------------------------------------------
+# Keyword based information: facts the applicant wants the generators to know
+# about whenever a particular keyword appears in a job description.
+#
+# Each row is one piece of information plus the keywords that trigger it.
+# Matching and prompt injection live in keyword_info.py (the bot side) and the
+# GUI's CRUD in dbgui/keywords.py; this is only the table.
+#
+# The table starts empty and nothing existing reads it, so like the outcome
+# tables it self-heals on startup instead of needing a manual gate.
+# --------------------------------------------------------------------------
+
+CREATE_KEYWORD_INFO = """
+CREATE TABLE IF NOT EXISTS keyword_info (
+    id          INTEGER PRIMARY KEY,
+    user_id     INTEGER NOT NULL,
+    keywords    TEXT NOT NULL DEFAULT '[]',
+    info        TEXT NOT NULL DEFAULT '',
+    created_at  TEXT NOT NULL,
+    updated_at  TEXT NOT NULL
+)
+"""
+
+# keywords is a JSON array of strings. Matching happens in Python against the
+# job description, so nothing here needs to query inside it.
+
+CREATE_KEYWORD_INFO_USER_INDEX = """
+CREATE INDEX IF NOT EXISTS idx_keyword_info_user
+    ON keyword_info (user_id)
+"""
+
+
+def keyword_info_schema_exists(conn: sqlite3.Connection) -> bool:
+    row = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='keyword_info'"
+    ).fetchone()
+    return row is not None
+
+
+def ensure_keyword_info_schema(conn: sqlite3.Connection) -> None:
+    conn.execute(CREATE_KEYWORD_INFO)
+    conn.execute(CREATE_KEYWORD_INFO_USER_INDEX)
+
+
+def add_keyword_info(db: IndeedDB) -> dict[str, Any]:
+    """Create the keyword_info table.
+
+    Purely additive and safe to call on every startup. Idempotent -- the
+    backup is only taken when the table is actually missing.
+    """
+    report = {"created": False}
+    with db._connect() as conn:
+        if keyword_info_schema_exists(conn):
+            return report
+        db._ensure_backup()
+        ensure_keyword_info_schema(conn)
+        report["created"] = True
+    return report

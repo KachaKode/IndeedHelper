@@ -5,9 +5,11 @@ import { renderUsers, renderProfile } from './users.js';
 import { renderSearches, stopSearchesPolling } from './searches.js';
 import { renderJobs, renderEdu } from './history.js';
 import { renderVettedQuestions } from './vetted.js';
+import { renderKeywords } from './keywords.js';
 import { renderApplications, renderApplicationsOld } from './applications.js';
 import { renderRun, stopPolling } from './run.js';
 import { renderAdmin } from './admin.js';
+import { wireCreditAlert } from './credits.js';
 import { renderStats } from './stats.js';
 import { renderOutcomes } from './outcomes.js';
 
@@ -21,6 +23,7 @@ const VIEWS = {
   'jobs':             renderJobs,
   'edu':              renderEdu,
   'vetted':           renderVettedQuestions,
+  'keywords':         renderKeywords,
   'applications':     renderApplications,
   'applications-old': renderApplicationsOld,
   'admin':            renderAdmin,
@@ -28,7 +31,7 @@ const VIEWS = {
   'outcomes':         renderOutcomes,
 };
 
-const NEEDS_USER = new Set(['profile', 'searches', 'jobs', 'edu', 'vetted', 'stats', 'outcomes']);
+const NEEDS_USER = new Set(['profile', 'searches', 'jobs', 'edu', 'vetted', 'keywords', 'stats', 'outcomes']);
 
 /** Display name of the user currently in context, or null if none is selected. */
 function userLabel() {
@@ -62,11 +65,12 @@ async function refreshCounts() {
     state.users = await api.get('/api/users');
     setCount('users', state.users.length);
     if (state.userId != null) {
-      const [searches, jobs, edu, vetted] = await Promise.all([
+      const [searches, jobs, edu, vetted, keywordInfo] = await Promise.all([
         api.get(`/api/users/${state.userId}/searches`),
         api.get(`/api/users/${state.userId}/jobs`),
         api.get(`/api/users/${state.userId}/edu`),
         api.get(`/api/users/${state.userId}/vetted-questions`),
+        api.get(`/api/users/${state.userId}/keyword-info`),
       ]);
       // Alternate-URL sub-rows (parent_id set) are not separate searches --
       // count only main rows, matching what the Job Searches view itself counts.
@@ -74,8 +78,9 @@ async function refreshCounts() {
       setCount('jobs', jobs.length);
       setCount('edu', edu.length);
       setCount('vetted', vetted.length);
+      setCount('keywords', keywordInfo.length);
     } else {
-      ['searches', 'jobs', 'edu', 'vetted'].forEach((k) => setCount(k, null));
+      ['searches', 'jobs', 'edu', 'vetted', 'keywords'].forEach((k) => setCount(k, null));
     }
   } catch (err) {
     toast(err.message, 'error');
@@ -117,40 +122,10 @@ async function go(view) {
   }
 }
 
-/* ---------------------------------------------------- credit-exhausted banner
-   App-shell state, not view state: it has to stay visible no matter which
-   nav item is active, so it lives outside VIEWS/go() entirely and just keeps
-   polling in the background. A trivial real call costs a fraction of a cent,
-   so this is deliberately infrequent -- the Admin tab itself gives an
-   on-demand, always-fresh check for anyone who wants to know right now. */
-const CREDIT_POLL_INTERVAL_MS = 10 * 60 * 1000;
-
-async function checkCredits() {
-  const banner = document.getElementById('credit-alert');
-  const text = document.getElementById('credit-alert-text');
-  if (!banner || !text) return;
-  try {
-    const probe = await api.get('/api/admin/probe');
-    if (probe.exhausted) {
-      text.textContent = `OpenAI credits are exhausted: ${probe.message || 'no credits remaining.'}`;
-      banner.hidden = false;
-    } else {
-      banner.hidden = true;
-    }
-  } catch {
-    // A network hiccup checking this is not itself something to alarm about.
-  }
-}
-
-function wireCreditAlert() {
-  const goto = document.getElementById('credit-alert-goto');
-  if (goto) {
-    goto.addEventListener('click', () => {
-      window.open('https://platform.openai.com/settings/organization/billing/overview', '_blank');
-    });
-  }
-  checkCredits();
-  setInterval(checkCredits, CREDIT_POLL_INTERVAL_MS);
+/* The credit banner lives in credits.js. A recorded top-up changes what the
+   Admin tab shows, so redraw it if that is the tab on screen. */
+function wireBanner() {
+  wireCreditAlert({ onChange: () => { if (state.view === 'admin') go('admin'); } });
 }
 
 function wireNav() {
@@ -165,7 +140,7 @@ function wireNav() {
 
 async function boot() {
   wireNav();
-  wireCreditAlert();
+  wireBanner();
   await refreshCounts();
 
   // Preselect the active user so the app opens on something useful. Counts are
