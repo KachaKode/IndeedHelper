@@ -607,15 +607,32 @@ class PlaywrightWrap:
     # ------------------------------------------------------------------ lifecycle --
 
     def _find_chrome_executable(self):
-        candidates = [
-            os.path.join(os.environ.get("PROGRAMFILES", ""), "Google", "Chrome", "Application", "chrome.exe"),
-            os.path.join(os.environ.get("PROGRAMFILES(X86)", ""), "Google", "Chrome", "Application", "chrome.exe"),
-            os.path.join(os.environ.get("LOCALAPPDATA", ""), "Google", "Chrome", "Application", "chrome.exe"),
-        ]
+        if sys.platform == "darwin":
+            # The binary inside the .app bundle, not the .app itself: Popen needs
+            # an executable, and launching it directly is what lets
+            # --user-data-dir start a separate instance even while the person's
+            # own Chrome is open.
+            mac_app = os.path.join("Google Chrome.app", "Contents", "MacOS", "Google Chrome")
+            candidates = [
+                os.path.join("/Applications", mac_app),
+                os.path.join(os.path.expanduser("~/Applications"), mac_app),
+            ]
+        elif sys.platform.startswith("linux"):
+            candidates = [
+                os.path.join(directory, name)
+                for directory in os.environ.get("PATH", "").split(os.pathsep)
+                for name in ("google-chrome", "google-chrome-stable", "chromium", "chromium-browser")
+            ]
+        else:
+            candidates = [
+                os.path.join(os.environ.get("PROGRAMFILES", ""), "Google", "Chrome", "Application", "chrome.exe"),
+                os.path.join(os.environ.get("PROGRAMFILES(X86)", ""), "Google", "Chrome", "Application", "chrome.exe"),
+                os.path.join(os.environ.get("LOCALAPPDATA", ""), "Google", "Chrome", "Application", "chrome.exe"),
+            ]
         for candidate in candidates:
             if candidate and os.path.exists(candidate):
                 return candidate
-        raise RuntimeError("Could not find chrome.exe. Install Google Chrome or update _find_chrome_executable().")
+        raise RuntimeError("Could not find Google Chrome. Install it or update _find_chrome_executable().")
 
     def _free_port(self):
         import socket
@@ -662,7 +679,7 @@ class PlaywrightWrap:
             "--start-maximized",
             self.home_url,
         ]
-        ct_print("start_up", "launching chrome.exe", f"profile={user_data_dir} port={self._debug_port}")
+        ct_print("start_up", "launching chrome", f"profile={user_data_dir} port={self._debug_port}")
         self._chrome_process = subprocess.Popen(launch_args)
 
         if not self._wait_for_debug_endpoint(timeout_seconds=20.0):
@@ -6135,7 +6152,7 @@ class IndeedHelper(PlaywrightWrap):
         # users.homePage blob. That column still exists as an audit trail but is
         # no longer read.
         try:
-            self.MY_PATH          =  "Users\\" + f"{info['FirstName']} {info['LastName']} {info['id']}" + "\\"
+            self.MY_PATH          =  os.path.join("Users", f"{info['FirstName']} {info['LastName']} {info['id']}") + os.sep
 
             for rec in self.searchRecords:
                 jobNums = (rec["job_nums"] or "").strip()
