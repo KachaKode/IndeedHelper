@@ -139,7 +139,7 @@ class myGPT:
 
     def processMsgFile2(self, file, *args):
         self.log("starting to process msg file")
-        f = open(f"{self.promptsPath}\\{file}", 'r')
+        f = open(f"{self.promptsPath}/{file}", 'r')
         self.prompts_str = ""
         self.place_vals = list(args)
         prompts = []
@@ -171,7 +171,7 @@ class myGPT:
         self.log("starting to process msg file")
         self.context.append({"role": "system", "content":
             "You are a intelligent assistant."})
-        f = open(f"{self.promptsPath}\\{file}", 'r')
+        f = open(f"{self.promptsPath}/{file}", 'r')
         self.prompts_str = ""
         self.place_vals = list(args)
         prompts = []
@@ -336,12 +336,12 @@ class myGPT:
         self.loadFormatPrompt()
 
     def loadAPIKey(self):
-        api_key_file = open(f"{self.inputPath}\\api_key.txt")
+        api_key_file = open(f"{self.inputPath}/api_key.txt")
         openai.api_key = api_key_file.read()
         api_key_file.close()
 
     def loadPrompt(self):
-        initPromptFile = open(f"{self.inputPath}\\initialPrompt.txt", "r")
+        initPromptFile = open(f"{self.inputPath}/initialPrompt.txt", "r")
         self.promptContent = initPromptFile.read()
         initPromptFile.close()
 

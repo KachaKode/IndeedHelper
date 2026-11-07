@@ -767,18 +767,30 @@ class PlaywrightWrap:
                 )
 
         self._playwright = sync_playwright().start()
-        endpoint = f"http://127.0.0.1:{self._debug_port}"
-        self._browser = self._playwright.chromium.connect_over_cdp(endpoint)
-        if not self._browser.contexts:
-            raise RecoverableBrowserError("Chrome connected over CDP, but no browser context was available.")
-        self._context = self._browser.contexts[0]
-        self._page = self._context.pages[-1] if self._context.pages else self._context.new_page()
-        self._page.on("dialog", self._on_dialog)
-        if reused_port:
-            # A freshly launched Chrome opens home_url itself; a reused one is
-            # wherever the previous run left it.
-            self._page.goto(self.home_url, wait_until="domcontentloaded")
-        self._page.bring_to_front()
+        try:
+            endpoint = f"http://127.0.0.1:{self._debug_port}"
+            self._browser = self._playwright.chromium.connect_over_cdp(endpoint)
+            if not self._browser.contexts:
+                raise RecoverableBrowserError("Chrome connected over CDP, but no browser context was available.")
+            self._context = self._browser.contexts[0]
+            self._page = self._context.pages[-1] if self._context.pages else self._context.new_page()
+            self._page.on("dialog", self._on_dialog)
+            if reused_port:
+                # A freshly launched Chrome opens home_url itself; a reused one is
+                # wherever the previous run left it.
+                self._page.goto(self.home_url, wait_until="domcontentloaded")
+            self._page.bring_to_front()
+        except BaseException:
+            # This helper never finishes being built, so nothing will call
+            # close() on it -- and a Playwright left running makes every retry
+            # on this thread fail with "Sync API inside the asyncio loop". Only
+            # Playwright is stopped: Chrome stays up, and the retry reconnects.
+            try:
+                self._playwright.stop()
+            except Exception:
+                pass
+            self._playwright = None
+            raise
         ct_exit("start_up", self._page.url)
 
     def _on_dialog(self, dialog):
@@ -1459,9 +1471,9 @@ class IndeedHelper(PlaywrightWrap):
         # session's picture, not just the search just left.
         self.searchAppCounts = []
         self.user_id = -1
-        self.dataPath = "data\\"
-        self.configPath = "config\\"
-        self.promptsPath = 'prompts\\'
+        self.dataPath = "data" + os.sep
+        self.configPath = "config" + os.sep
+        self.promptsPath = "prompts" + os.sep
 
         self.details = {}
         self.JobDescriptionText = ''
@@ -6326,7 +6338,10 @@ class IndeedHelper(PlaywrightWrap):
             traceback.print_exc()
 
     def setDetails(self):
-        c, s = tuple(self.areaSpec.split(","))
+        # "City, State". An Area with no comma used to raise here, which left
+        # self.details empty -- so name, phone and email were never offered as
+        # canned answers either, not just city and state.
+        c, _, s = self.areaSpec.partition(",")
         self.details = {"name": f"{self.firstName} {self.lastName}",
                         "first name": self.firstName,
                         "last name": self.lastName,
@@ -7519,6 +7534,7 @@ def RunUser(user_to_run, masterRecords):
     crashed_job_keys = set()
     while True:
         sm = None
+        helper = None
         try:
             ct_enter("RunUser", user_label)
             helper = IndeedHelper(user_to_run, masterRecords["milestoneList"])
@@ -7544,9 +7560,14 @@ def RunUser(user_to_run, masterRecords):
             if crashed_key:
                 crashed_job_keys.add(crashed_key)
                 ct_print("RunUser", "will skip crashed job after restart", f"jk={crashed_key}")
-            if sm is not None:
+            # `helper`, not just sm.helper: when StateMachine() itself fails (a
+            # bad config file, say) sm is still None, and skipping the close
+            # left this thread's Playwright running -- so every retry died on
+            # "Sync API inside the asyncio loop" instead of showing the real error.
+            to_close = sm.helper if sm is not None else helper
+            if to_close is not None:
                 try:
-                    sm.helper.close()
+                    to_close.close()
                 except Exception as close_exc:
                     ct_error("RunUser (close)", close_exc)
             backoff = min(RESTART_BACKOFF_SECONDS * consecutive_failures, 300)
