@@ -659,6 +659,42 @@ class PlaywrightWrap:
                 t.sleep(0.5)
         return False
 
+    # Where start_up records the DevTools port it launched Chrome with. Chrome
+    # writes its own DevToolsActivePort file only for --remote-debugging-port=0,
+    # never for the fixed port start_up passes, so the bot keeps its own note.
+    DEBUG_PORT_FILE = "IndeedHelperDebugPort"
+
+    @classmethod
+    def _running_debug_port(cls, user_data_dir):
+        """The DevTools port of a Chrome the bot already launched on this
+        profile and that is still running, or None.
+
+        A second Chrome started on a profile that is in use does not start: it
+        hands its URL to the first one and exits ("Opening in existing browser
+        session."), dropping --remote-debugging-port on the way, so nothing ever
+        answers on the new port and every retry just opens another home-page
+        tab. The first Chrome is easily left behind -- macOS keeps the app alive
+        after its last window is closed, and the GUI's Stop only ends the bot,
+        not the Chrome it launched. Reconnecting to that Chrome recovers in
+        place instead of fighting it.
+        """
+        from urllib.request import urlopen
+        from urllib.error import URLError
+        try:
+            with open(os.path.join(user_data_dir, cls.DEBUG_PORT_FILE), encoding="utf-8") as f:
+                port = int(f.readline().strip())
+        except (OSError, ValueError):
+            return None
+        try:
+            # The note outlives a crashed Chrome, so only a live DevTools
+            # endpoint counts -- anything else on that port is not ours.
+            with urlopen(f"http://127.0.0.1:{port}/json/version", timeout=1.5) as response:
+                if response.status == 200 and "webSocketDebuggerUrl" in response.read().decode("utf-8", "replace"):
+                    return port
+        except (URLError, OSError):
+            pass
+        return None
+
     def start_up(self):
         import subprocess
         ct_enter("start_up", self.home_url)
@@ -669,25 +705,35 @@ class PlaywrightWrap:
             user_data_dir = user_data_dir[len("user-data-dir="):]
         os.makedirs(user_data_dir, exist_ok=True)
 
-        self._debug_port = self._free_port()
-        launch_args = [
-            chrome_path,
-            f"--remote-debugging-port={self._debug_port}",
-            f"--user-data-dir={user_data_dir}",
-            "--no-first-run",
-            "--no-default-browser-check",
-            "--start-maximized",
-            self.home_url,
-        ]
-        ct_print("start_up", "launching chrome", f"profile={user_data_dir} port={self._debug_port}")
-        self._chrome_process = subprocess.Popen(launch_args)
+        reused_port = self._running_debug_port(user_data_dir)
+        if reused_port:
+            self._debug_port = reused_port
+            self._chrome_process = None  # not ours to terminate in close()
+            ct_print("start_up", "reconnecting to the chrome already open on this profile",
+                     f"profile={user_data_dir} port={reused_port}")
+        else:
+            self._debug_port = self._free_port()
+            with open(os.path.join(user_data_dir, self.DEBUG_PORT_FILE), "w", encoding="utf-8") as f:
+                f.write(str(self._debug_port))
+            launch_args = [
+                chrome_path,
+                f"--remote-debugging-port={self._debug_port}",
+                f"--user-data-dir={user_data_dir}",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--start-maximized",
+                self.home_url,
+            ]
+            ct_print("start_up", "launching chrome", f"profile={user_data_dir} port={self._debug_port}")
+            self._chrome_process = subprocess.Popen(launch_args)
 
-        if not self._wait_for_debug_endpoint(timeout_seconds=20.0):
-            raise RecoverableBrowserError(
-                f"Chrome launched (pid {self._chrome_process.pid}) but its DevTools endpoint never came up on "
-                f"127.0.0.1:{self._debug_port}. This usually means another Chrome window is already using the "
-                f"profile at \"{user_data_dir}\" -- close every Chrome window for that profile and try again."
-            )
+            if not self._wait_for_debug_endpoint(timeout_seconds=20.0):
+                raise RecoverableBrowserError(
+                    f"Chrome launched (pid {self._chrome_process.pid}) but its DevTools endpoint never came up on "
+                    f"127.0.0.1:{self._debug_port}. This usually means a Chrome that is not under the bot's "
+                    f"control is already using the profile at \"{user_data_dir}\" -- quit it completely and try "
+                    f"again (on a Mac, closing its window is not enough: use Chrome > Quit, or Cmd+Q)."
+                )
 
         self._playwright = sync_playwright().start()
         endpoint = f"http://127.0.0.1:{self._debug_port}"
@@ -697,6 +743,10 @@ class PlaywrightWrap:
         self._context = self._browser.contexts[0]
         self._page = self._context.pages[-1] if self._context.pages else self._context.new_page()
         self._page.on("dialog", self._on_dialog)
+        if reused_port:
+            # A freshly launched Chrome opens home_url itself; a reused one is
+            # wherever the previous run left it.
+            self._page.goto(self.home_url, wait_until="domcontentloaded")
         self._page.bring_to_front()
         ct_exit("start_up", self._page.url)
 

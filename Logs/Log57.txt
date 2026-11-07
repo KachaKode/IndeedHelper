@@ -1,0 +1,203 @@
+/Users/mathildaarrey/Documents/IndeedHelper/main3.py:4403: SyntaxWarning: "\d" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\d"? A raw string is also an option.
+  jobFiles = [self.MY_PATH + self.dataPath + f for f in files_in_subdir if re.match(r'Job\d+\.txt$', f)]
+/Users/mathildaarrey/Documents/IndeedHelper/main3.py:4418: SyntaxWarning: "\d" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\d"? A raw string is also an option.
+  eduFiles = [self.MY_PATH + self.dataPath + f for f in files_in_subdir if re.match(r'Edu\d+\.txt$', f)]
+[CT] 0.0ms | RunUser | ENTER | Mathilda Arrey (id=1)
+[CT] 0.2ms | __main__ | started worker thread for user id=1
+An error occurred: not enough values to unpack (expected 2, got 1)
+Traceback (most recent call last):
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 6241, in load_life_summary
+    self.setDetails()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 6248, in setDetails
+    c, s = tuple(self.areaSpec.split(","))
+    ^^^^
+ValueError: not enough values to unpack (expected 2, got 1)
+[CT] 1.3ms | start_up | ENTER | https://ca.indeed.com/jobs?q=corporate+strategy+manager&l=remote&from=searchOnDesktopSerp&vjk=6969ee7be96963de
+[CT] 0.2ms | start_up | launching chrome | profile=/Users/mathildaarrey/Documents/IndeedHelper/ChromeProfiles/user_1 port=53271
+[CT] 6.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=0'
+Opening in existing browser session.
+[CT] 511.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=1'
+[CT] 504.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=2'
+[CT] 501.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=3'
+[CT] 500.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=4'
+[CT] 505.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=5'
+[CT] 503.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=6'
+[CT] 503.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=7'
+[CT] 504.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=8'
+[CT] 501.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=9'
+[CT] 503.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=10'
+[CT] 506.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=11'
+[CT] 504.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=12'
+[CT] 504.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=13'
+[CT] 504.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=14'
+[CT] 504.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=15'
+[CT] 503.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=16'
+[CT] 503.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=17'
+[CT] 505.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=18'
+[CT] 500.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=19'
+[CT] 500.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=20'
+[CT] 505.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=21'
+[CT] 501.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=22'
+[CT] 501.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=23'
+[CT] 504.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=24'
+[CT] 504.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=25'
+[CT] 502.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=26'
+[CT] 502.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=27'
+[CT] 502.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=28'
+[CT] 504.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=29'
+[CT] 502.0ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=30'
+[CT] 504.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=31'
+[CT] 503.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=32'
+[CT] 503.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=33'
+[CT] 500.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=34'
+[CT] 505.0ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=35'
+[CT] 502.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=36'
+[CT] 501.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=37'
+[CT] 503.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=38'
+[CT] 502.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53271/json/version sees='attempt=39'
+[CT] 501.3ms | RunUser | ERROR | RecoverableBrowserError: Chrome launched (pid 12021) but its DevTools endpoint never came up on 127.0.0.1:53271. This usually means another Chrome window is already using the profile at "/Users/mathildaarrey/Documents/IndeedHelper/ChromeProfiles/user_1" -- close every Chrome window for that profile and try again.
+Traceback (most recent call last):
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 7443, in RunUser
+    helper = IndeedHelper(user_to_run, masterRecords["milestoneList"])
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 1450, in __init__
+    self.start_up()
+    ~~~~~~~~~~~~~^^
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 686, in start_up
+    raise RecoverableBrowserError(
+    ...<3 lines>...
+    )
+RecoverableBrowserError: Chrome launched (pid 12021) but its DevTools endpoint never came up on 127.0.0.1:53271. This usually means another Chrome window is already using the profile at "/Users/mathildaarrey/Documents/IndeedHelper/ChromeProfiles/user_1" -- close every Chrome window for that profile and try again.
+[CT] 1.4ms | RunUser | restarting Mathilda Arrey (id=1) in 15s | consecutive_failures=1
+[CT] 15003.8ms | RunUser | ENTER | Mathilda Arrey (id=1)
+An error occurred: not enough values to unpack (expected 2, got 1)
+Traceback (most recent call last):
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 6241, in load_life_summary
+    self.setDetails()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 6248, in setDetails
+    c, s = tuple(self.areaSpec.split(","))
+    ^^^^
+ValueError: not enough values to unpack (expected 2, got 1)
+[CT] 1.5ms | start_up | ENTER | https://ca.indeed.com/jobs?q=corporate+strategy+manager&l=remote&from=searchOnDesktopSerp&vjk=6969ee7be96963de
+[CT] 0.2ms | start_up | launching chrome | profile=/Users/mathildaarrey/Documents/IndeedHelper/ChromeProfiles/user_1 port=53362
+[CT] 5.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=0'
+Opening in existing browser session.
+[CT] 504.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=1'
+[CT] 504.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=2'
+[CT] 504.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=3'
+[CT] 500.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=4'
+[CT] 500.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=5'
+[CT] 505.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=6'
+[CT] 501.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=7'
+[CT] 500.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=8'
+[CT] 504.0ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=9'
+[CT] 500.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=10'
+[CT] 503.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=11'
+[CT] 501.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=12'
+[CT] 505.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=13'
+[CT] 505.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=14'
+[CT] 504.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=15'
+[CT] 500.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=16'
+[CT] 500.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=17'
+[CT] 505.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=18'
+[CT] 505.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=19'
+[CT] 503.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=20'
+[CT] 500.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=21'
+[CT] 504.0ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=22'
+[CT] 503.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=23'
+[CT] 505.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=24'
+[CT] 501.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=25'
+[CT] 501.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=26'
+[CT] 500.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=27'
+[CT] 502.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=28'
+[CT] 501.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=29'
+[CT] 502.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=30'
+[CT] 504.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=31'
+[CT] 504.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=32'
+[CT] 501.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=33'
+[CT] 503.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=34'
+[CT] 503.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=35'
+[CT] 500.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=36'
+[CT] 504.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=37'
+[CT] 504.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=38'
+[CT] 505.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53362/json/version sees='attempt=39'
+[CT] 505.4ms | RunUser | ERROR | RecoverableBrowserError: Chrome launched (pid 12053) but its DevTools endpoint never came up on 127.0.0.1:53362. This usually means another Chrome window is already using the profile at "/Users/mathildaarrey/Documents/IndeedHelper/ChromeProfiles/user_1" -- close every Chrome window for that profile and try again.
+Traceback (most recent call last):
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 7443, in RunUser
+    helper = IndeedHelper(user_to_run, masterRecords["milestoneList"])
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 1450, in __init__
+    self.start_up()
+    ~~~~~~~~~~~~~^^
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 686, in start_up
+    raise RecoverableBrowserError(
+    ...<3 lines>...
+    )
+RecoverableBrowserError: Chrome launched (pid 12053) but its DevTools endpoint never came up on 127.0.0.1:53362. This usually means another Chrome window is already using the profile at "/Users/mathildaarrey/Documents/IndeedHelper/ChromeProfiles/user_1" -- close every Chrome window for that profile and try again.
+[CT] 1.1ms | RunUser | restarting Mathilda Arrey (id=1) in 30s | consecutive_failures=2
+[CT] 30000.7ms | RunUser | ENTER | Mathilda Arrey (id=1)
+An error occurred: not enough values to unpack (expected 2, got 1)
+Traceback (most recent call last):
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 6241, in load_life_summary
+    self.setDetails()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 6248, in setDetails
+    c, s = tuple(self.areaSpec.split(","))
+    ^^^^
+ValueError: not enough values to unpack (expected 2, got 1)
+[CT] 7.8ms | start_up | ENTER | https://ca.indeed.com/jobs?q=corporate+strategy+manager&l=remote&from=searchOnDesktopSerp&vjk=6969ee7be96963de
+[CT] 0.8ms | start_up | launching chrome | profile=/Users/mathildaarrey/Documents/IndeedHelper/ChromeProfiles/user_1 port=53431
+[CT] 4.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=0'
+Opening in existing browser session.
+[CT] 506.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=1'
+[CT] 501.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=2'
+[CT] 501.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=3'
+[CT] 504.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=4'
+[CT] 501.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=5'
+[CT] 504.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=6'
+[CT] 500.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=7'
+[CT] 501.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=8'
+[CT] 501.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=9'
+[CT] 504.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=10'
+[CT] 500.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=11'
+[CT] 505.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=12'
+[CT] 502.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=13'
+[CT] 501.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=14'
+[CT] 503.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=15'
+[CT] 504.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=16'
+[CT] 504.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=17'
+[CT] 503.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=18'
+[CT] 505.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=19'
+[CT] 500.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=20'
+[CT] 505.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=21'
+[CT] 504.0ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=22'
+[CT] 501.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=23'
+[CT] 501.0ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=24'
+[CT] 504.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=25'
+[CT] 503.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=26'
+[CT] 502.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=27'
+[CT] 504.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=28'
+[CT] 501.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=29'
+[CT] 503.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=30'
+[CT] 505.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=31'
+[CT] 504.0ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=32'
+[CT] 503.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=33'
+[CT] 504.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=34'
+[CT] 500.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=35'
+[CT] 501.0ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=36'
+[CT] 500.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=37'
+[CT] 502.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=38'
+[CT] 502.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:53431/json/version sees='attempt=39'
+[CT] 504.6ms | RunUser | ERROR | RecoverableBrowserError: Chrome launched (pid 12075) but its DevTools endpoint never came up on 127.0.0.1:53431. This usually means another Chrome window is already using the profile at "/Users/mathildaarrey/Documents/IndeedHelper/ChromeProfiles/user_1" -- close every Chrome window for that profile and try again.
+Traceback (most recent call last):
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 7443, in RunUser
+    helper = IndeedHelper(user_to_run, masterRecords["milestoneList"])
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 1450, in __init__
+    self.start_up()
+    ~~~~~~~~~~~~~^^
+  File "/Users/mathildaarrey/Documents/IndeedHelper/main3.py", line 686, in start_up
+    raise RecoverableBrowserError(
+    ...<3 lines>...
+    )
+RecoverableBrowserError: Chrome launched (pid 12075) but its DevTools endpoint never came up on 127.0.0.1:53431. This usually means another Chrome window is already using the profile at "/Users/mathildaarrey/Documents/IndeedHelper/ChromeProfiles/user_1" -- close every Chrome window for that profile and try again.
+[CT] 1.7ms | RunUser | restarting Mathilda Arrey (id=1) in 45s | consecutive_failures=3
