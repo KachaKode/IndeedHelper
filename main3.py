@@ -659,40 +659,73 @@ class PlaywrightWrap:
                 t.sleep(0.5)
         return False
 
-    # Where start_up records the DevTools port it launched Chrome with. Chrome
-    # writes its own DevToolsActivePort file only for --remote-debugging-port=0,
-    # never for the fixed port start_up passes, so the bot keeps its own note.
-    DEBUG_PORT_FILE = "IndeedHelperDebugPort"
+    @staticmethod
+    def _chrome_command_lines():
+        """The command line of every running Chrome process, one string each."""
+        import subprocess
+        try:
+            if sys.platform == "win32":
+                out = subprocess.run(
+                    ["powershell", "-NoProfile", "-NonInteractive", "-Command",
+                     "Get-CimInstance Win32_Process -Filter \"Name='chrome.exe'\" "
+                     "| ForEach-Object { $_.CommandLine }"],
+                    capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=20,
+                ).stdout
+            else:
+                out = subprocess.run(["ps", "-axww", "-o", "command="],
+                                     capture_output=True, text=True, errors="replace", timeout=20).stdout
+        except (OSError, subprocess.SubprocessError):
+            return []
+        return out.splitlines()
+
+    @staticmethod
+    def _debug_port_in(command_line, user_data_dir):
+        """The --remote-debugging-port of this Chrome command line if it is the
+        browser process (not a --type= helper) running on `user_data_dir`, else
+        None."""
+        if "--type=" in command_line:
+            return None
+        # The path must end where the argument ends -- a quote, or the next
+        # flag -- so ".../user_1" does not also claim ".../user_10". Windows
+        # paths are case-insensitive; the others are not.
+        profile = re.escape(user_data_dir.rstrip("\\/"))
+        flags = re.IGNORECASE if sys.platform == "win32" else 0
+        if not re.search(rf"--user-data-dir={profile}(?=\"?(?:\s+--|\s*$))", command_line, flags):
+            return None
+        match = re.search(r"--remote-debugging-port=(\d+)", command_line)
+        # Port 0 means "pick one", which leaves nothing here to connect to.
+        return int(match.group(1)) if match and int(match.group(1)) else None
 
     @classmethod
     def _running_debug_port(cls, user_data_dir):
-        """The DevTools port of a Chrome the bot already launched on this
-        profile and that is still running, or None.
+        """The DevTools port of a Chrome that is already running on this
+        profile with remote debugging on, or None.
 
         A second Chrome started on a profile that is in use does not start: it
         hands its URL to the first one and exits ("Opening in existing browser
         session."), dropping --remote-debugging-port on the way, so nothing ever
         answers on the new port and every retry just opens another home-page
-        tab. The first Chrome is easily left behind -- macOS keeps the app alive
-        after its last window is closed, and the GUI's Stop only ends the bot,
-        not the Chrome it launched. Reconnecting to that Chrome recovers in
-        place instead of fighting it.
+        tab. The first Chrome is easily left behind -- the GUI's Stop only ends
+        the bot, not the Chrome it launched, and macOS keeps the app alive after
+        its last window is closed. That Chrome holds the signed-in session, so
+        the bot reconnects to it instead of fighting it. The port is read off
+        its own command line, which also finds one started by an older version
+        of the bot.
         """
         from urllib.request import urlopen
         from urllib.error import URLError
-        try:
-            with open(os.path.join(user_data_dir, cls.DEBUG_PORT_FILE), encoding="utf-8") as f:
-                port = int(f.readline().strip())
-        except (OSError, ValueError):
-            return None
-        try:
-            # The note outlives a crashed Chrome, so only a live DevTools
-            # endpoint counts -- anything else on that port is not ours.
-            with urlopen(f"http://127.0.0.1:{port}/json/version", timeout=1.5) as response:
-                if response.status == 200 and "webSocketDebuggerUrl" in response.read().decode("utf-8", "replace"):
-                    return port
-        except (URLError, OSError):
-            pass
+        for command_line in cls._chrome_command_lines():
+            port = cls._debug_port_in(command_line, user_data_dir)
+            if not port:
+                continue
+            try:
+                # Only a live DevTools endpoint counts -- the port could since
+                # have been taken by something else.
+                with urlopen(f"http://127.0.0.1:{port}/json/version", timeout=1.5) as response:
+                    if response.status == 200 and "webSocketDebuggerUrl" in response.read().decode("utf-8", "replace"):
+                        return port
+            except (URLError, OSError):
+                continue
         return None
 
     def start_up(self):
@@ -713,8 +746,6 @@ class PlaywrightWrap:
                      f"profile={user_data_dir} port={reused_port}")
         else:
             self._debug_port = self._free_port()
-            with open(os.path.join(user_data_dir, self.DEBUG_PORT_FILE), "w", encoding="utf-8") as f:
-                f.write(str(self._debug_port))
             launch_args = [
                 chrome_path,
                 f"--remote-debugging-port={self._debug_port}",

@@ -1,0 +1,48 @@
+[CT]     0.0ms | RunUser | ENTER | Tommy Orok (id=9)[CT]     0.0ms | __main__ | started worker thread for user id=9
+[CT]     1.3ms | start_up | ENTER | https://www.indeed.com/jobs?q=Data+Platform+Engineer&l=Remote&from=searchOnDesktopSerp&vjk=ef99ec087182d6b0
+[CT]     2.1ms | start_up | launching chrome | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=3259
+[CT]     6.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=0'
+[CT]  2018.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=1'
+[CT]  2017.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=2'
+[CT]  2017.5ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=3'
+[CT]  2019.6ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=4'
+[CT]  2019.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=5'
+[CT]  2025.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=6'
+[CT]  2012.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=7'
+[CT]  2014.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=8'
+[CT]  2014.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:3259/json/version sees='attempt=9'
+[CT]  2023.6ms | RunUser | ERROR | RecoverableBrowserError: Chrome launched (pid 70580) but its DevTools endpoint never came up on 127.0.0.1:3259. This usually means a Chrome that is not under the bot's control is already using the profile at "C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12" -- quit it completely and try again (on a Mac, closing its window is not enough: use Chrome > Quit, or Cmd+Q).
+Traceback (most recent call last):
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 7493, in RunUser
+    helper = IndeedHelper(user_to_run, masterRecords["milestoneList"])
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 1500, in __init__
+    self.start_up()
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 731, in start_up
+    raise RecoverableBrowserError(
+RecoverableBrowserError: Chrome launched (pid 70580) but its DevTools endpoint never came up on 127.0.0.1:3259. This usually means a Chrome that is not under the bot's control is already using the profile at "C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12" -- quit it completely and try again (on a Mac, closing its window is not enough: use Chrome > Quit, or Cmd+Q).
+[CT]     1.5ms | RunUser | restarting Tommy Orok (id=9) in 15s | consecutive_failures=1
+[CT] 15014.2ms | RunUser | ENTER | Tommy Orok (id=9)
+[CT]     1.0ms | start_up | ENTER | https://www.indeed.com/jobs?q=Data+Platform+Engineer&l=Remote&from=searchOnDesktopSerp&vjk=ef99ec087182d6b0
+[CT]  1509.2ms | start_up | launching chrome | profile=C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12 port=7282
+[CT]     8.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=0'
+[CT]  2011.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=1'
+[CT]  2023.3ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=2'
+[CT]  2027.8ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=3'
+[CT]  2023.9ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=4'
+[CT]  2018.2ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=5'
+[CT]  2018.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=6'
+[CT]  2023.4ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=7'
+[CT]  2014.7ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=8'
+[CT]  2016.1ms | start_up | WAIT | for=chrome DevTools endpoint http://127.0.0.1:7282/json/version sees='attempt=9'
+[CT]  2024.4ms | RunUser | ERROR | RecoverableBrowserError: Chrome launched (pid 62284) but its DevTools endpoint never came up on 127.0.0.1:7282. This usually means a Chrome that is not under the bot's control is already using the profile at "C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12" -- quit it completely and try again (on a Mac, closing its window is not enough: use Chrome > Quit, or Cmd+Q).
+Traceback (most recent call last):
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 7493, in RunUser
+    helper = IndeedHelper(user_to_run, masterRecords["milestoneList"])
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 1500, in __init__
+    self.start_up()
+  File "C:\Users\PJuJu\PycharmProjects\IndeedHelper\main3.py", line 731, in start_up
+    raise RecoverableBrowserError(
+RecoverableBrowserError: Chrome launched (pid 62284) but its DevTools endpoint never came up on 127.0.0.1:7282. This usually means a Chrome that is not under the bot's control is already using the profile at "C:\Users\PJuJu\AppData\Local\Google\Chrome\User Data\Profile 12" -- quit it completely and try again (on a Mac, closing its window is not enough: use Chrome > Quit, or Cmd+Q).
+[CT]     0.0ms | RunUser | restarting Tommy Orok (id=9) in 30s | consecutive_failures=2
+[CT] 30009.0ms | RunUser | ENTER | Tommy Orok (id=9)
+[CT]     0.7ms | start_up | ENTER | https://www.indeed.com/jobs?q=Data+Platform+Engineer&l=Remote&from=searchOnDesktopSerp&vjk=ef99ec087182d6b0
