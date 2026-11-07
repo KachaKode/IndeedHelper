@@ -32,6 +32,7 @@ from .data import (
     VETTED_STATUS_CHOICES,
     YES_NO_CHOICES,
     IndeedDB,
+    orphaned_folder,
     rename_user_folder,
     to_display,
     user_folder_name,
@@ -104,6 +105,9 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
             folder = user_folder_path(db.project_root, user)
             user["_folderName"] = user_folder_name(user)
             user["_folderExists"] = folder.exists()
+            # Set only when the folder is missing because it still has an old
+            # name; a folder that has simply not been created yet is normal.
+            user["_folderOrphan"] = orphaned_folder(db.project_root, user)
         return jsonify(users)
 
     @app.get("/api/users/<int:user_id>")
@@ -116,6 +120,7 @@ def create_app(db: IndeedDB, runner: RunnerManager | None = None) -> Flask:
             user[field] = to_display(user.get(field))
         user["_folderName"] = user_folder_name(user)
         user["_folderExists"] = user_folder_path(db.project_root, user).exists()
+        user["_folderOrphan"] = orphaned_folder(db.project_root, user)
         return jsonify(user)
 
     @app.post("/api/users")

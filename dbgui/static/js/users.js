@@ -40,9 +40,12 @@ export async function renderUsers(ctx) {
       ]),
       el('td', { class: 'table__num', text: user.AppsLeft ?? 0 }),
       el('td', {}, [
+        // Missing is normal for a user who has not run yet: the folder is created
+        // on the first run. Only a folder left under an old name is a problem.
         el('span', {
-          class: `badge ${user._folderExists ? 'badge--muted' : 'badge--danger'}`,
-          text: user._folderExists ? 'Folder OK' : 'Folder missing',
+          class: `badge ${user._folderOrphan ? 'badge--danger' : 'badge--muted'}`,
+          text: user._folderExists ? 'Folder OK'
+            : user._folderOrphan ? 'Needs rename' : 'Created on first run',
         }),
       ]),
       el('td', {}, [
@@ -167,7 +170,7 @@ export async function renderProfile(ctx) {
 
   setTopbar(
     `${user.FirstName || ''} ${user.LastName || ''}`.trim() || `User ${userId}`,
-    `User #${userId} - ${user._folderExists ? `Users/${user._folderName}` : 'bot folder missing'} - changes save as you go`,
+    `User #${userId} - ${user._folderExists ? `Users/${user._folderName}` : 'bot folder is created on the first run'} - changes save as you go`,
     [],
   );
 
@@ -227,7 +230,7 @@ export async function renderProfile(ctx) {
       field('Status', activeSelect, 'Only "Active" is picked up by the bot.'),
       field('Applications left', appsLeft, 'Bot stops when this reaches 0.'),
       fullField('Chrome profile path', text('ProfilePath'),
-        user.ProfilePath ? null : 'Empty - the bot needs a Chrome user-data directory.'),
+        user.ProfilePath ? null : 'Empty - a dedicated Chrome profile is created and filled in here on the first run.'),
       fullField('Home page URL pattern', text('homePagePattern'),
         'Regex used to recognise the search results tab.'),
     ]),

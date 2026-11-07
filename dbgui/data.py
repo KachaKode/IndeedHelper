@@ -26,6 +26,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+# User-folder helpers live in workspace.py so main3.py can use them without the
+# database layer; they are re-exported here because the rest of the GUI imports
+# them from this module.
+from .workspace import (  # noqa: F401
+    find_orphaned_user_folder,
+    orphaned_folder,
+    rename_user_folder,
+    user_folder_name,
+    user_folder_path,
+)
+
 
 DB_FILENAME = "IndHelperDB.db"
 
@@ -239,52 +250,6 @@ class ValidationIssue:
     severity: str = "warning"
     action: str | None = None
     actionData: dict[str, Any] | None = None
-
-
-# --------------------------------------------------------------- user folders --
-# The bot derives a per-user folder from the name + id
-# (main3.py load_startup_info: MY_PATH = "Users\{First} {Last} {id}\") and opens
-# "output <timestamp>.txt" and "skipped.txt" inside it at startup. Renaming a user
-# therefore silently orphans that folder, so the GUI has to keep the two in sync.
-
-def user_folder_name(user: dict[str, Any]) -> str:
-    return f"{user.get('FirstName', '')} {user.get('LastName', '')} {user.get('id', '')}".strip()
-
-
-def user_folder_path(root: Path | str, user: dict[str, Any]) -> Path:
-    return Path(root) / "Users" / user_folder_name(user)
-
-
-def find_orphaned_user_folder(root: Path | str, user: dict[str, Any]) -> str | None:
-    """Find this user's folder when it is sitting under a stale name.
-
-    Folder names always end with the user id ("Marion Faith Agbor 5"), so after a
-    rename the old folder is still identifiable by that suffix. This is what lets
-    the UI offer to rename it instead of the user hunting for it by hand.
-    """
-    users_root = Path(root) / "Users"
-    if not users_root.is_dir():
-        return None
-    expected = user_folder_name(user)
-    suffix = f" {user.get('id')}"
-    for entry in users_root.iterdir():
-        if entry.is_dir() and entry.name.endswith(suffix) and entry.name != expected:
-            return entry.name
-    return None
-
-
-def rename_user_folder(root: Path | str, old_name: str, new_name: str) -> bool:
-    """Rename Users/<old_name> to Users/<new_name>. Returns False if there was
-    nothing to rename; raises if the destination is already taken."""
-    users_root = Path(root) / "Users"
-    source = users_root / old_name
-    target = users_root / new_name
-    if not source.exists() or old_name == new_name:
-        return False
-    if target.exists():
-        raise FileExistsError(f"Cannot rename: {target} already exists.")
-    source.rename(target)
-    return True
 
 
 class IndeedDB:
@@ -990,35 +955,22 @@ class IndeedDB:
                 severity="error",
             ))
 
-        profile_path = (user.get("ProfilePath") or "").strip()
-        if profile_path and not Path(profile_path).exists():
+        # A missing Chrome profile or bot folder is not a problem: both are
+        # created on the first run (workspace.ensure_user_workspace). The one
+        # exception is a folder left behind under an old name, because creating
+        # a fresh one beside it would lose the skipped-jobs history inside.
+        orphan = orphaned_folder(self.project_root, user)
+        if orphan:
+            expected_name = user_folder_name(user)
             issues.append(ValidationIssue(
-                "Chrome Profile",
-                f"ProfilePath does not exist on this machine: {profile_path}",
+                "User Folder",
+                f'This user\'s folder is still named "{orphan}", but after the name change '
+                f'the bot now looks for "{expected_name}". Rename it before the next run, '
+                f'or the history of jobs already skipped stays behind and starts over.',
+                severity="error",
+                action="renameFolder",
+                actionData={"from": orphan, "to": expected_name},
             ))
-
-        # The bot opens output/skipped files inside this folder at startup, so a
-        # missing one is a hard failure the moment the user is run.
-        expected_name = user_folder_name(user)
-        if not user_folder_path(self.project_root, user).exists():
-            orphan = find_orphaned_user_folder(self.project_root, user)
-            if orphan:
-                issues.append(ValidationIssue(
-                    "User Folder",
-                    f'This user\'s folder is still named "{orphan}", but after the name change '
-                    f'the bot now looks for "{expected_name}". Rename it, or the bot will fail '
-                    f'on startup for this user.',
-                    severity="error",
-                    action="renameFolder",
-                    actionData={"from": orphan, "to": expected_name},
-                ))
-            else:
-                issues.append(ValidationIssue(
-                    "User Folder",
-                    f"Expected folder does not exist: Users/{expected_name}. "
-                    f"The bot writes its output and skipped.txt here and will fail on startup without it.",
-                    severity="error",
-                ))
 
         if str(user.get("Active") or "").strip().upper() in LEGACY_ACTIVE_VALUES:
             issues.append(ValidationIssue(

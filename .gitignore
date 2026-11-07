@@ -12,6 +12,9 @@ __pycache__/
 *.db
 Users/
 
+# Chrome profiles the bot creates per user (cookies and Indeed sign-in sessions)
+ChromeProfiles/
+
 # Logs
 *.log
 clickLog.txt

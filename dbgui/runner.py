@@ -25,7 +25,14 @@ from collections import deque
 from pathlib import Path
 from typing import Any
 
-from .data import IndeedDB, user_folder_name, user_folder_path
+from .data import IndeedDB
+from .workspace import (
+    WorkspaceError,
+    default_profile_path,
+    ensure_user_workspace,
+    orphaned_folder,
+    orphaned_folder_message,
+)
 
 MAX_LOG_LINES = 200
 VALID_MODES = ("running", "paused")
@@ -162,6 +169,10 @@ class RunnerManager:
         """Problems that would make a run fail, found before launching anything.
 
         Blocking issues stop the run; warnings are shown but allowed.
+
+        Read-only on purpose: the Run tab calls this on every render and every
+        poll. A missing Chrome profile or bot folder is not reported here at all
+        -- start() creates them (see _prepare_workspace).
         """
         problems: list[dict[str, Any]] = []
         users = {u["id"]: u for u in self.db.list_users()}
@@ -204,10 +215,6 @@ class RunnerManager:
                 problems.append({"userId": user_id, "blocking": True,
                                  "message": f"{label} is already running."})
 
-            if not (user.get("ProfilePath") or "").strip():
-                problems.append({"userId": user_id, "blocking": True,
-                                 "message": f"{label} has no Chrome profile path set."})
-
             if int(user.get("AppsLeft") or 0) <= 0:
                 problems.append({"userId": user_id, "blocking": True,
                                  "message": f"{label} has no applications left."})
@@ -216,12 +223,38 @@ class RunnerManager:
                 problems.append({"userId": user_id, "blocking": True,
                                  "message": f"{label} has no job searches configured."})
 
-            if not user_folder_path(self.project_root, user).exists():
+            # The one folder problem worth stopping for: it was renamed after a
+            # run, so making a fresh one would abandon the skipped-jobs history.
+            orphan = orphaned_folder(self.project_root, user)
+            if orphan:
                 problems.append({"userId": user_id, "blocking": True,
-                                 "message": (f"{label} is missing its folder "
-                                             f"Users/{user_folder_name(user)}, which the bot "
-                                             f"writes its output into.")})
+                                 "message": f"{label}: {orphaned_folder_message(user, orphan)}"})
         return problems
+
+    def _prepare_workspace(self, user: dict[str, Any]) -> list[str]:
+        """Give this user the Chrome profile and bot folder a run needs, creating
+        whatever is missing. Returns lines describing what was created.
+
+        A blank ProfilePath is filled in with the default and saved, rather than
+        resolved silently each time, so the Profile page and Run tab show the
+        directory actually in use and a standalone main3.py reads the same value.
+        """
+        label = f"{user.get('FirstName','')} {user.get('LastName','')}".strip() or f"User {user['id']}"
+        notes: list[str] = []
+        if not (user.get("ProfilePath") or "").strip():
+            user = {**user, "ProfilePath": str(default_profile_path(self.project_root, user["id"]))}
+            self.db.save_user(user["id"], {"ProfilePath": user["ProfilePath"]})
+            notes.append(f"No Chrome profile was set, so this user now uses {user['ProfilePath']}")
+        try:
+            setup = ensure_user_workspace(self.project_root, user)
+        except WorkspaceError as exc:
+            raise PreflightError(f"{label}: {exc}") from exc
+        if setup.created:
+            notes.append("Created " + ", ".join(setup.created))
+        if setup.new_profile:
+            notes.append("This is a new Chrome profile, so sign in to Indeed in the browser "
+                         "window that opens, then press Start applying.")
+        return notes
 
     # ------------------------------------------------------------ lifecycle --
 
@@ -232,6 +265,9 @@ class RunnerManager:
             raise PreflightError("; ".join(p["message"] for p in blocking))
 
         users = {u["id"]: u for u in self.db.list_users()}
+        # Everyone's folders are set up before anyone is launched, so a failure
+        # for the last user cannot leave the first already running.
+        setup_notes = {user_id: self._prepare_workspace(users[user_id]) for user_id in user_ids}
         started = []
         with self._lock:
             for user_id in user_ids:
@@ -265,6 +301,8 @@ class RunnerManager:
                 stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 log_path = self.project_root / "runtime" / "logs" / f"run_{user_id}_{stamp}.log"
                 run = UserRun(user_id, label, process, log_path=log_path)
+                for note in setup_notes[user_id]:
+                    run.note(f"[runner] {note}")
                 self.runs[user_id] = run
                 threading.Thread(target=self._pump, args=(run,), daemon=True).start()
                 started.append(user_id)

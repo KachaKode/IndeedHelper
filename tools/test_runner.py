@@ -68,8 +68,10 @@ def main() -> int:
               f"got {[p['message'][:60] for p in solo]}")
 
         # ------------------------------------------------- other blocked cases --
-        check("user with no Chrome profile path is blocked",
-              any("no Chrome profile path" in p["message"] for p in runner.preflight([10])))
+        # A missing profile path is no longer a blocker: start() fills in a default
+        # (covered in test_workspace.py).
+        check("user with no Chrome profile path is NOT blocked",
+              not any("Chrome profile" in p["message"] for p in runner.preflight([10])))
         check("user with no job searches is blocked",
               any("no job searches" in p["message"] for p in runner.preflight([10])))
 
@@ -79,8 +81,9 @@ def main() -> int:
 
         missing = db.list_users()[0]
         shutil.rmtree(root / "Users" / user_folder_name(missing))
-        check("user with a missing Users/ folder is blocked",
-              any("missing its folder" in p["message"] for p in runner.preflight([missing["id"]])))
+        # Likewise a missing folder is created on start, not a blocker.
+        check("user with a missing Users/ folder is NOT blocked",
+              not any("folder" in p["message"].lower() for p in runner.preflight([missing["id"]])))
 
         # ------------------------------------------------ start() refuses these --
         raised = False

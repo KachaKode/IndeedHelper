@@ -74,7 +74,7 @@ export async function renderRun(ctx) {
       el('td', { class: 'table__num', text: user.id }),
       el('td', { text: `${user.FirstName || ''} ${user.LastName || ''}`.trim() || '(unnamed)' }),
       el('td', { class: 'table__num', text: user.AppsLeft ?? 0 }),
-      el('td', { class: 'table__truncate', text: (user.ProfilePath || '').split('\\').pop() || '(none)' }),
+      el('td', { class: 'table__truncate', text: (user.ProfilePath || '').split('\\').pop() || '(created on start)' }),
       el('td', {}, [
         isRunning
           ? el('span', { class: 'badge badge--success', text: 'Running' })

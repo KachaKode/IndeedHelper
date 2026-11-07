@@ -62,6 +62,9 @@ from resume_repeat import same_summary, last_application_summary
 # session -- appropriate for a GUI edit, not for a runtime hook in a tight
 # per-question loop.
 from dbgui.data import list_searches_for_bot, normalize_question_text
+# Builds the Users/<name> folder, skipped.txt and Chrome profile a user needs, so a
+# brand-new user can be run without anyone creating those by hand.
+from dbgui.workspace import ensure_user_workspace, resolve_profile_path
 
 log = None
 
@@ -1410,6 +1413,12 @@ class IndeedHelper(PlaywrightWrap):
         self.jobRecords = info["jobs"]
         self.searchRecords = info["searches"]
         self.load_startup_info(info["mainInfo"])
+        # The GUI creates these before launching, but main3.py also runs on its
+        # own, and a RunUser restart rebuilds this helper -- so make sure here
+        # too. Relative to the working directory because that is what MY_PATH is.
+        # Raises (with the reason) if the user's folder is sitting under an old
+        # name; making a fresh one would lose the skipped.txt history inside it.
+        ensure_user_workspace(Path.cwd(), dict(info["mainInfo"]))
         # utf-8: this file gets job titles and descriptions straight off
         # Indeed, which carry characters the Windows default encoding cannot
         # write -- and a failed write here would end the run (Logs/Log46.txt).
@@ -2893,9 +2902,14 @@ class IndeedHelper(PlaywrightWrap):
                     self.backToStart()
                     continue
 
-                f = open(self.MY_PATH + "skipped.txt", 'r')
-                skippedCont = f.read()
-                f.close()
+                try:
+                    f = open(self.MY_PATH + "skipped.txt", 'r')
+                    skippedCont = f.read()
+                    f.close()
+                except FileNotFoundError:
+                    # Nothing skipped yet. (ensure_user_workspace creates the file,
+                    # but it can be deleted while a run is going.)
+                    skippedCont = ""
                 if jobId in skippedCont:
                     # This used to be entirely silent -- backToStart() and
                     # continue, nothing printed anywhere -- which is exactly
@@ -6165,8 +6179,11 @@ class IndeedHelper(PlaywrightWrap):
             self.cur_profile = next(self.profile_generator)
 
             self.home_url_pattern =  info["homePagePattern"]
-            self.chrome_profile  +=  info["ProfilePath"]
-            self.chrome_profile_ = info["ProfilePath"]
+            # A blank ProfilePath (a new user) falls back to the default
+            # directory instead of crashing on None / makedirs("").
+            profilePath = resolve_profile_path(Path.cwd(), dict(info))
+            self.chrome_profile  +=  profilePath
+            self.chrome_profile_ = profilePath
             self.user_id = int(info["id"])
             self.applicationsLeft = info["AppsLeft"]
             self.firstName = info["FirstName"]
